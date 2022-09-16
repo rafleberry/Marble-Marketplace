@@ -47,3 +47,4 @@ export const __TRANSFERS_ENABLED__ = JSON.parse(
 )
 /* /feature flags */
 export const backend_url = 'https://marble-backend.herokuapp.com'
+// export const backend_url = 'http://localhost:3030'

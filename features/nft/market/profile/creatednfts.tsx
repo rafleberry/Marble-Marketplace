@@ -41,15 +41,17 @@ import { getCurrentWallet } from 'util/sender-wallet'
 let nftCurrentIndex
 const MyCreatedNFTs = ({ id }) => {
   const [loading, setLoading] = useState(true)
-  const pageCount = 10
-  const [nfts, setNfts] = useState<NftInfo[]>([])
-  const [searchVal, setSearchVal] = useState('')
+  const [nfts, setNfts] = useState([])
   const [hasMore, setHasMore] = useState(false)
-
+  const [filtered, setFiltered] = useState([])
   // const profileData = useSelector((state: State) => state.profileData)
   // const { profile_status } = profileData
   const wallet = getCurrentWallet()
-
+  const [nftCounts, setNftCounts] = useState({
+    Auction: 0,
+    'Direct Sell': 0,
+    NotSale: 0,
+  })
   const getCreatedNFTs = async () => {
     try {
       let createdNFTs = []
@@ -81,6 +83,7 @@ const MyCreatedNFTs = ({ id }) => {
 
   const fetchCreatedNFTs = useCallback(async () => {
     let collectionNFTs = []
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
     const createdNFTs = await getCreatedNFTs()
     await Promise.all(
       createdNFTs.map(async (element) => {
@@ -122,18 +125,21 @@ const MyCreatedNFTs = ({ id }) => {
             res_nft['ft_token_id'] = market_data.ft_token_id
           } else res_nft['saleType'] = 'NotSale'
           collectionNFTs.push(res_nft)
+          counts[res_nft.saleType]++
         } catch (err) {
           console.log('err', err)
         }
       })
     )
-    return collectionNFTs
+    return { nftList: collectionNFTs, nft_counts: counts }
   }, [id])
   useEffect(() => {
     ;(async () => {
-      const traits = await fetchCreatedNFTs()
+      const { nftList, nft_counts }: any = await fetchCreatedNFTs()
+      setNfts(nftList)
+      setFiltered(nftList)
+      setNftCounts(nft_counts)
       let hasMoreFlag = false
-      setNfts(traits)
       setHasMore(hasMoreFlag)
       setLoading(false)
     })()
@@ -141,9 +147,27 @@ const MyCreatedNFTs = ({ id }) => {
   const getMoreNfts = async () => {
     return false
   }
+  const handleFilter = (id: string) => {
+    const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+    setFiltered(filteredNFTs)
+  }
   return (
     <CollectionWrapper>
       <NftList>
+        <Filter>
+          <FilterCard onClick={() => handleFilter('Direct Sell')}>
+            <NumberWrapper>{nftCounts['Direct Sell']}</NumberWrapper>
+            Buy Now
+          </FilterCard>
+          <FilterCard onClick={() => handleFilter('Auction')}>
+            <NumberWrapper>{nftCounts['Auction']}</NumberWrapper>
+            Live Auction
+          </FilterCard>
+          <FilterCard onClick={() => handleFilter('NotSale')}>
+            <NumberWrapper>{nftCounts['NotSale']}</NumberWrapper>
+            Active Offers
+          </FilterCard>
+        </Filter>
         {loading ? (
           <ChakraProvider>
             <div
@@ -166,7 +190,7 @@ const MyCreatedNFTs = ({ id }) => {
             loader={<h3> Loading...</h3>}
             endMessage={<h4></h4>}
           >
-            <NftTable data={nfts} id="0" type="sell" nft_column_count={3} />
+            <NftTable data={filtered} id="0" type="sell" nft_column_count={2} />
           </InfiniteScroll>
         )}
       </NftList>
@@ -174,8 +198,48 @@ const MyCreatedNFTs = ({ id }) => {
   )
 }
 
-const CollectionWrapper = styled.div``
+const CollectionWrapper = styled.div`
+  @media (max-width: 480px) {
+    width: fit-content;
+  }
+`
 
 const NftList = styled.div``
-
+const Filter = styled.div`
+  display: flex;
+  column-gap: 20px;
+  margin-top: 20px;
+`
+const FilterCard = styled.div`
+  border-radius: 30px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: Mulish;
+  align-items: center;
+  width: fit-content;
+  padding: 10px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+`
+const NumberWrapper = styled.div`
+  height: 34px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-right: 10px;
+`
 export default MyCreatedNFTs

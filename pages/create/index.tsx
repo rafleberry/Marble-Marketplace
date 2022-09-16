@@ -8,6 +8,7 @@ import { Create } from 'icons'
 import { nftViewFunction } from 'util/near'
 import styled from 'styled-components'
 import { default_image } from 'util/constants'
+import { isMobile } from 'util/device'
 
 export default function Home() {
   const wallet = getCurrentWallet()
@@ -68,17 +69,20 @@ export default function Home() {
   return (
     <AppLayout fullWidth={true}>
       <Container>
-        <Stack spacing="50px">
+        <Stack spacing={isMobile() ? '20px' : '50px'}>
           <Title>Create On Marble Dao</Title>
           <Collections>
-            <Stack spacing="30px">
+            <Stack spacing={isMobile() ? '10px' : '30px'}>
               <SubTitle>Your Collection</SubTitle>
               <Link href={`/collection/create`} passHref>
                 <Card>
                   <IconWrapper>
                     <Create />
                   </IconWrapper>
-                  <Text fontSize="20px" fontWeight="700">
+                  <Text
+                    fontSize={isMobile() ? '14px' : '20px'}
+                    fontWeight="700"
+                  >
                     Create A New Collection
                   </Text>
                 </Card>
@@ -87,16 +91,19 @@ export default function Home() {
                 <Link href={`/collection/${info.token_series_id}`} key={index}>
                   <Card>
                     <RoundedIcon
-                      size="70px"
+                      size={isMobile() ? '50px' : '70px'}
                       src={info.media}
                       alt="collection"
                     />
                     <Stack marginLeft="20px">
-                      <Text fontSize="20px" fontWeight="700">
+                      <Text
+                        fontSize={isMobile() ? '14px' : '20px'}
+                        fontWeight="700"
+                      >
                         {info.metadata.title}
                       </Text>
                       <Text
-                        fontSize="20px"
+                        fontSize={isMobile() ? '14px' : '20px'}
                         fontWeight="600"
                         fontFamily="Mulish"
                       >
@@ -123,6 +130,10 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 20px;
+  @media (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+  }
 `
 
 const Container = styled.div`
@@ -130,17 +141,26 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `
 
 const Title = styled.div`
   font-size: 46px;
   font-weight: 600;
   text-align: center;
+  @media (max-width: 480px) {
+    font-size: 22px;
+  }
 `
 const SubTitle = styled.div`
   font-size: 30px;
   font-weight: 600;
   text-align: center;
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `
 
 const Collections = styled.div`
@@ -161,6 +181,10 @@ const Collections = styled.div`
     rgba(255, 255, 255, 0.2) 1.02%,
     rgba(255, 255, 255, 0) 100%
   );
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 20px;
+  }
 `
 const Card = styled.div`
   background: linear-gradient(0deg, #050616, #050616) padding-box,

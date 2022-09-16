@@ -12,10 +12,17 @@ import { NftCard } from 'components/NFT/nft-card'
 
 const Explore = () => {
   const [nfts, setNfts] = useState([])
+  const [nftCounts, setNftCounts] = useState({
+    Auction: 0,
+    'Direct Sell': 0,
+    NotSale: 0,
+  })
   const [loading, setLoading] = useState(true)
+  const [filtered, setFiltered] = useState([])
 
   const fetchNfts = async () => {
     let collectionNFTs = []
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
     let info = []
     try {
       info = await nftViewFunction({
@@ -56,7 +63,6 @@ const Explore = () => {
         res_nft['title'] = res_collection.name
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
-        console.log('marketData: ', market_data)
         if (market_data) {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'
@@ -66,26 +72,44 @@ const Explore = () => {
           res_nft['ended_at'] = market_data.ended_at
           res_nft['current_time'] = market_data.current_time
           res_nft['ft_token_id'] = market_data.ft_token_id
-          // res_nft['collectionId'] =
         } else res_nft['saleType'] = 'NotSale'
-        console.log('res_nft: ', res_nft)
         collectionNFTs.push(res_nft)
+        counts[res_nft.saleType]++
       })
     )
-    return collectionNFTs
+    return { nftList: collectionNFTs, nft_counts: counts }
   }
 
   useEffect(() => {
     // fetchCollections()
     ;(async () => {
-      const nftList = await fetchNfts()
+      const { nftList, nft_counts }: any = await fetchNfts()
       setNfts(nftList)
+      setFiltered(nftList)
+      setNftCounts(nft_counts)
       setLoading(false)
     })()
   }, [])
-
+  const handleFilter = (id: string) => {
+    const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+    setFiltered(filteredNFTs)
+  }
   return (
     <ExploreWrapper>
+      <Filter>
+        <FilterCard onClick={() => handleFilter('Direct Sell')}>
+          <NumberWrapper>{nftCounts['Direct Sell']}</NumberWrapper>
+          Buy Now
+        </FilterCard>
+        <FilterCard onClick={() => handleFilter('Auction')}>
+          <NumberWrapper>{nftCounts['Auction']}</NumberWrapper>
+          Live Auction
+        </FilterCard>
+        <FilterCard onClick={() => handleFilter('NotSale')}>
+          <NumberWrapper>{nftCounts['NotSale']}</NumberWrapper>
+          Active Offers
+        </FilterCard>
+      </Filter>
       {loading ? (
         <ChakraProvider>
           <div
@@ -103,7 +127,7 @@ const Explore = () => {
         </ChakraProvider>
       ) : (
         <Container>
-          {nfts.map((nftInfo, index) => (
+          {filtered.map((nftInfo, index) => (
             <Link
               href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
               passHref
@@ -130,7 +154,41 @@ const ExploreWrapper = styled.div``
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 20px;
+  padding: 20px 0;
   gap: 20px;
+`
+const Filter = styled.div`
+  display: flex;
+  column-gap: 20px;
+  width: 800px;
+`
+const FilterCard = styled.div`
+  border-radius: 30px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: Mulish;
+  align-items: center;
+  width: fit-content;
+  padding: 10px;
+`
+const NumberWrapper = styled.div`
+  height: 34px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-right: 10px;
 `
 export default Explore

@@ -17,14 +17,15 @@ import { getCurrentWallet } from 'util/sender-wallet'
 export const MyCollectedNFTs = ({ id }) => {
   const [loading, setLoading] = useState(true)
   const pageCount = 10
-  const [isLargeNFT, setLargeNFT] = useState(true)
-  const [nfts, setNfts] = useState<NftInfo[]>([])
-  const [filterCount, setFilterCount] = useState(0)
-  const [searchVal, setSearchVal] = useState('')
+  const [nfts, setNfts] = useState([])
   const [hasMore, setHasMore] = useState(false)
   const dispatch = useDispatch()
-  const uiListData = useSelector((state: State) => state.uiData)
-  const { nft_column_count } = uiListData
+  const [nftCounts, setNftCounts] = useState({
+    Auction: 0,
+    'Direct Sell': 0,
+    NotSale: 0,
+  })
+  const [filtered, setFiltered] = useState([])
   console.log('id: ', id)
   // const profileData = useSelector((state: State) => state.profileData)
   // const { profile_status } = profileData
@@ -32,7 +33,7 @@ export const MyCollectedNFTs = ({ id }) => {
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     let collectionNFTs = []
-    console.log('accountId: ', wallet.accountId)
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
     try {
       ownedNFTs = await nftViewFunction({
         methodName: 'nft_tokens_for_owner',
@@ -84,78 +85,46 @@ export const MyCollectedNFTs = ({ id }) => {
             res_nft['ft_token_id'] = market_data.ft_token_id
           } else res_nft['saleType'] = 'NotSale'
           collectionNFTs.push(res_nft)
+          counts[res_nft.saleType]++
         } catch (err) {
           console.log('err', err)
         }
       })
     )
-    return collectionNFTs
+    return { nftList: collectionNFTs, nft_counts: counts }
   }, [id])
   useEffect(() => {
-    if (isLargeNFT) {
-      if (nft_column_count <= 4) return
-      //setUIData(NFT_COLUMN_COUNT, nft_column_count - 1)
-      dispatch({
-        type: NFT_COLUMN_COUNT,
-        payload: nft_column_count - 1,
-      })
-    } else {
-      if (nft_column_count >= 5) return
-      //setUIData(NFT_COLUMN_COUNT, nft_column_count +1)
-      dispatch({
-        type: NFT_COLUMN_COUNT,
-        payload: nft_column_count + 1,
-      })
-    }
-  }, [dispatch, isLargeNFT])
-  useEffect(() => {
     ;(async () => {
-      const traits = await fetchOwnedNFTs()
-
-      // let traits = []
-      // for (let i = 0; i < ownedNFTs.length; i++) {
-      //   if (
-      //     profile_status.length == 0 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[0].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[1].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[2].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[3].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[4].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[5].value) != -1 ||
-      //     profile_status.indexOf(ownedNFTs[i].attributes[7].value) != -1
-      //   ) {
-      //     traits.push(ownedNFTs[i])
-      //   }
-      // }
-      let hasMoreFlag = false
-      let i = 0
-      let nftIndex = 0
-      let isPageEnd = false
-      if (traits.length == 0) isPageEnd = true
-      let nftsForCollection = []
-      while (!isPageEnd) {
-        if (searchVal == '' || traits[i].name.indexOf(searchVal) != -1) {
-          nftsForCollection.push(traits[i])
-          hasMoreFlag = true
-          nftIndex++
-          if (nftIndex == pageCount) {
-            isPageEnd = true
-          }
-        }
-        i++
-        if (i == traits.length) {
-          isPageEnd = true
-        }
-      }
-      setNfts(nftsForCollection)
-      setHasMore(hasMoreFlag)
+      const { nftList, nft_counts }: any = await fetchOwnedNFTs()
+      setNfts(nftList)
+      setFiltered(nftList)
+      setNftCounts(nft_counts)
+      setHasMore(true)
       setLoading(false)
     })()
   }, [id])
   const getMoreNfts = async () => {}
+  const handleFilter = (id: string) => {
+    const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+    setFiltered(filteredNFTs)
+  }
   return (
     <CollectionWrapper>
       <NftList>
+        <Filter>
+          <FilterCard onClick={() => handleFilter('Direct Sell')}>
+            <NumberWrapper>{nftCounts['Direct Sell']}</NumberWrapper>
+            Buy Now
+          </FilterCard>
+          <FilterCard onClick={() => handleFilter('Auction')}>
+            <NumberWrapper>{nftCounts['Auction']}</NumberWrapper>
+            Live Auction
+          </FilterCard>
+          <FilterCard onClick={() => handleFilter('NotSale')}>
+            <NumberWrapper>{nftCounts['NotSale']}</NumberWrapper>
+            Active Offers
+          </FilterCard>
+        </Filter>
         {loading ? (
           <ChakraProvider>
             <div
@@ -178,7 +147,7 @@ export const MyCollectedNFTs = ({ id }) => {
             loader={<h3> Loading...</h3>}
             endMessage={<h4></h4>}
           >
-            <NftTable data={nfts} id="0" type="sell" nft_column_count={3} />
+            <NftTable data={filtered} id="0" type="sell" nft_column_count={2} />
           </InfiniteScroll>
         )}
       </NftList>
@@ -186,6 +155,47 @@ export const MyCollectedNFTs = ({ id }) => {
   )
 }
 
-const CollectionWrapper = styled.div``
+const CollectionWrapper = styled.div`
+  @media (max-width: 480px) {
+    width: fit-content;
+  }
+`
 
 const NftList = styled.div``
+const Filter = styled.div`
+  display: flex;
+  column-gap: 20px;
+  margin-top: 20px;
+`
+const FilterCard = styled.div`
+  border-radius: 30px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: Mulish;
+  align-items: center;
+  width: fit-content;
+  padding: 10px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+`
+const NumberWrapper = styled.div`
+  height: 34px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-right: 10px;
+`

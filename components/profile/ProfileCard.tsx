@@ -48,6 +48,9 @@ const Container = styled.div`
   @media (max-width: 1550px) {
     padding: 15px;
   }
+  @media (max-width: 480px) {
+    width: 320px;
+  }
 `
 const ImgDiv = styled.div`
   width: 100%;
@@ -75,10 +78,29 @@ const LogoImage = styled.img`
   border-radius: 50%;
   bottom: -56px;
   left: calc(50% - 56px);
+  @media (max-width: 1550px) {
+    width: 84px;
+    height: 84px;
+    bottom: -42px;
+    left: calc(50% - 42px);
+  }
 `
 const InfoDiv = styled.div`
   margin-top: 70px;
   text-align: center;
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    @media (max-width: 1550px) {
+      font-size: 18px;
+    }
+  }
+  h3 {
+    font-size: 18px;
+    @media (max-width: 1550px) {
+      font-size: 14px;
+    }
+  }
   p {
     font-size: 14px;
     font-family: Mulish;

@@ -13,6 +13,7 @@ import {
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { NftCard } from 'components/NFT/nft-card'
+import { isMobile } from 'util/device'
 
 const BurnNFTModal = ({ nftInfo, onHandle }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -28,31 +29,24 @@ const BurnNFTModal = ({ nftInfo, onHandle }) => {
         isCentered
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
-        <Container maxW="1320px">
-          <HStack
-            spacing={10}
-            justifyContent="space-between"
-            alignItems="start"
-          >
-            <Stack spacing={10} width="55%">
+        <Container>
+          <MainWrapper>
+            <Stack spacing={10} width={isMobile() ? '100%' : '55%'}>
               <Stack>
-                <Text fontSize="30px" fontWeight="700">
-                  Burn the NFT
-                </Text>
-                <Text fontSize="20px" fontFamily="Mulish">
-                  Burning an NFT destroys the NFT and removes it from <br />{' '}
-                  your creator profile. Please note, this action cannot be
-                  <br /> reversed.
-                </Text>
+                <Title>Burn the NFT</Title>
+                <p>
+                  Burning an NFT destroys the NFT and removes it from your
+                  creator profile. Please note, this action cannot be reversed.
+                </p>
               </Stack>
               <BurnButton className="btn-buy btn-default" onClick={onHandle}>
                 Burn the NFT
               </BurnButton>
             </Stack>
-            <Stack height="556px" width="434px">
+            <CardWrapper>
               <NftCard nft={nftInfo} id="" type="" />
-            </Stack>
-          </HStack>
+            </CardWrapper>
+          </MainWrapper>
         </Container>
       </Modal>
     </ChakraProvider>
@@ -65,8 +59,49 @@ const Container = styled(ModalContent)`
   border-radius: 30px !important;
   padding: 70px;
   color: white !important;
+  overflow: hidden;
+  max-width: 1320px !important;
+  @media (max-width: 480px) {
+    width: 90vw !important;
+    padding: 10px;
+    max-height: 100vh;
+    overflow: auto;
+  }
 `
-
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
+`
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  column-gap: 30px;
+  p {
+    font-size: 20px;
+    font-family: Mulish;
+  }
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    p {
+      font-size: 14px;
+    }
+  }
+`
+const CardWrapper = styled.div`
+  display: flex;
+  height: 556px;
+  width: 434px;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+`
 const StyledInput = styled.input`
   padding: 15px;
   font-size: 20px;

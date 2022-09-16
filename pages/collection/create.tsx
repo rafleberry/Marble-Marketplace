@@ -1,18 +1,69 @@
-import React, { useReducer, useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Stack, Text, HStack, IconButton, Flex, Grid } from '@chakra-ui/react'
-import { CloseIcon, AddIcon } from '@chakra-ui/icons'
+import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { useRouter } from 'next/router'
+import {
+  ChakraProvider,
+  Grid,
+  HStack,
+  IconButton,
+  Stack,
+  Text,
+} from '@chakra-ui/react'
 import { Button } from 'components/Button'
-import { toast } from 'react-toastify'
+import Select, { components } from 'react-select'
 import { AppLayout } from 'components/Layout/AppLayout'
-import { nftFunctionCall, checkTransaction } from 'util/near'
-import { getCurrentWallet } from 'util/sender-wallet'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import styled from 'styled-components'
-
+import {
+  failToast,
+  getURLInfo,
+  successToast,
+  getErrorMessage,
+} from 'components/transactionTipPopUp'
+import { nftFunctionCall, nftViewFunction, checkTransaction } from 'util/near'
+import { getCurrentWallet } from 'util/sender-wallet'
+import { createNewCollection } from 'hooks/useCollection'
+import { isMobile } from 'util/device'
+const options = [
+  {
+    value: 'Digital',
+    label: 'Digital',
+  },
+  {
+    value: 'Physical',
+    label: 'Physical',
+  },
+  {
+    value: 'Music',
+    label: 'Music',
+  },
+  {
+    value: 'Painting',
+    label: 'Painting',
+  },
+  {
+    value: 'Videos',
+    label: 'Videos',
+  },
+  {
+    value: 'Photography',
+    label: 'Photography',
+  },
+  {
+    value: 'Sports',
+    label: 'Sports',
+  },
+  {
+    value: 'Utility',
+    label: 'Utility',
+  },
+]
 export default function Collection() {
+  const router = useRouter()
   const wallet = getCurrentWallet()
   const [name, setName] = useState('')
-  const [symbol, setSymbol] = useState('')
+  const { txHash, pathname, errorType } = getURLInfo()
+  const [category, setCategory] = useState('Digital')
   const [royaltyValues, setRoyaltyValues] = useState([
     { name: wallet.accountId, price: '10' },
   ])
@@ -81,7 +132,6 @@ export default function Collection() {
         methodName: 'nft_create_series',
         args: {
           token_metadata: {
-            description: symbol,
             copies: 10000,
             title: name,
           },
@@ -95,35 +145,116 @@ export default function Collection() {
       console.log('Create series error: ', error)
     }
   }
+
+  useEffect(() => {
+    if (txHash && wallet.accountId) {
+      checkTransaction(txHash)
+        .then((res: any) => {
+          const transactionErrorType = getErrorMessage(res)
+          const transaction = res.transaction
+          return {
+            isSuccess:
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+              'nft_create_series',
+            transactionErrorType,
+          }
+        })
+        .then(({ isSuccess, transactionErrorType }) => {
+          if (isSuccess) {
+            transactionErrorType && failToast(txHash, transactionErrorType)
+            if (!transactionErrorType && !errorType) {
+              successToast(txHash)
+              nftViewFunction({
+                methodName: 'nft_get_total_series',
+                args: {},
+              })
+                .then((total) => {
+                  console.log('inputData total: ', total)
+                  createNewCollection({
+                    id: total,
+                    creator: wallet.accountId,
+                    category,
+                  })
+                    .then((data) => {
+                      console.log('backend collection data: ', data)
+                    })
+                    .catch((err) => {
+                      console.log('backend collection data: ', err)
+                    })
+                })
+                .catch((err) => {
+                  console.log('get total series error: ', err)
+                })
+            }
+            transactionErrorType && failToast(txHash, transactionErrorType)
+            router.push(pathname)
+            return
+          }
+        })
+    }
+  }, [txHash])
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      height: '70px',
+      borderRadius: '20px',
+      border: '1px solid rgba(255, 255, 255, 0.2) !important',
+      background: '#272734',
+      color: '#FFFFFF',
+    }),
+    menuList: (base, state) => ({
+      ...base,
+      background: '#272734',
+      border: '1px solid rgba(255, 255, 255, 0.2)',
+      borderRadius: '20px',
+      maxHeight: '400px',
+    }),
+    option: (base, state) => ({
+      ...base,
+      color: 'white',
+      background: '#272734',
+      ':hover': {
+        background: 'rgba(255, 255, 255, 0.1)',
+      },
+    }),
+    singleValue: (base, state) => ({
+      ...base,
+      color: 'white',
+    }),
+    valueContainer: (base, state) => ({
+      ...base,
+      display: 'flex',
+    }),
+    menu: (base, state) => ({
+      ...base,
+      zIndex: '10',
+      margin: '0px',
+      background: 'none',
+    }),
+  }
   return (
     <AppLayout fullWidth={true}>
       {wallet.accountId && (
         <Container>
-          <Stack spacing="50px">
+          <Stack spacing={isMobile() ? '20px' : '50px'}>
             <Title>Create On Marble Dao</Title>
             <Collections>
-              <Stack spacing="50px">
+              <Stack spacing={isMobile() ? '20px' : '50px'}>
                 <Stack>
-                  <Text fontSize="30px" fontWeight="700">
-                    Create A Collection
-                  </Text>
+                  <CardTitle>Create A Collection</CardTitle>
                   <SubText>Deploy a smart contract to showcase NFTs</SubText>
                 </Stack>
                 <Stack>
-                  <Text fontSize="20px" fontWeight="700">
-                    Set Up Your Smart Contract
-                  </Text>
+                  <SubTitle>Set Up Your Smart Contract</SubTitle>
                   <SubText>
                     The following details are used to create your smart
-                    contract. They will <br /> be added to the blockchain and
-                    cannot be edited.
+                    contract. They will be added to the blockchain and cannot be
+                    edited.
                   </SubText>
                   <StyledLink>Learn more about smart contracts</StyledLink>
                 </Stack>
                 <Stack>
-                  <Text marginLeft="30px" fontSize="14px" fontWeight="700">
-                    Collection Name
-                  </Text>
+                  <InputLabel>Collection Name</InputLabel>
                   <StyledInput
                     value={name}
                     onChange={(e) => {
@@ -132,24 +263,25 @@ export default function Collection() {
                   />
                 </Stack>
                 <Stack>
-                  <Text marginLeft="30px" fontSize="14px" fontWeight="700">
-                    Collection Symbol
-                  </Text>
-                  <StyledInput
-                    value={symbol}
+                  <InputLabel>Collection Category</InputLabel>
+                  <Select
+                    defaultValue={options[0]}
+                    options={options}
+                    components={{
+                      IndicatorSeparator: () => null,
+                    }}
+                    styles={customStyles}
                     onChange={(e) => {
-                      setSymbol(e.target.value)
+                      setCategory(e.value)
                     }}
                   />
                 </Stack>
                 <Stack>
-                  <Text fontSize="30px" fontWeight="600">
-                    ROYALTY
-                  </Text>
+                  <SubTitle>ROYALTY</SubTitle>
                   <Text fontSize="16px" fontWeight="500" fontFamily="Mulish">
                     Enable a split to autonatically divide any funds or
-                    royalties earned from the <br /> NFT with up to five
-                    recipients, including yourself.
+                    royalties earned from the NFT with up to five recipients,
+                    including yourself.
                   </Text>
                 </Stack>
                 <Stack width="100%">
@@ -157,13 +289,7 @@ export default function Collection() {
                     <Grid templateColumns="repeat(2, 1fr)" gap={6} key={index}>
                       <Stack>
                         {index === 0 && (
-                          <Text
-                            marginLeft="30px"
-                            fontSize="14px"
-                            fontWeight="700"
-                          >
-                            Account Name
-                          </Text>
+                          <RoyaltyLabel>Account Name</RoyaltyLabel>
                         )}
                         <StyledInput
                           name="name"
@@ -175,13 +301,7 @@ export default function Collection() {
                       <HStack justifyContent="space-between">
                         <Stack width={index ? '80%' : '100%'}>
                           {index === 0 && (
-                            <Text
-                              marginLeft="30px"
-                              fontSize="14px"
-                              fontWeight="700"
-                            >
-                              Percentage Fee(%)
-                            </Text>
+                            <RoyaltyLabel>Percentage Fee(%)</RoyaltyLabel>
                           )}
                           <StyledInput
                             name="price"
@@ -245,11 +365,50 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
 `
 const Title = styled.div`
   font-size: 46px;
   font-weight: 600;
   text-align: center;
+  @media (max-width: 480px) {
+    font-size: 22px;
+  }
+`
+const CardTitle = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  @media (max-width: 480px) {
+    font-size: 20px;
+    text-align: center;
+  }
+`
+const SubTitle = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  @media (max-width: 480px) {
+    font-size: 14px;
+  }
+`
+const InputLabel = styled.div`
+  font-size: 25px;
+  font-weight: 700;
+  margin-left: 30px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+    font-weight: 400;
+  }
+`
+const RoyaltyLabel = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  margin-left: 30px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin-left: 0;
+  }
 `
 const Collections = styled.div`
   background: linear-gradient(
@@ -269,17 +428,29 @@ const Collections = styled.div`
     rgba(255, 255, 255, 0.2) 1.02%,
     rgba(255, 255, 255, 0) 100%
   );
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 20px;
+  }
 `
 const SubText = styled.div`
   font-size: 18px;
   font-family: Mulish;
   font-weight: 600;
+  @media (max-width: 480px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
 `
 const StyledLink = styled.a`
   font-size: 18px;
   font-family: Mulish;
   font-weight: 600;
   color: #cccccc;
+  @media (max-width: 480px) {
+    font-size: 14px;
+    font-weight: 400;
+  }
 `
 
 const StyledInput = styled.input`
@@ -291,6 +462,9 @@ const StyledInput = styled.input`
   padding: 20px;
   font-size: 20px;
   font-family: Mulish;
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `
 const IconWrapper = styled.div<{ width?: string; m?: string }>`
   background: rgba(225, 225, 225, 0.3);

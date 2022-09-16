@@ -4,6 +4,7 @@ import { ChakraProvider, Spinner } from '@chakra-ui/react'
 import { Button } from 'components/Button'
 import { styled } from 'components/theme'
 // import useSWR from 'swr';
+import { getActivedCollections } from 'hooks/useCollection'
 import { NFT_CONTRACT_NAME, nftViewFunction } from 'util/near'
 import { CategoryTab, NftCollectionTable } from 'components/NFT'
 import { NftCategory, NftCollection } from 'services/nft'
@@ -13,28 +14,55 @@ const PUBLIC_MARKETPLACE = process.env.NEXT_PUBLIC_MARKETPLACE || ''
 export const Explore = () => {
   const [nftcategories, setNftCategories] = useState<NftCategory[]>([])
   const [nftcollections, setNftCollections] = useState<NftCollection[]>([])
-  const [activeCategoryId, setActiveCategoryId] = useState(0)
+  const [activeCategoryId, setActiveCategoryId] = useState('All')
   const [loading, setLoading] = useState(true)
 
-  const fetchCollections = async () => {
+  const fetchCollections = async (categoryId) => {
     try {
-      const data = await nftViewFunction({
-        methodName: 'nft_get_series',
-        args: {},
-      })
-      console.log('data: ', data)
-      return data
+      setLoading(true)
+      if (categoryId === 'All') {
+        const data = await nftViewFunction({
+          methodName: 'nft_get_series',
+          args: {},
+        })
+        setLoading(false)
+        return data
+      } else {
+        const activeCollectionIds = await getActivedCollections(categoryId)
+
+        const data = await nftViewFunction({
+          methodName: 'nft_get_series_by_ids',
+          args: {
+            token_series_ids: activeCollectionIds,
+          },
+        })
+        setLoading(false)
+        return data
+      }
     } catch (error) {
       console.log('nft_get_series Error: ', error)
+      setLoading(false)
       return []
     }
   }
-
+  useEffect(() => {
+    ;(async () => {
+      nftViewFunction({
+        methodName: 'nft_get_total_series',
+        args: {},
+      }).then((totalSeries) => {
+        console.log('nft_get_totla_series: ', totalSeries)
+      })
+    })()
+  }, [])
   useEffect(() => {
     // fetchCollections()
     ;(async () => {
+      let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
+      let categories = await res_categories.json()
+      setNftCategories(categories.categories)
       let collections = []
-      const collectionList = await fetchCollections()
+      const collectionList = await fetchCollections(activeCategoryId)
       for (let i = 0; i < collectionList.length; i++) {
         let res_collection: any = {}
         try {
@@ -62,10 +90,14 @@ export const Explore = () => {
       setNftCollections(collections)
       setLoading(false)
     })()
-  }, [])
-
+  }, [activeCategoryId])
   return (
     <ExploreWrapper>
+      <CategoryTab
+        categories={nftcategories}
+        activeCategoryId={activeCategoryId}
+        setActiveCategoryId={setActiveCategoryId}
+      />
       {loading ? (
         <ChakraProvider>
           <div
@@ -82,10 +114,7 @@ export const Explore = () => {
           </div>
         </ChakraProvider>
       ) : (
-        <NftCollectionTable
-          collections={nftcollections}
-          activeCategoryId={activeCategoryId}
-        />
+        <NftCollectionTable collections={nftcollections} />
       )}
     </ExploreWrapper>
   )

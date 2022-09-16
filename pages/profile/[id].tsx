@@ -29,6 +29,7 @@ import ProfilleLogoImageUpload from 'components/ProfileLogoImageUpload'
 import EditProfileModal from 'features/profile/EditProfileModal'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { getReducedAddress } from 'util/conversion'
+import { isMobile } from 'util/device'
 
 export default function Home() {
   const { asPath } = useRouter()
@@ -144,9 +145,16 @@ export default function Home() {
                   </Button>
                 )}
               </Stack>
-              <Text opacity="0.5" textAlign="center">
+              <div
+                style={{
+                  opacity: '0.5',
+                  textAlign: 'center',
+                  fontSize: isMobile() ? '16px' : '18px',
+                  fontFamily: 'Mulish',
+                }}
+              >
                 Not followed by anyone you follow
-              </Text>
+              </div>
               <Card>
                 <h3>Bio</h3>
                 <p>{profile.bio || 'Undefined'}</p>
@@ -185,10 +193,10 @@ export default function Home() {
                 <StyledTab>{`Owned`}</StyledTab>
               </StyledTabList>
               <TabPanels>
-                <TabPanel>
+                <TabPanel overflow="auto">
                   <CreatedNFTs id={id} />
                 </TabPanel>
-                <TabPanel>
+                <TabPanel overflow="auto">
                   <MyCollectedNFTs id={id} />
                 </TabPanel>
               </TabPanels>
@@ -214,6 +222,9 @@ const Banner = styled.div`
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 10;
+  @media (max-width: 480px) {
+    height: 216px;
+  }
 `
 const LogoImage = styled.div`
   width: 200px;
@@ -224,6 +235,13 @@ const LogoImage = styled.div`
   top: -100px;
   left: calc(50% - 100px);
   z-index: 1000;
+  @media (max-width: 480px) {
+    width: 120px;
+    height: 120px;
+    top: -60px;
+    left: calc(50% - 60px);
+    border: 3px solid #ffffff;
+  }
 `
 const ProfileContainer = styled.div`
   display: grid;
@@ -248,9 +266,23 @@ const ProfileContainer = styled.div`
     font-weight: 600;
     text-align: center;
   }
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    h1 {
+      font-size: 24px;
+    }
+    p {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 16px;
+    }
+  }
 `
 const ProfileInfo = styled.div`
-  padding: 200px 50px 50px 50px;
+  padding: 120px 50px 50px 50px;
   background: rgba(05, 06, 22, 0.2);
   box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
   /* Note: backdrop-filter has minimal browser support */
@@ -258,6 +290,9 @@ const ProfileInfo = styled.div`
   border-radius: 0px 0px 20px 20px;
   height: fit-content;
   position: relative;
+  @media (max-width: 480px) {
+    padding: 80px 25px 25px 25px;
+  }
 `
 const VerticalDivider = styled.div`
   border: 1px solid #5f5858;
@@ -271,9 +306,18 @@ const Card = styled.div`
   backdrop-filter: blur(40px);
   border-radius: 20px;
   padding: 20px;
+  @media (max-width: 480px) {
+    p {
+      font-size: 14px;
+    }
+  }
 `
 const ProfileNFTInfo = styled.div`
-  padding: 50px;
+  padding: 10px 50px;
+  @media (max-width: 480px) {
+    padding: 10px 0px;
+    width: 100%;
+  }
 `
 const StyledTabList = styled(TabList)`
   width: fit-content;
@@ -292,7 +336,11 @@ const StyledTabList = styled(TabList)`
 const StyledTab = styled(Tab)`
   font-size: 22px;
   font-weight: 400;
-  padding: 20px 40px;
+  padding: 20px 70px 20px 10px;
+  @media (max-width: 480px) {
+    font-size: 12px;
+    padding: 10px 35px 10px 0px;
+  }
 `
 const IconButtonWrapper = styled.div`
   position: absolute;

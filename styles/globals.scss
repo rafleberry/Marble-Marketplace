@@ -355,6 +355,16 @@ div{
     width: 100%;
     margin: 0 auto;
   }
+  div{
+    .main-section{
+      margin-top: 60px;
+    }
+    .hasBanner{
+      margin-top: 0px;
+      padding: 0px !important;
+    }
+  }
+
   .wrap-header{
     .wrap-menu{
       .top-menu-links{
@@ -578,8 +588,6 @@ div{
       margin-top: 48px;
       padding-top: 16px;
       .container{
-        padding-left: 16px;
-        padding-right: 16px;
         >div{
           padding: 0px;
         }
@@ -780,9 +788,21 @@ div{
 
 }
 @media screen and (max-width: 480px) {
+  div{
+    .main-section{
+      margin-top: 20px;
+      padding: 10px !important;
+    }
+    .hasBanner{
+      margin-top: 0px;
+      padding: 0px !important;
+    }
+  }
   .container{
+
     &.main-section{
       >div{
+
         p{
           font-size: 0.8rem;
         }
@@ -805,19 +825,6 @@ div{
     }
   }
 
-}
-@media screen and (max-width: 400px) {
-  .main-section{
-    .token-selector{
-      min-width: auto;
-    }
-    .small-hidden{
-      display: none;
-    }
-    .mini-hidden{
-      display: none;
-    }
-  }
 }
 
 .dropbtn {

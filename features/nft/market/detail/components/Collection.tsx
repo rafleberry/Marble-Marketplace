@@ -17,6 +17,7 @@ import {
   marketplaceViewFunction,
   NFT_CONTRACT_NAME,
 } from 'util/near'
+import { isClientMobie, isMobile } from 'util/device'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])
@@ -87,28 +88,36 @@ const CollectionInfo = ({ info }) => {
   return (
     <Container>
       <ChakraProvider>
-        <Flex justifyContent="space-between" marginBottom="50px">
+        <Flex
+          justifyContent="space-between"
+          marginBottom={isMobile() ? '25px' : '50px'}
+        >
           <HStack>
-            <Image src={info.image} alt="collection" size="90px" />
+            <ImgDiv>
+              <Image src={info.image} alt="collection" />
+            </ImgDiv>
             <Stack>
-              <Text fontSize="30px" fontWeight="700">
-                {info.name}
-              </Text>
-              <Text fontSize="20px" fontWeight="600">
-                {info.cat_ids}
-              </Text>
+              <Title>{info.name}</Title>
+              <SubTitle>{info.cat_ids}</SubTitle>
             </Stack>
           </HStack>
-          <CreatorInfo>
-            <RoundedIconComponent
-              size="48px"
-              address={info.creator}
-              font="20px"
-            />
-          </CreatorInfo>
+          {!isMobile() && (
+            <CreatorInfo>
+              <RoundedIconComponent
+                size={isClientMobie ? '36px' : '48px'}
+                address={info.creator}
+                font={isClientMobie ? '15px' : '20px'}
+              />
+            </CreatorInfo>
+          )}
         </Flex>
-        <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          {nfts.map((nftInfo, index) => (
+        <Grid
+          templateColumns="repeat(4, 1fr)"
+          gap={6}
+          overflowX="auto"
+          overflowY="unset"
+        >
+          {nfts.slice(0, 4).map((nftInfo, index) => (
             <Link
               href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
               passHref
@@ -126,6 +135,15 @@ const CollectionInfo = ({ info }) => {
             </Link>
           ))}
         </Grid>
+        {isMobile() && (
+          <CreatorInfo>
+            <RoundedIconComponent
+              size={isClientMobie ? '36px' : '48px'}
+              address={info.creator}
+              font={isClientMobie ? '15px' : '20px'}
+            />
+          </CreatorInfo>
+        )}
       </ChakraProvider>
     </Container>
   )
@@ -139,21 +157,73 @@ const Container = styled.div`
   backdrop-filter: blur(30px);
   margin: 10px 0;
   padding: 40px;
+  width: 100%;
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `
-const Image = styled.img<{ size: string }>`
-  width: ${({ size }) => size};
-  height: ${({ size }) => size};
+const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   border-radius: 50%;
+`
+const ImgDiv = styled.div`
+  width: 70px;
+  padding-bottom: 70px;
+  display: block;
+  position: relative;
+  border-radius: 50%;
+  @media (max-width: 1550px) {
+    padding-bottom: 55px;
+    width: 55px;
+  }
+  @media (max-width: 480px) {
+    width: 50px;
+    padding-bottom: 50px;
+  }
 `
 const CreatorInfo = styled.div`
   background: rgba(255, 255, 255, 0.06);
   border: rgba(255, 255, 255, 0.2);
   border-radius: 60px;
   display: flex;
-  padding: 10px 30px;
+  padding: 10px;
   align-items: center;
   height: 70px;
+  width: 210px;
   justify-content: space-around;
+  @media (max-width: 1550px) {
+    height: 50px;
+    width: 160px;
+  }
+  @media (max-width: 1550px) {
+    height: 50px;
+    width: fit-content;
+    margin-top: 20px;
+  }
 `
-
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+  @media (max-width: 1550px) {
+    font-size: 23px;
+  }
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
+`
+const SubTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  @media (max-width: 1550px) {
+    font-size: 15px;
+  }
+`
 export default CollectionInfo

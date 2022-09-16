@@ -1,66 +1,48 @@
 import * as React from 'react'
-import {
-  ChakraProvider,
-  Stack,
-  Text,
-  Flex,
-  HStack,
-  LinkBox,
-} from '@chakra-ui/react'
+import { ChakraProvider, Stack, HStack, LinkBox } from '@chakra-ui/react'
 import Link from 'next/link'
 import { NftCollection } from 'services/nft'
 import { RoundedIconComponent } from 'components/RoundedIcon'
+import { isClientMobie } from 'util/device'
 import styled from 'styled-components'
 interface NftCollectionProps {
   readonly collections: NftCollection[]
-  readonly activeCategoryId: number
 }
 
 export function NftCollectionTable({
   collections,
-  activeCategoryId,
 }: NftCollectionProps): JSX.Element {
   return (
     <ChakraProvider>
       <Container>
-        {collections.map(
-          (collection, idx) =>
-            (activeCategoryId == 0 ||
-              collection.cat_ids
-                .split(',')
-                .indexOf(activeCategoryId.toString()) != -1) && (
-              <Link href={`/collection/${collection.id}`} passHref key={idx}>
-                <LinkBox
-                  as="picture"
-                  transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-                  _hover={{
-                    transform: 'scale(1.05)',
-                  }}
-                >
-                  <CollectionDiv className="collection" key={idx}>
-                    <ImgDiv className="nft-img-div">
-                      <Image src={collection.image} alt="NFT Image" />
-                    </ImgDiv>
-                    <HStack marginTop="30px">
-                      <Logo
-                        src={collection.banner_image}
-                        alt="NFT Banner Image"
-                        size="70px"
-                      />
-                      <Stack>
-                        <Title>{collection.name}</Title>
-                        <RoundedIconComponent
-                          size="0px"
-                          address={collection.creator}
-                          font="20px"
-                        />
-                      </Stack>
-                    </HStack>
-                  </CollectionDiv>
-                </LinkBox>
-              </Link>
-            )
-        )}
+        {collections.map((collection, idx) => (
+          <Link href={`/collection/${collection.id}`} passHref key={idx}>
+            <LinkBox
+              as="picture"
+              transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
+              _hover={{
+                transform: 'scale(1.05)',
+              }}
+            >
+              <CollectionDiv className="collection" key={idx}>
+                <ImgDiv className="nft-img-div">
+                  <Image src={collection.image} alt="NFT Image" />
+                </ImgDiv>
+                <HStack marginTop="30px">
+                  <Logo src={collection.banner_image} alt="image" size="70px" />
+                  <Stack>
+                    <Title>{collection.name}</Title>
+                    <RoundedIconComponent
+                      size="0px"
+                      address={collection.creator}
+                      font={isClientMobie ? '15px' : '20px'}
+                    />
+                  </Stack>
+                </HStack>
+              </CollectionDiv>
+            </LinkBox>
+          </Link>
+        ))}
       </Container>
     </ChakraProvider>
   )
@@ -87,6 +69,9 @@ const CollectionDiv = styled.div`
   cursor: pointer;
   @media (max-width: 1450px) {
     padding: 15px;
+  }
+  @media (max-width: 480px) {
+    width: 320px;
   }
 `
 
@@ -118,6 +103,6 @@ const Title = styled.div`
   font-size: 24px;
   overflow-wrap: anywhere;
   @media (max-width: 1450px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `

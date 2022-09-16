@@ -1,12 +1,7 @@
-import * as React from 'react'
-import { useEffect } from 'react'
 import { LinkBox } from '@chakra-ui/react'
 import Link from 'next/link'
-import { NftCard } from '../nft-card'
-import { NftInfo } from 'services/nft'
 import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store/reducers'
+import { NftCard } from '../nft-card'
 
 export function NftTable({ data, id, type, nft_column_count = 4 }) {
   return (
@@ -39,4 +34,5 @@ const NftGrid = styled.div<{ columns: number }>`
   grid-column-gap: 20px;
   padding: 20px;
   overflow: hidden;
+  overflow: auto;
 `

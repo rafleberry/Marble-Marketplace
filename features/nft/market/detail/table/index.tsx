@@ -2,8 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Stack, HStack, Text } from '@chakra-ui/react'
 import { convertMicroDenomToDenom } from 'util/conversion'
-import { RoundedIcon } from 'components/RoundedIcon'
-import { getLogoUriFromAddress } from 'util/api'
+import { RoundedIcon, RoundedBidIconComponent } from 'components/RoundedIcon'
 
 const SimpleTable = ({ data, unit, paymentToken }) => {
   return (
@@ -11,14 +10,11 @@ const SimpleTable = ({ data, unit, paymentToken }) => {
       {data.map((element, index) => (
         <BidContainer key={index} isEnd={data.length - 1 === index}>
           <HStack style={{ display: 'flex', alignItems: 'center' }}>
-            <RoundedIcon
+            <RoundedBidIconComponent
               size="56px"
-              src={getLogoUriFromAddress(element.bidder_id)}
-              style={{ margin: '0 10px' }}
+              address={element.bidder_id}
+              font="15px"
             />
-            <Text fontSize="20px" fontFamily="Mulish">
-              {element.bidder_id}
-            </Text>
           </HStack>
           <Text fontFamily="Mulish" fontSize="20px">
             {convertMicroDenomToDenom(element.price, unit).toFixed(2)}{' '}

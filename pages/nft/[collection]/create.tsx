@@ -11,6 +11,7 @@ import { AppLayout } from 'components/Layout/AppLayout'
 import NFTUpload from 'components/NFTUpload'
 import { nftViewFunction, nftFunctionCall } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
+import { isMobile } from 'util/device'
 
 const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
@@ -57,7 +58,6 @@ export default function NFTCreate() {
         await fetchCollectionInfo(),
         await fetchCollectionSize(),
       ])
-      console.log('collectionInfo: ', collectionInfo, collectionSize)
       collectionInfo.count = collectionSize
       collectionInfo.media =
         process.env.NEXT_PUBLIC_PINATA_URL + collectionInfo.metadata.media
@@ -182,8 +182,8 @@ export default function NFTCreate() {
   }
   const UploadImage = () => {
     return (
-      <Stack padding="0 100px" spacing="40px">
-        <h2>Upload A Media File</h2>
+      <Stack padding={isMobile() ? '0' : '0 100px'} spacing="40px">
+        {!isMobile() && <h2>Upload A Media File</h2>}
         <NFTUpload data={data} dispatch={dispatch} item="nft-create" />
       </Stack>
     )
@@ -205,7 +205,7 @@ export default function NFTCreate() {
                 )}
               </Stack>
               {agreed || collection.count > 0 ? (
-                <HStack alignItems="start" spacing="40px">
+                <MainWrapper>
                   <Card>
                     {data.nft ? (
                       <Stack spacing="40px">
@@ -214,8 +214,8 @@ export default function NFTCreate() {
                           <h3>Add Details</h3>
                           <p>
                             Once your NFT is minted to the Marble blockchain,
-                            you will not be able to edit <br /> or update any of
-                            this information.
+                            you will not be able to edit or update any of this
+                            information.
                           </p>
                         </Stack>
                         <Stack>
@@ -233,7 +233,7 @@ export default function NFTCreate() {
                           <Input
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            maxlength="1000"
+                            maxLength="1000"
                           />
                           <Footer>
                             <div>Use markdown syntax to embed links</div>
@@ -254,7 +254,7 @@ export default function NFTCreate() {
                             </Stack>
                           </CollectionCard>
                         </Stack>
-                        <Stack padding="0 150px">
+                        <Stack padding={isMobile() ? '0' : '0 150px'}>
                           <Button
                             className="btn-buy btn-default"
                             css={{
@@ -291,7 +291,7 @@ export default function NFTCreate() {
                       </Stack>
                     </NFTContainer>
                   )}
-                </HStack>
+                </MainWrapper>
               ) : (
                 <Card>
                   <Stack spacing="70px">
@@ -375,7 +375,6 @@ export default function NFTCreate() {
 
 const Text = styled.div`
   font-size: 14px;
-  font-family: Mulish;
   font-weight: 400;
   padding: 0 40px;
 `
@@ -412,6 +411,23 @@ const Container = styled.div`
     font-family: Mulish;
     cursor: pointer;
   }
+  @media (max-width: 480px) {
+    padding: 0;
+    h1 {
+      font-size: 22px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 14px;
+    }
+    p {
+      font-size: 14px;
+      font-family: Mulish;
+      font-weight: 400;
+    }
+  }
 `
 const Card = styled.div`
   padding: 40px;
@@ -428,6 +444,10 @@ const Card = styled.div`
   border-radius: 30px;
   width: 1000px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 20px;
+  }
 `
 const StyledInput = styled.input`
   background: #272734;
@@ -438,6 +458,9 @@ const StyledInput = styled.input`
   padding: 20px;
   font-size: 20px;
   font-family: Mulish;
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `
 const Input = styled(Textarea)`
   background: #272734 !important;
@@ -488,6 +511,9 @@ const NFTContainer = styled.div`
   backdrop-filter: blur(30px);
   box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
     inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 const ImgDiv = styled.div`
   width: 100%;
@@ -506,4 +532,14 @@ const Image = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
+`
+const MainWrapper = styled.div`
+  display: flex;
+  aling-items: start;
+  column-gap: 40px;
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    width: 100%;
+    row-gap: 20px;
+  }
 `

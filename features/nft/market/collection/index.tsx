@@ -1,4 +1,11 @@
-import { ChakraProvider, Spinner, Stack, Tab, Text } from '@chakra-ui/react'
+import {
+  ChakraProvider,
+  Spinner,
+  Stack,
+  Tab,
+  Text,
+  HStack,
+} from '@chakra-ui/react'
 import { Button } from 'components/Button'
 import { IconWrapper } from 'components/IconWrapper'
 import { NftTable } from 'components/NFT'
@@ -17,9 +24,11 @@ import {
   nftViewFunction,
   NFT_CONTRACT_NAME,
 } from 'util/near'
+import { getCollectionCategory } from 'hooks/useCollection'
 import { getCurrentWallet } from 'util/sender-wallet'
 import EditCollectionModal from './components/EditCollectionModal'
 import { RoundedIconComponent } from 'components/RoundedIcon'
+import { isMobile } from 'util/device'
 
 export const CollectionTab = ({ index }) => {
   return (
@@ -50,16 +59,13 @@ export const CollectionTab = ({ index }) => {
 
 interface CollectionProps {
   readonly id: string
-  // readonly name: string
-  // readonly collectionAddress: string
-  // readonly numTokens: number
-  // readonly uri: string
 }
 
 let pageCount = 10
 export const Collection = ({ id }: CollectionProps) => {
   const wallet = getCurrentWallet()
   const [loading, setLoading] = useState(true)
+  const [category, setCategory] = useState('Undefined')
   const [currentTokenCount, setCurrentTokenCount] = useState(0)
   const [collectionInfo, setCollectionInfo] = useState<any>({})
   const [numTokens, setNumTokens] = useState(0)
@@ -164,7 +170,7 @@ export const Collection = ({ id }: CollectionProps) => {
     return collectionNFTs
   }, [id])
   useEffect(() => {
-    ;async () => {
+    ;(async () => {
       if (id === undefined || id == '[name]') return false
       try {
         const num = await nftViewFunction({
@@ -173,11 +179,14 @@ export const Collection = ({ id }: CollectionProps) => {
             token_series_id: id,
           },
         })
+        const _category = await getCollectionCategory(id)
+
+        setCategory(_category)
         setNumTokens(num)
       } catch (err) {
         console.log('nft get counts error: ', err)
       }
-    }
+    })()
   }, [id])
   useEffect(() => {
     ;(async () => {
@@ -318,13 +327,17 @@ export const Collection = ({ id }: CollectionProps) => {
         <Banner>
           <BannerImage src={collectionInfo.featuredImage} alt="banner" />
           <Stack spacing={5}>
-            <Logo src={collectionInfo.logo} alt="logo" size="180px" />
-            <Text fontSize="96px" fontWeight="900">
-              {collectionInfo.name}
-            </Text>
+            <Logo src={collectionInfo.logo} alt="logo" />
+            <LogoTitle>{collectionInfo.name}</LogoTitle>
             {wallet.accountId === collectionInfo.creator && (
               <Stack width="250px">
-                <EditCollectionModal collectionInfo={collectionInfo} />
+                <EditCollectionModal
+                  collectionInfo={collectionInfo}
+                  setCategory={(e) => {
+                    setCategory(e)
+                  }}
+                  category={category}
+                />
               </Stack>
             )}
             <ProfileLogo>
@@ -336,9 +349,10 @@ export const Collection = ({ id }: CollectionProps) => {
           </Stack>
         </Banner>
         <Heading>
-          <Text fontSize="46px" fontWeight="700">
+          <Text fontSize={isMobile() ? '24px' : '46px'} fontWeight="700">
             NFTs
           </Text>
+
           {wallet.accountId === collectionInfo.creator && (
             <Link href={`/nft/${id}/create`} passHref>
               <Button
@@ -397,7 +411,13 @@ export const Collection = ({ id }: CollectionProps) => {
                 Before you mint an NFT to your collection, customize it by
                 uploading <br /> a logo, cover image and description
               </Text>
-              <EditCollectionModal collectionInfo={collectionInfo} />
+              <EditCollectionModal
+                collectionInfo={collectionInfo}
+                setCategory={(e) => {
+                  setCategory(e)
+                }}
+                category={category}
+              />
             </Stack>
           )}
         </NftList>
@@ -412,6 +432,20 @@ const Heading = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #363b4e;
+  align-items: center;
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
+`
+const LogoTitle = styled.div`
+  font-size: 96px;
+  font-weight: 900;
+  @media (max-width: 1550px) {
+    font-size: 72px;
+  }
+  @media (max-width: 480px) {
+    font-size: 30px;
+  }
 `
 const Banner = styled.div`
   position: relative;
@@ -426,6 +460,14 @@ const Banner = styled.div`
   );
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  @media (max-width: 1550px) {
+    height: 675px;
+    padding: 150px 50px 50px 50px;
+  }
+  @media (max-width: 480px) {
+    height: 560px;
+    padding: 150px 20px 20px 20px;
+  }
 `
 const BannerImage = styled.img`
   position: absolute;
@@ -439,11 +481,20 @@ const BannerImage = styled.img`
   object-position: center;
   z-index: -1;
 `
-const Logo = styled.img<{ size: string }>`
-  width: ${({ size }) => size};
-  height: ${({ size }) => size};
+const Logo = styled.img`
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   border: 10px solid #ffffff21;
+  @media (max-width: 1550px) {
+    width: 135px;
+    height: 135px;
+  }
+  @media (max-width: 480px) {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #ffffff21;
+  }
 `
 
 const SelectOption = styled.div<{ isActive: boolean }>`
@@ -462,6 +513,10 @@ const TabWrapper = styled.div``
 
 const NftList = styled.div`
   padding: 40px;
+  @media (max-width: 480px) {
+    padding: 20px;
+    width: 100%;
+  }
 `
 const ProfileLogo = styled.div`
   padding: 10px;

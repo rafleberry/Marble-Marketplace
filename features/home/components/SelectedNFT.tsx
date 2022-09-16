@@ -55,7 +55,7 @@ const SelectedNFT = () => {
   return (
     <IntroContainer>
       <div>
-        <Stack spacing={20}>
+        <IntroWrapper>
           <Title>
             {/* TILL DEATH DO US PART */}
             Till Death Do Us Part
@@ -78,24 +78,20 @@ const SelectedNFT = () => {
             </MiniInfoCard>
           </HStack>
           {showData.reservePrice && (
-            <Stack>
-              <Text fontSize="20px">Reserve</Text>
-              <HStack>
-                <Text fontSize="36px" fontWeight="900">
-                  {showData.reservePrice} Near
-                </Text>
-                <Text fontSize="22px" fontWeight="600">
-                  $214
-                </Text>
+            <PriceArea>
+              <p>Reserve</p>
+              <HStack alignItems="center">
+                <h1>{showData.reservePrice} Near</h1>
+                <h2>$214</h2>
               </HStack>
-            </Stack>
+            </PriceArea>
           )}
           <Stack>
             <Link href="nft/6/2">
               <StyledButton>View Nft</StyledButton>
             </Link>
           </Stack>
-        </Stack>
+        </IntroWrapper>
       </div>
       <NFTPicture>
         <ImgDiv>
@@ -115,19 +111,35 @@ const StyledButton = styled.button`
   color: black;
   font-size: 18px;
   font-weight: bold;
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 const IntroContainer = styled.div`
   display: flex;
   margin-top: 50px;
   justify-content: space-between;
+  padding: 0 120px;
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    padding: 0 10px;
+    margin-top: 0px;
+  }
 `
+
 const Title = styled.div`
   font-size: 65px;
   font-weight: 700;
   @media (max-width: 1550px) {
     font-size: 40px;
   }
+  @media (max-width: 480px) {
+    font-size: 26px;
+    text-align: center;
+    margin-top: 20px;
+  }
 `
+
 const MiniInfoCard = styled.div`
   width: 40%;
   height: 110px;
@@ -136,6 +148,9 @@ const MiniInfoCard = styled.div`
   padding: 15px;
   border: 1px solid rgba(5, 6, 22, 0.2);
   backdrop-filter: blur(40px);
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 
 const MiniInfoTitle = styled.div`
@@ -171,6 +186,10 @@ const NFTPicture = styled.div`
   box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
     inset 0px 14px 24px rgba(17, 20, 29, 0.4);
   padding: 37px;
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 20px;
+  }
 `
 const ImgDiv = styled.div`
   width: 100%;
@@ -192,4 +211,41 @@ const Img = styled.img`
   object-position: center;
   border-radius: 40px;
 `
+const IntroWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 80px;
+  @media (max-width: 480px) {
+    row-gap: 20px;
+  }
+`
+const PriceArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  p {
+    font-size: 20px;
+  }
+  h1 {
+    font-size: 36px;
+  }
+  h2 {
+    font-size: 22px;
+  }
+  @media (max-width: 480px) {
+    align-items: center;
+
+    p {
+      font-size: 14px;
+    }
+    h1 {
+      font-size: 26px;
+      font-family: Mulish;
+    }
+    h2 {
+      font-size: 16px;
+    }
+  }
+`
+
 export default SelectedNFT

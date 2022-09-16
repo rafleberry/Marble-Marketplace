@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { styled } from 'components/theme'
@@ -33,7 +34,6 @@ import Card from './components/card'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getTokenBalance } from 'hooks/useTokenBalance'
 import { getTokenPrice } from 'hooks/useTokenDollarValue'
-import { getLogoUriFromAddress } from 'util/api'
 import {
   nftViewFunction,
   MARKETPLACE_CONTRACT_NAME,
@@ -59,6 +59,8 @@ import {
   formatNearToYocto,
   formatHera,
 } from 'util/conversion'
+import { NFTName, MoreTitle } from './styled'
+import { isMobile } from 'util/device'
 
 const DENOM_UNIT = {
   near: 24,
@@ -143,7 +145,6 @@ export const NFTDetail = ({ collectionId, id }) => {
         })
     }
   }, [txHash])
-  console.log('collection-id: ', collectionId)
   const loadNft = useCallback(async () => {
     try {
       if (collectionId === '[collection]') return false
@@ -791,7 +792,6 @@ export const NFTDetail = ({ collectionId, id }) => {
       console.log('buy-update-bid Error: ', error)
     }
   }
-  console.log('nft.user: ', nft.user)
   return (
     <ChakraProvider>
       <Stack>
@@ -803,47 +803,399 @@ export const NFTDetail = ({ collectionId, id }) => {
         </Banner>
       </Stack>
       <Container>
-        <Stack spacing={10} direction="row" justifyContent="space-between">
-          <Stack spacing={10} width="50%">
-            <Text fontSize="60px" fontWeight="700">
-              {nft.name}
-            </Text>
-            <HStack spacing={20}>
+        <NFTInfoWrapper>
+          <NftInfoTag>
+            <NFTName>{nft.name}</NFTName>
+            <Stack
+              spacing={isMobile() ? 8 : 20}
+              flexDirection={isMobile() ? 'column' : 'row'}
+            >
               <Stack spacing={3}>
                 <Text fontSize="14px">Collection</Text>
-                <HStack>
-                  <RoundedIcon size="26px" src={nft.collectionImage} />
-                  <Text fontSize="14px" fontWeight="800" fontFamily="Mulish">
-                    {nft.collectionName}
-                  </Text>
-                </HStack>
+                <Link href={`/collection/${collectionId}`}>
+                  <HStack style={{ cursor: 'pointer' }}>
+                    <RoundedIcon size="26px" src={nft.collectionImage} />
+                    <Text fontSize="14px" fontWeight="800" fontFamily="Mulish">
+                      {nft.collectionName}
+                    </Text>
+                  </HStack>
+                </Link>
               </Stack>
-              <Stack spacing={3}>
-                <Text fontSize="14px">Created By</Text>
-                <HStack>
-                  {nft.creator && (
-                    <RoundedIconComponent size="26px" address={nft.creator} />
-                  )}
-                </HStack>
-              </Stack>
-              <Stack spacing={3}>
-                <Text fontSize="14px">Owned By</Text>
-                <HStack>
-                  {nft.user && (
-                    <RoundedIconComponent size="26px" address={nft.user} />
-                  )}
-                </HStack>
-              </Stack>
-            </HStack>
+              <HStack
+                spacing={20}
+                justifyContent="flex-start"
+                marginTop={isMobile() ? 'auto' : '0 !important'}
+              >
+                <Stack spacing={3}>
+                  <Text fontSize="14px">Created By</Text>
+                  <HStack>
+                    {nft.creator && (
+                      <RoundedIconComponent size="26px" address={nft.creator} />
+                    )}
+                  </HStack>
+                </Stack>
+                <Stack spacing={3}>
+                  <Text fontSize="14px">Owned By</Text>
+                  <HStack>
+                    {nft.user && (
+                      <RoundedIconComponent size="26px" address={nft.user} />
+                    )}
+                  </HStack>
+                </Stack>
+              </HStack>
+            </Stack>
+            {isMobile() && (
+              <NftInfoTag>
+                {marketStatus.isOnMarket ? (
+                  <NftBuyOfferTag className="nft-buy-offer">
+                    {marketStatus.data.is_auction ? (
+                      <>
+                        {marketStatus.isStarted ? (
+                          <NftSale>
+                            <IconWrapper icon={<Clock />} />
+                            {marketStatus.isEnded
+                              ? 'Auction already ended'
+                              : 'Auction ends in'}
+                            {!marketStatus.isEnded && (
+                              <Text>
+                                <DateCountdown
+                                  dateTo={
+                                    (marketStatus.data &&
+                                      marketStatus.data.ended_at) ||
+                                    Date.now()
+                                  }
+                                  dateFrom={
+                                    (marketStatus.data &&
+                                      marketStatus.data.current_time * 1000) ||
+                                    Date.now()
+                                  }
+                                  interval={0}
+                                  mostSignificantFigure="none"
+                                  numberOfFigures={3}
+                                  callback={() => {
+                                    getMarketData()
+                                  }}
+                                />
+                              </Text>
+                            )}
+                            {/* {marketStatus.data.ended_at} */}
+                          </NftSale>
+                        ) : (
+                          <NftSale>
+                            <IconWrapper icon={<Clock />} />
+                            Auction isn't started. It will start in
+                            <Text>
+                              <DateCountdown
+                                dateTo={
+                                  marketStatus.data &&
+                                  marketStatus.data.started_at
+                                }
+                                dateFrom={
+                                  marketStatus.data &&
+                                  marketStatus.data.current_time * 1000
+                                }
+                                interval={0}
+                                mostSignificantFigure="none"
+                                numberOfFigures={3}
+                                callback={() => {
+                                  getMarketData()
+                                }}
+                              />
+                            </Text>
+                          </NftSale>
+                        )}
+                      </>
+                    ) : (
+                      <NftSale>
+                        For Sale
+                        {/* {marketStatus.data.ended_at} */}
+                      </NftSale>
+                    )}
+                    <PriceTag>
+                      <Grid templateColumns="repeat(3, 1fr)" gap={6} margin="0">
+                        <Stack>
+                          <Text color="rgb(112, 122, 131)" fontSize="14px">
+                            {marketStatus.data.is_auction
+                              ? 'Start price'
+                              : 'Current price'}
+                          </Text>
+                          <Span className="owner-address">
+                            {marketStatus.data.price}&nbsp;
+                            {tokenInfo?.symbol}
+                          </Span>
+                        </Stack>
+                        {marketStatus.data.is_auction &&
+                          marketStatus.data.owner_id === wallet.accountId && (
+                            <Stack>
+                              <Text color="rgb(112, 122, 131)" fontSize="14px">
+                                Reserve Price
+                              </Text>
+                              <Span className="owner-address">
+                                {marketStatus.data.reserve_price}&nbsp;
+                                {tokenInfo?.symbol}
+                              </Span>
+                            </Stack>
+                          )}
+                        {marketStatus.data.is_auction && (
+                          <Stack>
+                            <Text color="rgb(112, 122, 131)" fontSize="14px">
+                              Highest Bid
+                            </Text>
+                            {marketStatus.data.highest_bid && (
+                              <Span className="owner-address">
+                                {marketStatus.data.highest_bid.price}&nbsp;
+                                {tokenInfo?.symbol}
+                              </Span>
+                            )}
+                          </Stack>
+                        )}
+                      </Grid>
+                      {marketStatus.isEnded &&
+                        isBidder &&
+                        marketStatus.data.highest_bid &&
+                        Number(marketStatus.data.highest_bid.price) <
+                          Number(marketStatus.data.reserve_price) && (
+                          <Text
+                            margin="10px 0"
+                            fontFamily="Mulish"
+                            fontSize="20px"
+                          >
+                            This auction ended but has not meet the reserve
+                            price. The seller can evaluate and accept the
+                            highest offer.
+                          </Text>
+                        )}
+                      {marketStatus.data.owner_id === wallet.accountId ? (
+                        <>
+                          <ButtonGroup>
+                            {!marketStatus.isEnded &&
+                              !marketStatus.data.highest_bid && (
+                                <UpdateMarketModal
+                                  tokenInfo={tokenInfo}
+                                  onChange={(e) => {
+                                    setPrice(e.target.value)
+                                  }}
+                                  onReserveChange={(e) =>
+                                    setReservePrice(e.target.value)
+                                  }
+                                  nftInfo={{
+                                    ft_token_id: marketStatus.data.ft_token_id,
+                                    saleType: marketStatus.data.is_auction
+                                      ? 'Auction'
+                                      : 'Direct Sell',
+                                    price: marketStatus.data.price,
+                                    ended_at:
+                                      marketStatus.data.ended_at * 1000000,
+                                    current_time:
+                                      marketStatus.data.current_time,
+                                    image: nft.image,
+                                    name: nft.name,
+                                    hightest_bid:
+                                      marketStatus.data.highest_bid.price,
+                                    owner: nft.user,
+                                  }}
+                                  onHandle={handleUpdateData}
+                                />
+                              )}
+                            {(!marketStatus.data.highest_bid ||
+                              (marketStatus.isEnded &&
+                                Number(marketStatus.data.highest_bid.price) <
+                                  Number(marketStatus.data.reserve_price))) && (
+                              <Button
+                                className="btn-buy btn-default"
+                                css={{
+                                  background: '$white',
+                                  color: '$black',
+                                  stroke: '$black',
+                                  width: '100%',
+                                  padding: '15px auto',
+                                }}
+                                size="large"
+                                onClick={handleCancelMarketing}
+                              >
+                                Cancel Marketing
+                              </Button>
+                            )}
+                            {marketStatus.isEnded &&
+                              marketStatus.data.is_auction &&
+                              marketStatus.data.highest_bid && (
+                                <Button
+                                  className="btn-buy btn-default"
+                                  css={{
+                                    background: '$black',
+                                    color: '$white',
+                                    stroke: '$white',
+                                    width: 'fit-content',
+                                  }}
+                                  variant="primary"
+                                  size="large"
+                                  onClick={handleAcceptBid}
+                                >
+                                  Accept Bid
+                                </Button>
+                              )}
+                          </ButtonGroup>
+                        </>
+                      ) : marketStatus.data.is_auction ? (
+                        <Stack
+                          direction={isMobile() ? 'column' : 'row'}
+                          alignItems="flex-end"
+                        >
+                          {marketStatus.isStarted && !marketStatus.isEnded && (
+                            <Stack paddingTop={10} width="100%">
+                              <PlaceBidModal
+                                tokenInfo={tokenInfo}
+                                tokenBalance={tokenBalance}
+                                onChange={(e) => {
+                                  setPrice(e.target.value)
+                                }}
+                                price={price}
+                                onHandle={handleAddBid}
+                                nftInfo={{
+                                  ft_token_id: marketStatus.data.ft_token_id,
+                                  saleType: marketStatus.data.is_auction
+                                    ? 'Auction'
+                                    : 'Direct Sell',
+                                  price: marketStatus.data.price,
+                                  ended_at:
+                                    marketStatus.data.ended_at * 1000000,
+                                  current_time: marketStatus.data.current_time,
+                                  image: nft.image,
+                                  name: nft.name,
+                                  hightest_bid:
+                                    marketStatus.data.highest_bid.price,
+                                  owner: nft.user,
+                                }}
+                              />
+                            </Stack>
+                          )}
+                          {isBidder && (
+                            <Button
+                              className="btn-buy btn-default"
+                              css={{
+                                background: '$white',
+                                color: '$black',
+                                stroke: '$black',
+                                width: '100%',
+                              }}
+                              size="large"
+                              onClick={handleCancelClick}
+                            >
+                              Cancel Bid
+                            </Button>
+                          )}
+                        </Stack>
+                      ) : (
+                        <Button
+                          className="btn-buy btn-default"
+                          css={{
+                            background: '$white',
+                            color: '$black',
+                            stroke: '$white',
+                            width: '100%',
+                          }}
+                          size="large"
+                          onClick={handleBuy}
+                        >
+                          Buy Now
+                        </Button>
+                      )}
+                    </PriceTag>
+                  </NftBuyOfferTag>
+                ) : (
+                  <NftBuyOfferTag className="nft-buy-offer">
+                    <Text
+                      fontSize="25px"
+                      fontWeight="700"
+                      fontFamily="Mulish"
+                      textAlign="center"
+                    >
+                      {nft.user === wallet.accountId
+                        ? 'Manage NFT'
+                        : 'This is not for a sale'}
+                    </Text>
+                    {nft.user === wallet.accountId && (
+                      <PriceTag>
+                        <Stack
+                          direction={isMobile() ? 'column' : 'row'}
+                          spacing={4}
+                          marginTop="20px"
+                        >
+                          <OnSaleModal
+                            setIsAuction={setIsAuction}
+                            isAuction={isAuction}
+                            setToken={setToken}
+                            token={token}
+                            setStartDate={(e) => {
+                              setStartDate(
+                                formatChakraDateToTimestamp(e.target.value)
+                              )
+                            }}
+                            setEndDate={(e) => {
+                              setEndDate(
+                                formatChakraDateToTimestamp(e.target.value)
+                              )
+                            }}
+                            setReservePrice={(e) =>
+                              setReservePrice(e.target.value)
+                            }
+                            setPrice={(e) => setPrice(e.target.value)}
+                            onHandle={handleClick}
+                            nftInfo={{
+                              image: nft.image,
+                              name: nft.name,
+                              owner: nft.user,
+                            }}
+                          />
+                          <TransferNFTModal
+                            nftInfo={{
+                              image: nft.image,
+                              name: nft.name,
+                              owner: nft.user,
+                            }}
+                            onHandle={handleTransfer}
+                          />
+                        </Stack>
+                        <BurnNFTModal
+                          nftInfo={{
+                            ft_token_id:
+                              marketStatus.data &&
+                              marketStatus.data.ft_token_id,
+                            saleType:
+                              marketStatus.data && marketStatus.data.is_auction
+                                ? 'Auction'
+                                : 'Direct Sell',
+                            price: marketStatus.data && marketStatus.data.price,
+                            ended_at:
+                              marketStatus.data &&
+                              marketStatus.data.ended_at * 1000000,
+                            current_time:
+                              marketStatus.data &&
+                              marketStatus.data.current_time,
+                            image: nft.image,
+                            name: nft.name,
+                            hightest_bid:
+                              marketStatus.data &&
+                              marketStatus.data.highest_bid.price,
+                            owner: nft.user,
+                          }}
+                          onHandle={handleBurnNFT}
+                        />
+                      </PriceTag>
+                    )}
+                  </NftBuyOfferTag>
+                )}
+              </NftInfoTag>
+            )}
             <Stack>
-              <Text fontSize="28px" fontWeight="700">
+              <Text fontSize={isMobile() ? '24px' : '28px'} fontWeight="700">
                 Royalty
               </Text>
               {Object.keys(nft.royalty).map((element, index) => (
                 <Flex
                   key={index}
                   justifyContent="space-between"
-                  width="30%"
+                  width={isMobile() ? '100%' : '30%'}
                   alignItems="center"
                 >
                   <HStack>
@@ -866,32 +1218,67 @@ export const NFTDetail = ({ collectionId, id }) => {
                   {nft.createdAt}
                 </Text>
               </Card>
+              {isMobile() && marketStatus.data && marketStatus.data.bids && (
+                <Card title="Bid History">
+                  <SimpleTable
+                    data={marketStatus.data.bids}
+                    unit={tokenInfo?.decimals}
+                    paymentToken={tokenInfo?.symbol}
+                  />
+                </Card>
+              )}
             </Stack>
-          </Stack>
+          </NftInfoTag>
 
-          <NftInfoTag>
-            {marketStatus.isOnMarket ? (
-              <NftBuyOfferTag className="nft-buy-offer">
-                {marketStatus.data.is_auction ? (
-                  <>
-                    {marketStatus.isStarted ? (
-                      <NftSale>
-                        <IconWrapper icon={<Clock />} />
-                        {marketStatus.isEnded
-                          ? 'Auction already ended'
-                          : 'Auction ends in'}
-                        {!marketStatus.isEnded && (
+          {!isMobile() && (
+            <NftInfoTag>
+              {marketStatus.isOnMarket ? (
+                <NftBuyOfferTag className="nft-buy-offer">
+                  {marketStatus.data.is_auction ? (
+                    <>
+                      {marketStatus.isStarted ? (
+                        <NftSale>
+                          <IconWrapper icon={<Clock />} />
+                          {marketStatus.isEnded
+                            ? 'Auction already ended'
+                            : 'Auction ends in'}
+                          {!marketStatus.isEnded && (
+                            <Text>
+                              <DateCountdown
+                                dateTo={
+                                  (marketStatus.data &&
+                                    marketStatus.data.ended_at) ||
+                                  Date.now()
+                                }
+                                dateFrom={
+                                  (marketStatus.data &&
+                                    marketStatus.data.current_time * 1000) ||
+                                  Date.now()
+                                }
+                                interval={0}
+                                mostSignificantFigure="none"
+                                numberOfFigures={3}
+                                callback={() => {
+                                  getMarketData()
+                                }}
+                              />
+                            </Text>
+                          )}
+                          {/* {marketStatus.data.ended_at} */}
+                        </NftSale>
+                      ) : (
+                        <NftSale>
+                          <IconWrapper icon={<Clock />} />
+                          Auction isn't started. It will start in
                           <Text>
                             <DateCountdown
                               dateTo={
-                                (marketStatus.data &&
-                                  marketStatus.data.ended_at) ||
-                                Date.now()
+                                marketStatus.data &&
+                                marketStatus.data.started_at
                               }
                               dateFrom={
-                                (marketStatus.data &&
-                                  marketStatus.data.current_time * 1000) ||
-                                Date.now()
+                                marketStatus.data &&
+                                marketStatus.data.current_time * 1000
                               }
                               interval={0}
                               mostSignificantFigure="none"
@@ -901,135 +1288,188 @@ export const NFTDetail = ({ collectionId, id }) => {
                               }}
                             />
                           </Text>
-                        )}
-                        {/* {marketStatus.data.ended_at} */}
-                      </NftSale>
-                    ) : (
-                      <NftSale>
-                        <IconWrapper icon={<Clock />} />
-                        Auction isn't started. It will start in
-                        <Text>
-                          <DateCountdown
-                            dateTo={
-                              marketStatus.data && marketStatus.data.started_at
-                            }
-                            dateFrom={
-                              marketStatus.data &&
-                              marketStatus.data.current_time * 1000
-                            }
-                            interval={0}
-                            mostSignificantFigure="none"
-                            numberOfFigures={3}
-                            callback={() => {
-                              getMarketData()
-                            }}
+                        </NftSale>
+                      )}
+                    </>
+                  ) : (
+                    <NftSale>
+                      For Sale
+                      {/* {marketStatus.data.ended_at} */}
+                    </NftSale>
+                  )}
+                  <PriceTag>
+                    <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+                      <Stack direction="column">
+                        <Text color="rgb(112, 122, 131)">Payment Token</Text>
+                        <Flex>
+                          <img
+                            src={tokenInfo?.logoURI}
+                            alt="token"
+                            width="30px"
                           />
-                        </Text>
-                      </NftSale>
-                    )}
-                  </>
-                ) : (
-                  <NftSale>
-                    For Sale
-                    {/* {marketStatus.data.ended_at} */}
-                  </NftSale>
-                )}
-                <PriceTag>
-                  <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-                    <Stack direction="column">
-                      <Text color="rgb(112, 122, 131)">Payment Token</Text>
-                      <Flex>
-                        <img
-                          src={tokenInfo?.logoURI}
-                          alt="token"
-                          width="30px"
-                        />
-                        &nbsp;
-                        <Span className="owner-address">
-                          {tokenInfo?.name || 'Token'}
-                        </Span>
-                      </Flex>
-                    </Stack>
-                    <Stack direction="column">
-                      <Text color="rgb(112, 122, 131)">
-                        {tokenInfo?.name} Price
-                      </Text>
-                      <Flex>
-                        <Span className="owner-address">
-                          $ {getTokenPrice(tokenInfo?.name)}
-                        </Span>
-                      </Flex>
-                    </Stack>
-                    <Stack direction="column">
-                      <Text color="rgb(112, 122, 131)">Balance</Text>
-                      <Flex>
-                        <Span className="owner-address">
-                          {tokenBalance.toFixed(4)}&nbsp;{tokenInfo?.name}
-                        </Span>
-                      </Flex>
-                    </Stack>
-                  </Grid>
-                  <Grid
-                    templateColumns="repeat(3, 1fr)"
-                    gap={6}
-                    margin="20px 0 40px 0"
-                  >
-                    <Stack>
-                      <Text color="rgb(112, 122, 131)">
-                        {marketStatus.data.is_auction
-                          ? 'Start price'
-                          : 'Current price'}
-                      </Text>
-                      <Span className="owner-address">
-                        {marketStatus.data.price}&nbsp;
-                        {tokenInfo?.symbol}
-                      </Span>
-                    </Stack>
-                    {marketStatus.data.is_auction &&
-                      marketStatus.data.owner_id === wallet.accountId && (
-                        <Stack>
-                          <Text color="rgb(112, 122, 131)">Reserve Price</Text>
+                          &nbsp;
                           <Span className="owner-address">
-                            {marketStatus.data.reserve_price}&nbsp;
-                            {tokenInfo?.symbol}
+                            {tokenInfo?.name || 'Token'}
                           </Span>
+                        </Flex>
+                      </Stack>
+                      <Stack direction="column">
+                        <Text color="rgb(112, 122, 131)">
+                          {tokenInfo?.name} Price
+                        </Text>
+                        <Flex>
+                          <Span className="owner-address">
+                            $ {getTokenPrice(tokenInfo?.name)}
+                          </Span>
+                        </Flex>
+                      </Stack>
+                      <Stack direction="column">
+                        <Text color="rgb(112, 122, 131)">Balance</Text>
+                        <Flex>
+                          <Span className="owner-address">
+                            {tokenBalance.toFixed(4)}&nbsp;{tokenInfo?.name}
+                          </Span>
+                        </Flex>
+                      </Stack>
+                    </Grid>
+                    <Grid
+                      templateColumns="repeat(3, 1fr)"
+                      gap={6}
+                      margin="20px 0 40px 0"
+                    >
+                      <Stack>
+                        <Text color="rgb(112, 122, 131)">
+                          {marketStatus.data.is_auction
+                            ? 'Start price'
+                            : 'Current price'}
+                        </Text>
+                        <Span className="owner-address">
+                          {marketStatus.data.price}&nbsp;
+                          {tokenInfo?.symbol}
+                        </Span>
+                      </Stack>
+                      {marketStatus.data.is_auction &&
+                        marketStatus.data.owner_id === wallet.accountId && (
+                          <Stack>
+                            <Text color="rgb(112, 122, 131)">
+                              Reserve Price
+                            </Text>
+                            <Span className="owner-address">
+                              {marketStatus.data.reserve_price}&nbsp;
+                              {tokenInfo?.symbol}
+                            </Span>
+                          </Stack>
+                        )}
+                      {marketStatus.data.is_auction && (
+                        <Stack>
+                          <Text color="rgb(112, 122, 131)">Highest Bid</Text>
+                          {marketStatus.data.highest_bid && (
+                            <Span className="owner-address">
+                              {marketStatus.data.highest_bid.price}&nbsp;
+                              {tokenInfo?.symbol}
+                            </Span>
+                          )}
                         </Stack>
                       )}
-                    {marketStatus.data.is_auction && (
-                      <Stack>
-                        <Text color="rgb(112, 122, 131)">Highest Bid</Text>
-                        {marketStatus.data.highest_bid && (
-                          <Span className="owner-address">
-                            {marketStatus.data.highest_bid.price}&nbsp;
-                            {tokenInfo?.symbol}
-                          </Span>
-                        )}
-                      </Stack>
-                    )}
-                  </Grid>
-                  {marketStatus.isEnded &&
-                    isBidder &&
-                    marketStatus.data.highest_bid &&
-                    Number(marketStatus.data.highest_bid.price) <
-                      Number(marketStatus.data.reserve_price) && (
-                      <Text margin="10px 0" fontFamily="Mulish" fontSize="20px">
-                        This auction ended but has not meet the reserve price.
-                        The seller can evaluate and accept the highest offer.
-                      </Text>
-                    )}
-                  {marketStatus.data.owner_id === wallet.accountId ? (
-                    <>
-                      <ButtonGroup>
-                        {!marketStatus.isEnded &&
-                          !marketStatus.data.highest_bid && (
-                            <UpdateMarketModal
+                    </Grid>
+                    {marketStatus.isEnded &&
+                      isBidder &&
+                      marketStatus.data.highest_bid &&
+                      Number(marketStatus.data.highest_bid.price) <
+                        Number(marketStatus.data.reserve_price) && (
+                        <Text
+                          margin="10px 0"
+                          fontFamily="Mulish"
+                          fontSize="20px"
+                        >
+                          This auction ended but has not meet the reserve price.
+                          The seller can evaluate and accept the highest offer.
+                        </Text>
+                      )}
+                    {marketStatus.data.owner_id === wallet.accountId ? (
+                      <>
+                        <ButtonGroup>
+                          {!marketStatus.isEnded &&
+                            !marketStatus.data.highest_bid && (
+                              <UpdateMarketModal
+                                tokenInfo={tokenInfo}
+                                onChange={(e) => {
+                                  setPrice(e.target.value)
+                                }}
+                                onReserveChange={(e) =>
+                                  setReservePrice(e.target.value)
+                                }
+                                nftInfo={{
+                                  ft_token_id: marketStatus.data.ft_token_id,
+                                  saleType: marketStatus.data.is_auction
+                                    ? 'Auction'
+                                    : 'Direct Sell',
+                                  price: marketStatus.data.price,
+                                  ended_at:
+                                    marketStatus.data.ended_at * 1000000,
+                                  current_time: marketStatus.data.current_time,
+                                  image: nft.image,
+                                  name: nft.name,
+                                  hightest_bid:
+                                    marketStatus.data.highest_bid.price,
+                                  owner: nft.user,
+                                }}
+                                onHandle={handleUpdateData}
+                              />
+                            )}
+                          {(!marketStatus.data.highest_bid ||
+                            (marketStatus.isEnded &&
+                              Number(marketStatus.data.highest_bid.price) <
+                                Number(marketStatus.data.reserve_price))) && (
+                            <Button
+                              className="btn-buy btn-default"
+                              css={{
+                                background: '$white',
+                                color: '$black',
+                                stroke: '$black',
+                                width: '100%',
+                              }}
+                              size="large"
+                              onClick={handleCancelMarketing}
+                            >
+                              Cancel Marketing
+                            </Button>
+                          )}
+                          {marketStatus.isEnded &&
+                            marketStatus.data.is_auction &&
+                            marketStatus.data.highest_bid && (
+                              <Button
+                                className="btn-buy btn-default"
+                                css={{
+                                  background: '$black',
+                                  color: '$white',
+                                  stroke: '$white',
+                                  width: 'fit-content',
+                                }}
+                                variant="primary"
+                                size="large"
+                                onClick={handleAcceptBid}
+                              >
+                                Accept Bid
+                              </Button>
+                            )}
+                        </ButtonGroup>
+                      </>
+                    ) : marketStatus.data.is_auction ? (
+                      <Stack direction="row" alignItems="flex-end">
+                        {marketStatus.isStarted && !marketStatus.isEnded && (
+                          <Stack
+                            paddingTop={10}
+                            width={isMobile() ? '100%' : '50%'}
+                          >
+                            <PlaceBidModal
                               tokenInfo={tokenInfo}
+                              tokenBalance={tokenBalance}
                               onChange={(e) => {
                                 setPrice(e.target.value)
                               }}
-                              onReserveChange={(e) =>
-                                setReservePrice(e.target.value)
-                              }
+                              price={price}
+                              onHandle={handleAddBid}
                               nftInfo={{
                                 ft_token_id: marketStatus.data.ft_token_id,
                                 saleType: marketStatus.data.is_auction
@@ -1044,196 +1484,134 @@ export const NFTDetail = ({ collectionId, id }) => {
                                   marketStatus.data.highest_bid.price,
                                 owner: nft.user,
                               }}
-                              onHandle={handleUpdateData}
                             />
-                          )}
-                        {(!marketStatus.data.highest_bid ||
-                          (marketStatus.isEnded &&
-                            Number(marketStatus.data.highest_bid.price) <
-                              Number(marketStatus.data.reserve_price))) && (
+                          </Stack>
+                        )}
+                        {isBidder && (
                           <Button
                             className="btn-buy btn-default"
                             css={{
                               background: '$white',
                               color: '$black',
                               stroke: '$black',
-                              width: '100%',
+                              width: isMobile() ? '100%' : '50%',
                             }}
                             size="large"
-                            onClick={handleCancelMarketing}
+                            onClick={handleCancelClick}
                           >
-                            Cancel Marketing
+                            Cancel Bid
                           </Button>
                         )}
-                        {marketStatus.isEnded &&
-                          marketStatus.data.is_auction &&
-                          marketStatus.data.highest_bid && (
-                            <Button
-                              className="btn-buy btn-default"
-                              css={{
-                                background: '$black',
-                                color: '$white',
-                                stroke: '$white',
-                                width: 'fit-content',
-                              }}
-                              variant="primary"
-                              size="large"
-                              onClick={handleAcceptBid}
-                            >
-                              Accept Bid
-                            </Button>
-                          )}
-                      </ButtonGroup>
-                    </>
-                  ) : marketStatus.data.is_auction ? (
-                    <Stack direction="row" alignItems="flex-end">
-                      {marketStatus.isStarted && !marketStatus.isEnded && (
-                        <Stack paddingTop={10} width="100%">
-                          <PlaceBidModal
-                            tokenInfo={tokenInfo}
-                            tokenBalance={tokenBalance}
-                            onChange={(e) => {
-                              setPrice(e.target.value)
-                            }}
-                            price={price}
-                            onHandle={handleAddBid}
-                            nftInfo={{
-                              ft_token_id: marketStatus.data.ft_token_id,
-                              saleType: marketStatus.data.is_auction
-                                ? 'Auction'
-                                : 'Direct Sell',
-                              price: marketStatus.data.price,
-                              ended_at: marketStatus.data.ended_at * 1000000,
-                              current_time: marketStatus.data.current_time,
-                              image: nft.image,
-                              name: nft.name,
-                              hightest_bid: marketStatus.data.highest_bid.price,
-                            }}
-                          />
-                        </Stack>
-                      )}
-                      {isBidder && (
-                        <Button
-                          className="btn-buy btn-default"
-                          css={{
-                            background: '$white',
-                            color: '$black',
-                            stroke: '$black',
-                          }}
-                          size="large"
-                          onClick={handleCancelClick}
-                        >
-                          Cancel Bid
-                        </Button>
-                      )}
-                    </Stack>
-                  ) : (
-                    <Button
-                      className="btn-buy btn-default"
-                      css={{
-                        background: '$white',
-                        color: '$black',
-                        stroke: '$white',
-                        width: '100%',
-                      }}
-                      size="large"
-                      onClick={handleBuy}
-                    >
-                      Buy Now
-                    </Button>
-                  )}
-                </PriceTag>
-              </NftBuyOfferTag>
-            ) : (
-              <NftBuyOfferTag className="nft-buy-offer">
-                <Text
-                  fontSize="25px"
-                  fontWeight="700"
-                  fontFamily="Mulish"
-                  textAlign="center"
-                >
-                  {nft.user === wallet.accountId
-                    ? 'Manage NFT'
-                    : 'This is not for a sale'}
-                </Text>
-                {nft.user === wallet.accountId && (
-                  <PriceTag>
-                    <Stack direction="row" spacing={4} marginTop="20px">
-                      <OnSaleModal
-                        setIsAuction={setIsAuction}
-                        isAuction={isAuction}
-                        setToken={setToken}
-                        token={token}
-                        setStartDate={(e) => {
-                          setStartDate(
-                            formatChakraDateToTimestamp(e.target.value)
-                          )
+                      </Stack>
+                    ) : (
+                      <Button
+                        className="btn-buy btn-default"
+                        css={{
+                          background: '$white',
+                          color: '$black',
+                          stroke: '$white',
+                          width: '100%',
                         }}
-                        setEndDate={(e) => {
-                          setEndDate(
-                            formatChakraDateToTimestamp(e.target.value)
-                          )
-                        }}
-                        setReservePrice={(e) => setReservePrice(e.target.value)}
-                        setPrice={(e) => setPrice(e.target.value)}
-                        onHandle={handleClick}
-                        nftInfo={{
-                          image: nft.image,
-                          name: nft.name,
-                          owner: nft.user,
-                        }}
-                      />
-                      <TransferNFTModal
-                        nftInfo={{
-                          image: nft.image,
-                          name: nft.name,
-                          owner: nft.user,
-                        }}
-                        onHandle={handleTransfer}
-                      />
-                    </Stack>
-                    <BurnNFTModal
-                      nftInfo={{
-                        ft_token_id:
-                          marketStatus.data && marketStatus.data.ft_token_id,
-                        saleType:
-                          marketStatus.data && marketStatus.data.is_auction
-                            ? 'Auction'
-                            : 'Direct Sell',
-                        price: marketStatus.data && marketStatus.data.price,
-                        ended_at:
-                          marketStatus.data &&
-                          marketStatus.data.ended_at * 1000000,
-                        current_time:
-                          marketStatus.data && marketStatus.data.current_time,
-                        image: nft.image,
-                        name: nft.name,
-                        hightest_bid:
-                          marketStatus.data &&
-                          marketStatus.data.highest_bid.price,
-                        owner: nft.user,
-                      }}
-                      onHandle={handleBurnNFT}
-                    />
+                        size="large"
+                        onClick={handleBuy}
+                      >
+                        Buy Now
+                      </Button>
+                    )}
                   </PriceTag>
-                )}
-              </NftBuyOfferTag>
-            )}
-            {marketStatus.data && marketStatus.data.bids && (
-              <Card title="Bid History">
-                <SimpleTable
-                  data={marketStatus.data.bids}
-                  unit={tokenInfo?.decimals}
-                  paymentToken={tokenInfo?.symbol}
-                />
-              </Card>
-            )}
-          </NftInfoTag>
-        </Stack>
+                </NftBuyOfferTag>
+              ) : (
+                <NftBuyOfferTag className="nft-buy-offer">
+                  <Text
+                    fontSize="25px"
+                    fontWeight="700"
+                    fontFamily="Mulish"
+                    textAlign="center"
+                  >
+                    {nft.user === wallet.accountId
+                      ? 'Manage NFT'
+                      : 'This is not for a sale'}
+                  </Text>
+                  {nft.user === wallet.accountId && (
+                    <PriceTag>
+                      <Stack direction="row" spacing={4} marginTop="20px">
+                        <OnSaleModal
+                          setIsAuction={setIsAuction}
+                          isAuction={isAuction}
+                          setToken={setToken}
+                          token={token}
+                          setStartDate={(e) => {
+                            setStartDate(
+                              formatChakraDateToTimestamp(e.target.value)
+                            )
+                          }}
+                          setEndDate={(e) => {
+                            setEndDate(
+                              formatChakraDateToTimestamp(e.target.value)
+                            )
+                          }}
+                          setReservePrice={(e) =>
+                            setReservePrice(e.target.value)
+                          }
+                          setPrice={(e) => setPrice(e.target.value)}
+                          onHandle={handleClick}
+                          nftInfo={{
+                            image: nft.image,
+                            name: nft.name,
+                            owner: nft.user,
+                          }}
+                        />
+                        <TransferNFTModal
+                          nftInfo={{
+                            image: nft.image,
+                            name: nft.name,
+                            owner: nft.user,
+                          }}
+                          onHandle={handleTransfer}
+                        />
+                      </Stack>
+                      <BurnNFTModal
+                        nftInfo={{
+                          ft_token_id:
+                            marketStatus.data && marketStatus.data.ft_token_id,
+                          saleType:
+                            marketStatus.data && marketStatus.data.is_auction
+                              ? 'Auction'
+                              : 'Direct Sell',
+                          price: marketStatus.data && marketStatus.data.price,
+                          ended_at:
+                            marketStatus.data &&
+                            marketStatus.data.ended_at * 1000000,
+                          current_time:
+                            marketStatus.data && marketStatus.data.current_time,
+                          image: nft.image,
+                          name: nft.name,
+                          hightest_bid:
+                            marketStatus.data &&
+                            marketStatus.data.highest_bid.price,
+                          owner: nft.user,
+                        }}
+                        onHandle={handleBurnNFT}
+                      />
+                    </PriceTag>
+                  )}
+                </NftBuyOfferTag>
+              )}
+              {marketStatus.data && marketStatus.data.bids && (
+                <Card title="Bid History">
+                  <SimpleTable
+                    data={marketStatus.data.bids}
+                    unit={tokenInfo?.decimals}
+                    paymentToken={tokenInfo?.symbol}
+                  />
+                </Card>
+              )}
+            </NftInfoTag>
+          )}
+        </NFTInfoWrapper>
+
         <Stack marginTop="60px">
-          <Text fontSize="46px" fontWeight="700">
-            More from this collection
-          </Text>
+          <MoreTitle>More from this collection</MoreTitle>
           <MoreCollection info={collectionInfo} />
         </Stack>
       </Container>
@@ -1242,11 +1620,30 @@ export const NFTDetail = ({ collectionId, id }) => {
 }
 const Container = styled('div', {
   padding: '50px',
+  '@media (max-width: 480px)': {
+    padding: '20px',
+  },
+})
+const NFTInfoWrapper = styled('div', {
+  display: 'flex',
+  justifyContent: 'space-between',
+  columnGap: '40px',
+  '@media (max-width: 480px)': {
+    flexDirection: 'column',
+    rowGap: '40px',
+  },
 })
 
 const NftInfoTag = styled('div', {
   width: '50%',
   height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: '40px',
+  '@media (max-width: 480px)': {
+    width: '100%',
+    rowGap: '20px',
+  },
 })
 const NftBuyOfferTag = styled('div', {
   border: '1px solid rgba(255,255,255,0.2)',
@@ -1255,6 +1652,12 @@ const NftBuyOfferTag = styled('div', {
   background: 'rgba(255,255,255,0.06)',
   height: '100%',
   marginBottom: '20px',
+  '@media (max-width: 480px)': {
+    padding: '10px 0',
+    background: 'rgba(5,6,21,0.2)',
+    boxShadow:
+      '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
+  },
 })
 const NftSale = styled('div', {
   display: 'flex',
@@ -1265,6 +1668,9 @@ const NftSale = styled('div', {
   '&.disabled': {
     color: '$textColors$disabled',
   },
+  '@media (max-width: 480px)': {
+    padding: '$4 $16',
+  },
 })
 const PriceTag = styled('div', {
   display: 'flex',
@@ -1272,6 +1678,9 @@ const PriceTag = styled('div', {
   padding: '$12 $16',
   ' .price-lbl': {
     color: '$colors$link',
+  },
+  '@media (max-width: 480px)': {
+    padding: '$4 $16',
   },
 })
 const ButtonGroup = styled('div', {
@@ -1298,11 +1707,17 @@ const ButtonGroup = styled('div', {
       borderRadius: '2px',
     },
   },
+  '@media (max-width: 480px)': {
+    flexDirection: 'column',
+  },
 })
 
 const Span = styled('span', {
   fontWeight: '600',
   fontSize: '20px',
+  '@media (max-width: 480px)': {
+    fontSize: '16px',
+  },
 })
 
 const Banner = styled('div', {
@@ -1311,6 +1726,10 @@ const Banner = styled('div', {
   width: '100%',
   display: 'block',
   paddingTop: '190px',
+  '@media (max-width: 480px)': {
+    height: '560px',
+    paddingTop: '60px',
+  },
 })
 const BannerImage = styled('img', {
   position: 'absolute',
@@ -1334,6 +1753,10 @@ const NFTImageWrapper = styled('div', {
   display: 'block',
   borderRadius: '30px',
   margin: '0 auto',
+  '@media (max-width: 480px)': {
+    height: '430px',
+    width: '350px',
+  },
 })
 const NFTImage = styled('img', {
   position: 'absolute',
@@ -1347,4 +1770,12 @@ const NFTImage = styled('img', {
   objectPosition: 'center',
   zIndex: '-1',
   borderRadius: '20px',
+  '@media (max-width: 480px)': {
+    top: '20px',
+    left: '20px',
+    bottom: '20px',
+    right: '20px',
+    width: 'calc(100% - 40px)',
+    height: 'calc(100% - 40px)',
+  },
 })

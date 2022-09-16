@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { nftViewFunction } from 'util/near'
 import { fetchAllProfileCounts } from 'hooks/useProfile'
+import { getTotalPools } from 'util/pool'
 
 export default function Explores() {
   const [nfts, setNfts] = useState('')
@@ -50,7 +51,7 @@ export default function Explores() {
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true}>
-        <Tabs>
+        <Tabs overflow="auto">
           <StyledTabList>
             <StyledTab>{`NFTs(${nfts})`}</StyledTab>
             <StyledTab>{`Collections(${collections})`}</StyledTab>
@@ -64,7 +65,7 @@ export default function Explores() {
               <Explore />
             </TabPanel>
             <TabPanel>
-              <Profiles />
+              <Profiles profileCounts={profiles} />
             </TabPanel>
           </TabPanels>
         </Tabs>

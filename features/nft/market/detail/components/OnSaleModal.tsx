@@ -15,6 +15,7 @@ import { HERA_CONTRACT_NAME } from 'util/near'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { NftCard } from 'components/NFT/nft-card'
+import { isMobile } from 'util/device'
 
 const options = [
   {
@@ -42,7 +43,6 @@ const OnSaleModal = ({
   setReservePrice,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  console.log('nftINfo: ', nftInfo)
   const { Option } = components
   const IconOption = (props) => (
     <Option {...props}>
@@ -112,36 +112,31 @@ const OnSaleModal = ({
         isCentered
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
-        <Container maxW="1320px">
-          <HStack spacing={10} justifyContent="space-around" alignItems="start">
-            <Stack spacing={10}>
+        <Container>
+          <MainWrapper>
+            <Stack spacing={isMobile() ? 3 : 10}>
               <Stack textAlign="center">
-                <Text fontSize="30px" fontWeight="600">
-                  Sell Your NFT
-                </Text>
+                <Title>Sell Your NFT</Title>
               </Stack>
-              <Stack direction="row" spacing={20} alignItems="center">
+              <Stack
+                direction="row"
+                spacing={isMobile() ? 5 : 20}
+                justifyContent="center"
+                alignItems="center"
+              >
                 <StyledRadio
                   onClick={(e) => setIsAuction(true)}
                   isActive={isAuction}
                 >
-                  <Text fontSize="22px" fontWeight="700">
-                    Auction
-                  </Text>
-                  <Text fontSize="14px" fontFamily="Mulish">
-                    The highest offer wins the auction.
-                  </Text>
+                  <h1>Auction</h1>
+                  <p>The highest offer wins the auction.</p>
                 </StyledRadio>
                 <StyledRadio
                   onClick={(e) => setIsAuction(false)}
                   isActive={!isAuction}
                 >
-                  <Text fontSize="22px" fontWeight="700">
-                    Fixed Sale
-                  </Text>
-                  <Text fontSize="14px" fontFamily="Mulish">
-                    Fixed price to buy
-                  </Text>
+                  <h1>Fixed Sale</h1>
+                  <p>Fixed price to buy</p>
                 </StyledRadio>
               </Stack>
               <Stack>
@@ -164,8 +159,11 @@ const OnSaleModal = ({
               </Stack>
               <Stack direction="row" alignItems="center" marginTop="20px">
                 <Stack spacing={8} style={{ padding: '5px 0' }} width="100%">
-                  <HStack spacing={8}>
-                    <Stack width={isAuction ? '50%' : '100%'}>
+                  <Stack
+                    spacing={8}
+                    flexDirection={isMobile() ? 'column' : 'row'}
+                  >
+                    <Stack width={!isAuction || isMobile() ? '100%' : '50%'}>
                       <Text marginLeft="20px">Price</Text>
                       <StyledInput
                         placeholder="Type your value"
@@ -174,7 +172,7 @@ const OnSaleModal = ({
                       />
                     </Stack>
                     {isAuction && (
-                      <Stack width="50%">
+                      <Stack width={isMobile() ? '100%' : '50%'}>
                         <Text marginLeft="20px">Reserve Price</Text>
                         <StyledInput
                           placeholder="Type your value"
@@ -183,11 +181,14 @@ const OnSaleModal = ({
                         />
                       </Stack>
                     )}
-                  </HStack>
+                  </Stack>
 
                   {isAuction && (
-                    <HStack spacing={8}>
-                      <Stack width="50%">
+                    <Stack
+                      spacing={8}
+                      flexDirection={isMobile() ? 'column' : 'row'}
+                    >
+                      <Stack width={isMobile() ? '100%' : '50%'}>
                         <Text marginLeft="20px">Start at</Text>
                         <StyledInput
                           placeholder="Type your value"
@@ -196,7 +197,7 @@ const OnSaleModal = ({
                           onChange={setStartDate}
                         />
                       </Stack>
-                      <Stack width="50%">
+                      <Stack width={isMobile() ? '100%' : '50%'}>
                         <Text marginLeft="20px">End at</Text>
                         <StyledInput
                           placeholder="Type your value"
@@ -204,7 +205,7 @@ const OnSaleModal = ({
                           onChange={setEndDate}
                         />
                       </Stack>
-                    </HStack>
+                    </Stack>
                   )}
                 </Stack>
               </Stack>
@@ -224,20 +225,30 @@ const OnSaleModal = ({
               >
                 Put On Sale
               </Button>
-              <Text margin="10px 0 0 0">
+              <Text margin="10px 0 0 0" fontSize={isMobile() ? '14px' : '20px'}>
                 5% transaction fee goes to treasury wallet
               </Text>
             </Stack>
-            <Stack height="556px" width="434px">
+            <CardWrapper>
               <NftCard nft={nftInfo} id="" type="" />
-            </Stack>
-          </HStack>
+            </CardWrapper>
+          </MainWrapper>
         </Container>
       </Modal>
     </ChakraProvider>
   )
 }
-
+const CardWrapper = styled.div`
+  display: flex;
+  height: 556px;
+  width: 434px;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+`
 const Container = styled(ModalContent)`
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   background: rgba(255, 255, 255, 0.06) !important;
@@ -245,6 +256,22 @@ const Container = styled(ModalContent)`
   padding: 70px;
   color: white !important;
   overflow: hidden;
+  max-width: 1320px !important;
+  @media (max-width: 480px) {
+    width: 90vw !important;
+    padding: 10px;
+    max-height: 100vh;
+    overflow: auto;
+  }
+`
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  column-gap: 30px;
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+  }
 `
 const StyledRadio = styled.div<{ isActive: boolean }>`
   color: ${({ isActive }) => (isActive ? 'black' : 'white')};
@@ -263,6 +290,24 @@ const StyledRadio = styled.div<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  h1 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  p {
+    font-size: 14px;
+    font-family: Mulish;
+  }
+  @media (max-width: 480px) {
+    width: 50%;
+    padding: 15px;
+    h1 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
 `
 
 const StyledInput = styled(Input)`
@@ -272,6 +317,14 @@ const StyledInput = styled(Input)`
   backdrop-filter: blur(40px) !important;
   border-radius: 20px !important;
   height: 70px !important;
+`
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: 600;
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 `
 
 export default OnSaleModal

@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
 export const isMobile = (): Boolean => {
-  return window.screen.width <= 1023;
-};
+  return window.screen.width <= 480
+}
 
 export const isPC = (): Boolean => {
-  return window.screen.width > 1023;
-};
+  return window.screen.width > 1023
+}
 
 export const isClientMobie = (): Boolean => {
-  return document.documentElement.clientWidth <= 1023;
-};
+  return document.documentElement.clientWidth <= 1550
+}
 
 export const useMobile = () => {
-  const [mobileWindow, setMobileWindow] = useState<Boolean>(isMobile());
+  const [mobileWindow, setMobileWindow] = useState<Boolean>(isMobile())
 
-  const handleResize = () => setMobileWindow(isMobile());
+  const handleResize = () => setMobileWindow(isMobile())
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-  return mobileWindow;
-};
+  return mobileWindow
+}
 
 export const useClientMobile = () => {
-  const [mobileWindow, setMobileWindow] = useState<Boolean>(isClientMobie());
+  const [mobileWindow, setMobileWindow] = useState<Boolean>(isClientMobie())
 
-  const handleResize = () => setMobileWindow(isClientMobie());
+  const handleResize = () => setMobileWindow(isClientMobie())
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
-  return mobileWindow;
-};
+  return mobileWindow
+}
 
 export enum ExplorerType {
   Chrome = 'Chrome',
@@ -46,19 +46,19 @@ export enum ExplorerType {
 }
 
 export const getExplorer = () => {
-  const explorer = window?.navigator.userAgent;
+  const explorer = window?.navigator.userAgent
   if (explorer.indexOf('MSIE') >= 0) {
-    return 'ie';
+    return 'ie'
   } else if (explorer.indexOf('Firefox') >= 0) {
-    return ExplorerType.Firefox;
+    return ExplorerType.Firefox
   } else if (explorer.indexOf('Chrome') >= 0) {
-    return ExplorerType.Chrome;
+    return ExplorerType.Chrome
   } else if (explorer.indexOf('Opera') >= 0) {
-    return ExplorerType.Opera;
+    return ExplorerType.Opera
   } else if (explorer.indexOf('Safari') >= 0) {
-    return ExplorerType.Safari;
+    return ExplorerType.Safari
   }
-};
+}
 
 export const isMobileExplorer = () =>
-  /Mobi|Android|iPhone/i.test(window?.navigator.userAgent);
+  /Mobi|Android|iPhone/i.test(window?.navigator.userAgent)

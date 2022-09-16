@@ -13,6 +13,7 @@ import { nftViewFunction } from 'util/near'
 import { NftCollection } from 'services/nft'
 import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
+import { isMobile } from 'util/device'
 
 const home = () => {
   const [nftcollections, setNftCollections] = useState<NftCollection[]>([])
@@ -72,9 +73,7 @@ const home = () => {
       <ChakraProvider>
         <SelectedNFT />
         <Collections>
-          <Text fontSize="46px" fontWeight="bold" textAlign="center">
-            Curated Collections
-          </Text>
+          <TextTitle>Curated Collections</TextTitle>
           <Stack spacing="50px">
             {nftcollections.map((nftInfo, index) => (
               <Collection info={nftInfo} key={index} />
@@ -86,9 +85,9 @@ const home = () => {
             <MarbleCardGrid>
               <Stack spacing={10}>
                 <Title>MARBLE DAO is for everyone</Title>
-                <TextContent textAlign="left">
-                  Join the millions of creators, collectors, and curators
-                  <br /> who are on this journey with you.
+                <TextContent textAlign={isMobile() ? 'center' : 'left'}>
+                  Join the millions of creators, collectors,
+                  <br /> and curators who are on this journey with you.
                 </TextContent>
                 <StyledButton>Get Started</StyledButton>
               </Stack>
@@ -98,30 +97,27 @@ const home = () => {
             </MarbleCardGrid>
           </Paper>
         </Flex>
-        <Stack marginTop="100px" alignItems="center">
-          <Stack spacing={10}>
+        <Stack marginTop={isMobile() ? '50px' : '100px'} alignItems="center">
+          <Stack spacing={isMobile() ? '10px' : 10}>
             <TextTitle>Our Amazing Partners</TextTitle>
             <StyledP>
-              Lorem Ipsum is simply dummy text of the printing of and <br />
+              Lorem Ipsum is simply dummy text of the printing of and
               typesetting industry.
             </StyledP>
-            <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-              <Paper>
-                <StyledImg src="/images/partner1.svg" alt="partner1" />
-              </Paper>
-              <Paper>
-                <StyledImg src="/images/rare.svg" alt="rare" />
-              </Paper>
-              <Paper>
-                <StyledImg src="/images/opensea.svg" alt="opensea" />
-              </Paper>
-              <Paper>
-                <StyledImg src="/images/binance.svg" alt="binance" />
-              </Paper>
-              <Paper>
+            <PartnerGrid>
+              <PartnerPaper>
+                <StyledImg src="/images/near.svg" alt="near" />
+              </PartnerPaper>
+              <PartnerPaper>
+                <StyledImg src="/images/cosmos.svg" alt="cosmos" />
+              </PartnerPaper>
+              <PartnerPaper>
+                <StyledImg src="/images/juno.svg" alt="juno" />
+              </PartnerPaper>
+              <PartnerPaper>
                 <StyledImg src="/images/pinata.svg" alt="pinata" />
-              </Paper>
-            </Grid>
+              </PartnerPaper>
+            </PartnerGrid>
           </Stack>
         </Stack>
         <Stack marginTop="100px" alignItems="center">
@@ -130,59 +126,71 @@ const home = () => {
               <TextTitle>MARBLE DAO is a destination</TextTitle>
               <StyledP>
                 We are laying the groundwork for MarbleDao - the next generation
-                of the internet <br /> full of limitless possibilities. In
-                MarbleDao, your creativity is valued <br /> and your digital
-                objects belong to you.
+                of the internet full of limitless possibilities. In MarbleDao,
+                your creativity is valued and your digital objects belong to
+                you.
               </StyledP>
             </Stack>
-            <Grid templateColumns="repeat(3, 1fr)" gap={16}>
+            <DestinationGrid>
               <StyledPaper>
-                <Stack spacing={5}>
-                  <Round>
-                    <StyledImg src="/images/createIcon.svg" alt="create" />
-                  </Round>
-                  <Text fontSize="36px" fontWeight="700" textAlign="center">
-                    Create
-                  </Text>
+                <Round>
+                  <StyledImg src="/images/createIcon.svg" alt="create" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Create</h1>
                   <TextContent>
                     Creative building blocks for MarbleDao
                   </TextContent>
                 </Stack>
               </StyledPaper>
               <StyledPaper>
-                <Stack spacing={5}>
-                  <Round>
-                    <StyledImg src="/images/collectIcon.svg" alt="collect" />
-                  </Round>
-                  <Text fontSize="36px" fontWeight="700" textAlign="center">
-                    Collect
-                  </Text>
+                <Round>
+                  <StyledImg src="/images/collectIcon.svg" alt="collect" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Collect</h1>
                   <TextContent>
                     Unearth NFTs for your growing collection
                   </TextContent>
                 </Stack>
               </StyledPaper>
               <StyledPaper>
-                <Stack spacing={5}>
-                  <Round>
-                    <StyledImg src="/images/sellIcon.svg" alt="sell" />
-                  </Round>
-                  <Text fontSize="36px" fontWeight="700" textAlign="center">
-                    Sell
-                  </Text>
+                <Round>
+                  <StyledImg src="/images/sellIcon.svg" alt="sell" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Sell</h1>
                   <TextContent>
                     Your NFTs will shine in our marketplace.
                   </TextContent>
                 </Stack>
               </StyledPaper>
-            </Grid>
+            </DestinationGrid>
           </Stack>
         </Stack>
       </ChakraProvider>
     </Container>
   )
 }
-
+const DestinationGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 60px;
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+  }
+`
+const PartnerGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+  overflow: auto;
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
+`
 const StyledButton = styled.button`
   width: 326px;
   height: 68px;
@@ -193,11 +201,20 @@ const StyledButton = styled.button`
   color: black;
   font-size: 18px;
   font-weight: bold;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 56px;
+    font-size: 16px;
+  }
 `
 const MarbleCardGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `
 const StyledImg = styled.img`
   margin: 0 auto;
@@ -212,8 +229,14 @@ const StyledP = styled.div`
   opacity: 0.5;
   font-family: Mulish;
   text-align: center;
+  width: 700px;
   @media (max-width: 1450px) {
     font-size: 18px;
+  }
+  @media (max-width: 480px) {
+    font-size: 16px;
+    padding: 0 20px;
+    width: 100%;
   }
 `
 const Collections = styled.div`
@@ -234,11 +257,44 @@ const Paper = styled.div<{ width?: string }>`
     padding: 20px;
   }
 `
-const StyledPaper = styled(Paper)`
+const PartnerPaper = styled(Paper)`
+  @media (max-width: 1450px) {
+    width: 120px;
+    height: 50px;
+  }
+`
+const StyledPaper = styled.div`
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.06);
+  border: rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 7px 14px 0px #0000001a;
+  backdrop-filter: blur(30px);
   justify-content: center;
   padding: 40px 80px;
+  flex-direction: column;
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+  }
   @media (max-width: 1450px) {
     padding: 40px 40px;
+  }
+  @media (max-width: 480px) {
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    align-items: center;
+    column-gap: 10px;
+    justify-content: start;
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      text-align: left;
+    }
+    div {
+      text-align: left;
+    }
   }
 `
 
@@ -246,8 +302,11 @@ const TextTitle = styled.div`
   font-size: 46px;
   font-weight: 700;
   text-align: center;
-  @media (max-width: 1450px) {
+  @media (max-width: 1550px) {
     font-size: 40px;
+  }
+  @media (max-width: 480px) {
+    font-size: 24px;
   }
 `
 
@@ -260,6 +319,9 @@ const TextContent = styled.div<{ textAlign?: string }>`
   @media (max-width: 1440px) {
     font-size: 20px;
   }
+  @media (max-width: 480px) {
+    font-size: 16px;
+  }
 `
 
 const Round = styled.div`
@@ -270,12 +332,25 @@ const Round = styled.div`
   align-items: center;
   border-radius: 50%;
   margin: 50px auto;
+  @media (max-width: 480px) {
+    width: 70px;
+    height: 70px;
+    margin: 0;
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
 `
 const Title = styled.div`
   font-size: 65px;
   font-weight: 700;
   @media (max-width: 1550px) {
     font-size: 40px;
+  }
+  @media (max-width: 480px) {
+    font-size: 30px;
+    text-align: center;
   }
 `
 export default home

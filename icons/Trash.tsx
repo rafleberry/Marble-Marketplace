@@ -3,8 +3,7 @@ import { SVGProps } from 'react'
 export const Trash = (props: SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width="50"
-      height="50"
+      width={props.width || '50px'}
       viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +39,7 @@ export const Trash = (props: SVGProps<SVGSVGElement>) => {
       <path
         d="M19.793 26.0417H30.2096"
         stroke="white"
-        stroke-width="3"
+        strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

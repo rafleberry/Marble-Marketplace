@@ -36,9 +36,11 @@ export const setProfileInfo = async (profileData) => {
   }
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (param) => {
   try {
-    const { data } = await axios.get(`${backend_url}/get_all_users`)
+    const { data } = await axios.get(`${backend_url}/get_all_users`, {
+      params: param,
+    })
     return data
   } catch (err) {
     console.log('get all users error: ', err)
@@ -63,5 +65,17 @@ export const controlFollow = async (req) => {
   } catch (err) {
     console.log('handle control follow error: ', err)
     return false
+  }
+}
+
+export const getFilteredUsers = async (param) => {
+  try {
+    const { data } = await axios.get(`${backend_url}/get_filtered_users`, {
+      params: param,
+    })
+    return data
+  } catch (err) {
+    console.log('get all users error: ', err)
+    return []
   }
 }

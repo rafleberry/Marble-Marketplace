@@ -103,6 +103,7 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
   background: ${({ color }) => color};
   padding: 30px;
   height: 100%;
+  width: 100%;
   cursor: pointer;
   color: ${({ revertColor }) => (revertColor ? 'black' : 'white')};
   @media (max-width: 1550px) {
@@ -114,6 +115,9 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
     @media (max-width: 1550px) {
       font-size: 16px;
     }
+  }
+  @media (max-width: 480px) {
+    width: 320px;
   }
 `
 const NFTName = styled.div`

@@ -15,6 +15,7 @@ import {
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { NftCard } from 'components/NFT/nft-card'
+import { isMobile } from 'util/device'
 
 const UpdateMarketModal = ({
   tokenInfo,
@@ -56,9 +57,9 @@ const UpdateMarketModal = ({
         isCentered
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
-        <Container maxW="1320px">
-          <HStack spacing={10} justifyContent="space-around">
-            <Stack spacing={10} width="600px">
+        <Container>
+          <MainWrapper>
+            <Stack spacing={10} width={isMobile() ? '100%' : '600px'}>
               {/* <Stack>
                 <Text fontSize='20px' fontWeight='600'></Text>
               </Stack> */}
@@ -99,10 +100,10 @@ const UpdateMarketModal = ({
                 Update Price
               </Button>
             </Stack>
-            <Stack height="556px" width="434px">
+            <CardWrapper>
               <NftCard nft={nftInfo} id="" type="" />
-            </Stack>
-          </HStack>
+            </CardWrapper>
+          </MainWrapper>
         </Container>
       </Modal>
     </ChakraProvider>
@@ -115,8 +116,42 @@ const Container = styled(ModalContent)`
   border-radius: 30px !important;
   padding: 70px;
   color: white !important;
+  overflow: hidden;
+  max-width: 1320px !important;
+  @media (max-width: 480px) {
+    width: 90vw !important;
+    padding: 10px;
+    max-height: 100vh;
+    overflow: auto;
+  }
 `
-
+const MainWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  column-gap: 30px;
+  p {
+    font-size: 20px;
+    font-family: Mulish;
+  }
+  @media (max-width: 480px) {
+    flex-direction: column-reverse;
+    p {
+      font-size: 14px;
+    }
+  }
+`
+const CardWrapper = styled.div`
+  display: flex;
+  height: 556px;
+  width: 434px;
+  @media (max-width: 480px) {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+`
 const StyledInput = styled(Input)`
   border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 15px;

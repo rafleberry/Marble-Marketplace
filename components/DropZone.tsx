@@ -5,12 +5,13 @@ import styled from 'styled-components'
 import { NoImage, Trash } from 'icons'
 import { ChakraProvider } from '@chakra-ui/react'
 import { RoundedIcon } from './RoundedIcon'
+import { isMobile } from 'util/device'
 
 const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
   process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY || ''
-const DropZone = ({ data, dispatch, item }) => {
-  const [ipfsHash, setIpfsHash] = useState('')
+const DropZone = ({ data, dispatch, initHash }) => {
+  const [ipfsHash, setIpfsHash] = useState(initHash)
   // onDragEnter sets inDropZone to true
   const handleDragEnter = (e) => {
     e.preventDefault()
@@ -116,14 +117,14 @@ const DropZone = ({ data, dispatch, item }) => {
             <Flex>
               <RoundedIcon
                 src={process.env.NEXT_PUBLIC_PINATA_URL + ipfsHash}
-                size="80px"
+                size={isMobile() ? '60px' : '80px'}
               />
               <IconButton
                 onClick={() => {
                   setIpfsHash('')
                 }}
               >
-                <Trash />
+                <Trash width={isMobile() ? '30px' : '50px'} />
               </IconButton>
             </Flex>
           </DropzoneContainer>
@@ -158,6 +159,9 @@ const DropzoneContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `
 const Flex = styled.div`
   display: flex;

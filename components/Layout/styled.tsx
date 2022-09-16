@@ -20,6 +20,8 @@ export const StyledListForLinks = styled.div`
 export const StyledLink = styled.div`
   font-size: 16px;
   margin: 0 40px;
+  display: flex;
+  align-items: center;
   @media (max-width: 1550px) {
     margin: 0 10px;
   }
@@ -37,7 +39,6 @@ export const StyledDivForLogo = styled.div`
 `
 
 export const CreateButton = styled.div`
-  padding: 15px;
   background: #ffffff;
   box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
     inset 0px 7px 8px rgba(0, 0, 0, 0.2);
@@ -47,11 +48,22 @@ export const CreateButton = styled.div`
   width: 130px;
   text-align: center;
   margin-left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
+  font-size: 16px;
+  height: 75%;
   @media (max-width: 1550px) {
-    height: 80%;
-    padding: 8px 15px;
     width: 100px;
     border-radius: 10px;
+    font-size: 12px;
+  }
+  @media (max-width: 480px) {
+    height: 36px;
+    font-size: 12px;
+    width: 80px;
+    border-radius: 14px;
+    margin-left: 0px;
   }
 `

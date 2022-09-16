@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 import { NavigationSidebar } from './NavigationSidebar'
 import { FooterBar } from './FooterBar'
+import { MobileFooterBar } from './MobileFooter'
 import { useEffect, useState } from 'react'
+import { isMobile } from 'util/device'
 import TagManager from 'react-gtm-module'
 
 const tagManagerArgs = {
@@ -11,7 +13,7 @@ const tagManagerArgs = {
 //TagManager.initialize(tagManagerArgs)
 
 export const AppLayout = ({
-  footerBar = <FooterBar />,
+  footerBar = isMobile() ? <MobileFooterBar /> : <FooterBar />,
   children,
   fullWidth,
   hasBanner = false,
@@ -34,23 +36,6 @@ export const AppLayout = ({
             <main>{children}</main>
           </StyledContainer>
         </div>
-        {/*  <StyledBottom className="container main-bottom">
-          <Container className="middle mauto jc-space-between">
-            <Text variant="legend" css={{ paddingRight: '$20', color: '$textColors$disabled', fontSize: '$8' }}>
-              {APP_NAME} v{process.env.NEXT_PUBLIC_APP_VERSION}
-            </Text>
-            <StyledDivForGrid>
-              <Button className="link-feedback" css={{fontSize: '$8'}}
-                as="a"
-                href={process.env.NEXT_PUBLIC_FEEDBACK_LINK}
-                target="__blank"
-                variant="ghost"
-              >
-                Provide feedback
-              </Button>
-            </StyledDivForGrid>
-          </Container>
-        </StyledBottom>*/}
         <StyledFooter className="footer">
           <StyledFooterWrapper className="container">
             <StyledContainer>{footerBar}</StyledContainer>
