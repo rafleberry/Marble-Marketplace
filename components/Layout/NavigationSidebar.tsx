@@ -207,11 +207,13 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 </Link>
               </StyledLink>
               <StyledLink>
-                <Link href="/explore" passHref>
-                  <a className="dropdown-item">
-                    <span className={isActive('/defi')}>DeFi</span>
-                  </a>
-                </Link>
+                <a
+                  className="dropdown-item"
+                  href="https://marble-defi.web.app/"
+                  target="__blank"
+                >
+                  <span className={isActive('/defi')}>DeFi</span>
+                </a>
               </StyledLink>
             </StyledListForLinks>
             <ButtonField>

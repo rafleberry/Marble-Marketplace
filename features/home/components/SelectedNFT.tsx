@@ -128,10 +128,11 @@ const IntroContainer = styled.div`
 `
 
 const Title = styled.div`
-  font-size: 65px;
+  font-size: 50px;
   font-weight: 700;
+  padding: 40px 0;
   @media (max-width: 1550px) {
-    font-size: 40px;
+    font-size: 35px;
   }
   @media (max-width: 480px) {
     font-size: 26px;
@@ -186,6 +187,9 @@ const NFTPicture = styled.div`
   box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
     inset 0px 14px 24px rgba(17, 20, 29, 0.4);
   padding: 37px;
+  @media (max-width: 1550px) {
+    padding: 30px;
+  }
   @media (max-width: 480px) {
     width: 100%;
     padding: 20px;
@@ -214,7 +218,11 @@ const Img = styled.img`
 const IntroWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 80px;
+  row-gap: 50px;
+  padding: 30px 0;
+  @media (max-width: 1550px) {
+    row-gap: 30px;
+  }
   @media (max-width: 480px) {
     row-gap: 20px;
   }
@@ -228,9 +236,22 @@ const PriceArea = styled.div`
   }
   h1 {
     font-size: 36px;
+    font-family: Mulish;
   }
   h2 {
     font-size: 22px;
+  }
+  @media (max-width: 1550px) {
+    p {
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 30px;
+      font-family: Mulish;
+    }
+    h2 {
+      font-size: 16px;
+    }
   }
   @media (max-width: 480px) {
     align-items: center;
