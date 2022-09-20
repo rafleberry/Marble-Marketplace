@@ -9,6 +9,7 @@ import {
 } from 'util/near'
 import { RoundedIconComponent } from 'components/RoundedIcon'
 import { convertMicroDenomToDenom } from 'util/conversion'
+import { useNearDollarValue } from 'hooks/useTokenDollarValue'
 
 const SelectedNFT = () => {
   const [showData, setShowData] = useState<any>({})
@@ -82,7 +83,7 @@ const SelectedNFT = () => {
               <p>Reserve</p>
               <HStack alignItems="center">
                 <h1>{showData.reservePrice} Near</h1>
-                <h2>$214</h2>
+                <h2>${Number(showData.reservePrice) * useNearDollarValue()}</h2>
               </HStack>
             </PriceArea>
           )}
@@ -218,10 +219,10 @@ const Img = styled.img`
 const IntroWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 50px;
+  row-gap: 40px;
   padding: 30px 0;
   @media (max-width: 1550px) {
-    row-gap: 30px;
+    row-gap: 20px;
   }
   @media (max-width: 480px) {
     row-gap: 20px;

@@ -112,6 +112,7 @@ const CollectionInfo = ({ info }) => {
           gap={6}
           overflowX="auto"
           overflowY="hidden"
+          padding="30px"
         >
           {nfts.map((nftInfo, index) => (
             <Link

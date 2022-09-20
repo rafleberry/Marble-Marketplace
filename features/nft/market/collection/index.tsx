@@ -6,6 +6,7 @@ import {
   Text,
   HStack,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { Button } from 'components/Button'
 import { IconWrapper } from 'components/IconWrapper'
 import { NftTable } from 'components/NFT'
@@ -63,6 +64,7 @@ interface CollectionProps {
 
 let pageCount = 10
 export const Collection = ({ id }: CollectionProps) => {
+  const router = useRouter()
   const wallet = getCurrentWallet()
   const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('Undefined')
@@ -98,6 +100,7 @@ export const Collection = ({ id }: CollectionProps) => {
       result = await ipfs_collection.json()
     } catch (error) {
       console.log('collection_info: ', error)
+      router.push('/404')
     }
     result.logo = result.logo
       ? process.env.NEXT_PUBLIC_PINATA_URL + result.logo
@@ -127,7 +130,6 @@ export const Collection = ({ id }: CollectionProps) => {
       })
       setCurrentTokenCount(info.length)
     } catch (error) {
-      console.log('getNFTs error: ', error)
       return []
     }
 

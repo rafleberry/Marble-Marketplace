@@ -196,6 +196,7 @@ export const NFTDetail = ({ collectionId, id }) => {
         creator: collection.creator_id,
       })
     } catch (err) {
+      router.push('/404')
       console.log('NFT Contract Error: ', err)
     }
   }, [collectionId, id])

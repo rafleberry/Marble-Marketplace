@@ -88,10 +88,7 @@ const CollectionInfo = ({ info }) => {
   return (
     <Container>
       <ChakraProvider>
-        <Flex
-          justifyContent="space-between"
-          marginBottom={isMobile() ? '25px' : '50px'}
-        >
+        <Flex justifyContent="space-between">
           <HStack>
             <ImgDiv>
               <Image src={info.image} alt="collection" />
@@ -116,6 +113,7 @@ const CollectionInfo = ({ info }) => {
           gap={6}
           overflowX="auto"
           overflowY="unset"
+          padding="30px"
         >
           {nfts.slice(0, 4).map((nftInfo, index) => (
             <Link
