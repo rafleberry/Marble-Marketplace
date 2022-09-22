@@ -209,7 +209,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
               <StyledLink>
                 <a
                   className="dropdown-item"
-                  href="https://marble-defi.web.app/"
+                  href="https://near.marbledao.finance/"
                   target="__blank"
                 >
                   <span className={isActive('/defi')}>DeFi</span>
