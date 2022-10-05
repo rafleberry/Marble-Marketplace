@@ -73,7 +73,9 @@ const UpdateMarketModal = ({
                     type="number"
                     onChange={onChange}
                   />
-                  <StyledInputRightElement children={<TokenLogo />} />
+                  <StyledInputRightElement>
+                    <TokenLogo />
+                  </StyledInputRightElement>
                 </InputGroup>
               </Stack>
               <Stack>
@@ -84,7 +86,9 @@ const UpdateMarketModal = ({
                     type="number"
                     onChange={onReserveChange}
                   />
-                  <StyledInputRightElement children={<TokenLogo />} />
+                  <StyledInputRightElement>
+                    <TokenLogo />
+                  </StyledInputRightElement>
                 </InputGroup>
               </Stack>
               <Button
