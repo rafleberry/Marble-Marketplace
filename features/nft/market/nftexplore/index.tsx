@@ -19,7 +19,7 @@ const Explore = () => {
   })
   const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
-
+  const [filterTab, setFilterTab] = useState('')
   const fetchNfts = async () => {
     let collectionNFTs = []
     let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
@@ -93,20 +93,27 @@ const Explore = () => {
   const handleFilter = (id: string) => {
     const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
     setFiltered(filteredNFTs)
+    setFilterTab(id)
   }
   return (
     <ExploreWrapper>
       <Filter>
         <FilterCard onClick={() => handleFilter('Direct Sell')}>
-          <NumberWrapper>{nftCounts['Direct Sell']}</NumberWrapper>
+          <NumberWrapper isActive={filterTab === 'Direct Sell'}>
+            {nftCounts['Direct Sell']}
+          </NumberWrapper>
           Buy Now
         </FilterCard>
         <FilterCard onClick={() => handleFilter('Auction')}>
-          <NumberWrapper>{nftCounts['Auction']}</NumberWrapper>
+          <NumberWrapper isActive={filterTab === 'Auction'}>
+            {nftCounts['Auction']}
+          </NumberWrapper>
           Live Auction
         </FilterCard>
         <FilterCard onClick={() => handleFilter('NotSale')}>
-          <NumberWrapper>{nftCounts['NotSale']}</NumberWrapper>
+          <NumberWrapper isActive={filterTab === 'NotSale'}>
+            {nftCounts['NotSale']}
+          </NumberWrapper>
           Active Offers
         </FilterCard>
       </Filter>
@@ -181,9 +188,11 @@ const FilterCard = styled.div`
   width: fit-content;
   padding: 10px;
 `
-const NumberWrapper = styled.div`
+const NumberWrapper = styled.div<{ isActive: boolean }>`
   height: 34px;
-  background: rgba(255, 255, 255, 0.1);
+  background: ${({ isActive }) =>
+    isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.1)'};
+  color: ${({ isActive }) => (isActive ? 'black' : 'white')};
   border-radius: 30px;
   display: flex;
   justify-content: center;

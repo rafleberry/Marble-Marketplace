@@ -112,7 +112,7 @@ const CollectionInfo = ({ info }) => {
           gap={6}
           overflowX="auto"
           overflowY="hidden"
-          padding="30px"
+          padding={isMobile() ? '0' : '30px'}
         >
           {nfts.map((nftInfo, index) => (
             <Link
@@ -124,7 +124,7 @@ const CollectionInfo = ({ info }) => {
                 as="picture"
                 transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
                 _hover={{
-                  transform: 'scale(1.05)',
+                  transform: isMobile() ? '' : 'scale(1.05)',
                 }}
               >
                 <NftCard nft={nftInfo} id="" type="" />

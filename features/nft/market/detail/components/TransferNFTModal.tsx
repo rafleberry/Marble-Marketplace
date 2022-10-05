@@ -14,6 +14,7 @@ import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { NftCard } from 'components/NFT/nft-card'
 import { isMobile } from 'util/device'
+import { StyledCloseIcon } from 'components/Dialog'
 
 const TransferNFTModal = ({ nftInfo, onHandle }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -43,6 +44,7 @@ const TransferNFTModal = ({ nftInfo, onHandle }) => {
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
         <Container>
+          <StyledCloseIcon onClick={onClose} offset={20} size="40px" />
           <MainWrapper>
             <Stack spacing={10} width={isMobile() ? '100%' : '55%'}>
               <Stack>
@@ -98,6 +100,7 @@ const Container = styled(ModalContent)`
     padding: 10px;
     max-height: 100vh;
     overflow: auto;
+    border-radius: 10px !important;
   }
 `
 const MainWrapper = styled.div`

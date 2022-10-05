@@ -189,15 +189,15 @@ export default function Home() {
           <ProfileNFTInfo>
             <Tabs>
               <StyledTabList>
-                <StyledTab>{`Created`}</StyledTab>
                 <StyledTab>{`Owned`}</StyledTab>
+                <StyledTab>{`Created`}</StyledTab>
               </StyledTabList>
               <TabPanels>
                 <TabPanel overflow="auto">
-                  <CreatedNFTs id={id} />
+                  <MyCollectedNFTs id={id} />
                 </TabPanel>
                 <TabPanel overflow="auto">
-                  <MyCollectedNFTs id={id} />
+                  <CreatedNFTs id={id} />
                 </TabPanel>
               </TabPanels>
             </Tabs>

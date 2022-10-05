@@ -239,7 +239,7 @@ const ContainerForFooterLinks = styled('div', {
 const StyledFooter = styled('footer', {
   color: 'white',
   position: 'relative',
-  padding: '100px 20px 50px 20px',
+  padding: '50px 20px 50px 20px',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',

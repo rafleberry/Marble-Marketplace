@@ -15,6 +15,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  @media (max-width: 480px) {
+    ::-webkit-scrollbar {
+      width: 0px;
+    }
+  }
   
 }
 

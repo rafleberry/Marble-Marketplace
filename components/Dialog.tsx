@@ -128,16 +128,18 @@ const CloseIcon = (props) => (
 )
 
 export const StyledCloseIcon = styled(CloseIcon)`
-  width: ${(p) => p.size || '24px'};
-  height: ${(p) => p.size || '24px'};
+  width: ${(p) => p.size || '40px'};
+  height: ${(p) => p.size || '40px'};
   color: #323232;
   display: block;
   transition: opacity 0.15s ease-out;
   cursor: pointer;
-  margin-left: auto;
-  margin-right: ${(p) => p.offset}px;
-  margin-top: ${(p) => p.offset}px;
+  border-radius: 50%;
+  background: white;
   &:hover {
     opacity: 0.75;
   }
+  position: absolute;
+  right: 0px;
+  top: 0px;
 `

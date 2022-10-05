@@ -15,7 +15,7 @@ import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
 import { isMobile } from 'util/device'
 
-const home = () => {
+const Home = () => {
   const [nftcollections, setNftCollections] = useState<NftCollection[]>([])
 
   const fetchCollections = async () => {
@@ -353,4 +353,4 @@ const Title = styled.div`
     text-align: center;
   }
 `
-export default home
+export default Home

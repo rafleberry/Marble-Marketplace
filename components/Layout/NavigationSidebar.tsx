@@ -48,14 +48,13 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
     })
   }, [baseToken])
   useEffect(() => {
-    console.log('Rerenders')
     setAccount().then((id) => {
       setAccountId(id)
     })
-  }, [])
+  }, [setAccount])
   useEffect(() => {
     getProfileData(accountId, dispatch)
-  }, [accountId])
+  }, [accountId, dispatch])
 
   const disconnect = async () => {
     await disconnectWallet()
@@ -98,11 +97,11 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
           />
           <Link href="/" passHref>
             <StyledDivForLogo as="a">
-              <img className="logo-img" src="/images/logotext.svg" />
+              <img className="logo-img" src="/images/logotext.svg" alt="logo" />
             </StyledDivForLogo>
           </Link>
           {accountId ? (
-            <Link href="/create">
+            <Link href="/create" passHref>
               <CreateButton>Create</CreateButton>
             </Link>
           ) : (
@@ -118,25 +117,31 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
               <MobileMenuWrapper>
                 <Link href="/" passHref>
                   <StyledDivForLogo as="a">
-                    <img className="logo-img" src="/images/logotext.svg" />
+                    <img
+                      className="logo-img"
+                      src="/images/logotext.svg"
+                      alt="logo"
+                    />
                   </StyledDivForLogo>
                 </Link>
-                <MobileProfileInfo>
-                  <RoundedIconComponent
-                    size="48px"
-                    address={accountId}
-                    direction="column"
-                    font="16px"
-                  />
-                  <MobileWalletInfo>
-                    <p>Wallet Balance</p>
-                    <h2>{balance.toFixed(2)} Near</h2>
-                    <AddressWrapper>
-                      <p>{getReducedAddress(accountId)}</p>&nbsp;
-                      <GreenRound />
-                    </AddressWrapper>
-                  </MobileWalletInfo>
-                </MobileProfileInfo>
+                {accountId && (
+                  <MobileProfileInfo>
+                    <RoundedIconComponent
+                      size="48px"
+                      address={accountId}
+                      direction="column"
+                      font="16px"
+                    />
+                    <MobileWalletInfo>
+                      <p>Wallet Balance</p>
+                      <h2>{balance.toFixed(2)} Near</h2>
+                      <AddressWrapper>
+                        <p>{getReducedAddress(accountId)}</p>&nbsp;
+                        <GreenRound />
+                      </AddressWrapper>
+                    </MobileWalletInfo>
+                  </MobileProfileInfo>
+                )}
                 <MobileLinkWrapper>
                   <StyledLink>
                     <Link
@@ -188,7 +193,11 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
             <StyledListForLinks className="top-menu-links">
               <Link href="/" passHref>
                 <StyledDivForLogo as="a">
-                  <img className="logo-img" src="/images/logotext.svg" />
+                  <img
+                    className="logo-img"
+                    src="/images/logotext.svg"
+                    alt="logo"
+                  />
                 </StyledDivForLogo>
               </Link>
               <VerticalDivider />
@@ -233,7 +242,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                     />
                   </MenuButton>
                   <StyledMenuList>
-                    <Link href={`/profile/${accountId}`}>
+                    <Link href={`/profile/${accountId}`} passHref>
                       <ProfileMenuItem>
                         <Flex>
                           <RoundedIconComponent
@@ -286,7 +295,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 />
               )}
               {accountId && (
-                <Link href="/create">
+                <Link href="/create" passHref>
                   <CreateButton>Create</CreateButton>
                 </Link>
               )}

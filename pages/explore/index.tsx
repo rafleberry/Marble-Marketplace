@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { nftViewFunction } from 'util/near'
 import { fetchAllProfileCounts } from 'hooks/useProfile'
-import { getTotalPools } from 'util/pool'
+// import { getTotalPools } from 'util/pool'
 
 export default function Explores() {
   const [nfts, setNfts] = useState('')

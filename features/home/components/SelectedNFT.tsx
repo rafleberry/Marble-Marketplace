@@ -139,6 +139,7 @@ const Title = styled.div`
     font-size: 26px;
     text-align: center;
     margin-top: 20px;
+    padding: 0 0 10px 0;
   }
 `
 

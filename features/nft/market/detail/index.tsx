@@ -813,7 +813,7 @@ export const NFTDetail = ({ collectionId, id }) => {
             >
               <Stack spacing={3}>
                 <Text fontSize="14px">Collection</Text>
-                <Link href={`/collection/${collectionId}`}>
+                <Link href={`/collection/${collectionId}`} passHref>
                   <HStack style={{ cursor: 'pointer' }}>
                     <RoundedIcon size="26px" src={nft.collectionImage} />
                     <Text fontSize="14px" fontWeight="800" fontFamily="Mulish">
@@ -884,7 +884,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                         ) : (
                           <NftSale>
                             <IconWrapper icon={<Clock />} />
-                            Auction isn't started. It will start in
+                            Auction isn&apos;t started. It will start in
                             <Text>
                               <DateCountdown
                                 dateTo={
@@ -1023,10 +1023,10 @@ export const NFTDetail = ({ collectionId, id }) => {
                                 <Button
                                   className="btn-buy btn-default"
                                   css={{
-                                    background: '$black',
-                                    color: '$white',
+                                    background: '$white',
+                                    color: '$black',
                                     stroke: '$white',
-                                    width: 'fit-content',
+                                    width: '100%',
                                   }}
                                   variant="primary"
                                   size="large"
@@ -1270,7 +1270,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                       ) : (
                         <NftSale>
                           <IconWrapper icon={<Clock />} />
-                          Auction isn't started. It will start in
+                          Auction isn&apos;t started. It will start in
                           <Text>
                             <DateCountdown
                               dateTo={
@@ -1442,10 +1442,10 @@ export const NFTDetail = ({ collectionId, id }) => {
                               <Button
                                 className="btn-buy btn-default"
                                 css={{
-                                  background: '$black',
-                                  color: '$white',
+                                  background: '$white',
+                                  color: '$black',
                                   stroke: '$white',
-                                  width: 'fit-content',
+                                  width: '100%',
                                 }}
                                 variant="primary"
                                 size="large"

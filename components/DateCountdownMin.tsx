@@ -306,7 +306,7 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
       // past date
       return (
         <span className="odometer-block">
-          {zero_status.map((unit, key) => {
+          {/* {zero_status.map((unit, key) => {
             if (units.indexOf(unit) !== -1) {
               return (
                 <span style={{ display: 'flex' }} key={`unit-${key}`}>
@@ -320,7 +320,8 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
               )
             }
             return null
-          })}
+          })} */}
+          Sale Ended
         </span>
       )
     }

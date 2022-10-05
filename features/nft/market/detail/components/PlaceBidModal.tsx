@@ -143,6 +143,7 @@ const Container = styled(ModalContent)`
     padding: 10px;
     max-height: 100vh;
     overflow: auto;
+    border-radius: 10px !important;
   }
 `
 const MainWrapper = styled.div`

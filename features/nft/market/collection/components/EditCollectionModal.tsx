@@ -20,6 +20,7 @@ import { nftFunctionCall, checkTransaction } from 'util/near'
 import { Button } from 'components/Button'
 import { Save } from 'icons/Save'
 import { setCollectionCategory } from 'hooks/useCollection'
+import { StyledCloseIcon } from 'components/Dialog'
 import styled from 'styled-components'
 
 const options = [
@@ -255,6 +256,7 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
         <Container>
+          <StyledCloseIcon onClick={onClose} offset={20} size="40px" />
           <ModalWrapper>
             <Stack spacing="40px">
               <Title>Edit Collection</Title>
