@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import {
   Modal,
   ChakraProvider,
@@ -48,7 +49,7 @@ const OnSaleModal = ({
   const IconOption = (props) => (
     <Option {...props}>
       <HStack>
-        <img src={props.data.icon} style={{ width: '50px' }} />
+        <Image src={props.data.icon} width="50px" alt="src" />
         <Text>{props.data.label}</Text>
       </HStack>
     </Option>

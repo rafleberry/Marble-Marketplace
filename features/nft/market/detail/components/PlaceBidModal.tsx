@@ -5,11 +5,11 @@ import {
   ModalContent,
   ModalOverlay,
   useDisclosure,
-  HStack,
+  // HStack,
   Text,
   Stack,
   InputGroup,
-  InputRightElement,
+  // InputRightElement,
   Input,
 } from '@chakra-ui/react'
 import { Button } from 'components/Button'

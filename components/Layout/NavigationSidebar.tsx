@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../Button'
 import { useBaseTokenInfo } from 'hooks/useTokenInfo'
@@ -10,14 +11,7 @@ import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
 import { getProfileData } from 'store/actions/profileAction'
 import { IconWrapper } from '../IconWrapper'
 import { isMobile } from 'util/device'
-import {
-  Astronaut,
-  Nav,
-  RoundedLeft,
-  Setting,
-  Help,
-  Disconnect,
-} from '../../icons'
+import { Nav, RoundedLeft, Setting, Help, Disconnect } from '../../icons'
 import { ConnectedWalletButton } from '../ConnectedWalletButton'
 import { getReducedAddress } from 'util/conversion'
 import { RoundedIcon, RoundedIconComponent } from 'components/RoundedIcon'
@@ -170,11 +164,11 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   <HorizontalDivider />
                   <StyledLink>
                     <Setting />
-                    &nbsp; Settings
+                    &nbsp; Setting(soon)
                   </StyledLink>
                   <StyledLink>
                     <Help />
-                    &nbsp; Help
+                    &nbsp; Help(soon)
                   </StyledLink>
                 </MobileLinkWrapper>
                 <ConnectedWalletButton
@@ -266,14 +260,14 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                     <StyledMenuItem>
                       <Flex>
                         <Setting />
-                        &nbsp; Settings
+                        &nbsp; Setting(soon)
                       </Flex>
                       <RoundedLeft />
                     </StyledMenuItem>
                     <StyledMenuItem>
                       <Flex>
                         <Help />
-                        &nbsp; Help
+                        &nbsp; Help(soon)
                       </Flex>
                       <RoundedLeft />
                     </StyledMenuItem>

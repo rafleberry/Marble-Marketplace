@@ -98,7 +98,7 @@ const Home = () => {
           </Paper>
         </Flex>
         <Stack marginTop={isMobile() ? '50px' : '100px'} alignItems="center">
-          <Stack spacing={isMobile() ? '10px' : 10}>
+          <Stack spacing={isMobile() ? '10px' : 10} alignItems="center">
             <TextTitle>Our Amazing Partners</TextTitle>
             <StyledP>
               Lorem Ipsum is simply dummy text of the printing of and
@@ -122,7 +122,7 @@ const Home = () => {
         </Stack>
         <Stack marginTop="100px" alignItems="center">
           <Stack spacing={10}>
-            <Stack margin="0 auto">
+            <Stack margin="0 auto" alignItems="center">
               <TextTitle>MARBLE DAO is a destination</TextTitle>
               <StyledP>
                 We are laying the groundwork for MarbleDao - the next generation
@@ -211,6 +211,9 @@ const MarbleCardGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+  @media (max-width: 1550px) {
+    padding: 0 30px;
+  }
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column-reverse;
@@ -258,7 +261,7 @@ const Paper = styled.div<{ width?: string }>`
   }
 `
 const PartnerPaper = styled(Paper)`
-  @media (max-width: 1450px) {
+  @media (max-width: 480px) {
     width: 120px;
     height: 50px;
   }
