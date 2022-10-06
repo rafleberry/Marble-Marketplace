@@ -9,9 +9,15 @@ import { Button } from 'components/Button'
 import Checkbox from 'components/Checkbox'
 import { AppLayout } from 'components/Layout/AppLayout'
 import NFTUpload from 'components/NFTUpload'
-import { nftViewFunction, nftFunctionCall } from 'util/near'
+import { nftViewFunction, nftFunctionCall, checkTransaction } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { isMobile } from 'util/device'
+import {
+  failToast,
+  getURLInfo,
+  successToast,
+  getErrorMessage,
+} from 'components/transactionTipPopUp'
 
 const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
@@ -21,6 +27,8 @@ export default function NFTCreate() {
   const wallet = getCurrentWallet()
   const { asPath } = useRouter()
   const token_series_id = asPath.split('/')[2]
+  const { txHash, pathname, errorType } = getURLInfo()
+  const router = useRouter()
   const [error, setError] = useState(false)
   const [agreed, setAgreed] = useState(false)
   const [original, setOriginal] = useState(false)
@@ -51,6 +59,35 @@ export default function NFTCreate() {
     nft: '',
   })
   useEffect(() => {
+    if (txHash && getCurrentWallet().wallet.isSignedIn()) {
+      checkTransaction(txHash)
+        .then((res: any) => {
+          const transactionErrorType = getErrorMessage(res)
+          const transaction = res.transaction
+          console.log('transactionType: ', res, transactionErrorType)
+          return {
+            isSwap:
+              transaction?.actions[1]?.['FunctionCall']?.method_name ===
+                'ft_transfer_call' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'ft_transfer_call' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'nft_mint',
+            transactionErrorType,
+          }
+        })
+        .then(({ isSwap, transactionErrorType }) => {
+          if (isSwap) {
+            !transactionErrorType && !errorType && successToast(txHash)
+            transactionErrorType && failToast(txHash, transactionErrorType)
+            router.push('/explore')
+            return
+          }
+          router.push(pathname)
+        })
+    }
+  }, [txHash])
+  useEffect(() => {
     ;(async () => {
       if (token_series_id === undefined || token_series_id == '[collection]')
         return false
@@ -72,7 +109,6 @@ export default function NFTCreate() {
           token_series_id: token_series_id,
         },
       })
-      console.log('nft-supply-in-serie: ', data)
       return data
     } catch (err) {
       console.log('nft supply for a collection error: ', err)
@@ -81,7 +117,6 @@ export default function NFTCreate() {
   }
   async function fetchCollectionInfo() {
     try {
-      console.log('tokenseriesid: ', token_series_id)
       const data = await nftViewFunction({
         methodName: 'nft_get_series_single',
         args: {
@@ -206,8 +241,8 @@ export default function NFTCreate() {
               </Stack>
               {agreed || collection.count > 0 ? (
                 <MainWrapper>
-                  <Card>
-                    {data.nft ? (
+                  {data.nft ? (
+                    <Card>
                       <Stack spacing="40px">
                         <h2>Mint An NFT</h2>
                         <Stack>
@@ -272,10 +307,12 @@ export default function NFTCreate() {
                           </Button>
                         </Stack>
                       </Stack>
-                    ) : (
+                    </Card>
+                  ) : (
+                    <Card fullWidth>
                       <UploadImage />
-                    )}
-                  </Card>
+                    </Card>
+                  )}
                   {data.nft && (
                     <NFTContainer>
                       <Stack spacing="20px">
@@ -429,7 +466,7 @@ const Container = styled.div`
     }
   }
 `
-const Card = styled.div`
+const Card = styled.div<{ fullWidth: boolean }>`
   padding: 40px;
   background: linear-gradient(
     180deg,
@@ -442,7 +479,7 @@ const Card = styled.div`
   /* Note: backdrop-filter has minimal browser support */
 
   border-radius: 30px;
-  width: 1000px;
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : '60%')};
   border: 1px solid rgba(255, 255, 255, 0.2);
   @media (max-width: 480px) {
     width: 100%;
@@ -499,7 +536,7 @@ const CollectionCard = styled.div`
   cursor: pointer;
 `
 const NFTContainer = styled.div`
-  width: 460px;
+  width: 35%;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.06) 0%,
@@ -537,6 +574,7 @@ const MainWrapper = styled.div`
   display: flex;
   aling-items: start;
   column-gap: 40px;
+  justify-content: space-between;
   @media (max-width: 480px) {
     flex-direction: column-reverse;
     width: 100%;

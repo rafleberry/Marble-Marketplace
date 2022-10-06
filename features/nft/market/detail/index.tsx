@@ -61,6 +61,7 @@ import {
 } from 'util/conversion'
 import { NFTName, MoreTitle } from './styled'
 import { isMobile } from 'util/device'
+import { default_image } from 'util/constants'
 
 const DENOM_UNIT = {
   near: 24,
@@ -148,36 +149,56 @@ export const NFTDetail = ({ collectionId, id }) => {
   const loadNft = useCallback(async () => {
     try {
       if (collectionId === '[collection]') return false
-      const [data, collection] = await Promise.all([
-        nftViewFunction({
-          methodName: 'nft_token',
-          args: {
-            token_id: `${collectionId}:${id}`,
-          },
-        }),
-        nftViewFunction({
-          methodName: 'nft_get_series_single',
-          args: {
-            token_series_id: `${collectionId}`,
-          },
-        }),
-      ])
-      let ipfs_nft = await fetch(
-        process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.reference
-      )
-      let ipfs_collection = await fetch(
-        process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.extra
-      )
-      const res_collection = await ipfs_collection.json()
-      const res_nft = await ipfs_nft.json()
+      let data: any = {}
+      let collection: any = {}
+      try {
+        ;[data, collection] = await Promise.all([
+          nftViewFunction({
+            methodName: 'nft_token',
+            args: {
+              token_id: `${collectionId}:${id}`,
+            },
+          }),
+          nftViewFunction({
+            methodName: 'nft_get_series_single',
+            args: {
+              token_series_id: `${collectionId}`,
+            },
+          }),
+        ])
+      } catch (err) {
+        router.push('/404')
+        return null
+      }
+      let res_collection: any = {}
+      let res_nft: any = {}
+      try {
+        let ipfs_nft = await fetch(
+          process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.reference
+        )
+        res_nft = await ipfs_nft.json()
+      } catch (err) {
+        res_nft = {}
+      }
+      try {
+        let ipfs_collection = await fetch(
+          process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.extra
+        )
+        res_collection = await ipfs_collection.json()
+      } catch (err) {
+        res_collection = {}
+      }
+
       let collection_info: any = {}
       collection_info.id = collectionId
       collection_info.name = res_collection.name
       collection_info.description = res_collection.description
-      collection_info.image =
-        process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
-      collection_info.banner_image =
-        process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+      collection_info.image = res_collection.featuredImage
+        ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
+        : default_image
+      collection_info.banner_image = res_collection.logo
+        ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+        : default_image
       collection_info.creator = collection.creator_id
       setCollectionInfo(collection_info)
       setNft({
@@ -196,7 +217,6 @@ export const NFTDetail = ({ collectionId, id }) => {
         creator: collection.creator_id,
       })
     } catch (err) {
-      router.push('/404')
       console.log('NFT Contract Error: ', err)
     }
   }, [collectionId, id])

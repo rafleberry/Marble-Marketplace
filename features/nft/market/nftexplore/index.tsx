@@ -31,6 +31,7 @@ const Explore = () => {
         methodName: 'nft_tokens',
         args: {},
       })
+      console.log('info: ', info)
     } catch (error) {
       console.log('nft_tokens Error: ', error)
       return []
@@ -38,7 +39,7 @@ const Explore = () => {
     await Promise.all(
       info.map(async (element) => {
         let market_data
-        if (!element.metadata.extra) return
+        // if (!element.metadata.extra) return
         try {
           market_data = await marketplaceViewFunction({
             methodName: 'get_market_data',
@@ -50,17 +51,19 @@ const Explore = () => {
         } catch (error) {
           console.log('get_market_data error: ', error)
         }
+        let res_nft: any = {}
+        let res_collection: any = {}
+        try {
+          let ipfs_nft = await fetch(
+            process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.reference
+          )
+          let ipfs_collection = await fetch(
+            process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.extra
+          )
+          res_nft = await ipfs_nft.json()
+          res_collection = await ipfs_collection.json()
+        } catch (err) {}
 
-        let ipfs_nft = await fetch(
-          process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.reference
-        )
-        let ipfs_collection = await fetch(
-          process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.extra
-        )
-        console.log('ipfs_collection: ', ipfs_collection)
-        let res_nft = await ipfs_nft.json()
-        let res_collection = await ipfs_collection.json()
-        console.log('res_collection: ', res_collection)
         res_nft['tokenId'] = element.token_id.split(':')[1]
         res_nft['title'] = res_collection.name
         res_nft['owner'] = element.owner_id
@@ -76,6 +79,7 @@ const Explore = () => {
           res_nft['ft_token_id'] = market_data.ft_token_id
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
+        console.log('collectionNFTs: ', collectionNFTs)
         counts[res_nft.saleType]++
       })
     )

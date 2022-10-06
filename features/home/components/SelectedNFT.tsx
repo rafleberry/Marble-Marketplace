@@ -13,6 +13,7 @@ import { useNearDollarValue } from 'hooks/useTokenDollarValue'
 
 const SelectedNFT = () => {
   const [showData, setShowData] = useState<any>({})
+  const nearValue = useNearDollarValue()
   const loadNft = useCallback(async () => {
     try {
       const [data, collection, marketData] = await Promise.all([
@@ -36,14 +37,14 @@ const SelectedNFT = () => {
           },
         }),
       ])
+      console.log('marketData: ', marketData)
       setShowData({
         creator: collection.creator_id,
         collectionName: collection.metadata.title,
         collectionLogo:
           process.env.NEXT_PUBLIC_PINATA_URL + collection.metadata.media,
-        reservePrice:
-          marketData.reserve_price &&
-          convertMicroDenomToDenom(marketData.reserve_price, 24),
+        price:
+          marketData.price && convertMicroDenomToDenom(marketData.price, 24),
         nftLogo: process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.media,
       })
     } catch (err) {
@@ -53,6 +54,7 @@ const SelectedNFT = () => {
   useEffect(() => {
     loadNft()
   }, [])
+  console.log('showData: ', showData)
   return (
     <IntroContainer>
       <div>
@@ -73,22 +75,22 @@ const SelectedNFT = () => {
             <MiniInfoCard>
               <MiniInfoTitle>Collection</MiniInfoTitle>
               <Info>
-                <Image src={showData.collectionLogo} />
+                <Image src={showData.collectionLogo} alt="logo" />
                 <Name>&nbsp;{showData.collectionName}</Name>
               </Info>
             </MiniInfoCard>
           </HStack>
-          {showData.reservePrice && (
+          {showData.price && (
             <PriceArea>
-              <p>Reserve</p>
+              <p>Price</p>
               <HStack alignItems="center">
-                <h1>{showData.reservePrice} Near</h1>
-                <h2>${Number(showData.reservePrice) * useNearDollarValue()}</h2>
+                <h1>{Number(showData.price.toFixed(2))} Near</h1>
+                <h2>${Number(showData.price.toFixed(2)) * nearValue}</h2>
               </HStack>
             </PriceArea>
           )}
           <Stack>
-            <Link href="nft/6/2">
+            <Link href="nft/6/2" passHref>
               <StyledButton>View Nft</StyledButton>
             </Link>
           </Stack>
