@@ -24,6 +24,7 @@ import {
   StyledLink,
   StyledDivForLogo,
   CreateButton,
+  StyledMenuItem,
 } from './styled'
 
 export function NavigationSidebar({ openNav, setOpenNav }) {
@@ -314,6 +315,7 @@ const AddressWrapper = styled('div', {
     '0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4)',
   backdropFilter: 'blur(30px)',
   borderRadius: '10px',
+  border: '1px solid rgba(255,255,255,0.2)',
   display: 'flex',
   ' p': {
     fontSize: '14px',
@@ -344,28 +346,28 @@ const StyledMenuList = styled(MenuList, {
   boxShadow:
     '0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4)',
   background:
-    'linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, #000000 100%) !important',
+    'linear-gradient(0deg, rgba(5, 6, 22, 0.2), rgba(5, 6, 22, 0.2)) padding-box, linear-gradient(90.65deg,rgba(255, 255, 255, 0.2) 0.82%,rgba(0, 0, 0, 0) 98.47%)border-box',
   borderRadius: '24px',
   border: '1px solid rgba(255,255,255,0.2)',
   padding: '20px',
   width: '400px',
   backdropFilter: 'blur(30px)',
 })
-const StyledMenuItem = styled('div', {
-  background: 'rgba(05, 06, 22, 0.2)',
-  boxShadow: '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
-  backDropFilter: 'blur(40px)',
-  borderRadius: '20px',
-  padding: '20px 25px',
-  margin: '10px 0',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  cursor: 'pointer',
-  '&:hover': {
-    opacity: '0.7 !important',
-  },
-})
+// const StyledMenuItem = styled('div', {
+//   background: 'rgba(05, 06, 22, 0.2)',
+//   boxShadow: '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
+//   backDropFilter: 'blur(40px)',
+//   borderRadius: '20px',
+//   padding: '20px 25px',
+//   margin: '10px 0',
+//   display: 'flex',
+//   alignItems: 'center',
+//   justifyContent: 'space-between',
+//   cursor: 'pointer',
+//   '&:hover': {
+//     opacity: '0.7 !important',
+//   },
+// })
 const ProfileMenuItem = styled('div', {
   backDropFilter: 'blur(40px)',
   margin: '5px 0',

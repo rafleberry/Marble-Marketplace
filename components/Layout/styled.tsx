@@ -67,3 +67,30 @@ export const CreateButton = styled.div`
     margin-left: 0px;
   }
 `
+export const StyledMenuItem = styled.div`
+  background: linear-gradient(0deg, rgba(5, 6, 22, 0.2), rgba(5, 6, 22, 0.2))
+      padding-box,
+    linear-gradient(
+        90.65deg,
+        rgba(255, 255, 255, 0.2) 0.82%,
+        rgba(0, 0, 0, 0) 98.47%
+      )
+      border-box;
+  border: 1px solid;
+
+  border-image: linear-gradient(
+    90.65deg,
+    #ffffff 0.82%,
+    rgba(0, 0, 0, 0) 98.47%
+  );
+
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 24px rgba(103, 103, 120, 0.2);
+  padding: 20px 25px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-radius: 20px;
+`
