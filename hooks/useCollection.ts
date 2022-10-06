@@ -14,12 +14,13 @@ export const createNewCollection = async (inputData) => {
   }
 }
 
-export const getActivedCollections = async (category) => {
+export const getActivedCollections = async (category, from_index) => {
   const { data } = await axios.get(
     `${backend_url}/collection/get_actived_collections`,
     {
       params: {
         category,
+        from_index,
       },
     }
   )
@@ -36,7 +37,6 @@ export const getCollectionCategory = async (id) => {
         },
       }
     )
-    console.log('collection category: ', data)
     return data.category
   } catch (err) {
     return 'Undefined'

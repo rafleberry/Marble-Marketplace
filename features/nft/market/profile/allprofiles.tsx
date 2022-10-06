@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Stack, HStack, LinkBox } from '@chakra-ui/react'
+import {
+  Stack,
+  HStack,
+  LinkBox,
+  ChakraProvider,
+  Spinner,
+} from '@chakra-ui/react'
 import Checkbox from 'components/Checkbox'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { getAllUsers, getFilteredUsers } from 'hooks/useProfile'
 import { Sort, Filter, CloseCircle } from 'icons'
 import ProfileCard from 'components/profile/ProfileCard'
@@ -14,6 +21,7 @@ const AllProfiles = ({ profileCounts }) => {
   const [creator, setCreator] = useState(false)
   const [collector, setCollector] = useState(false)
   const [filterShow, setFilterShow] = useState(false)
+  const [hasMore, setHasMore] = useState(false)
   useEffect(() => {
     ;(async () => {
       if (creator === collector) {
@@ -29,6 +37,7 @@ const AllProfiles = ({ profileCounts }) => {
       setProfiles(filteredUsers)
     })()
   }, [asc, creator, collector])
+  const getMoreNfts = async () => {}
   return (
     <Container>
       {isMobile() ? (
@@ -118,29 +127,53 @@ const AllProfiles = ({ profileCounts }) => {
           </MobileFilterWrapper>
         </MobileFilterContainer>
       )}
-      <ProfilesContainer>
-        {!isMobile() && (
-          <SortComponent>
-            <p>Sort by</p>
-            <SortWrapper onClick={() => setAsc(!asc)}>
-              <Sort /> {asc ? 'A-Z' : 'Z-A'}
-            </SortWrapper>
-          </SortComponent>
-        )}
-        {profiles.map((profile, index) => (
-          <Link href={`/profile/${profile.id}`} passHref key={index}>
-            <LinkBox
-              as="picture"
-              transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-              _hover={{
-                transform: 'scale(1.05)',
+      <InfiniteScroll
+        dataLength={profiles.length}
+        next={getMoreNfts}
+        hasMore={hasMore}
+        loader={
+          <ChakraProvider>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                padding: '20px',
               }}
             >
-              <ProfileCard profileInfo={profile} />
-            </LinkBox>
-          </Link>
-        ))}
-      </ProfilesContainer>
+              <Spinner size="xl" />
+            </div>
+          </ChakraProvider>
+        }
+        endMessage={<h4></h4>}
+      >
+        <ProfilesContainer>
+          {!isMobile() && (
+            <SortComponent>
+              <p>Sort by</p>
+              <SortWrapper onClick={() => setAsc(!asc)}>
+                <Sort /> {asc ? 'A-Z' : 'Z-A'}
+              </SortWrapper>
+            </SortComponent>
+          )}
+
+          {profiles.map((profile, index) => (
+            <Link href={`/profile/${profile.id}`} passHref key={index}>
+              <LinkBox
+                as="picture"
+                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
+                _hover={{
+                  transform: 'scale(1.05)',
+                }}
+              >
+                <ProfileCard profileInfo={profile} />
+              </LinkBox>
+            </Link>
+          ))}
+        </ProfilesContainer>
+      </InfiniteScroll>
     </Container>
   )
 }

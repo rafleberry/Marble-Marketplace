@@ -66,7 +66,6 @@ let pageCount = 10
 export const Collection = ({ id }: CollectionProps) => {
   const router = useRouter()
   const wallet = getCurrentWallet()
-  const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('Undefined')
   const [currentTokenCount, setCurrentTokenCount] = useState(0)
   const [collectionInfo, setCollectionInfo] = useState<any>({})
@@ -94,14 +93,14 @@ export const Collection = ({ id }: CollectionProps) => {
           token_series_id: id,
         },
       })
-      let ipfs_collection = await fetch(
-        process.env.NEXT_PUBLIC_PINATA_URL + collection_info.metadata.reference
-      )
-      result = await ipfs_collection.json()
     } catch (error) {
       console.log('collection_info: ', error)
       router.push('/404')
     }
+    let ipfs_collection = await fetch(
+      process.env.NEXT_PUBLIC_PINATA_URL + collection_info.metadata.reference
+    )
+    result = await ipfs_collection.json()
     result.logo = result.logo
       ? process.env.NEXT_PUBLIC_PINATA_URL + result.logo
       : default_image
@@ -234,7 +233,6 @@ export const Collection = ({ id }: CollectionProps) => {
       }
       setNfts(nftsForCollection)
       setHasMore(currentTokenCount > numTokens)
-      setLoading(false)
     })()
   }, [id, filterCount, searchVal, numTokens, searchGroup, filter_status])
   const getMoreNfts = async () => {
@@ -375,30 +373,28 @@ export const Collection = ({ id }: CollectionProps) => {
         <NftList
           className={`${isCollapse ? 'collapse-close' : 'collapse-open'}`}
         >
-          {loading ? (
-            <div
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100%',
-                padding: '20px',
-              }}
-            >
-              <Spinner size="xl" />
-            </div>
-          ) : (
-            <InfiniteScroll
-              dataLength={numTokens}
-              next={getMoreNfts}
-              hasMore={false}
-              loader={<h3> Loading...</h3>}
-              endMessage={<h4></h4>}
-            >
-              <NftTable data={nfts} id={id} type="buy" />
-            </InfiniteScroll>
-          )}
+          <InfiniteScroll
+            dataLength={numTokens}
+            next={getMoreNfts}
+            hasMore={false}
+            loader={
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  padding: '20px',
+                }}
+              >
+                <Spinner size="xl" />
+              </div>
+            }
+            endMessage={<h4></h4>}
+          >
+            <NftTable data={nfts} id={id} type="buy" />
+          </InfiniteScroll>
           {nfts.length === 0 && wallet.accountId === collectionInfo.creator && (
             <Stack
               spacing="50px"
