@@ -97,10 +97,15 @@ export const Collection = ({ id }: CollectionProps) => {
       console.log('collection_info: ', error)
       router.push('/404')
     }
-    let ipfs_collection = await fetch(
-      process.env.NEXT_PUBLIC_PINATA_URL + collection_info.metadata.reference
-    )
-    result = await ipfs_collection.json()
+    try {
+      let ipfs_collection = await fetch(
+        process.env.NEXT_PUBLIC_PINATA_URL + collection_info.metadata.reference
+      )
+      result = await ipfs_collection.json()
+    } catch (err) {
+      console.log('error: ', err)
+    }
+
     result.logo = result.logo
       ? process.env.NEXT_PUBLIC_PINATA_URL + result.logo
       : default_image

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { ChakraProvider, Spinner, Grid, LinkBox } from '@chakra-ui/react'
 import styled from 'styled-components'
 import {
@@ -20,6 +21,7 @@ const Explore = () => {
   const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
   const [filterTab, setFilterTab] = useState('')
+  const [hasMore, setHasMore] = useState(false)
   const fetchNfts = async () => {
     let collectionNFTs = []
     let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
@@ -95,6 +97,7 @@ const Explore = () => {
     setFiltered(filteredNFTs)
     setFilterTab(id)
   }
+  const getMoreNfts = async () => {}
   return (
     <ExploreWrapper>
       <Filter>
@@ -133,25 +136,48 @@ const Explore = () => {
           </div>
         </ChakraProvider>
       ) : (
-        <Container>
-          {filtered.map((nftInfo, index) => (
-            <Link
-              href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
-              passHref
-              key={index}
-            >
-              <LinkBox
-                as="picture"
-                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-                _hover={{
-                  transform: 'scale(1.05)',
+        <InfiniteScroll
+          dataLength={filtered.length}
+          next={getMoreNfts}
+          hasMore={hasMore}
+          loader={
+            <ChakraProvider>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                  padding: '20px',
                 }}
               >
-                <NftCard nft={nftInfo} id="" type="" />
-              </LinkBox>
-            </Link>
-          ))}
-        </Container>
+                <Spinner size="xl" />
+              </div>
+            </ChakraProvider>
+          }
+          endMessage={<h4></h4>}
+        >
+          <Container>
+            {filtered.map((nftInfo, index) => (
+              <Link
+                href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
+                passHref
+                key={index}
+              >
+                <LinkBox
+                  as="picture"
+                  transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
+                  _hover={{
+                    transform: 'scale(1.05)',
+                  }}
+                >
+                  <NftCard nft={nftInfo} id="" type="" />
+                </LinkBox>
+              </Link>
+            ))}
+          </Container>
+        </InfiniteScroll>
       )}
     </ExploreWrapper>
   )
