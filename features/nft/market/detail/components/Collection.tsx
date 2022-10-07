@@ -156,7 +156,7 @@ const Container = styled.div`
   margin: 10px 0;
   padding: 40px;
   width: 100%;
-  @media (max-width: 480px) {
+  @media (max-width: 1550px) {
     padding: 20px;
   }
 `

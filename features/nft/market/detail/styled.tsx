@@ -20,3 +20,12 @@ export const MoreTitle = styled.div`
     font-size: 24px;
   }
 `
+
+export const RoyaltyContainer = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  @media (max-width: 480px) {
+    justify-content: space-between;
+  }
+`

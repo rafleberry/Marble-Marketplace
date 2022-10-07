@@ -50,7 +50,7 @@ export function NftCollectionTable({
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 50px 30px;
 `
 const CollectionDiv = styled.div`

@@ -69,6 +69,10 @@ export default function Collection() {
   ])
   const handleRoyaltyChange = (i, e) => {
     const newFormValues = [...royaltyValues]
+    if (e.target.value < 0) {
+      toast.warning('Royalty must be greater than zero.')
+      return
+    }
     newFormValues[i][e.target.name] = e.target.value
 
     setRoyaltyValues(newFormValues)

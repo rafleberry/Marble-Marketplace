@@ -14,7 +14,7 @@ import OnSaleModal from './components/OnSaleModal'
 import TransferNFTModal from './components/TransferNFTModal'
 import BurnNFTModal from './components/BurnNFTModal'
 import MoreCollection from './components/Collection'
-import { User, CopyNft, Heart, Clock, Package, Credit } from 'icons'
+import { Clock } from 'icons'
 import {
   ChakraProvider,
   Flex,
@@ -59,7 +59,7 @@ import {
   formatNearToYocto,
   formatHera,
 } from 'util/conversion'
-import { NFTName, MoreTitle } from './styled'
+import { NFTName, MoreTitle, RoyaltyContainer } from './styled'
 import { isMobile } from 'util/device'
 import { default_image } from 'util/constants'
 
@@ -843,7 +843,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                 </Link>
               </Stack>
               <HStack
-                spacing={20}
+                // spacing={20}
                 justifyContent="flex-start"
                 marginTop={isMobile() ? 'auto' : '0 !important'}
               >
@@ -1213,19 +1213,12 @@ export const NFTDetail = ({ collectionId, id }) => {
                 Royalty
               </Text>
               {Object.keys(nft.royalty).map((element, index) => (
-                <Flex
-                  key={index}
-                  justifyContent="space-between"
-                  width={isMobile() ? '100%' : '30%'}
-                  alignItems="center"
-                >
+                <RoyaltyContainer key={index}>
                   <HStack>
                     <RoundedIconComponent size="26px" address={element} />
                   </HStack>
-                  <Text width="20%" textAlign="right">
-                    {nft.royalty[element] / 100} %
-                  </Text>
-                </Flex>
+                  <Text textAlign="right">{nft.royalty[element] / 100} %</Text>
+                </RoyaltyContainer>
               ))}
             </Stack>
             <Stack spacing={10}>

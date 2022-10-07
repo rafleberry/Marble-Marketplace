@@ -208,7 +208,7 @@ const Container = styled.div`
 `
 const ProfilesContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 0 50px;
   column-gap: 20px;
   row-gap: 20px;

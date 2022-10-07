@@ -190,7 +190,7 @@ const Explore = () => {
 const ExploreWrapper = styled.div``
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 20px 0;
   gap: 20px;
 `
