@@ -21,11 +21,15 @@ const AllProfiles = ({ profileCounts }) => {
   const [creator, setCreator] = useState(false)
   const [collector, setCollector] = useState(false)
   const [filterShow, setFilterShow] = useState(false)
-  const [hasMore, setHasMore] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
   useEffect(() => {
     ;(async () => {
       if (creator === collector) {
-        const selectedUsers = await getAllUsers({ sort: asc ? 'asc' : 'desc' })
+        const selectedUsers = await getAllUsers({
+          sort: asc ? 'asc' : 'desc',
+          skip: 0,
+          limit: 15,
+        })
         setProfiles(selectedUsers)
         return
       }
