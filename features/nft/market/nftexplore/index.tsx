@@ -21,7 +21,7 @@ const Explore = () => {
   const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
   const [filterTab, setFilterTab] = useState('')
-  const [hasMore, setHasMore] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
   const fetchNfts = async () => {
     let collectionNFTs = []
     let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
@@ -29,9 +29,11 @@ const Explore = () => {
     try {
       info = await nftViewFunction({
         methodName: 'nft_tokens',
-        args: {},
+        args: {
+          from_index: nfts.length.toString(),
+          limit: 20,
+        },
       })
-      console.log('info: ', info)
     } catch (error) {
       console.log('nft_tokens Error: ', error)
       return []
@@ -79,7 +81,6 @@ const Explore = () => {
           res_nft['ft_token_id'] = market_data.ft_token_id
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
-        console.log('collectionNFTs: ', collectionNFTs)
         counts[res_nft.saleType]++
       })
     )
@@ -90,18 +91,20 @@ const Explore = () => {
     // fetchCollections()
     ;(async () => {
       const { nftList, nft_counts }: any = await fetchNfts()
-      setNfts(nftList)
+      setNfts(nfts.concat(nftList))
       setFiltered(nftList)
       setNftCounts(nft_counts)
       setLoading(false)
     })()
-  }, [])
+  }, [nfts])
   const handleFilter = (id: string) => {
     const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
     setFiltered(filteredNFTs)
     setFilterTab(id)
   }
-  const getMoreNfts = async () => {}
+  const getMoreNfts = async () => {
+    await fetchNfts()
+  }
   return (
     <ExploreWrapper>
       <Filter>

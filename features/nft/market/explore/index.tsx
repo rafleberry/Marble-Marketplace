@@ -66,11 +66,13 @@ export const Explore = () => {
       for (let i = 0; i < collectionList.length; i++) {
         let res_collection: any = {}
         try {
-          let ipfs_collection = await fetch(
-            process.env.NEXT_PUBLIC_PINATA_URL +
-              collectionList[i].metadata.reference
-          )
-          res_collection = await ipfs_collection.json()
+          if (collectionList[i].metadata.reference) {
+            let ipfs_collection = await fetch(
+              process.env.NEXT_PUBLIC_PINATA_URL +
+                collectionList[i].metadata.reference
+            )
+            res_collection = await ipfs_collection.json()
+          }
         } catch (err) {
           console.log('err', err)
           res_collection = -{}

@@ -87,7 +87,11 @@ const CollectionInfo = ({ info }) => {
   return (
     <Container>
       <ChakraProvider>
-        <Flex justifyContent="space-between" marginBottom="20px">
+        <Flex
+          justifyContent="space-between"
+          marginBottom="20px"
+          padding="0 30px"
+        >
           <HStack>
             <ImgDiv>
               <Image src={info.image} alt="collection" />
@@ -112,7 +116,7 @@ const CollectionInfo = ({ info }) => {
           gap={6}
           overflowX="auto"
           overflowY="hidden"
-          padding={isMobile() ? '0' : '30px'}
+          padding={isMobile() ? '0 10px' : '15px 30px'}
         >
           {nfts.map((nftInfo, index) => (
             <Link
@@ -155,10 +159,10 @@ const Container = styled.div`
   box-shadow: 0px 7px 14px 0px #0000001a;
   backdrop-filter: blur(30px);
   margin: 10px 0;
-  padding: 40px;
+  padding: 40px 0 20px 0;
   height: 100%;
   @media (max-width: 480px) {
-    padding: 10px;
+    padding: 10px 0 10px 0;
   }
 `
 const Image = styled.img`

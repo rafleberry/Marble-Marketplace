@@ -84,10 +84,12 @@ const Home = () => {
           <Paper>
             <MarbleCardGrid>
               <Stack spacing={10}>
-                <Title>MARBLE DAO is for everyone</Title>
+                <Title>Discover Phygital NFTs</Title>
                 <TextContent textAlign={isMobile() ? 'center' : 'left'}>
-                  Join the millions of creators, collectors,
-                  <br /> and curators who are on this journey with you.
+                  Marble, the future of NFTs is already here. Collect Phygital
+                  NFTs which bring real Art to life in spectacular 3D. Enjoy
+                  sculptures, paintings, and physical artworks through Augmented
+                  Reality and Virtual Reality.
                 </TextContent>
                 <StyledButton>Get Started</StyledButton>
               </Stack>
@@ -97,12 +99,67 @@ const Home = () => {
             </MarbleCardGrid>
           </Paper>
         </Flex>
+        <Stack marginTop="100px" alignItems="center">
+          <Stack spacing={10}>
+            <Stack margin="0 auto" alignItems="center">
+              <TextTitle>Marble - Where will you fit in?</TextTitle>
+              <StyledP>
+                Marble is an all-in-one platform hosting an NFT marketplace as
+                well as a DeFi exchange with DAO Governance. NFT creators,
+                collectors and DeFi fans make us a rock-solid community. Here
+                your opinion counts. Your creativity is protected. And your
+                digital objects belong to you alone.
+              </StyledP>
+            </Stack>
+            <DestinationGrid>
+              <StyledPaper>
+                <Round>
+                  <StyledImg src="/images/createIcon.svg" alt="create" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Create</h1>
+                  <TextContent>
+                    Mint NFTs in stunning Augmented Reality (AR) and Virtual
+                    Reality (VR).
+                  </TextContent>
+                </Stack>
+              </StyledPaper>
+              <StyledPaper>
+                <Round>
+                  <StyledImg src="/images/earnIcon.svg" alt="earn" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Earn</h1>
+                  <TextContent>
+                    Accrue royalties on secondary NFT sales using our smart
+                    contracts.
+                  </TextContent>
+                </Stack>
+              </StyledPaper>
+              <StyledPaper>
+                <Round>
+                  <StyledImg src="/images/followIcon.svg" alt="follow" />
+                </Round>
+                <Stack spacing={isMobile() ? '5px' : 5}>
+                  <h1>Follow</h1>
+                  <TextContent>
+                    Keep an eye on your favourite NFT creators with Marble
+                    SocialFi.
+                  </TextContent>
+                </Stack>
+              </StyledPaper>
+            </DestinationGrid>
+          </Stack>
+        </Stack>
         <Stack marginTop={isMobile() ? '50px' : '100px'} alignItems="center">
           <Stack spacing={isMobile() ? '10px' : 10} alignItems="center">
-            <TextTitle>Our Amazing Partners</TextTitle>
+            <TextTitle>Marble is powered by</TextTitle>
             <StyledP>
-              Lorem Ipsum is simply dummy text of the printing of and
-              typesetting industry.
+              The Internet of Blockchains of Cosmos supports our journey from
+              multi-chain to cross-chain. Our smart contracts are grounded in
+              JUNO&apos;s versatile architecture and NEAR, one of the lean,
+              powerful and fastest-growing blockchains. Then, as many top
+              metaverses, Pinata offers a safe haven IPFS for NFT storage.
             </StyledP>
             <PartnerGrid>
               <PartnerPaper>
@@ -118,54 +175,6 @@ const Home = () => {
                 <StyledImg src="/images/pinata.svg" alt="pinata" />
               </PartnerPaper>
             </PartnerGrid>
-          </Stack>
-        </Stack>
-        <Stack marginTop="100px" alignItems="center">
-          <Stack spacing={10}>
-            <Stack margin="0 auto" alignItems="center">
-              <TextTitle>MARBLE DAO is a destination</TextTitle>
-              <StyledP>
-                We are laying the groundwork for MarbleDao - the next generation
-                of the internet full of limitless possibilities. In MarbleDao,
-                your creativity is valued and your digital objects belong to
-                you.
-              </StyledP>
-            </Stack>
-            <DestinationGrid>
-              <StyledPaper>
-                <Round>
-                  <StyledImg src="/images/createIcon.svg" alt="create" />
-                </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
-                  <h1>Create</h1>
-                  <TextContent>
-                    Creative building blocks for MarbleDao
-                  </TextContent>
-                </Stack>
-              </StyledPaper>
-              <StyledPaper>
-                <Round>
-                  <StyledImg src="/images/collectIcon.svg" alt="collect" />
-                </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
-                  <h1>Collect</h1>
-                  <TextContent>
-                    Unearth NFTs for your growing collection
-                  </TextContent>
-                </Stack>
-              </StyledPaper>
-              <StyledPaper>
-                <Round>
-                  <StyledImg src="/images/sellIcon.svg" alt="sell" />
-                </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
-                  <h1>Sell</h1>
-                  <TextContent>
-                    Your NFTs will shine in our marketplace.
-                  </TextContent>
-                </Stack>
-              </StyledPaper>
-            </DestinationGrid>
           </Stack>
         </Stack>
       </ChakraProvider>
