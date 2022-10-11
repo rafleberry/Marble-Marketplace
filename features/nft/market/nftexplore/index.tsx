@@ -90,7 +90,6 @@ const Explore = () => {
   useEffect(() => {
     // fetchCollections()
     ;(async () => {
-      console.log('here')
       const { nftList, nft_counts }: any = await fetchNfts()
       setNfts(nftList)
       setFiltered(nftList)

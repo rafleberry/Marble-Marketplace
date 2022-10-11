@@ -24,6 +24,7 @@ const AllProfiles = ({ profileCounts }) => {
   const [hasMore, setHasMore] = useState(true)
   useEffect(() => {
     ;(async () => {
+      setHasMore(true)
       if (creator === collector) {
         const selectedUsers = await getAllUsers({
           sort: asc ? 'asc' : 'desc',
@@ -37,11 +38,37 @@ const AllProfiles = ({ profileCounts }) => {
       const filteredUsers = await getFilteredUsers({
         sort: asc ? 'asc' : 'desc',
         creator: creator,
+        skip: 0,
+        limit: 15,
       })
       setProfiles(filteredUsers)
     })()
   }, [asc, creator, collector])
-  const getMoreNfts = async () => {}
+  const getMoreNfts = async () => {
+    try {
+      if (creator === collector) {
+        const selectedUsers = await getAllUsers({
+          sort: asc ? 'asc' : 'desc',
+          skip: profiles.length,
+          limit: 15,
+        })
+        if (selectedUsers.length < 15) setHasMore(false)
+        setProfiles(profiles.concat(selectedUsers))
+        return
+      }
+
+      const filteredUsers = await getFilteredUsers({
+        sort: asc ? 'asc' : 'desc',
+        creator: creator,
+        skip: profiles.length,
+        limit: 15,
+      })
+      if (filteredUsers.length < 15) setHasMore(false)
+      setProfiles(profiles.concat(filteredUsers))
+    } catch (err) {
+      console.log('all fetched')
+    }
+  }
   return (
     <Container>
       {isMobile() ? (
