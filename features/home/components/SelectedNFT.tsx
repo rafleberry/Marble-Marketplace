@@ -37,7 +37,6 @@ const SelectedNFT = () => {
           },
         }),
       ])
-      console.log('marketData: ', marketData)
       setShowData({
         creator: collection.creator_id,
         collectionName: collection.metadata.title,
@@ -54,7 +53,6 @@ const SelectedNFT = () => {
   useEffect(() => {
     loadNft()
   }, [])
-  console.log('showData: ', showData)
   return (
     <IntroContainer>
       <div>
@@ -90,7 +88,7 @@ const SelectedNFT = () => {
             </PriceArea>
           )}
           <Stack>
-            <Link href="nft/6/2" passHref>
+            <Link href="/nft/6/2" passHref>
               <StyledButton>View Nft</StyledButton>
             </Link>
           </Stack>

@@ -59,18 +59,14 @@ export function NftCard({ nft, id, type }): JSX.Element {
               <Title>{saleType[nft.saleType]}</Title>
               {tokenInfo && (
                 <Flex alignItems="center">
-                  <Value>
-                    {convertMicroDenomToDenom(
-                      nft.price,
-                      tokenInfo.decimals
-                    ).toFixed(2)}
-                  </Value>
+                  <Value>{nft.highest_bid || nft.price}</Value>
                   &nbsp;
                   <img
                     src={tokenInfo.logoURI}
                     alt="token"
                     width="20px"
                     height="20px"
+                    style={{ borderRadius: '50%' }}
                   />
                 </Flex>
               )}

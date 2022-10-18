@@ -81,13 +81,13 @@ export const MobileFooterBar = () => {
                 <ContainerForFooterLinks
                   className={`footer-links ${openQuickNav ? 'open' : 'close'}`}
                 >
-                  <Link href="#" passHref>
+                  <Link href="https://app.marbledao.finance/dashboard" passHref>
                     Feed
                   </Link>
-                  <Link href="#" passHref>
+                  <Link href="/explore" passHref>
                     Browse
                   </Link>
-                  <Link href="/transfer" passHref>
+                  <Link href="https://near.marbledao.finance" passHref>
                     DeFi
                   </Link>
                 </ContainerForFooterLinks>

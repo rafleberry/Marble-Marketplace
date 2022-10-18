@@ -8,8 +8,16 @@ import {
   NFT_CONTRACT_NAME,
   nftViewFunction,
   marketplaceViewFunction,
+  TOKEN_DENOMS,
 } from 'util/near'
 import { NftCard } from 'components/NFT/nft-card'
+import {
+  formatChakraDateToTimestamp,
+  formatTimestampToDate,
+  convertMicroDenomToDenom,
+  formatNearToYocto,
+  formatHera,
+} from 'util/conversion'
 
 const Explore = () => {
   const [nfts, setNfts] = useState([])
@@ -74,11 +82,21 @@ const Explore = () => {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'
             : 'Direct Sell'
-          res_nft['price'] = market_data.price
-          res_nft['started_at'] = market_data.started_at
+          ;(res_nft['price'] = convertMicroDenomToDenom(
+            market_data.price,
+            TOKEN_DENOMS[market_data.ft_token_id]
+          ).toFixed(2)),
+            (res_nft['started_at'] = market_data.started_at)
           res_nft['ended_at'] = market_data.ended_at
           res_nft['current_time'] = market_data.current_time
           res_nft['ft_token_id'] = market_data.ft_token_id
+          res_nft['highest_bid'] =
+            market_data.bids &&
+            market_data.bids.length > 0 &&
+            convertMicroDenomToDenom(
+              market_data.bids[market_data.bids.length - 1].price,
+              TOKEN_DENOMS[market_data.ft_token_id]
+            ).toFixed(2)
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
         counts[res_nft.saleType]++

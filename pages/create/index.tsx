@@ -33,7 +33,6 @@ export default function Home() {
           token_series_id: id,
         },
       })
-      console.log('nft-supply-in-serie: ', data)
       return data
     } catch (err) {
       console.log('nft supply for a collection error: ', err)
@@ -44,7 +43,6 @@ export default function Home() {
     ;(async () => {
       let collections = []
       const collectionList = await fetchCollections()
-      console.log('collectionList: ', collectionList)
       collectionList.forEach((collection) => {
         if (collection.creator_id === wallet.accountId) {
           collections.push(collection)

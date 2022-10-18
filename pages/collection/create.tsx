@@ -173,7 +173,6 @@ export default function Collection() {
                 args: {},
               })
                 .then((total) => {
-                  console.log('inputData total: ', total)
                   createNewCollection({
                     id: total,
                     creator: wallet.accountId,

@@ -54,8 +54,10 @@ const Home = () => {
           collection_info.name = res_collection.name
           collection_info.description = res_collection.description
           collection_info.image =
+            res_collection.featuredImage &&
             process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
           collection_info.banner_image =
+            res_collection.logo &&
             process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
           collection_info.slug = res_collection.slug
           collection_info.creator = res_collection.owner ?? ''

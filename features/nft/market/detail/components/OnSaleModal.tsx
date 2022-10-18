@@ -10,6 +10,7 @@ import {
   Text,
   Stack,
   Input,
+  Flex,
 } from '@chakra-ui/react'
 import Select, { components } from 'react-select'
 import { HERA_CONTRACT_NAME } from 'util/near'
@@ -49,7 +50,7 @@ const OnSaleModal = ({
   const IconOption = (props) => (
     <Option {...props}>
       <HStack>
-        <Image src={props.data.icon} width="50px" alt="src" />
+        <img src={props.data.icon} style={{ width: '30px' }} alt="src" />
         <Text>{props.data.label}</Text>
       </HStack>
     </Option>
@@ -58,8 +59,8 @@ const OnSaleModal = ({
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      height: '70px',
-      borderRadius: '20px',
+      height: '50px',
+      borderRadius: '10px',
       border: '1px solid rgba(255, 255, 255, 0.2) !important',
       background: '#272734',
       color: '#FFFFFF',
@@ -90,6 +91,10 @@ const OnSaleModal = ({
       ...base,
       zIndex: '10',
     }),
+    indicatorsContainer: (base, state) => ({
+      ...base,
+      height: '100%',
+    }),
   }
   return (
     <ChakraProvider>
@@ -117,7 +122,7 @@ const OnSaleModal = ({
         <Container>
           <StyledCloseIcon onClick={onClose} offset={20} size="40px" />
           <MainWrapper>
-            <Stack spacing={isMobile() ? 3 : 10}>
+            <Stack spacing={isMobile() ? 3 : 4}>
               <Stack textAlign="center">
                 <Title>Sell Your NFT</Title>
               </Stack>
@@ -143,7 +148,7 @@ const OnSaleModal = ({
                 </StyledRadio>
               </Stack>
               <Stack>
-                <Text fontSize="14px">Payment Token</Text>
+                <Text marginLeft="20px">Payment Token</Text>
                 <Select
                   defaultValue={options[0]}
                   options={options}
@@ -151,21 +156,17 @@ const OnSaleModal = ({
                     Option: IconOption,
                     SingleValue: IconOption,
                     IndicatorSeparator: () => null,
-                    Input: () => null,
+                    // Input: () => null,
                   }}
                   styles={customStyles}
                   onChange={(e) => {
-                    console.log('e.target.value: ', e)
                     setToken(e.value)
                   }}
                 />
               </Stack>
               <Stack direction="row" alignItems="center" marginTop="20px">
-                <Stack spacing={8} style={{ padding: '5px 0' }} width="100%">
-                  <Stack
-                    spacing={8}
-                    flexDirection={isMobile() ? 'column' : 'row'}
-                  >
+                <Stack spacing={4} style={{ padding: '5px 0' }} width="100%">
+                  <Flex gap={8} flexDirection={isMobile() ? 'column' : 'row'}>
                     <Stack width={!isAuction || isMobile() ? '100%' : '50%'}>
                       <Text marginLeft="20px">Price</Text>
                       <StyledInput
@@ -184,13 +185,10 @@ const OnSaleModal = ({
                         />
                       </Stack>
                     )}
-                  </Stack>
+                  </Flex>
 
                   {isAuction && (
-                    <Stack
-                      spacing={8}
-                      flexDirection={isMobile() ? 'column' : 'row'}
-                    >
+                    <Flex gap={8} flexDirection={isMobile() ? 'column' : 'row'}>
                       <Stack width={isMobile() ? '100%' : '50%'}>
                         <Text marginLeft="20px">Start at</Text>
                         <StyledInput
@@ -208,7 +206,7 @@ const OnSaleModal = ({
                           onChange={setEndDate}
                         />
                       </Stack>
-                    </Stack>
+                    </Flex>
                   )}
                 </Stack>
               </Stack>
@@ -228,7 +226,7 @@ const OnSaleModal = ({
               >
                 Put On Sale
               </Button>
-              <Text margin="10px 0 0 0" fontSize={isMobile() ? '14px' : '20px'}>
+              <Text margin="10px 0 0 0" fontSize={isMobile() ? '14px' : '16px'}>
                 5% transaction fee goes to treasury wallet
               </Text>
             </Stack>
@@ -243,8 +241,8 @@ const OnSaleModal = ({
 }
 const CardWrapper = styled.div`
   display: flex;
-  height: 556px;
-  width: 434px;
+  height: 406px;
+  width: 300px;
   @media (max-width: 480px) {
     width: 100%;
     height: 100%;
@@ -256,22 +254,21 @@ const Container = styled(ModalContent)`
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   background: rgba(255, 255, 255, 0.06) !important;
   border-radius: 30px !important;
-  padding: 70px;
+  padding: 20px;
   color: white !important;
   overflow: hidden;
-  max-width: 1320px !important;
+  max-width: 1000px !important;
   @media (max-width: 480px) {
     width: 90vw !important;
     padding: 10px;
     max-height: 100vh;
     overflow: auto;
-    border-radius: 10px !important;
   }
 `
 const MainWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-  align-items: start;
+  align-items: center;
   column-gap: 30px;
   @media (max-width: 480px) {
     flex-direction: column-reverse;
@@ -286,8 +283,8 @@ const StyledRadio = styled.div<{ isActive: boolean }>`
       : 'inset 0px 7px 8px rgba(0, 0, 0, 0.2)'};
   border: ${({ isActive }) => (isActive ? '' : '1px solid #FFFFFF')};
   padding: 30px;
-  width: 300px;
-  height: 111px;
+  width: 200px;
+  height: 80px;
   cursor: pointer;
   background: ${({ isActive }) => (isActive ? '#FFFFFF' : '')};
   align-items: center;
@@ -301,6 +298,7 @@ const StyledRadio = styled.div<{ isActive: boolean }>`
   p {
     font-size: 14px;
     font-family: Mulish;
+    text-align: center;
   }
   @media (max-width: 480px) {
     width: 50%;
@@ -319,8 +317,8 @@ const StyledInput = styled(Input)`
   background: #272734 !important;
   box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09) !important;
   backdrop-filter: blur(40px) !important;
-  border-radius: 20px !important;
-  height: 70px !important;
+  border-radius: 10px !important;
+  height: 50px !important;
 `
 
 const Title = styled.div`

@@ -102,15 +102,18 @@ export const FooterBar = () => {
               <ContainerForFooterLinks
                 className={`footer-links ${openQuickNav ? 'open' : 'close'}`}
               >
-                <Link href="#" passHref>
+                <a
+                  href="https://app.marbledao.finance/dashboard"
+                  target="__blank"
+                >
                   Feed
-                </Link>
-                <Link href="#" passHref>
+                </a>
+                <Link href="/explore" passHref>
                   Browse
                 </Link>
-                <Link href="/transfer" passHref>
+                <a href="https://near.marbledao.finance" target="__blank">
                   DeFi
-                </Link>
+                </a>
               </ContainerForFooterLinks>
             </ContainerForColumn>
           </Stack>

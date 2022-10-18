@@ -1,6 +1,6 @@
 export const NFT_COLUMN_COUNT = 'NFT_COLUMN_COUNT'
 export const UI_ERROR = 'UI_ERROR'
-
+export const NEAR_STATUS = 'NEAR_STATUS'
 export const FILTER_STATUS = 'FILTER_STATUS'
 export const FILTER_STATUS_BUY_NOW = 0
 export const FILTER_STATUS_ON_AUCTION = 1

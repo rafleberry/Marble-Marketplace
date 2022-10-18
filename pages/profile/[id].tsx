@@ -139,7 +139,7 @@ export default function Home() {
                     size="large"
                     onClick={handleFollow}
                   >
-                    {profile.followers && profile.followers.includes(id)
+                    {profile.following && profile.following.includes(id)
                       ? 'Unfollow'
                       : 'Follow'}
                   </Button>

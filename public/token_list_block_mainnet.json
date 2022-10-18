@@ -17,7 +17,7 @@
     "symbol": "NEAR",
     "name": "NEAR",
     "decimals": 24,
-    "logoURI": "https://raw.githubusercontent.com/MarbleDAO/brand-assets/main/block.png"
+    "logoURI": "https://assets-cdn.trustwallet.com/blockchains/near/info/logo.png"
   },
   "native_token": {
     "id": "near",
@@ -25,7 +25,7 @@
     "symbol": "NEAR",
     "name": "NEAR",
     "decimals": 24,
-    "logoURI": "https://raw.githubusercontent.com/osmosis-labs/assetlists/main/images/juno.png"
+    "logoURI": "/images/near-icon.svg"
   },
   "wrap_token": {
     "id": "wnear",

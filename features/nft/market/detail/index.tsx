@@ -33,7 +33,7 @@ import {
 import Card from './components/card'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getTokenBalance } from 'hooks/useTokenBalance'
-import { getTokenPrice } from 'hooks/useTokenDollarValue'
+import { useTokenPrice } from 'hooks/useTokenDollarValue'
 import {
   nftViewFunction,
   MARKETPLACE_CONTRACT_NAME,
@@ -105,6 +105,7 @@ export const NFTDetail = ({ collectionId, id }) => {
   )
   const wallet = getCurrentWallet()
   const { txHash, pathname, errorType } = getURLInfo()
+  const tokenPrice = useTokenPrice(tokenInfo?.name)
   useEffect(() => {
     const fetchData = async () => {
       const balance = await getTokenBalance(tokenInfo)
@@ -369,7 +370,6 @@ export const NFTDetail = ({ collectionId, id }) => {
     await sendTransactionForMarketplace(params)
   }
   const handleTransfer = async (address) => {
-    console.log('transferAddress: ', address)
     await nftFunctionCall({
       methodName: 'nft_transfer',
       args: {
@@ -1011,7 +1011,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                                       marketStatus.data.current_time,
                                     image: nft.image,
                                     name: nft.name,
-                                    hightest_bid:
+                                    highest_bid:
                                       marketStatus.data.highest_bid.price,
                                     owner: nft.user,
                                   }}
@@ -1034,7 +1034,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                                 size="large"
                                 onClick={handleCancelMarketing}
                               >
-                                Cancel Marketing
+                                Cancel Sale
                               </Button>
                             )}
                             {marketStatus.isEnded &&
@@ -1083,7 +1083,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                                   current_time: marketStatus.data.current_time,
                                   image: nft.image,
                                   name: nft.name,
-                                  hightest_bid:
+                                  highest_bid:
                                     marketStatus.data.highest_bid.price,
                                   owner: nft.user,
                                 }}
@@ -1195,7 +1195,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                               marketStatus.data.current_time,
                             image: nft.image,
                             name: nft.name,
-                            hightest_bid:
+                            highest_bid:
                               marketStatus.data &&
                               marketStatus.data.highest_bid.price,
                             owner: nft.user,
@@ -1332,9 +1332,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                           {tokenInfo?.name} Price
                         </Text>
                         <Flex>
-                          <Span className="owner-address">
-                            $ {getTokenPrice(tokenInfo?.name)}
-                          </Span>
+                          <Span className="owner-address">$ {tokenPrice}</Span>
                         </Flex>
                       </Stack>
                       <Stack direction="column">
@@ -1424,7 +1422,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                                   current_time: marketStatus.data.current_time,
                                   image: nft.image,
                                   name: nft.name,
-                                  hightest_bid:
+                                  highest_bid:
                                     marketStatus.data.highest_bid.price,
                                   owner: nft.user,
                                 }}
@@ -1494,7 +1492,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                                 current_time: marketStatus.data.current_time,
                                 image: nft.image,
                                 name: nft.name,
-                                hightest_bid:
+                                highest_bid:
                                   marketStatus.data.highest_bid.price,
                                 owner: nft.user,
                               }}
@@ -1600,7 +1598,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                             marketStatus.data && marketStatus.data.current_time,
                           image: nft.image,
                           name: nft.name,
-                          hightest_bid:
+                          highest_bid:
                             marketStatus.data &&
                             marketStatus.data.highest_bid.price,
                           owner: nft.user,

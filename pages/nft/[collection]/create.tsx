@@ -64,7 +64,7 @@ export default function NFTCreate() {
         .then((res: any) => {
           const transactionErrorType = getErrorMessage(res)
           const transaction = res.transaction
-          console.log('transactionType: ', res, transactionErrorType)
+          const event = res?.receipts_outcome[0]?.outcome.logs[0] || ''
           return {
             isSwap:
               transaction?.actions[1]?.['FunctionCall']?.method_name ===
@@ -74,16 +74,20 @@ export default function NFTCreate() {
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
                 'nft_mint',
             transactionErrorType,
+            event,
           }
         })
-        .then(({ isSwap, transactionErrorType }) => {
+        .then(({ isSwap, transactionErrorType, event }) => {
+          if (isSwap && !transactionErrorType && !errorType) {
+            const stringifiedEvent = event.split('EVENT_JSON:')[1]
+            const tokenId = JSON.parse(stringifiedEvent).data[0].token_ids[0]
+          }
           if (isSwap) {
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
             router.push('/explore')
             return
           }
-          router.push(pathname)
         })
     }
   }, [txHash])
