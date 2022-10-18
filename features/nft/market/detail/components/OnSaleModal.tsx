@@ -24,7 +24,7 @@ const options = [
   {
     value: 'near',
     label: 'Near',
-    icon: 'https://raw.githubusercontent.com/MarbleDAO/brand-assets/main/block.png',
+    icon: 'https://assets-cdn.trustwallet.com/blockchains/near/info/logo.png',
   },
   {
     value: HERA_CONTRACT_NAME,

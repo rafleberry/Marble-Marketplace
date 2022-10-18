@@ -158,6 +158,15 @@ const AllProfiles = ({ profileCounts }) => {
           </MobileFilterWrapper>
         </MobileFilterContainer>
       )}
+      {!isMobile() && (
+        <SortComponent>
+          <p>Sort by</p>
+          <SortWrapper onClick={() => setAsc(!asc)}>
+            <Sort /> {asc ? 'A-Z' : 'Z-A'}
+          </SortWrapper>
+        </SortComponent>
+      )}
+
       <InfiniteScroll
         dataLength={profiles.length}
         next={getMoreNfts}
@@ -181,15 +190,6 @@ const AllProfiles = ({ profileCounts }) => {
         endMessage={<h4></h4>}
       >
         <ProfilesContainer>
-          {!isMobile() && (
-            <SortComponent>
-              <p>Sort by</p>
-              <SortWrapper onClick={() => setAsc(!asc)}>
-                <Sort /> {asc ? 'A-Z' : 'Z-A'}
-              </SortWrapper>
-            </SortComponent>
-          )}
-
           {profiles.map((profile, index) => (
             <Link href={`/profile/${profile.id}`} passHref key={index}>
               <LinkBox
@@ -268,7 +268,7 @@ const HorizontalDivider = styled.div`
 const SortComponent = styled.div`
   position: absolute;
   right: 60px;
-  top: -100px;
+  top: 0px;
   display: flex;
   align-items: center;
   p {
