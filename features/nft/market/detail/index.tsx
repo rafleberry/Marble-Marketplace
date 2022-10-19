@@ -1444,7 +1444,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                               size="large"
                               onClick={handleCancelMarketing}
                             >
-                              Cancel Marketing
+                              Cancel Sale
                             </Button>
                           )}
                           {marketStatus.isEnded &&
