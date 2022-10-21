@@ -227,7 +227,7 @@ const OnSaleModal = ({
                 Put On Sale
               </Button>
               <Text margin="10px 0 0 0" fontSize={isMobile() ? '14px' : '16px'}>
-                5% transaction fee goes to treasury wallet
+                1% transaction fee goes to treasury wallet
               </Text>
             </Stack>
             <CardWrapper>

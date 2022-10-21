@@ -1,41 +1,17 @@
-import * as React from 'react'
-import { useCallback, useState, useEffect } from 'react'
-import { Button } from 'components/Button'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { IconWrapper } from 'components/IconWrapper'
-import { Search, ColumnBig, ColumnSmall, Sidebar, ArrowLeft } from 'icons'
 // import { CollectionFilter } from './filter'
 import { NftTable } from 'components/NFT'
 
-import { NftInfo } from 'services/nft'
+import { ChakraProvider, Spinner } from '@chakra-ui/react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { convertMicroDenomToDenom } from 'util/conversion'
 import {
-  ChakraProvider,
-  Tab,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Select,
-  IconButton,
-  Tag,
-  TagLabel,
-  TagCloseButton,
-  Spinner,
-} from '@chakra-ui/react'
-import { useDispatch, useSelector } from 'react-redux'
-import { State } from 'store/reducers'
-import {
-  nftFunctionCall,
-  nftViewFunction,
   marketplaceViewFunction,
+  nftViewFunction,
   NFT_CONTRACT_NAME,
+  TOKEN_DENOMS,
 } from 'util/near'
-import {
-  NFT_COLUMN_COUNT,
-  UI_ERROR,
-  PROFILE_STATUS,
-  FILTER_STATUS_TXT,
-} from 'store/types'
 import { getCurrentWallet } from 'util/sender-wallet'
 
 let nftCurrentIndex
@@ -52,6 +28,7 @@ const MyCreatedNFTs = ({ id }) => {
     Auction: 0,
     'Direct Sell': 0,
     NotSale: 0,
+    Offer: 0,
   })
   const getCreatedNFTs = async () => {
     try {
@@ -84,7 +61,7 @@ const MyCreatedNFTs = ({ id }) => {
 
   const fetchCreatedNFTs = useCallback(async () => {
     let collectionNFTs = []
-    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
     const createdNFTs = await getCreatedNFTs()
     await Promise.all(
       createdNFTs.map(async (element) => {
@@ -117,13 +94,25 @@ const MyCreatedNFTs = ({ id }) => {
           res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
           if (market_data) {
             res_nft['saleType'] = market_data.is_auction
-              ? 'Auction'
+              ? market_data.bids.length > 0
+                ? 'Offer'
+                : 'Auction'
               : 'Direct Sell'
-            res_nft['price'] = market_data.price
+            res_nft['price'] = convertMicroDenomToDenom(
+              market_data.price,
+              TOKEN_DENOMS[market_data.ft_token_id]
+            ).toFixed(2)
             res_nft['started_at'] = market_data.started_at
             res_nft['ended_at'] = market_data.ended_at
             res_nft['current_time'] = market_data.current_time
             res_nft['ft_token_id'] = market_data.ft_token_id
+            res_nft['highest_bid'] =
+              market_data.bids &&
+              market_data.bids.length > 0 &&
+              convertMicroDenomToDenom(
+                market_data.bids[market_data.bids.length - 1].price,
+                TOKEN_DENOMS[market_data.ft_token_id]
+              ).toFixed(2)
           } else res_nft['saleType'] = 'NotSale'
           collectionNFTs.push(res_nft)
           counts[res_nft.saleType]++
@@ -169,9 +158,9 @@ const MyCreatedNFTs = ({ id }) => {
             </NumberWrapper>
             Live Auction
           </FilterCard>
-          <FilterCard onClick={() => handleFilter('NotSale')}>
-            <NumberWrapper isActive={filterTab === 'NotSale'}>
-              {nftCounts['NotSale']}
+          <FilterCard onClick={() => handleFilter('Offer')}>
+            <NumberWrapper isActive={filterTab === 'Offer'}>
+              {nftCounts['Offer']}
             </NumberWrapper>
             Active Offers
           </FilterCard>

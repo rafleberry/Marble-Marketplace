@@ -138,6 +138,7 @@ export default function Collection() {
           token_metadata: {
             copies: 10000,
             title: name,
+            description: category,
           },
           price: null,
           royalty: royalty,
@@ -156,37 +157,33 @@ export default function Collection() {
         .then((res: any) => {
           const transactionErrorType = getErrorMessage(res)
           const transaction = res.transaction
+          console.log('transaction: ', res)
+          const logs = res.receipts_outcome[0]?.outcome?.logs[0]
           return {
             isSuccess:
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
               'nft_create_series',
             transactionErrorType,
+            logs,
           }
         })
-        .then(({ isSuccess, transactionErrorType }) => {
+        .then(({ isSuccess, transactionErrorType, logs }) => {
           if (isSuccess) {
             transactionErrorType && failToast(txHash, transactionErrorType)
             if (!transactionErrorType && !errorType) {
               successToast(txHash)
-              nftViewFunction({
-                methodName: 'nft_get_total_series',
-                args: {},
+              const parsedLog = JSON.parse(logs)
+              console.log('parsedLog: ', parsedLog)
+              createNewCollection({
+                id: parsedLog?.params?.token_series_id,
+                creator: parsedLog?.params?.creator_id,
+                category: parsedLog?.params?.token_metadata.description,
               })
-                .then((total) => {
-                  createNewCollection({
-                    id: total,
-                    creator: wallet.accountId,
-                    category,
-                  })
-                    .then((data) => {
-                      console.log('backend collection data: ', data)
-                    })
-                    .catch((err) => {
-                      console.log('backend collection data: ', err)
-                    })
+                .then((data) => {
+                  console.log('backend collection data: ', data)
                 })
                 .catch((err) => {
-                  console.log('get total series error: ', err)
+                  console.log('backend collection data: ', err)
                 })
             }
             transactionErrorType && failToast(txHash, transactionErrorType)

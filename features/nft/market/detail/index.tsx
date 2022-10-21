@@ -119,6 +119,9 @@ export const NFTDetail = ({ collectionId, id }) => {
         .then((res: any) => {
           const transactionErrorType = getErrorMessage(res)
           const transaction = res.transaction
+          const isBurn =
+            transaction?.actions[0]?.['FunctionCall']?.method_name ===
+            'nft_burn'
           return {
             isSuccess:
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
@@ -134,14 +137,18 @@ export const NFTDetail = ({ collectionId, id }) => {
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
                 'delete_market_data' ||
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
-                'accept_bid',
+                'accept_bid' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'nft_burn',
             transactionErrorType,
+            isBurn,
           }
         })
-        .then(({ isSuccess, transactionErrorType }) => {
+        .then(({ isSuccess, transactionErrorType, isBurn }) => {
           if (isSuccess) {
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
+            if (isBurn) router.push('/explore')
           }
           router.push(pathname)
         })

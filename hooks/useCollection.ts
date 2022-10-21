@@ -44,10 +44,12 @@ export const getCollectionCategory = async (id) => {
 }
 export const setCollectionCategory = async (req) => {
   try {
+    console.log('edit collection axios request: ', req)
     const { data } = await axios.post(
       `${backend_url}/collection/edit_collection`,
       req
     )
+    console.log('edit collection axios: ', data)
     return data
   } catch (err) {
     return false

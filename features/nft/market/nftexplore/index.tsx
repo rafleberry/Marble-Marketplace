@@ -25,6 +25,7 @@ const Explore = () => {
     Auction: 0,
     'Direct Sell': 0,
     NotSale: 0,
+    Offer: 0,
   })
   const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
@@ -32,7 +33,7 @@ const Explore = () => {
   const [hasMore, setHasMore] = useState(false)
   const fetchNfts = async () => {
     let collectionNFTs = []
-    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
     let info = []
     try {
       info = await nftViewFunction({
@@ -79,8 +80,11 @@ const Explore = () => {
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
         if (market_data) {
+          console.log('marketData: ', market_data)
           res_nft['saleType'] = market_data.is_auction
-            ? 'Auction'
+            ? market_data.bids.length > 0
+              ? 'Offer'
+              : 'Auction'
             : 'Direct Sell'
           ;(res_nft['price'] = convertMicroDenomToDenom(
             market_data.price,
@@ -138,9 +142,9 @@ const Explore = () => {
           </NumberWrapper>
           Live Auction
         </FilterCard>
-        <FilterCard onClick={() => handleFilter('NotSale')}>
-          <NumberWrapper isActive={filterTab === 'NotSale'}>
-            {nftCounts['NotSale']}
+        <FilterCard onClick={() => handleFilter('Offer')}>
+          <NumberWrapper isActive={filterTab === 'Offer'}>
+            {nftCounts['Offer']}
           </NumberWrapper>
           Active Offers
         </FilterCard>

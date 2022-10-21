@@ -1,31 +1,24 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
 import {
   ChakraProvider,
   Flex,
-  HStack,
-  Text,
-  Stack,
   Grid,
+  HStack,
   LinkBox,
+  Stack,
 } from '@chakra-ui/react'
 import { NftCard } from 'components/NFT/nft-card'
 import { RoundedIconComponent } from 'components/RoundedIcon'
+import Link from 'next/link'
+import { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { convertMicroDenomToDenom } from 'util/conversion'
+import { isClientMobie, isMobile } from 'util/device'
 import {
-  nftViewFunction,
   marketplaceViewFunction,
+  nftViewFunction,
   NFT_CONTRACT_NAME,
   TOKEN_DENOMS,
 } from 'util/near'
-import {
-  formatChakraDateToTimestamp,
-  formatTimestampToDate,
-  convertMicroDenomToDenom,
-  formatNearToYocto,
-  formatHera,
-} from 'util/conversion'
-import { isClientMobie, isMobile } from 'util/device'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])

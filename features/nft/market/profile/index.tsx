@@ -32,6 +32,7 @@ export const MyCollectedNFTs = ({ id }) => {
     Auction: 0,
     'Direct Sell': 0,
     NotSale: 0,
+    Offer: 0,
   })
   const [filtered, setFiltered] = useState([])
   const [filterTab, setFilterTab] = useState('')
@@ -41,7 +42,7 @@ export const MyCollectedNFTs = ({ id }) => {
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     let collectionNFTs = []
-    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
     try {
       ownedNFTs = await nftViewFunction({
         methodName: 'nft_tokens_for_owner',
@@ -79,11 +80,14 @@ export const MyCollectedNFTs = ({ id }) => {
           res_nft = await ipfs_nft.json()
           res_collection = await ipfs_collection.json()
           res_nft['tokenId'] = element.token_id.split(':')[1]
+          res_nft['collectionId'] = element.token_id.split(':')[0]
           res_nft['title'] = res_collection.name
           res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
           if (market_data) {
             res_nft['saleType'] = market_data.is_auction
-              ? 'Auction'
+              ? market_data.bids.length > 0
+                ? 'Offer'
+                : 'Auction'
               : 'Direct Sell'
             ;(res_nft['price'] = convertMicroDenomToDenom(
               market_data.price,
@@ -142,9 +146,9 @@ export const MyCollectedNFTs = ({ id }) => {
             </NumberWrapper>
             Live Auction
           </FilterCard>
-          <FilterCard onClick={() => handleFilter('NotSale')}>
-            <NumberWrapper isActive={filterTab === 'NotSale'}>
-              {nftCounts['NotSale']}
+          <FilterCard onClick={() => handleFilter('Offer')}>
+            <NumberWrapper isActive={filterTab === 'Offer'}>
+              {nftCounts['Offer']}
             </NumberWrapper>
             Active Offers
           </FilterCard>

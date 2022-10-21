@@ -9,19 +9,22 @@ import { getReducedAddress } from 'util/conversion'
 
 const saleType = {
   NotSale: 'NOT ON SALE',
-  Auction: 'CURRENT BID',
+  Auction: 'START PRICE',
   'Direct Sell': 'BUY NOW',
+  Offer: 'HIGHEST BID',
 }
 
 const backgroundColor = {
   NotSale: 'rgba(05, 06, 22, 0.2)',
   Auction: 'rgba(219, 115, 115, 0.5)',
   'Direct Sell': '#FFFFFF',
+  Offer: 'rgba(219, 115, 115, 0.5)',
 }
 
 export function NftCard({ nft, id, type }): JSX.Element {
   const tokenInfo = useTokenInfoFromAddress(nft.ft_token_id)
   const [profile, setProfile] = useState<any>({})
+  // console.log('nft.owner: ', nft.owner)
   useEffect(() => {
     ;(async () => {
       const profile_info = await getProfileInfo(nft.owner)
@@ -71,7 +74,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
                 </Flex>
               )}
             </Stack>
-            {nft.saleType === 'Auction' && (
+            {(nft.saleType === 'Auction' || nft.saleType == 'Offer') && (
               <Stack>
                 <Title>ENDS IN</Title>
                 <Timetrack>
