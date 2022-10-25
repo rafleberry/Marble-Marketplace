@@ -11,13 +11,7 @@ import {
   TOKEN_DENOMS,
 } from 'util/near'
 import { NftCard } from 'components/NFT/nft-card'
-import {
-  formatChakraDateToTimestamp,
-  formatTimestampToDate,
-  convertMicroDenomToDenom,
-  formatNearToYocto,
-  formatHera,
-} from 'util/conversion'
+import { convertMicroDenomToDenom } from 'util/conversion'
 
 const Explore = () => {
   const [nfts, setNfts] = useState([])
@@ -27,7 +21,6 @@ const Explore = () => {
     NotSale: 0,
     Offer: 0,
   })
-  const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
   const [filterTab, setFilterTab] = useState('all')
   const [hasMore, setHasMore] = useState(true)
