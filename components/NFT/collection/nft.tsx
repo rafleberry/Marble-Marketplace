@@ -52,6 +52,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 50px 30px;
+  padding: 20px;
 `
 const CollectionDiv = styled.div`
   border-radius: 20px;
