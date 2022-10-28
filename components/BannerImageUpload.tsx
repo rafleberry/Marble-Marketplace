@@ -12,7 +12,6 @@ const PUBLIC_PINATA_URL = process.env.NEXT_PUBLIC_PINATA_URL || ''
 const BannerImageUpload = ({ hash, setHash, isActive = false }) => {
   const [ipfsHashBIU, setIpfsHashBIU] = useState('')
   const [showUpload, setShowUpload] = useState(false)
-  const [loading, setLoading] = useState(false)
   useEffect(() => {
     setIpfsHashBIU(hash)
   }, [hash])
@@ -64,32 +63,26 @@ const BannerImageUpload = ({ hash, setHash, isActive = false }) => {
 
   // to handle file uploads
   const uploadFilesBIU = async (files) => {
-    try {
-      setLoading(true)
-      const formData = new FormData()
-      files.forEach((file) => formData.append('file', file))
-      let url = `https://api.pinata.cloud/pinning/pinFileToIPFS`
-      let response = await axios.post(url, formData, {
-        maxBodyLength: Infinity, //this is needed to prevent axios from erroring out with large files
-        headers: {
-          'Content-Type': `multipart/form-data`,
-          pinata_api_key: PUBLIC_PINATA_API_KEY,
-          pinata_secret_api_key: PUBLIC_PINATA_SECRET_API_KEY,
-        },
-      })
-      if (response.status == 200) {
-        setIpfsHashBIU(response.data.IpfsHash)
-        setHash({ banner: response.data.IpfsHash })
-      }
-    } catch (err) {
-      console.error('bannerimage error: ', err)
-    } finally {
-      setLoading(false)
+    const formData = new FormData()
+    files.forEach((file) => formData.append('file', file))
+    let url = `https://api.pinata.cloud/pinning/pinFileToIPFS`
+    let response = await axios.post(url, formData, {
+      maxBodyLength: Infinity, //this is needed to prevent axios from erroring out with large files
+      headers: {
+        'Content-Type': `multipart/form-data`,
+        pinata_api_key: PUBLIC_PINATA_API_KEY,
+        pinata_secret_api_key: PUBLIC_PINATA_SECRET_API_KEY,
+      },
+    })
+    if (response.status == 200) {
+      setIpfsHashBIU(response.data.IpfsHash)
+      setHash({ banner: response.data.IpfsHash })
     }
   }
+  console.log('ipfsHashBIU: ', ipfsHashBIU)
   return (
     <ChakraProvider>
-      <Container isLoading={loading}>
+      <Container>
         <div
           onDrop={(e) => handleDropBIU(e)}
           onDragOver={(e) => handleDragOverBIU(e)}
@@ -101,7 +94,7 @@ const BannerImageUpload = ({ hash, setHash, isActive = false }) => {
           onMouseLeave={(e) => setShowUpload(false)}
           style={{ width: '100%', height: '100%', position: 'absolute' }}
         >
-          {showUpload && !loading && (
+          {showUpload && (
             <DropzoneContainer>
               <input
                 id="fileSelectBIU"
@@ -132,11 +125,9 @@ const BannerImageUpload = ({ hash, setHash, isActive = false }) => {
     </ChakraProvider>
   )
 }
-const Container = styled.div<{ isLoading: boolean }>`
+const Container = styled.div`
   width: 100%;
   height: 100%;
-  cursor: ${({ isLoading }) => (isLoading ? 'not-allowed' : 'pointer')};
-  opacity: ${({ isLoading }) => (isLoading ? '0.5' : '1')};
 `
 const DropzoneContainer = styled.div`
   width: 100%;

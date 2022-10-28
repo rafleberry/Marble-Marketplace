@@ -11,15 +11,7 @@ import {
   marketplaceViewFunction,
   nftViewFunction,
   NFT_CONTRACT_NAME,
-  TOKEN_DENOMS,
 } from 'util/near'
-import {
-  formatChakraDateToTimestamp,
-  formatTimestampToDate,
-  convertMicroDenomToDenom,
-  formatNearToYocto,
-  formatHera,
-} from 'util/conversion'
 import { getCurrentWallet } from 'util/sender-wallet'
 
 export const MyCollectedNFTs = ({ id }) => {
@@ -32,7 +24,6 @@ export const MyCollectedNFTs = ({ id }) => {
     Auction: 0,
     'Direct Sell': 0,
     NotSale: 0,
-    Offer: 0,
   })
   const [filtered, setFiltered] = useState([])
   const [filterTab, setFilterTab] = useState('')
@@ -42,7 +33,7 @@ export const MyCollectedNFTs = ({ id }) => {
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     let collectionNFTs = []
-    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
+    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
     try {
       ownedNFTs = await nftViewFunction({
         methodName: 'nft_tokens_for_owner',
@@ -50,6 +41,7 @@ export const MyCollectedNFTs = ({ id }) => {
           account_id: id,
         },
       })
+      console.log('ownedNFTs: ', ownedNFTs)
     } catch (err) {
       console.log('fetchOwnedNFTs Error: ', err)
     }
@@ -80,30 +72,17 @@ export const MyCollectedNFTs = ({ id }) => {
           res_nft = await ipfs_nft.json()
           res_collection = await ipfs_collection.json()
           res_nft['tokenId'] = element.token_id.split(':')[1]
-          res_nft['collectionId'] = element.token_id.split(':')[0]
           res_nft['title'] = res_collection.name
           res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
           if (market_data) {
             res_nft['saleType'] = market_data.is_auction
-              ? market_data.bids.length > 0
-                ? 'Offer'
-                : 'Auction'
+              ? 'Auction'
               : 'Direct Sell'
-            ;(res_nft['price'] = convertMicroDenomToDenom(
-              market_data.price,
-              TOKEN_DENOMS[market_data.ft_token_id]
-            ).toFixed(2)),
-              (res_nft['started_at'] = market_data.started_at)
+            res_nft['price'] = market_data.price
+            res_nft['started_at'] = market_data.started_at
             res_nft['ended_at'] = market_data.ended_at
             res_nft['current_time'] = market_data.current_time
             res_nft['ft_token_id'] = market_data.ft_token_id
-            res_nft['highest_bid'] =
-              market_data.bids &&
-              market_data.bids.length > 0 &&
-              convertMicroDenomToDenom(
-                market_data.bids[market_data.bids.length - 1].price,
-                TOKEN_DENOMS[market_data.ft_token_id]
-              ).toFixed(2)
           } else res_nft['saleType'] = 'NotSale'
           collectionNFTs.push(res_nft)
           counts[res_nft.saleType]++
@@ -133,22 +112,22 @@ export const MyCollectedNFTs = ({ id }) => {
   return (
     <CollectionWrapper>
       <NftList>
-        <Filter>
-          <FilterCard onClick={() => handleFilter('Direct Sell')}>
+        <Filter className="collection-tab">
+          <FilterCard className="bg-border-linear" onClick={() => handleFilter('Direct Sell')}>
             <NumberWrapper isActive={filterTab === 'Direct Sell'}>
               {nftCounts['Direct Sell']}
             </NumberWrapper>
             Buy Now
           </FilterCard>
-          <FilterCard onClick={() => handleFilter('Auction')}>
+          <FilterCard className="bg-border-linear" onClick={() => handleFilter('Auction')}>
             <NumberWrapper isActive={filterTab === 'Auction'}>
               {nftCounts['Auction']}
             </NumberWrapper>
             Live Auction
           </FilterCard>
-          <FilterCard onClick={() => handleFilter('Offer')}>
-            <NumberWrapper isActive={filterTab === 'Offer'}>
-              {nftCounts['Offer']}
+          <FilterCard className="bg-border-linear" onClick={() => handleFilter('NotSale')}>
+            <NumberWrapper isActive={filterTab === 'NotSale'}>
+              {nftCounts['NotSale']}
             </NumberWrapper>
             Active Offers
           </FilterCard>
@@ -193,31 +172,34 @@ const NftList = styled.div``
 const Filter = styled.div`
   display: flex;
   column-gap: 20px;
-  margin-top: 20px;
+  margin-top: 35px;
 `
 const FilterCard = styled.div`
-  border-radius: 30px;
-  backdrop-filter: blur(30px);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
+  border-radius: 50px;
+  // backdrop-filter: blur(30px);
+  // box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+  //   inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  // background: linear-gradient(
+  //   180deg,
+  //   rgba(255, 255, 255, 0.06) 0%,
+  //   rgba(255, 255, 255, 0.06) 100%
+  // );
   display: flex;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   font-family: Mulish;
   align-items: center;
   width: fit-content;
-  padding: 10px;
+  white-space:nowrap;
+  padding:15px 26px 15px 13px;
+
   @media (max-width: 480px) {
     font-size: 12px;
   }
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`
+  width:34px;
   height: 34px;
   background: ${({ isActive }) =>
     isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.1)'};
@@ -228,4 +210,6 @@ const NumberWrapper = styled.div<{ isActive: boolean }>`
   align-items: center;
   padding: 10px;
   margin-right: 10px;
+  font-size:13px;
+  font-weight:400;
 `

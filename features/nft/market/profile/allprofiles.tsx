@@ -85,12 +85,13 @@ const AllProfiles = ({ profileCounts }) => {
           </MobileSortComponent>
         </HStack>
       ) : (
-        <Card>
+        <Card className="bg-border-linear">
           <Stack>
             <Stack spacing="20px">
               <h1>Type</h1>
 
               <HorizontalDivider />
+              
               <Stack spacing="30px">
                 <HStack justifyContent="space-between">
                   <HStack>
@@ -158,14 +159,6 @@ const AllProfiles = ({ profileCounts }) => {
           </MobileFilterWrapper>
         </MobileFilterContainer>
       )}
-      {!isMobile() && (
-        <SortComponent>
-          <p>Sort by</p>
-          <SortWrapper onClick={() => setAsc(!asc)}>
-            <Sort /> {asc ? 'A-Z' : 'Z-A'}
-          </SortWrapper>
-        </SortComponent>
-      )}
 
       <InfiniteScroll
         dataLength={profiles.length}
@@ -189,7 +182,16 @@ const AllProfiles = ({ profileCounts }) => {
         }
         endMessage={<h4></h4>}
       >
-        <ProfilesContainer>
+        <ProfilesContainer style={{padding:"0"}}>
+          {!isMobile() && (
+            <SortComponent>
+              <p>Sort by</p>
+              <SortWrapper onClick={() => setAsc(!asc)}>
+                <Sort /> {asc ? 'A-Z' : 'Z-A'}
+              </SortWrapper>
+            </SortComponent>
+          )}
+
           {profiles.map((profile, index) => (
             <Link href={`/profile/${profile.id}`} passHref key={index}>
               <LinkBox
@@ -219,8 +221,8 @@ const Container = styled.div`
     text-align: center;
   }
   h1 {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 400;
   }
   h2 {
     font-size: 18px;
@@ -229,7 +231,7 @@ const Container = styled.div`
   h3 {
     font-size: 16px;
     font-family: Mulish;
-    font-weight: 700;
+    font-weight: 500;
   }
   @media (max-width: 480px) {
     display: flex;
@@ -240,8 +242,8 @@ const Container = styled.div`
 const ProfilesContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 0 50px;
-  column-gap: 20px;
+  // padding: 0 50px;
+  column-gap: 30px;
   row-gap: 20px;
   position: relative;
   @media (max-width: 1550px) {
@@ -252,11 +254,12 @@ const ProfilesContainer = styled.div`
   }
 `
 const Card = styled.div`
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  backdrop-filter: blur(40px);
-  border-radius: 20px;
+  // background: rgba(05, 06, 22, 0.2);
+  // box-shadow:0px 4px 40px rgb(42 47 50 / 9%), inset -20px 1px 24px #6d6d78;
+  // backdrop-filter: blur(40px);
+  // border-radius: 20px;
   padding: 30px;
+  margin-right:30px;
   @media (max-width: 1550px) {
   }
 `
@@ -268,7 +271,7 @@ const HorizontalDivider = styled.div`
 const SortComponent = styled.div`
   position: absolute;
   right: 60px;
-  top: 0px;
+  top: -100px;
   display: flex;
   align-items: center;
   p {

@@ -6,22 +6,28 @@ export const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #363b4e;
-  background: rgba(8, 12, 28, 0.6);
+
   @media (max-width: 1550px) {
     height: 80px;
   }
+
+  @media (max-width: 1024px) {
+    padding: 0 20px;
+  }
 `
 export const StyledListForLinks = styled.div`
-  display: flex;
+  // display: flex;
   row-gap: 10px;
-  flex-direction: row;
+  // flex-direction: row;
   align-items: center;
 `
 export const StyledLink = styled.div`
   font-size: 16px;
-  margin: 0 40px;
+  margin-left:30px;
+  margin-right:50px;
   display: flex;
   align-items: center;
+
   @media (max-width: 1550px) {
     margin: 0 10px;
   }
@@ -29,7 +35,13 @@ export const StyledLink = styled.div`
 
 export const StyledDivForLogo = styled.div`
   align-items: center;
-  margin-right: 40px;
+  margin-right: 30px;
+  max-width:240px !important;
+  width:100%;
+  img {
+    width:350px;
+    height:auto;
+  }
   @media (max-width: 1550px) {
     margin: 0 00px;
     img {

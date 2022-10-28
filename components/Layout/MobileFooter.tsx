@@ -65,35 +65,36 @@ export const MobileFooterBar = () => {
                   lineHeight: '32px',
                 }}
               >
-                Made of Phygital NFTs. Built on COSMOS and NEAR. We empower
-                Creators and Brands by connecting them with AR and VR.
+                Marble is the first community-driven DAO on Near Network. Marble
+                is an all-in-one platform with DeFi products, NFT Marketplace
+                and exclusive NFTs of real artworks.
               </Text>
             </ContainerForColumn>
           </Stack>
           <Accordion allowToggle>
             <StyledAccordionItem>
-              <AccordionButton>
+              <AccordionButton className='accordion-btn'>
                 <h3 className="desktop-section">MARBLE</h3>
                 <AccordionIcon />
-              </AccordionButton>
+              </AccordionButton >
               <AccordionPanel pb={4}>
                 <ContainerForFooterLinks
                   className={`footer-links ${openQuickNav ? 'open' : 'close'}`}
                 >
-                  <Link href="https://app.marbledao.finance/dashboard" passHref>
+                  <Link href="#" passHref>
                     Feed
                   </Link>
-                  <Link href="/explore" passHref>
+                  <Link href="#" passHref>
                     Browse
                   </Link>
-                  <Link href="https://near.marbledao.finance" passHref>
+                  <Link href="/transfer" passHref>
                     DeFi
                   </Link>
                 </ContainerForFooterLinks>
               </AccordionPanel>
             </StyledAccordionItem>
             <StyledAccordionItem>
-              <AccordionButton>
+              <AccordionButton  className='accordion-btn'>
                 <h3 className="desktop-section">Community</h3>
                 <AccordionIcon />
               </AccordionButton>
@@ -119,7 +120,7 @@ export const MobileFooterBar = () => {
               </AccordionPanel>
             </StyledAccordionItem>
             <StyledAccordionItem>
-              <AccordionButton>
+              <AccordionButton  className='accordion-btn'>
                 <h3 className="desktop-section">Company</h3>
                 <AccordionIcon />
               </AccordionButton>
@@ -152,6 +153,7 @@ export const MobileFooterBar = () => {
             </StyledAccordionItem>
           </Accordion>
         </Flex>
+
         <HStack spacing={3} marginTop="40px">
           <Button
             as="a"
@@ -189,6 +191,7 @@ export const MobileFooterBar = () => {
             css={buttonIconCss}
           />
         </HStack>
+        
         <HorizontalDivider />
         <FooterText>
           Copyright ©️ 2022 Marble Dao. All rights reserved.
@@ -219,7 +222,7 @@ const ContainerForColumn = styled('div', {
   flexDirection: 'column',
   ' h3': {
     fontSize: '22px',
-    fontWeight: '700',
+    fontWeight: '500',
     marginBottom: '10px',
   },
 })
@@ -259,8 +262,11 @@ const FooterText = styled('div', {
 const StyledAccordionItem = styled(AccordionItem, {
   padding: '5px 0 !important',
   borderColor: '#363B4E !important',
+  maxWidth:'450px',
+  width:"100%",
+  margin:'0 auto',
   ' h3': {
     fontSize: '16px',
-    fontWeight: '600',
+    fontWeight: '400',
   },
 })

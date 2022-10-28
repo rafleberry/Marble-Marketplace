@@ -19,6 +19,7 @@ import { StyledCloseIcon } from 'components/Dialog'
 const TransferNFTModal = ({ nftInfo, onHandle }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [address, setAddress] = useState('')
+  console.log('nftINfo: ', nftInfo)
   return (
     <ChakraProvider>
       <Button

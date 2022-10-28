@@ -64,7 +64,7 @@ export default function NFTCreate() {
         .then((res: any) => {
           const transactionErrorType = getErrorMessage(res)
           const transaction = res.transaction
-          const event = res?.receipts_outcome[0]?.outcome.logs[0] || ''
+          console.log('transactionType: ', res, transactionErrorType)
           return {
             isSwap:
               transaction?.actions[1]?.['FunctionCall']?.method_name ===
@@ -74,20 +74,16 @@ export default function NFTCreate() {
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
                 'nft_mint',
             transactionErrorType,
-            event,
           }
         })
-        .then(({ isSwap, transactionErrorType, event }) => {
-          if (isSwap && !transactionErrorType && !errorType) {
-            const stringifiedEvent = event.split('EVENT_JSON:')[1]
-            const tokenId = JSON.parse(stringifiedEvent).data[0].token_ids[0]
-          }
+        .then(({ isSwap, transactionErrorType }) => {
           if (isSwap) {
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
             router.push('/explore')
             return
           }
+          router.push(pathname)
         })
     }
   }, [txHash])
@@ -427,7 +423,7 @@ const Divider = styled.div`
 const Container = styled.div`
   padding: 70px;
   p {
-    font-size: 18px;
+    font-size: 14px;
     font-family: Mulish;
     font-weight: 600;
   }
@@ -579,6 +575,13 @@ const MainWrapper = styled.div`
   aling-items: start;
   column-gap: 40px;
   justify-content: space-between;
+
+  // @media (max-width: 768px) {
+  //   display: block !important;
+  //   width: 100%;
+  //   row-gap: 20px;
+  // }
+
   @media (max-width: 480px) {
     flex-direction: column-reverse;
     width: 100%;

@@ -9,14 +9,14 @@ export const RoundedIcon = styled.img<{ size: string }>`
   height: ${({ size }) => size};
   border-radius: 50%;
   border: 1px solid #ffffff;
-  object-fit: cover;
 `
+
 export const Flex = styled.div<{ direction: string }>`
   display: flex;
   cursor: pointer;
   flex-direction: ${({ direction }) => direction};
   align-items: center;
-  column-gap: 15px;
+  column-gap: 9px;
   row-gap: 15px;
 `
 
@@ -36,10 +36,10 @@ export const RoundedIconComponent = ({
     })()
   }, [address])
   return (
-    <Link href={`/profile/${address}`} passHref>
+    <Link  href={`/profile/${address}`}>
       <Flex direction={direction}>
         {size !== '0px' && <RoundedIcon size={size} src={src} />}
-        <Text fontSize={font} fontWeight="800" fontFamily="Mulish">
+        <Text fontSize={font} fontSize="18px" fontWeight="500" fontFamily="Mulish">
           {user}
         </Text>
       </Flex>
@@ -59,10 +59,10 @@ export const RoundedBidIconComponent = ({ size, address, font = '14px' }) => {
   return (
     <Link href={`/profile/${address}`}>
       <HStack style={{ cursor: 'pointer' }}>
-        <RoundedIcon size={size} src={src} />
-        <Stack>
-          <Text fontSize="14px">Bid By</Text>
-          <Text fontSize={font} fontWeight="800" fontFamily="Mulish">
+        <RoundedIcon size={size} src={src}/>
+        <Stack className='ml-3'>
+          <Text fontSize="14px" fontWeight="100">Bid By</Text>
+          <Text fontSize={font} fontWeight="500" fontFamily="Mulish">
             {user}
           </Text>
         </Stack>

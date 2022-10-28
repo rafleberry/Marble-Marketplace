@@ -34,6 +34,7 @@ const UpdateMarketModal = ({
       </TokenLogoWrapper>
     )
   }
+  console.log('nftINfo: ', nftInfo)
   return (
     <ChakraProvider>
       <Button

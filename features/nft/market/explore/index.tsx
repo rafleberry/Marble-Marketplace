@@ -161,8 +161,11 @@ const ExploreWrapper = styled('div', {
   ' .category-menus': {
     borderBottom: '1px solid $borderColors$default',
     display: 'flex',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     overFlow: 'hidden',
+    '.bg-border-linear': {
+        marginRight:'25px',
+    },
     '&.desktop-section': {
       ' >span': {
         minWidth: '8%',

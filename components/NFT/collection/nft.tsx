@@ -24,7 +24,7 @@ export function NftCollectionTable({
                 transform: 'scale(1.05)',
               }}
             >
-              <CollectionDiv className="collection" key={idx}>
+              <CollectionDiv className="collection bg-border-linear" key={idx}>
                 <ImgDiv className="nft-img-div">
                   <Image src={collection.image} alt="NFT Image" />
                 </ImgDiv>
@@ -52,28 +52,27 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 50px 30px;
-  padding: 20px;
 `
 const CollectionDiv = styled.div`
-  border-radius: 20px;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
-  background: linear-gradient(0deg, #050616, #050616) padding-box,
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
+  // border-radius: 20px;
+  // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
+  // border: 1px solid;
+  // border-image-source: linear-gradient(
+  //   90.65deg,
+  //   #ffffff 0.82%,
+  //   rgba(0, 0, 0, 0) 98.47%
+  // );
+  // background: linear-gradient(0deg, #050616, #050616) padding-box,
+  //   linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
   padding: 30px;
   height: 100%;
   cursor: pointer;
   @media (max-width: 1450px) {
     padding: 15px;
   }
-  @media (max-width: 480px) {
-    width: 320px;
-  }
+  // @media (max-width: 480px) {
+  //   width: 320px;
+  // }
 `
 
 const ImgDiv = styled.div`
@@ -99,6 +98,7 @@ const Logo = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   border-radius: 50%;
+  border:4px solid rgba(255, 255, 255, 0.13);
 `
 const Title = styled.div`
   font-size: 24px;

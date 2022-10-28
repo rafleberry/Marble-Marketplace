@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useReducer, useState } from 'react'
 import axios from 'axios'
 import {
   Modal,
@@ -10,7 +10,6 @@ import {
   Stack,
   HStack,
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 import Select, { components } from 'react-select'
 import { CheckIcon } from '@chakra-ui/icons'
 import { toast } from 'react-toastify'
@@ -22,15 +21,13 @@ import { Button } from 'components/Button'
 import { Save } from 'icons/Save'
 import { setCollectionCategory } from 'hooks/useCollection'
 import { StyledCloseIcon } from 'components/Dialog'
-import {
-  failToast,
-  getURLInfo,
-  successToast,
-  getErrorMessage,
-} from 'components/transactionTipPopUp'
 import styled from 'styled-components'
 
 const options = [
+  {
+    value: 'Undefined',
+    label: 'Undefined',
+  },
   {
     value: 'Digital',
     label: 'Digital',
@@ -69,8 +66,6 @@ const PUBLIC_PINATA_SECRET_API_KEY =
   process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY || ''
 const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
   const wallet = getCurrentWallet()
-  const router = useRouter()
-  const { txHash, pathname, errorType } = getURLInfo()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [description, setDescription] = useState(
     collectionInfo.description || ''
@@ -99,38 +94,6 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
     logo: collectionInfo.logo.split('ipfs/')[1],
     featuredImage: collectionInfo.featuredImage.split('ipfs/')[1],
   })
-  useEffect(() => {
-    if (txHash && getCurrentWallet().wallet.isSignedIn()) {
-      checkTransaction(txHash)
-        .then((res: any) => {
-          const transactionErrorType = getErrorMessage(res)
-          const transaction = res.transaction
-          const signer = transaction?.signer_id
-          const logs = res.receipts_outcome[0]?.outcome?.logs[0]
-          return {
-            isSuccess:
-              transaction?.actions[0]?.['FunctionCall']?.method_name ===
-              'nft_edit_series',
-            transactionErrorType,
-            logs,
-            signer,
-          }
-        })
-        .then(({ isSuccess, transactionErrorType, logs, signer }) => {
-          if (isSuccess) {
-            const parsedLog = JSON.parse(logs)
-            setCollectionCategory({
-              category: parsedLog?.params?.token_metadata.description,
-              id: parsedLog?.params?.token_series_id,
-              creator: signer,
-            })
-            !transactionErrorType && !errorType && successToast(txHash)
-            transactionErrorType && failToast(txHash, transactionErrorType)
-          }
-          router.push(pathname)
-        })
-    }
-  }, [txHash])
   const handleChange = async () => {
     if (!wallet.accountId) {
       toast.warning(`Please connect your wallet.`, {
@@ -168,49 +131,66 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
       })
       return
     }
-
-    const jsonData = {}
-    jsonData['logo'] = data.logo
-    jsonData['featuredImage'] = data.featuredImage
-    jsonData['name'] = collectionInfo.name
-    jsonData['description'] = description
-    const pinataJson = {
-      pinataMetadata: {
-        name: collectionInfo.name,
-      },
-      pinataContent: jsonData,
-    }
-    setJsonUploading(true)
-    let url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`
-    let response = await axios.post(url, pinataJson, {
-      maxBodyLength: Infinity, //this is needed to prevent axios from erroring out with large files
-      headers: {
-        'Content-Type': `application/json`,
-        pinata_api_key: PUBLIC_PINATA_API_KEY,
-        pinata_secret_api_key: PUBLIC_PINATA_SECRET_API_KEY,
-      },
-    })
-    let ipfsHash = ''
-    if (response.status == 200) {
-      ipfsHash = response.data.IpfsHash
-    }
-    setJsonUploading(false)
-    try {
-      await nftFunctionCall({
-        methodName: 'nft_edit_series',
-        args: {
-          token_series_id: collectionInfo.token_series_id,
-          token_metadata: {
-            media: data.logo,
-            reference: ipfsHash,
-            copies: 10000,
-            title: collectionInfo.name,
-            description: category,
-          },
+    if (
+      data.logo === collectionInfo.logo.split('ipfs/')[1] &&
+      data.featuredImage === collectionInfo.featuredImage.split('ipfs/')[1] &&
+      description === collectionInfo.description
+    ) {
+      return onClose()
+    } else {
+      const jsonData = {}
+      jsonData['logo'] = data.logo
+      jsonData['featuredImage'] = data.featuredImage
+      jsonData['name'] = collectionInfo.name
+      jsonData['description'] = description
+      const pinataJson = {
+        pinataMetadata: {
+          name: collectionInfo.name,
+        },
+        pinataContent: jsonData,
+      }
+      setJsonUploading(true)
+      let url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`
+      let response = await axios.post(url, pinataJson, {
+        maxBodyLength: Infinity, //this is needed to prevent axios from erroring out with large files
+        headers: {
+          'Content-Type': `application/json`,
+          pinata_api_key: PUBLIC_PINATA_API_KEY,
+          pinata_secret_api_key: PUBLIC_PINATA_SECRET_API_KEY,
         },
       })
-    } catch (error) {
-      console.log('Create series error: ', error)
+      let ipfsHash = ''
+      if (response.status == 200) {
+        ipfsHash = response.data.IpfsHash
+      }
+      setJsonUploading(false)
+      try {
+        await nftFunctionCall({
+          methodName: 'nft_edit_series',
+          args: {
+            token_series_id: collectionInfo.token_series_id,
+            token_metadata: {
+              media: data.logo,
+              reference: ipfsHash,
+              copies: 10000,
+              title: collectionInfo.name,
+              description: collectionInfo.symbol,
+            },
+          },
+        })
+      } catch (error) {
+        console.log('Create series error: ', error)
+      }
+    }
+  }
+  const changeCategory = async () => {
+    const changedCategory = await setCollectionCategory({
+      category,
+      id: collectionInfo.token_series_id,
+      creator: collectionInfo.creator,
+    })
+    if (changedCategory) {
+      setSaved(true)
     }
   }
   const customStyles = {
@@ -322,6 +302,9 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
                     }}
                   />
                 </SelectWrapper>
+                <IconWrapper onClick={changeCategory}>
+                  {saved ? <CheckIcon w="70px" color="green" /> : <Save />}
+                </IconWrapper>
               </HStack>
               <Stack padding="0 30px">
                 <Button

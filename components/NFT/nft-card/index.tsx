@@ -8,29 +8,31 @@ import { getProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
 
 const saleType = {
-  NotSale: 'NOT ON SALE',
-  Auction: 'START PRICE',
+  NotSale: 'Not On Sale',
+  Auction: 'CURRENT BID',
   'Direct Sell': 'BUY NOW',
-  Offer: 'HIGHEST BID',
 }
 
 const backgroundColor = {
-  NotSale: 'rgba(05, 06, 22, 0.2)',
-  Auction: 'rgba(219, 115, 115, 0.5)',
-  'Direct Sell': '#FFFFFF',
-  Offer: 'rgba(219, 115, 115, 0.5)',
+  NotSale: "linear-gradient(0deg, #191c2b, #212737) padding-box, linear-gradient(90.65deg, #565656 0.82%, rgba(0, 0, 0, 0)  124.47%) border-box !important",
+  // Auction: 'rgba(219, 115, 115, 0.5)',
+  Auction: 'linear-gradient(0deg,#743a3a,#9f6060) padding-box,linear-gradient(90.65deg,#fff 0.82%,rgba(0,0,0,0) 71.47%) border-box !important',
+  // 'Direct Sell': '#FFFFFF',
+  'Direct Sell': 'linear-gradient(0deg, #fff, #fff) padding-box, linear-gradient(90.65deg, #fff 0.82%, rgba(0, 0, 0, 0)  124.47%) border-box !important',
 }
 
 export function NftCard({ nft, id, type }): JSX.Element {
   const tokenInfo = useTokenInfoFromAddress(nft.ft_token_id)
   const [profile, setProfile] = useState<any>({})
-  // console.log('nft.owner: ', nft.owner)
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const profile_info = await getProfileInfo(nft.owner)
       setProfile(profile_info)
     })()
   }, [nft])
+  console.log("nft.saleType", nft.saleType)
+  console.log("backgroundColor", backgroundColor);
+
   return (
     <NftCardDiv
       className="nft-card"
@@ -41,53 +43,66 @@ export function NftCard({ nft, id, type }): JSX.Element {
         <ImgDiv className="nft-img-url">
           <Image src={nft.image} alt="NFT Image" />
         </ImgDiv>
-        <Stack paddingTop="15px">
-          <Flex justifyContent="space-between">
-            <NFTName>{nft.name}</NFTName>
-            <HStack>
-              <Logo
-                src={
-                  profile.avatar
-                    ? `${process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar}`
-                    : '/default.png'
-                }
-                alt="logo"
-                size="34px"
-              />
-              <p>{profile.name || getReducedAddress(nft.owner)}</p>
-            </HStack>
-          </Flex>
-          <Flex justifyContent="space-between" paddingTop="10px 0">
-            <Stack>
-              <Title>{saleType[nft.saleType]}</Title>
-              {tokenInfo && (
-                <Flex alignItems="center">
-                  <Value>{nft.highest_bid || nft.price}</Value>
-                  &nbsp;
-                  <img
-                    src={tokenInfo.logoURI}
-                    alt="token"
-                    width="20px"
-                    height="20px"
-                    style={{ borderRadius: '50%' }}
-                  />
-                </Flex>
-              )}
-            </Stack>
-            {(nft.saleType === 'Auction' || nft.saleType == 'Offer') && (
+
+        <Stack padding="30px 0 0 0">
+          <Flex justifyContent="space-between" alignItems="flex-start">
+            <div>
+              <NFTName>{nft.name}</NFTName>
+              <Title className={`${nft.saleType === 'Direct Sell' ? 'text-color': ''} ${nft.saleType==="NotSale" ? 'not-on-sale':''}`}>{saleType[nft.saleType]}</Title>
               <Stack>
-                <Title>ENDS IN</Title>
-                <Timetrack>
-                  <DateCountdown
-                    dateTo={Number(nft.ended_at) / 1000000 || Date.now()}
-                    dateFrom={Number(nft.current_time) * 1000}
-                    interval={0}
-                    mostSignificantFigure="none"
-                    numberOfFigures={3}
-                  />
-                </Timetrack>
+                {tokenInfo && (
+                  <Flex alignItems="center">
+                    <Value>
+                      {convertMicroDenomToDenom(
+                        nft.price,
+                        tokenInfo.decimals
+                      ).toFixed(2)}
+                    </Value>
+                    &nbsp;
+                    <img
+                      src={tokenInfo.logoURI}
+                      alt="token"
+                      width="20px"
+                      height="20px"
+                    />
+                  </Flex>
+                )}
               </Stack>
-            )}
+            </div>
+
+            <HStack>
+              <div>
+                <div className='flex'>
+                  <Logo
+                    src={
+                      profile.avatar
+                        ? `${process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar}`
+                        : '/default.png'
+                    }
+                    alt="logo"
+                    size="34px"
+                  />
+                  <p className={`ml-2 ${nft.saleType === 'Direct Sell' ? 'text-color': ''}`} >{profile.name || getReducedAddress(nft.owner)}</p>
+                </div>
+
+                {nft.saleType === 'Auction' && (
+                  <Stack>
+                    <Title>ENDS IN</Title>
+                    <Timetrack className="">
+                      <DateCountdown
+                        dateTo={Number(nft.ended_at) / 1000000 || Date.now()}
+                        dateFrom={Number(nft.current_time) * 1000}
+                        interval={0}
+                        mostSignificantFigure="none"
+                        // className="vmn23"
+                        numberOfFigures={3}
+                      />
+                    </Timetrack>
+                  </Stack>
+                )}
+
+              </div>
+            </HStack>
           </Flex>
         </Stack>
       </ChakraProvider>
@@ -97,13 +112,15 @@ export function NftCard({ nft, id, type }): JSX.Element {
 
 const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
   border-radius: 20px;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:0px 4px 40px rgb(42 47 50 / 9%), inset -6px 3px 24px #41414e;
+  // border: 1px solid rgba(255, 255, 255, 0.2);
   background: ${({ color }) => color};
   padding: 30px;
   height: 100%;
   width: 100%;
   cursor: pointer;
+  border:1px solid;
+  border-image-source:linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%);
   color: ${({ revertColor }) => (revertColor ? 'black' : 'white')};
   @media (max-width: 1550px) {
     padding: 20px;
@@ -115,15 +132,24 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
       font-size: 16px;
     }
   }
-  @media (max-width: 480px) {
-    width: 320px;
+  .ml-2{
+    margin-left:10px;
+    font-weight:100;
   }
+  // @media (max-width: 480px) {
+  //   width: 320px;
+  // }
 `
 const NFTName = styled.div`
   font-size: 20px;
+  // margin-bottom:20px;
+  font-weight:500;
 `
 const Title = styled.div`
-  font-size: 14px;
+  font-size: 13px;
+  font-weight:100;
+  font-style:normal;
+  margin:15px 0px 7px;
   @media (max-width: 1550px) {
     font-size: 12px;
   }
@@ -135,9 +161,11 @@ const Value = styled.div`
   }
 `
 const Timetrack = styled.div`
+margin-top:0 !important;
   .dcd-info {
     font-size: 14px;
-    width: 100%;
+    // width: 100%;
+    // margin-top:0 !important;
     @media (max-width: 1550px) {
       font-size: 12px;
     }

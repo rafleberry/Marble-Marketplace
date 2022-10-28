@@ -104,7 +104,7 @@ export default function Home() {
           />
         </Banner>
         <ProfileContainer>
-          <ProfileInfo>
+          <ProfileInfo className="bg-border-linear profile-info-linear ">
             <LogoImage>
               <ProfilleLogoImageUpload
                 isActive={wallet.accountId === id}
@@ -112,6 +112,7 @@ export default function Home() {
                 setHash={handleSetHash}
               />
             </LogoImage>
+
             <Stack spacing="50px">
               <Stack spacing="50px">
                 <h1>{profile.name || getReducedAddress(id)}</h1>
@@ -134,12 +135,13 @@ export default function Home() {
                       color: '$black',
                       stroke: '$black',
                       width: '100%',
+                      fontWeight:'500',
                     }}
                     variant="primary"
                     size="large"
                     onClick={handleFollow}
                   >
-                    {profile.following && profile.following.includes(id)
+                    {profile.followers && profile.followers.includes(id)
                       ? 'Unfollow'
                       : 'Follow'}
                   </Button>
@@ -155,21 +157,25 @@ export default function Home() {
               >
                 Not followed by anyone you follow
               </div>
-              <Card>
+              <Card className="bg-border-linear" style={{
+                marginTop:"40px",
+                }}>
                 <h3>Bio</h3>
                 <p>{profile.bio || 'Undefined'}</p>
               </Card>
               {(profile.mail || profile.discord) && (
-                <Card>
+                <Card className="bg-border-linear">
                   <h3>Links</h3>
-                  <Stack spacing="5px">
+                  <Stack spacing="5px" style={{
+                 display:'flex', flexDirection:'row',
+                }}>
                     {profile.mail && (
-                      <HStack>
+                      <HStack className='w-50'>
                         <Email /> &nbsp; <p>{profile.mail}</p>
                       </HStack>
                     )}
                     {profile.discord && (
-                      <HStack>
+                      <HStack className='w-50'>
                         <DiscordT /> &nbsp; <p>{profile.discord}</p>
                       </HStack>
                     )}
@@ -186,7 +192,8 @@ export default function Home() {
               </IconButtonWrapper>
             )}
           </ProfileInfo>
-          <ProfileNFTInfo>
+
+          <ProfileNFTInfo className="tab-profile">
             <Tabs>
               <StyledTabList>
                 <StyledTab>{`Owned`}</StyledTab>
@@ -208,33 +215,44 @@ export default function Home() {
   )
 }
 
-const Container = styled.div``
+const Container = styled.div`
+`
+
 const Banner = styled.div`
   position: relative;
-  height: 650px;
+  min-height: 543px;
   width: 100%;
   display: block;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  backdrop-filter: blur(30px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  // background: linear-gradient(
+  //   180deg,
+  //   rgba(255, 255, 255, 0.06) 0%,
+  //   rgba(255, 255, 255, 0.06) 100%
+  // );
+  // backdrop-filter: blur(30px);
+  // border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 10;
   @media (max-width: 480px) {
     height: 216px;
   }
 `
 const LogoImage = styled.div`
-  width: 200px;
-  height: 200px;
+  width: 282px;
+  height: 282px;
   border-radius: 50%;
   border: 7px solid #ffffff;
   position: absolute;
-  top: -100px;
-  left: calc(50% - 100px);
-  z-index: 1000;
+  z-index: 999;
+  top: 0;
+  left: 50%;
+  transform: translate(-50% , -50%);
+
+  @media (max-width: 1024px) {
+    width: 222px;
+    height: 222px;
+    top: -60px;
+    left: calc(50% - 0px);
+  }
+
   @media (max-width: 480px) {
     width: 120px;
     height: 120px;
@@ -246,7 +264,7 @@ const LogoImage = styled.div`
 const ProfileContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
-  padding: 0 50px;
+  padding: 0px 49px 0px;
   p {
     font-size: 18px;
     font-weight: 400;
@@ -254,8 +272,8 @@ const ProfileContainer = styled.div`
   }
   h3 {
     font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 5px;
+    font-weight: 500;
+    margin-bottom: 8px;
   }
   h2 {
     font-size: 22px;
@@ -265,6 +283,9 @@ const ProfileContainer = styled.div`
     font-size: 40px;
     font-weight: 600;
     text-align: center;
+  }
+  @media (max-width: 1024px) {
+    padding:0px 8px 0;
   }
   @media (max-width: 480px) {
     display: flex;
@@ -282,14 +303,19 @@ const ProfileContainer = styled.div`
   }
 `
 const ProfileInfo = styled.div`
-  padding: 120px 50px 50px 50px;
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
+  padding: 180px 50px 50px 50px;
+  // background: rgba(05, 06, 22, 0.2);
+  // box-shadow: 0px 4px 40px rgb(42 47 50 / 9%), inset -20px 1px 24px #6d6d78;
   /* Note: backdrop-filter has minimal browser support */
-
-  border-radius: 0px 0px 20px 20px;
+  width:640px;
+  border-radius: 0 !important;
   height: fit-content;
   position: relative;
+  @media (max-width: 1024px) {
+    padding: 80px 25px 25px 25px;
+    width:520px !important;
+
+  }
   @media (max-width: 480px) {
     padding: 80px 25px 25px 25px;
   }
@@ -301,11 +327,11 @@ const VerticalDivider = styled.div`
   height: 0px;
 `
 const Card = styled.div`
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  backdrop-filter: blur(40px);
+  // background: rgba(05, 06, 22, 0.2);
+  // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
+  // backdrop-filter: blur(40px);
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 25px;
   @media (max-width: 480px) {
     p {
       font-size: 14px;
@@ -313,14 +339,14 @@ const Card = styled.div`
   }
 `
 const ProfileNFTInfo = styled.div`
-  padding: 10px 50px;
+  // padding: 10px 50px;
   @media (max-width: 480px) {
     padding: 10px 0px;
     width: 100%;
   }
 `
 const StyledTabList = styled(TabList)`
-  width: fit-content;
+  // width: fit-content;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, 0.1);
   font-weight: 400;
@@ -328,15 +354,18 @@ const StyledTabList = styled(TabList)`
   [aria-selected='true'] {
     border-color: #ffffff !important;
     border-bottom: 2px solid;
-    font-weight: 600;
+    font-weight: 400;
     color: white;
   }
 `
 
 const StyledTab = styled(Tab)`
   font-size: 22px;
-  font-weight: 400;
+  font-weight: 300;
   padding: 20px 70px 20px 10px;
+  &:last-child {
+    padding: 20px 70px 20px 70px;
+  }
   @media (max-width: 480px) {
     font-size: 12px;
     padding: 10px 35px 10px 0px;

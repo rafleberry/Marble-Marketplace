@@ -55,17 +55,22 @@ const ConnectWalletContainer = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-left: 25px;
-  font-weight: 700;
+  // margin-left: 25px;
+  font-weight: 500;
   font-size: 16px;
-  height: 75%;
+  // height: 75%;
+  padding: 14px 34px;
+  white-space: nowrap;
+  margin-left:auto;
+
   @media (max-width: 1550px) {
     height: 75%;
     width: 150px;
     border-radius: 10px;
     font-size: 12px;
+    
   }
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     height: 48px;
     margin-left: 0;
   }

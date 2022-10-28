@@ -33,6 +33,7 @@ export default function Home() {
           token_series_id: id,
         },
       })
+      console.log('nft-supply-in-serie: ', data)
       return data
     } catch (err) {
       console.log('nft supply for a collection error: ', err)
@@ -43,6 +44,7 @@ export default function Home() {
     ;(async () => {
       let collections = []
       const collectionList = await fetchCollections()
+      console.log('collectionList: ', collectionList)
       collectionList.forEach((collection) => {
         if (collection.creator_id === wallet.accountId) {
           collections.push(collection)
@@ -69,11 +71,11 @@ export default function Home() {
       <Container>
         <Stack spacing={isMobile() ? '20px' : '50px'}>
           <Title>Create On Marble Dao</Title>
-          <Collections>
+          <Collections className="bg-border-linear">
             <Stack spacing={isMobile() ? '10px' : '30px'}>
               <SubTitle>Your Collection</SubTitle>
               <Link href={`/collection/create`} passHref>
-                <Card>
+                <Card className="bg-border-linear card-mt">
                   <IconWrapper>
                     <Create />
                   </IconWrapper>
@@ -81,13 +83,13 @@ export default function Home() {
                     fontSize={isMobile() ? '14px' : '20px'}
                     fontWeight="700"
                   >
-                    Create A New Collection
-                  </Text>
+                    
+                  </Text>Create A New Collection
                 </Card>
               </Link>
               {ownedCollections.map((info, index) => (
                 <Link href={`/collection/${info.token_series_id}`} key={index}>
-                  <Card>
+                  <Card className="bg-border-linear bg-border-card">
                     <RoundedIcon
                       size={isMobile() ? '50px' : '70px'}
                       src={info.media}
@@ -96,13 +98,13 @@ export default function Home() {
                     <Stack marginLeft="20px">
                       <Text
                         fontSize={isMobile() ? '14px' : '20px'}
-                        fontWeight="700"
+                        fontWeight="600"
                       >
                         {info.metadata.title}
                       </Text>
                       <Text
                         fontSize={isMobile() ? '14px' : '20px'}
-                        fontWeight="600"
+                        fontWeight="500"
                         fontFamily="Mulish"
                       >
                         {info.counts} NFTs
@@ -131,6 +133,7 @@ const IconWrapper = styled.div`
   @media (max-width: 480px) {
     width: 50px;
     height: 50px;
+    margin-right:18px;
   }
 `
 
@@ -139,6 +142,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 1024px) {
+    padding: 10px;
+  }
   @media (max-width: 480px) {
     padding: 10px;
   }
@@ -146,7 +152,7 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 46px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
   @media (max-width: 480px) {
     font-size: 22px;
@@ -154,50 +160,62 @@ const Title = styled.div`
 `
 const SubTitle = styled.div`
   font-size: 30px;
-  font-weight: 600;
+  font-weight: 400;
   text-align: center;
+  margin-bottom:25px;
   @media (max-width: 480px) {
     font-size: 20px;
   }
 `
 
 const Collections = styled.div`
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  backdrop-filter: blur(30px);
+  // background:rgba(255,255,255,0.06);
+  // box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+  //   inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  // backdrop-filter: blur(30px);
   border-radius: 30px;
   width: 1000px;
   padding: 50px;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    106.01deg,
-    rgba(255, 255, 255, 0.2) 1.02%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  @media (max-width: 480px) {
-    width: 100%;
+  // border: 1px solid;
+  // border-image-source: linear-gradient(
+  //   106.01deg,
+  //   rgba(255, 255, 255, 0.2) 1.02%,
+  //   rgba(255, 255, 255, 0) 100%
+  // );
+  @media (max-width: 1024px) {
+    width: 760px !important;
     padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100% !important;
+    padding: 15px;
   }
 `
 const Card = styled.div`
-  background: linear-gradient(0deg, #050616, #050616) padding-box,
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  backdrop-filter: blur(40px);
-  border-radius: 20px;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
+  // background: linear-gradient(0deg,#2b2b38,#292a36) padding-box,
+  //   linear-gradient(90.65deg, #818181 0.82%, rgba(0, 0, 0, 0) 55.47%) border-box;
+  // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #41414e;
+  // backdrop-filter: blur(40px);
+  // border-radius: 20px;
+  // border: 1px solid;
+  // border-image-source: linear-gradient(
+  //   90.65deg,
+  //   #ffffff 0.82%,
+  //   rgba(0, 0, 0, 0) 98.47%
+  // );
   padding: 25px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  max-width:674px;
+  width:100%;
+  margin 30px auto 0 auto !important;
+  font-size:19px;
+  font-weight:500;
+  
+  @media (max-width:480px){
+   font-size:13px !important;
+   padding:20px;
+  }
 `

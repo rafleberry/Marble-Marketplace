@@ -5,7 +5,7 @@ import { NftCard } from '../nft-card'
 
 export function NftTable({ data, id, type, nft_column_count = 4 }) {
   return (
-    <NftGrid columns={nft_column_count}>
+    <NftGrid columns={nft_column_count}>  
       {data.map((nft, index) => (
         //<Link href="https://app.marbledao.finance/marblenauts-nft" passHref key={nft.tokenId}>
         <Link
@@ -31,8 +31,11 @@ const NftGrid = styled.div<{ columns: number }>`
   display: grid;
   grid-template-columns: ${({ columns }) => `repeat(${columns},1fr)`};
   grid-row-gap: 20px;
-  grid-column-gap: 20px;
-  padding: 20px;
+  grid-column-gap: 40px;
+  padding: 40px 0;
   overflow: hidden;
   overflow: auto;
+  @media (max-width:1024px){
+    grid-template-columns: repeat(1,1fr) !important;
+  }
 `

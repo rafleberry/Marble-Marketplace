@@ -40,3 +40,9 @@ $InterVersion: "3.19" !default;
   font-weight: 300;
   font-style: normal;
 }
+@font-face {
+  font-family: "Trajan";
+  @include fontdef("ExtraLight");
+  font-weight: 100;
+  font-style: normal;
+}

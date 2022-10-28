@@ -36,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     // fetchCollections()
-    ;(async () => {
+    ; (async () => {
       let collections = []
       let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
       let { categories } = await res_categories.json()
@@ -46,7 +46,7 @@ const Home = () => {
         try {
           let ipfs_collection = await fetch(
             process.env.NEXT_PUBLIC_PINATA_URL +
-              collectionList[i].metadata.reference
+            collectionList[i].metadata.reference
           )
           res_collection = await ipfs_collection.json()
           let collection_info: any = {}
@@ -54,10 +54,8 @@ const Home = () => {
           collection_info.name = res_collection.name
           collection_info.description = res_collection.description
           collection_info.image =
-            res_collection.featuredImage &&
             process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
           collection_info.banner_image =
-            res_collection.logo &&
             process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
           collection_info.slug = res_collection.slug
           collection_info.creator = res_collection.owner ?? ''
@@ -83,10 +81,12 @@ const Home = () => {
           </Stack>
         </Collections>
         <Flex justifyContent="center">
-          <Paper>
+          <Paper className="bg-border-linear">
             <MarbleCardGrid>
-              <Stack spacing={10}>
-                <Title>Discover Phygital NFTs</Title>
+              <Stack spacing={10} className="pygital-nft">
+                <Title>Discover 
+                  <span className='phgital-content'>Phygital NFTs</span>
+                </Title>
                 <TextContent textAlign={isMobile() ? 'center' : 'left'}>
                   Marble, the future of NFTs is already here. Collect Phygital
                   NFTs which bring real Art to life in spectacular 3D. Enjoy
@@ -95,7 +95,7 @@ const Home = () => {
                 </TextContent>
                 <StyledButton>Get Started</StyledButton>
               </Stack>
-              <Stack>
+              <Stack className='double-card-img'>
                 <img src="/images/doubleCardLogo.png" alt="cardlogo" />
               </Stack>
             </MarbleCardGrid>
@@ -114,7 +114,7 @@ const Home = () => {
               </StyledP>
             </Stack>
             <DestinationGrid>
-              <StyledPaper>
+              <StyledPaper className="bg-border-linear">
                 <Round>
                   <StyledImg src="/images/createIcon.svg" alt="create" />
                 </Round>
@@ -126,7 +126,7 @@ const Home = () => {
                   </TextContent>
                 </Stack>
               </StyledPaper>
-              <StyledPaper>
+              <StyledPaper className="bg-border-linear">
                 <Round>
                   <StyledImg src="/images/earnIcon.svg" alt="earn" />
                 </Round>
@@ -138,7 +138,7 @@ const Home = () => {
                   </TextContent>
                 </Stack>
               </StyledPaper>
-              <StyledPaper>
+              <StyledPaper className="bg-border-linear">
                 <Round>
                   <StyledImg src="/images/followIcon.svg" alt="follow" />
                 </Round>
@@ -164,16 +164,16 @@ const Home = () => {
               metaverses, Pinata offers a safe haven IPFS for NFT storage.
             </StyledP>
             <PartnerGrid>
-              <PartnerPaper>
+              <PartnerPaper className="bg-border-linear">
                 <StyledImg src="/images/near.svg" alt="near" />
               </PartnerPaper>
-              <PartnerPaper>
+              <PartnerPaper className="bg-border-linear">
                 <StyledImg src="/images/cosmos.svg" alt="cosmos" />
               </PartnerPaper>
-              <PartnerPaper>
-                <StyledImg src="/images/juno.svg" alt="juno" />
+              <PartnerPaper className="bg-border-linear">
+                <StyledImg src="/images/juno-icon.png" alt="juno" />
               </PartnerPaper>
-              <PartnerPaper>
+              <PartnerPaper className="bg-border-linear">
                 <StyledImg src="/images/pinata.svg" alt="pinata" />
               </PartnerPaper>
             </PartnerGrid>
@@ -186,9 +186,16 @@ const Home = () => {
 const DestinationGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 60px;
-  @media (max-width: 480px) {
+  column-gap: 30px;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap:30px;
+  }
+
+
+  @media (max-width: 576px) {
     display: flex;
+    // grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
     row-gap: 15px;
   }
@@ -196,22 +203,24 @@ const DestinationGrid = styled.div`
 const PartnerGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 10px;
+  column-gap: 30px;
   overflow: auto;
+  margin-top:20px !important;
   @media (max-width: 480px) {
     width: 100vw;
+    display:block;
   }
 `
 const StyledButton = styled.button`
-  width: 326px;
+  width: 250px;
   height: 68px;
   background: white;
   border-radius: 16px;
   box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
-    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
+  inset 0px 7px 8px rgba(0, 0, 0, 0.2);
   color: black;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
   @media (max-width: 480px) {
     width: 100%;
     height: 56px;
@@ -219,31 +228,35 @@ const StyledButton = styled.button`
   }
 `
 const MarbleCardGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  // display: grid;
+  // grid-template-columns: 1fr 1fr;
+  display:flex;
   align-items: center;
+ 
   @media (max-width: 1550px) {
     padding: 0 30px;
   }
-  @media (max-width: 480px) {
-    display: flex;
+  @media (max-width: 768px) {
+    display: block;
     flex-direction: column-reverse;
   }
 `
 const StyledImg = styled.img`
   margin: 0 auto;
 `
-
 const Container = styled.div`
   color: white;
 `
 const StyledP = styled.div`
   color: white;
   font-size: 20px;
+  font-weight:200;
   opacity: 0.5;
   font-family: Mulish;
   text-align: center;
-  width: 700px;
+  margin:0 auto !important;
+  margin-bottom:30px !important;
+  max-width: 1033px;
   @media (max-width: 1450px) {
     font-size: 18px;
   }
@@ -254,41 +267,45 @@ const StyledP = styled.div`
   }
 `
 const Collections = styled.div`
-  padding: 50px 0;
+  padding: 100px 0;
 `
-
 const Paper = styled.div<{ width?: string }>`
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
-  padding: 40px 80px;
+  // border:1px solid rgba(255, 255, 255, 0.2);
+  // background:rgba(255, 255, 255, 0.06);
+  padding: 30px 80px;
+  padding-bottom: 40px;
   width: ${({ width }) => width || '100%'};
   display: flex;
   align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
   @media (max-width: 1450px) {
     padding: 20px;
   }
 `
 const PartnerPaper = styled(Paper)`
+padding: 3px 28px !important;
   @media (max-width: 480px) {
     width: 120px;
     height: 50px;
+    margin-top:10px;
   }
 `
 const StyledPaper = styled.div`
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
+  // background: rgba(255, 255, 255, 0.06);
+  // border: 1px solid rgba(255, 255, 255, 0.2);
+  // box-shadow: 0px 7px 14px 0px #0000001a;
+  // backdrop-filter: blur(30px);
   justify-content: center;
-  padding: 40px 80px;
+  padding: 40px 25px;
   flex-direction: column;
   h1 {
     font-size: 36px;
-    font-weight: 700;
+    font-weight: 500;
     text-align: center;
   }
   @media (max-width: 1450px) {
@@ -313,8 +330,9 @@ const StyledPaper = styled.div`
 `
 
 const TextTitle = styled.div`
-  font-size: 46px;
-  font-weight: 700;
+  font-size: 40px;
+  font-weight: 500;
+  margin-bottom:20px;
   text-align: center;
   @media (max-width: 1550px) {
     font-size: 40px;
@@ -330,6 +348,7 @@ const TextContent = styled.div<{ textAlign?: string }>`
   font-weight: 300;
   opacity: 0.5;
   font-family: Mulish;
+  // margin-bottom:10px !important;
   @media (max-width: 1440px) {
     font-size: 20px;
   }
@@ -346,6 +365,16 @@ const Round = styled.div`
   align-items: center;
   border-radius: 50%;
   margin: 50px auto;
+
+  @media (max-width: 768px) {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+  }
   @media (max-width: 480px) {
     width: 70px;
     height: 70px;
@@ -357,8 +386,8 @@ const Round = styled.div`
   }
 `
 const Title = styled.div`
-  font-size: 65px;
-  font-weight: 700;
+  font-size: 50px;
+  font-weight: 400;
   @media (max-width: 1550px) {
     font-size: 40px;
   }
@@ -368,3 +397,6 @@ const Title = styled.div`
   }
 `
 export default Home
+
+
+

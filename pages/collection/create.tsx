@@ -138,7 +138,6 @@ export default function Collection() {
           token_metadata: {
             copies: 10000,
             title: name,
-            description: category,
           },
           price: null,
           royalty: royalty,
@@ -157,33 +156,38 @@ export default function Collection() {
         .then((res: any) => {
           const transactionErrorType = getErrorMessage(res)
           const transaction = res.transaction
-          console.log('transaction: ', res)
-          const logs = res.receipts_outcome[0]?.outcome?.logs[0]
           return {
             isSuccess:
               transaction?.actions[0]?.['FunctionCall']?.method_name ===
               'nft_create_series',
             transactionErrorType,
-            logs,
           }
         })
-        .then(({ isSuccess, transactionErrorType, logs }) => {
+        .then(({ isSuccess, transactionErrorType }) => {
           if (isSuccess) {
             transactionErrorType && failToast(txHash, transactionErrorType)
             if (!transactionErrorType && !errorType) {
               successToast(txHash)
-              const parsedLog = JSON.parse(logs)
-              console.log('parsedLog: ', parsedLog)
-              createNewCollection({
-                id: parsedLog?.params?.token_series_id,
-                creator: parsedLog?.params?.creator_id,
-                category: parsedLog?.params?.token_metadata.description,
+              nftViewFunction({
+                methodName: 'nft_get_total_series',
+                args: {},
               })
-                .then((data) => {
-                  console.log('backend collection data: ', data)
+                .then((total) => {
+                  console.log('inputData total: ', total)
+                  createNewCollection({
+                    id: total,
+                    creator: wallet.accountId,
+                    category,
+                  })
+                    .then((data) => {
+                      console.log('backend collection data: ', data)
+                    })
+                    .catch((err) => {
+                      console.log('backend collection data: ', err)
+                    })
                 })
                 .catch((err) => {
-                  console.log('backend collection data: ', err)
+                  console.log('get total series error: ', err)
                 })
             }
             transactionErrorType && failToast(txHash, transactionErrorType)
@@ -234,17 +238,17 @@ export default function Collection() {
   }
   return (
     <AppLayout fullWidth={true}>
-      {wallet.accountId && (
+        {/* {wallet.accountId && ( */}
         <Container>
           <Stack spacing={isMobile() ? '20px' : '50px'}>
             <Title>Create On Marble Dao</Title>
-            <Collections>
+            <Collections className="bg-border-linear">
               <Stack spacing={isMobile() ? '20px' : '50px'}>
-                <Stack>
+                <Stack className='create-col'>
                   <CardTitle>Create A Collection</CardTitle>
-                  <SubText>Deploy a smart contract to showcase NFTs</SubText>
+                  <SubText className="create-text">Deploy a smart contract to showcase NFTs</SubText>
                 </Stack>
-                <Stack>
+                <Stack className="set-up">
                   <SubTitle>Set Up Your Smart Contract</SubTitle>
                   <SubText>
                     The following details are used to create your smart
@@ -253,7 +257,7 @@ export default function Collection() {
                   </SubText>
                   <StyledLink>Learn more about smart contracts</StyledLink>
                 </Stack>
-                <Stack>
+                <Stack className="collection-input">
                   <InputLabel>Collection Name</InputLabel>
                   <StyledInput
                     value={name}
@@ -264,7 +268,7 @@ export default function Collection() {
                 </Stack>
                 <Stack>
                   <InputLabel>Collection Category</InputLabel>
-                  <Select
+                  <Select className='select-input'
                     defaultValue={options[0]}
                     options={options}
                     components={{
@@ -277,8 +281,8 @@ export default function Collection() {
                   />
                 </Stack>
                 <Stack>
-                  <SubTitle>ROYALTY</SubTitle>
-                  <Text fontSize="16px" fontWeight="500" fontFamily="Mulish">
+                  <SubTitle className="royalty">ROYALTY</SubTitle>
+                  <Text fontSize="16px" fontWeight="400" fontFamily="Mulish" maxWidth="560px" className="text-sm">
                     Enable a split to autonatically divide any funds or
                     royalties earned from the NFT with up to five recipients,
                     including yourself.
@@ -286,7 +290,7 @@ export default function Collection() {
                 </Stack>
                 <Stack width="100%">
                   {royaltyValues.map((element, index) => (
-                    <Grid templateColumns="repeat(2, 1fr)" gap={6} key={index}>
+                    <Grid templateColumns="repeat(2, 1fr)" gap={40} key={index} className="collection-grid">
                       <Stack>
                         {index === 0 && (
                           <RoyaltyLabel>Account Name</RoyaltyLabel>
@@ -312,7 +316,7 @@ export default function Collection() {
                           />
                         </Stack>
                         {index ? (
-                          <IconWrapper width="70px">
+                          <IconWrapper width="70px" >
                             <IconButton
                               aria-label="icon"
                               icon={<CloseIcon />}
@@ -324,25 +328,27 @@ export default function Collection() {
                     </Grid>
                   ))}
                   {royaltyValues.length < 5 && (
-                    <IconWrapper>
+                    <IconWrapper className='add-icon'>
                       <IconButton
                         aria-label="icon"
-                        icon={<AddIcon />}
+                        icon={<AddIcon/>}
                         onClick={addFormFields}
                         width="100%"
                       />
                     </IconWrapper>
                   )}
                 </Stack>
-                <Stack padding="0 20%">
+                <Stack padding="0 20%" className='p-0'>
                   <Button
-                    className="btn-buy btn-default"
+                    className="btn-buy btn-default btn-padding"
                     css={{
                       background: '$white',
                       color: '$black',
                       stroke: '$black',
                       width: '100%',
                       padding: '20px',
+                      fontWeight: "500",
+                      marginTop:"20px !important",
                     }}
                     variant="primary"
                     size="large"
@@ -355,7 +361,7 @@ export default function Collection() {
             </Collections>
           </Stack>
         </Container>
-      )}
+        {/* )} */}
     </AppLayout>
   )
 }
@@ -371,7 +377,7 @@ const Container = styled.div`
 `
 const Title = styled.div`
   font-size: 46px;
-  font-weight: 600;
+  font-weight: 500;
   text-align: center;
   @media (max-width: 480px) {
     font-size: 22px;
@@ -379,22 +385,22 @@ const Title = styled.div`
 `
 const CardTitle = styled.div`
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 500;
   @media (max-width: 480px) {
     font-size: 20px;
     text-align: center;
   }
 `
 const SubTitle = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
   @media (max-width: 480px) {
     font-size: 14px;
   }
 `
 const InputLabel = styled.div`
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 400;
   margin-left: 30px;
   @media (max-width: 480px) {
     font-size: 12px;
@@ -402,8 +408,8 @@ const InputLabel = styled.div`
   }
 `
 const RoyaltyLabel = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 400;
   margin-left: 30px;
   @media (max-width: 480px) {
     font-size: 12px;
@@ -411,32 +417,40 @@ const RoyaltyLabel = styled.div`
   }
 `
 const Collections = styled.div`
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  backdrop-filter: blur(30px);
+  // background: linear-gradient(
+  //   180deg,
+  //   rgba(255, 255, 255, 0.06) 0%,
+  //   rgba(255, 255, 255, 0.06) 100%
+  // );
+  // box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+  //   inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  // backdrop-filter: blur(30px);
+  // border:1px solid rgba(255, 255, 255, 0.2);
+  // background:rgba(255, 255, 255, 0.06);
   border-radius: 30px;
   width: 1000px;
   padding: 50px;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    106.01deg,
-    rgba(255, 255, 255, 0.2) 1.02%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  @media (max-width: 480px) {
-    width: 100%;
+  1px solid rgba(255, 255, 255, 0.2);
+  // border-image-source: linear-gradient(
+  //   106.01deg,
+  //   rgba(255, 255, 255, 0.2) 1.02%,
+  //   rgba(255, 255, 255, 0) 100%
+  // );
+  @media (max-width: 1024px) {
+    width: 760px !important;
     padding: 20px;
+  }
+  @media (max-width: 480px) {
+    width: 100% !important;
+    padding: 15px;
   }
 `
 const SubText = styled.div`
   font-size: 18px;
   font-family: Mulish;
-  font-weight: 600;
+  font-weight: 500;
+  max-width: 590px;
+  margin-top: 12px !important;
   @media (max-width: 480px) {
     font-size: 14px;
     font-weight: 400;
@@ -445,8 +459,10 @@ const SubText = styled.div`
 const StyledLink = styled.a`
   font-size: 18px;
   font-family: Mulish;
-  font-weight: 600;
+  font-weight: 500;
   color: #cccccc;
+  text-decoration:underline;
+  margin-top:20px !important;
   @media (max-width: 480px) {
     font-size: 14px;
     font-weight: 400;
@@ -459,11 +475,12 @@ const StyledInput = styled.input`
   box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09);
   backdrop-filter: blur(40px);
   border-radius: 20px;
-  padding: 20px;
+  padding: 20px 25px;
   font-size: 20px;
   font-family: Mulish;
   @media (max-width: 480px) {
     font-size: 16px;
+    padding:15px 20px;
   }
 `
 const IconWrapper = styled.div<{ width?: string; m?: string }>`
@@ -476,4 +493,5 @@ const IconWrapper = styled.div<{ width?: string; m?: string }>`
   margin: ${({ m }) => m || '0'};
   align-items: center;
   justify-content: center;
+  // margin-top:15px !important;
 `

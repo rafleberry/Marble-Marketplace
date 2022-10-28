@@ -34,6 +34,7 @@ const PlaceBidModal = ({
       </TokenLogoWrapper>
     )
   }
+  console.log('nftINfo: ', nftInfo)
   return (
     <ChakraProvider>
       <Button
@@ -89,7 +90,7 @@ const PlaceBidModal = ({
                 </InputGroup>
                 <Stack
                   justifyContent="space-between"
-                  flexDirection="row"
+                  flexDirection={isMobile() ? 'row' : 'column'}
                   alignItems="center"
                 >
                   <h1>Available Balance</h1>
@@ -135,15 +136,16 @@ const Container = styled(ModalContent)`
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   background: rgba(255, 255, 255, 0.06) !important;
   border-radius: 30px !important;
-  padding: 20px;
+  padding: 70px;
   color: white !important;
   overflow: hidden;
-  max-width: 1000px !important;
+  max-width: 1320px !important;
   @media (max-width: 480px) {
     width: 90vw !important;
     padding: 10px;
     max-height: 100vh;
     overflow: auto;
+    border-radius: 10px !important;
   }
 `
 const MainWrapper = styled.div`
@@ -170,8 +172,8 @@ const MainWrapper = styled.div`
 `
 const CardWrapper = styled.div`
   display: flex;
-  height: 406px;
-  width: 300px;
+  height: 556px;
+  width: 434px;
   @media (max-width: 480px) {
     width: 100%;
     height: 100%;
@@ -190,6 +192,7 @@ const StyledInput = styled(Input)`
   align-items: center;
   height: 70px !important;
 `
+
 const TokenLogoWrapper = styled.div`
   background: rgba(0, 0, 0, 0.2);
   border-radius: 60px;

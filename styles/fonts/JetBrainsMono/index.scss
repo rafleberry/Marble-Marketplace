@@ -25,3 +25,9 @@ $JetBrainsMonoVersion: "1.101" !default;
   font-weight: 400;
   font-style: normal;
 }
+@font-face {
+  font-family: "Mulish";
+  @include fontdef("ExtraLight");
+  font-weight: 200;
+  font-style: normal;
+}

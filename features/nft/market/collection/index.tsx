@@ -24,9 +24,7 @@ import {
   marketplaceViewFunction,
   nftViewFunction,
   NFT_CONTRACT_NAME,
-  TOKEN_DENOMS,
 } from 'util/near'
-import { convertMicroDenomToDenom } from 'util/conversion'
 import { getCollectionCategory } from 'hooks/useCollection'
 import { getCurrentWallet } from 'util/sender-wallet'
 import EditCollectionModal from './components/EditCollectionModal'
@@ -68,7 +66,7 @@ let pageCount = 10
 export const Collection = ({ id }: CollectionProps) => {
   const router = useRouter()
   const wallet = getCurrentWallet()
-  const [category, setCategory] = useState('Digital')
+  const [category, setCategory] = useState('Undefined')
   const [currentTokenCount, setCurrentTokenCount] = useState(0)
   const [collectionInfo, setCollectionInfo] = useState<any>({})
   const [numTokens, setNumTokens] = useState(0)
@@ -118,7 +116,6 @@ export const Collection = ({ id }: CollectionProps) => {
     result.name = collection_info.metadata.title
     result.symbol = collection_info.metadata.description
     result.token_series_id = collection_info.token_series_id
-    setCategory(collection_info.metadata.description)
     setCollectionInfo(result)
     return result
   }, [id])
@@ -159,7 +156,7 @@ export const Collection = ({ id }: CollectionProps) => {
         )
 
         let res_nft = await ipfs_nft.json()
-        res_nft['owner'] = element.owner_id
+
         res_nft['tokenId'] = element.token_id.split(':')[1]
         res_nft['title'] = res_collection.name
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
@@ -167,21 +164,11 @@ export const Collection = ({ id }: CollectionProps) => {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'
             : 'Direct Sell'
-          ;(res_nft['price'] = convertMicroDenomToDenom(
-            market_data.price,
-            TOKEN_DENOMS[market_data.ft_token_id]
-          ).toFixed(2)),
-            (res_nft['started_at'] = market_data.started_at)
+          res_nft['price'] = market_data.price
+          res_nft['started_at'] = market_data.started_at
           res_nft['ended_at'] = market_data.ended_at
           res_nft['current_time'] = market_data.current_time
           res_nft['ft_token_id'] = market_data.ft_token_id
-          res_nft['highest_bid'] =
-            market_data.bids &&
-            market_data.bids.length > 0 &&
-            convertMicroDenomToDenom(
-              market_data.bids[market_data.bids.length - 1].price,
-              TOKEN_DENOMS[market_data.ft_token_id]
-            ).toFixed(2)
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
       })
@@ -322,6 +309,23 @@ export const Collection = ({ id }: CollectionProps) => {
     // setHasMore(currentTokenCount >= numTokens)
   }
 
+  useEffect(() => {
+    if (isLargeNFT) {
+      if (nft_column_count <= 4) return
+      //setUIData(NFT_COLUMN_COUNT, nft_column_count - 1)
+      dispatch({
+        type: NFT_COLUMN_COUNT,
+        payload: nft_column_count - 1,
+      })
+    } else {
+      if (nft_column_count >= 5) return
+      //setUIData(NFT_COLUMN_COUNT, nft_column_count +1)
+      dispatch({
+        type: NFT_COLUMN_COUNT,
+        payload: nft_column_count + 1,
+      })
+    }
+  }, [dispatch, isLargeNFT])
   return (
     <ChakraProvider>
       <CollectionWrapper>
@@ -403,7 +407,7 @@ export const Collection = ({ id }: CollectionProps) => {
               alignItems="center"
               margin="0 auto"
             >
-              <Text fontSize="30px" fontWeight="700">
+              <Text fontSize="30px" fontWeight="400">
                 Customize Your Collection
               </Text>
               <Text fontSize="18px" fontWeight="600">
@@ -464,7 +468,7 @@ const Banner = styled.div`
     padding: 150px 50px 50px 50px;
   }
   @media (max-width: 480px) {
-    height: 560px;
+    height: 100%;
     padding: 150px 20px 20px 20px;
   }
 `
@@ -479,6 +483,7 @@ const BannerImage = styled.img`
   object-fit: cover;
   object-position: center;
   z-index: -1;
+
 `
 const Logo = styled.img`
   width: 180px;

@@ -16,16 +16,8 @@ import {
   nftViewFunction,
   marketplaceViewFunction,
   NFT_CONTRACT_NAME,
-  TOKEN_DENOMS,
 } from 'util/near'
 import { isClientMobie, isMobile } from 'util/device'
-import {
-  formatChakraDateToTimestamp,
-  formatTimestampToDate,
-  convertMicroDenomToDenom,
-  formatNearToYocto,
-  formatHera,
-} from 'util/conversion'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])
@@ -76,21 +68,11 @@ const CollectionInfo = ({ info }) => {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'
             : 'Direct Sell'
-          ;(res_nft['price'] = convertMicroDenomToDenom(
-            market_data.price,
-            TOKEN_DENOMS[market_data.ft_token_id]
-          ).toFixed(2)),
-            (res_nft['started_at'] = market_data.started_at)
+          res_nft['price'] = market_data.price
+          res_nft['started_at'] = market_data.started_at
           res_nft['ended_at'] = market_data.ended_at
           res_nft['current_time'] = market_data.current_time
           res_nft['ft_token_id'] = market_data.ft_token_id
-          res_nft['highest_bid'] =
-            market_data.bids &&
-            market_data.bids.length > 0 &&
-            convertMicroDenomToDenom(
-              market_data.bids[market_data.bids.length - 1].price,
-              TOKEN_DENOMS[market_data.ft_token_id]
-            ).toFixed(2)
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
       })
@@ -104,8 +86,8 @@ const CollectionInfo = ({ info }) => {
     })()
   }, [info])
   return (
-    <Container>
-      <ChakraProvider>
+    <Container className="bg-border-linear">
+      <ChakraProvider className="collection-tab">
         <Flex justifyContent="space-between">
           <HStack>
             <ImgDiv>
@@ -117,7 +99,7 @@ const CollectionInfo = ({ info }) => {
             </Stack>
           </HStack>
           {!isMobile() && (
-            <CreatorInfo>
+            <CreatorInfo className="bg-border-linear" style={{borderRadius:"50px"}}>
               <RoundedIconComponent
                 size={isClientMobie ? '36px' : '48px'}
                 address={info.creator}
@@ -126,12 +108,13 @@ const CollectionInfo = ({ info }) => {
             </CreatorInfo>
           )}
         </Flex>
+        
         <Grid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat(3, 1fr)"
           gap={6}
           overflowX="auto"
           overflowY="unset"
-          padding="30px"
+          padding="30px 0" className='grid-collection'
         >
           {nfts.slice(0, 4).map((nftInfo, index) => (
             <Link
@@ -151,6 +134,7 @@ const CollectionInfo = ({ info }) => {
             </Link>
           ))}
         </Grid>
+        
         {isMobile() && (
           <CreatorInfo>
             <RoundedIconComponent
@@ -167,10 +151,10 @@ const CollectionInfo = ({ info }) => {
 
 const Container = styled.div`
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
+  // background: rgba(255, 255, 255, 0.06);
+  // border: 1px solid rgba(255, 255, 255, 0.2);
+  // box-shadow: 0px 7px 14px 0px #0000001a;
+  // backdrop-filter: blur(30px);
   margin: 10px 0;
   padding: 40px;
   width: 100%;
@@ -191,30 +175,41 @@ const Image = styled.img`
   border-radius: 50%;
 `
 const ImgDiv = styled.div`
-  width: 70px;
+  // min-width: 80px;
+  width:80px;
+  height:70px;
+  border:3px solid rgba(255,255,255,0.13);
   padding-bottom: 70px;
   display: block;
   position: relative;
   border-radius: 50%;
+  margin-right:15px;
   @media (max-width: 1550px) {
     padding-bottom: 55px;
     width: 55px;
   }
+  @media (max-width: 1024px) {
+    // padding-bottom: 55px;
+    width: 70px;
+  }
   @media (max-width: 480px) {
-    width: 50px;
+    width: 55px;
+    height:50px;
     padding-bottom: 50px;
+    margin-right:10px;
   }
 `
 const CreatorInfo = styled.div`
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  border-radius: 60px;
+  // background: rgba(255, 255, 255, 0.06);
+  // border: rgba(255, 255, 255, 0.2);
+  // border-radius: 60px;
+  border-radius:50px !important; 
   display: flex;
   padding: 10px;
-  align-items: center;
+  // align-items: center;
   height: 70px;
   width: 210px;
-  justify-content: space-around;
+  // justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
     width: 160px;
@@ -227,7 +222,7 @@ const CreatorInfo = styled.div`
 `
 const Title = styled.div`
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 500;
   @media (max-width: 1550px) {
     font-size: 23px;
   }
@@ -237,7 +232,7 @@ const Title = styled.div`
 `
 const SubTitle = styled.div`
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   @media (max-width: 1550px) {
     font-size: 15px;
   }

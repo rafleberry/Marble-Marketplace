@@ -1,16 +1,18 @@
-// import { useQuery, QueryKey } from 'react-query'
-// import {
-//   unsafelyGetTokenInfo,
-//   useBaseTokenInfo,
-//   useTokenInfo,
-// } from './useTokenInfo'
-// import { getIBCAssetInfo } from './useIBCAssetInfo'
-// import { DEFAULT_TOKEN_BALANCE_REFETCH_INTERVAL } from '../util/constants'
-import { useSelector } from 'react-redux'
+import { useQuery, QueryKey } from 'react-query'
+import {
+  unsafelyGetTokenInfo,
+  useBaseTokenInfo,
+  useTokenInfo,
+} from './useTokenInfo'
+import { getIBCAssetInfo } from './useIBCAssetInfo'
+import { DEFAULT_TOKEN_BALANCE_REFETCH_INTERVAL } from '../util/constants'
 
 export const useNearDollarValue = () => {
-  const nearValue = useSelector((state: any) => state.coinData.near_value)
-  return nearValue
+  // const url = "https://api.coingecko.com/api/v3/simple/price?ids=near&include_last_updated_at=true&vs_currencies=usd"
+  // const res = await axios.get(url)
+  // if (res.data?.near.usd)
+  //   return res.data?.near.usd
+  return 4
 }
 
 export const useHeraDollarValue = async () => {
@@ -21,11 +23,10 @@ export const useHeraDollarValue = async () => {
   return 0.25
 }
 
-export const useTokenPrice = (name: string) => {
-  const nearValue = useNearDollarValue()
+export const getTokenPrice = (name: string) => {
   if (name === 'HERA') return 0.25
-  if (name === 'NEAR') return nearValue
-  return nearValue
+  if (name === 'NEAR') return 4.5405
+  return 4.5405
 }
 
 // export const useTokenDollarValue = (tokenSymbol?: string) => {
@@ -96,8 +97,8 @@ export const useTokenPrice = (name: string) => {
 //   return [data || [], isLoading] as const
 // }
 
-// function getApiUrl(tokenIds: Array<string>) {
-//   return `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds.join(
-//     ','
-//   )}&vs_currencies=usd`
-// }
+function getApiUrl(tokenIds: Array<string>) {
+  return `https://api.coingecko.com/api/v3/simple/price?ids=${tokenIds.join(
+    ','
+  )}&vs_currencies=usd`
+}

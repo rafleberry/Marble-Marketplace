@@ -50,21 +50,21 @@ export default function Explores() {
   }, [])
   return (
     <ChakraProvider>
-      <AppLayout fullWidth={true}>
-        <Tabs overflow="auto">
+      <AppLayout fullWidth={true} hasBanner={true}>
+        <Tabs overflow="auto" padding='20px 49px'>
           <StyledTabList>
             <StyledTab>{`NFTs(${nfts})`}</StyledTab>
             <StyledTab>{`Collections(${collections})`}</StyledTab>
             <StyledTab>{`Profiles(${profiles.profiles})`}</StyledTab>
           </StyledTabList>
           <TabPanels>
-            <TabPanel>
+            <TabPanel style={{padding:"0px",paddingTop:'40px'}}>
               <NFTExplorer />
             </TabPanel>
-            <TabPanel>
+            <TabPanel style={{padding:"0px"}}>
               <Explore />
             </TabPanel>
-            <TabPanel>
+            <TabPanel style={{padding:"0px",paddingTop:"10px"}}>
               <Profiles profileCounts={profiles} />
             </TabPanel>
           </TabPanels>
@@ -75,19 +75,22 @@ export default function Explores() {
 }
 const StyledTabList = styled(TabList)`
   width: fit-content;
-  border-bottom: 2px solid;
+  border-bottom: 3px solid;
   border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 400;
+  font-size:22px;
   .css-1ltezim[aria-selected='true'] {
     border-color: #ffffff;
-    font-weight: 600;
+    font-weight: 400;
     color: white;
+    font-size:22px;
   }
 `
 
 const StyledTab = styled(Tab)`
-  font-size: 22px;
-  font-weight: 400;
-  padding: 20px;
-  margin: 0 20px;
+  font-size: 22px !important;
+  font-weight: 300;
+  // padding: 20px 70px 20px 0px;
+  padding: 20px 0 !important;
+  margin: 0 100px 0 0;
 `

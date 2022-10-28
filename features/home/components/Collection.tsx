@@ -1,24 +1,23 @@
+import React, { useState, useEffect, useCallback } from 'react'
+import styled from 'styled-components'
+import Link from 'next/link'
 import {
   ChakraProvider,
   Flex,
-  Grid,
   HStack,
-  LinkBox,
+  Text,
   Stack,
+  Grid,
+  LinkBox,
 } from '@chakra-ui/react'
 import { NftCard } from 'components/NFT/nft-card'
 import { RoundedIconComponent } from 'components/RoundedIcon'
-import Link from 'next/link'
-import { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { convertMicroDenomToDenom } from 'util/conversion'
-import { isClientMobie, isMobile } from 'util/device'
 import {
-  marketplaceViewFunction,
   nftViewFunction,
+  marketplaceViewFunction,
   NFT_CONTRACT_NAME,
-  TOKEN_DENOMS,
 } from 'util/near'
+import { isClientMobie, isMobile } from 'util/device'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])
@@ -68,21 +67,11 @@ const CollectionInfo = ({ info }) => {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'
             : 'Direct Sell'
-          ;(res_nft['price'] = convertMicroDenomToDenom(
-            market_data.price,
-            TOKEN_DENOMS[market_data.ft_token_id]
-          ).toFixed(2)),
-            (res_nft['started_at'] = market_data.started_at)
+          res_nft['price'] = market_data.price
+          res_nft['started_at'] = market_data.started_at
           res_nft['ended_at'] = market_data.ended_at
           res_nft['current_time'] = market_data.current_time
           res_nft['ft_token_id'] = market_data.ft_token_id
-          res_nft['highest_bid'] =
-            market_data.bids &&
-            market_data.bids.length > 0 &&
-            convertMicroDenomToDenom(
-              market_data.bids[market_data.bids.length - 1].price,
-              TOKEN_DENOMS[market_data.ft_token_id]
-            ).toFixed(2)
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
       })
@@ -96,7 +85,7 @@ const CollectionInfo = ({ info }) => {
     })()
   }, [])
   return (
-    <Container>
+    <Container className="bg-border-linear curated-collect">
       <ChakraProvider>
         <Flex
           justifyContent="space-between"
@@ -107,27 +96,31 @@ const CollectionInfo = ({ info }) => {
             <ImgDiv>
               <Image src={info.image} alt="collection" />
             </ImgDiv>
+            
             <Stack>
               <Title>{info.name}</Title>
               <SubTitle>{info.cat_ids}</SubTitle>
             </Stack>
           </HStack>
           {!isMobile() && (
-            <CreatorInfo>
+            <CreatorInfo className="bg-border-linear round-icon">
               <RoundedIconComponent
-                size={isClientMobie ? '36px' : '48px'}
+                size={isClientMobie ? '47px' : '48px'}
                 address={info.creator}
-                font={isClientMobie ? '15px' : '20px'}
+                font={isClientMobie ? '47px' : '20px'}
               />
             </CreatorInfo>
           )}
         </Flex>
+
         <Grid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat(3, 1fr)"
+          className='collection-grid'
           gap={6}
           overflowX="auto"
           overflowY="hidden"
           padding={isMobile() ? '0 10px' : '15px 30px'}
+          
         >
           {nfts.map((nftInfo, index) => (
             <Link
@@ -165,9 +158,9 @@ const CollectionInfo = ({ info }) => {
 
 const Container = styled.div`
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
+  // background: rgba(255, 255, 255, 0.06);
+  // border:1px solid rgba(255,255,255,0.2);
+  // box-shadow: 0px 7px 14px 0px #0000001a;
   backdrop-filter: blur(30px);
   margin: 10px 0;
   padding: 40px 0 20px 0;
@@ -190,10 +183,13 @@ const Image = styled.img`
 `
 const ImgDiv = styled.div`
   width: 70px;
-  padding-bottom: 70px;
+  height:65px;
+  border:3px solid rgba(255, 255, 255, 0.13);
+  padding-bottom: 65px;
   display: block;
   position: relative;
   border-radius: 50%;
+  margin-right:10px;
   @media (max-width: 1550px) {
     padding-bottom: 55px;
     width: 55px;
@@ -203,15 +199,18 @@ const ImgDiv = styled.div`
   }
 `
 const CreatorInfo = styled.div`
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  border-radius: 60px;
+  // background: rgba(255, 255, 255, 0.06);
+  // border: 1px solid rgba(255, 255, 255, 0.2);
+  // box-shadow:0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  // border-radius: 50px !important;
   display: flex;
-  padding: 10px;
-  align-items: center;
+  padding: 13px;
+  // align-items: center;
   height: 70px;
   width: 210px;
-  justify-content: space-around;
+  border-radius:50% !important;
+  font-size:18px;
+  // justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
     width: 160px;
@@ -219,8 +218,8 @@ const CreatorInfo = styled.div`
 `
 
 const Title = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 500;
   @media (max-width: 1550px) {
     font-size: 23px;
   }
@@ -229,10 +228,11 @@ const Title = styled.div`
   }
 `
 const SubTitle = styled.div`
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 300;
+  
   @media (max-width: 1550px) {
-    font-size: 15px;
+    font-size: 18px;
   }
   @media (max-width: 480px) {
     font-size: 12px;

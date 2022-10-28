@@ -144,7 +144,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                       passHref
                     >
                       <a className="dropdown-item">
-                        <span>Feed</span>
+                        <span >Feed</span>
                       </a>
                     </Link>
                   </StyledLink>
@@ -220,7 +220,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 </a>
               </StyledLink>
             </StyledListForLinks>
-            <ButtonField>
+            <ButtonField className='header-btn'>
               {accountId ? (
                 <Menu>
                   <MenuButton
@@ -344,14 +344,14 @@ const VFlex = styled('div', {
 
 const StyledMenuList = styled(MenuList, {
   boxShadow:
-    '0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4) !important',
+    '0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4)',
   background:
-    'linear-gradient(0deg, rgba(5, 6, 22, 0.2), rgba(5, 6, 22, 0.2)) padding-box, linear-gradient(90.65deg,rgba(255, 255, 255, 0.2) 0.82%,rgba(0, 0, 0, 0) 98.47%)border-box !important',
-  borderRadius: '24px !important',
-  border: '1px solid rgba(255,255,255,0.2) !important',
-  padding: '20px !important',
-  width: '400px !important',
-  backdropFilter: 'blur(30px) !important',
+    'linear-gradient(0deg, rgba(5, 6, 22, 0.2), rgba(5, 6, 22, 0.2)) padding-box, linear-gradient(90.65deg,rgba(255, 255, 255, 0.2) 0.82%,rgba(0, 0, 0, 0) 98.47%)border-box',
+  borderRadius: '24px',
+  border: '1px solid rgba(255,255,255,0.2)',
+  padding: '20px',
+  width: '400px',
+  backdropFilter: 'blur(30px)',
 })
 // const StyledMenuItem = styled('div', {
 //   background: 'rgba(05, 06, 22, 0.2)',
@@ -380,7 +380,6 @@ const ProfileMenuItem = styled('div', {
 const StyledMenuContainer = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-
   position: 'relative',
   zIndex: '$2',
   padding: '0 0',

@@ -140,6 +140,6 @@ export const StyledCloseIcon = styled(CloseIcon)`
     opacity: 0.75;
   }
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 0px;
+  top: 0px;
 `

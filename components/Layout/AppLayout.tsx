@@ -5,7 +5,6 @@ import { MobileFooterBar } from './MobileFooter'
 import { useEffect, useState } from 'react'
 import { isMobile } from 'util/device'
 import TagManager from 'react-gtm-module'
-import { FetchCoinInfo } from 'hooks/useTokenBalance'
 
 const tagManagerArgs = {
   gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
@@ -20,7 +19,7 @@ export const AppLayout = ({
   hasBanner = false,
 }) => {
   const [openNav, setOpenNav] = useState(false)
-  FetchCoinInfo()
+
   useEffect(() => {
     TagManager.initialize(tagManagerArgs)
   }, [])
@@ -31,7 +30,7 @@ export const AppLayout = ({
         <div
           className={`main-section ${fullWidth ? 'fullWidth' : ''} ${
             hasBanner ? 'hasBanner' : ''
-          }`}
+          }  w-100 ` }
         >
           <StyledContainer hasBanner={hasBanner}>
             <main>{children}</main>
@@ -51,11 +50,12 @@ const StyledWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-image: url('/images/background.jpg');
-  background-position: center;
+  // background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  // background-size: cover;
   position: relative;
   color: white;
+  background-color: #191c2b;
 `
 
 const StyledContainer = styled.div<{ hasBanner: boolean }>`
@@ -70,10 +70,10 @@ const StyledFooter = styled.div`
   position: relative;
   z-index: 1;
   display: flex;
-  margin-top: 100px;
+  margin-top: 80px;
   flex-direction: column;
   justify-content: space-between;
-  padding: 40px 0 0 0;
+  // padding: 40px 0 0 0;
 `
 
 const StyledFooterWrapper = styled.div`
