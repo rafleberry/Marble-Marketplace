@@ -65,9 +65,8 @@ export const MobileFooterBar = () => {
                   lineHeight: '32px',
                 }}
               >
-                Marble is the first community-driven DAO on Near Network. Marble
-                is an all-in-one platform with DeFi products, NFT Marketplace
-                and exclusive NFTs of real artworks.
+                Made of Phygital NFTs. Built on COSMOS and NEAR. We empower
+                Creators and Brands by connecting them with AR and VR.
               </Text>
             </ContainerForColumn>
           </Stack>

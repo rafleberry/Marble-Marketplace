@@ -310,6 +310,12 @@ div {
         margin: 0 auto;
         padding: 0 40px;
       }
+      @media (max-width:576px) {
+        // max-width:1330px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
 
       .container {
         max-width: 100%;
@@ -1393,7 +1399,7 @@ footer {
 main {
   // max-width: 1490px !important;
   @media (max-width:1024px) {
-    padding: 0 30px !important;
+    padding: 0 20px !important;
   }
   // margin: 0 auto !important;
 
@@ -1589,6 +1595,14 @@ main {
   @media (max-width:1024px) {
     padding: 20px 0px 30px 25px ;
     width: 80%;
+    padding-left: 0 !important;
+    margin: 0 auto;
+  }
+
+  @media (max-width:420px) {
+    padding: 20px 0px 30px 25px ;
+    width: 80%;
+    padding-left: 0 !important;
   }
 }
 .collection-tab {
@@ -1633,6 +1647,16 @@ main {
   @media (max-width:480px) {
     height:60px !important;
   }
+}
+.profile-link {
+  @media (max-width:1024px) {
+    display: block !important;
+  }
+  // p{
+  //   @media (max-width:1024px) {
+  //     margin-left:0 !important;
+  //   }
+  // }
 }
 // .card-mt {
 //   margin: 20px auto !important;

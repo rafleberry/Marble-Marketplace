@@ -233,7 +233,8 @@ const Container = styled.div`
     font-family: Mulish;
     font-weight: 500;
   }
-  @media (max-width: 480px) {
+
+  @media (max-width: 1024px) {
     display: flex;
     flex-direction: column;
     padding: 20px 0;

@@ -35,7 +35,12 @@ const NftGrid = styled.div<{ columns: number }>`
   padding: 40px 0;
   overflow: hidden;
   overflow: auto;
+
   @media (max-width:1024px){
     grid-template-columns: repeat(1,1fr) !important;
   }
+
+  // @media (max-width:420px){
+  //   grid-template-columns: repeat(2,2fr) !important;
+  // }
 `

@@ -132,7 +132,7 @@ const IntroContainer = styled.div`
 
   @media (max-width: 576px) {
     flex-direction: column-reverse;
-    padding: 0 10px;
+    padding: 0px;
     margin-top: 0px;
     justify-content:start;
   }
@@ -258,6 +258,13 @@ const NFTPicture = styled.div`
   background: linear-gradient(0deg,#32303d,#1e222e) padding-box,linear-gradient(90.65deg,#83818194 0.82%,rgba(0,0,0,0) 105.47%) border-box;
   box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4);
   padding:37px;
+
+     
+  @media (max-width: 1440px) {
+    margin-left: 0 !important;
+    height:500px;
+    max-width:500px;
+  }
    
   @media (max-width: 1024px) {
     margin-left: 0 !important;

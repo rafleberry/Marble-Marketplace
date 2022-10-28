@@ -74,11 +74,11 @@ const Home = () => {
         <SelectedNFT />
         <Collections>
           <TextTitle>Curated Collections</TextTitle>
-          <Stack spacing="50px">
+          {/* <Stack spacing="50px" className='w-100'>
             {nftcollections.map((nftInfo, index) => (
               <Collection info={nftInfo} key={index} />
             ))}
-          </Stack>
+          </Stack> */}
         </Collections>
         <Flex justifyContent="center">
           <Paper className="bg-border-linear">
@@ -101,7 +101,7 @@ const Home = () => {
             </MarbleCardGrid>
           </Paper>
         </Flex>
-        <Stack marginTop="100px" alignItems="center">
+        <Stack marginTop="100px" alignItems="center" className='marble-content'>
           <Stack spacing={10}>
             <Stack margin="0 auto" alignItems="center">
               <TextTitle>Marble - Where will you fit in?</TextTitle>
@@ -192,7 +192,6 @@ const DestinationGrid = styled.div`
     row-gap:30px;
   }
 
-
   @media (max-width: 576px) {
     display: flex;
     // grid-template-columns: repeat(1, 1fr);
@@ -206,9 +205,17 @@ const PartnerGrid = styled.div`
   column-gap: 30px;
   overflow: auto;
   margin-top:20px !important;
-  @media (max-width: 480px) {
-    width: 100vw;
-    display:block;
+  @media (max-width: 992px) {
+    // width: 100vw;
+    // display:block;
+    display:flex;
+    overflow-x:auto;
+    max-width:530px;
+    margin:0 10px;
+  }
+
+  @media (max-width: 425px) {
+    width:370px;
   }
 `
 const StyledButton = styled.button`
@@ -240,6 +247,9 @@ const MarbleCardGrid = styled.div`
     display: block;
     flex-direction: column-reverse;
   }
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `
 const StyledImg = styled.img`
   margin: 0 auto;
@@ -268,6 +278,9 @@ const StyledP = styled.div`
 `
 const Collections = styled.div`
   padding: 100px 0;
+  @media(max-width:425px){
+    padding:30px 0;
+  }
 `
 const Paper = styled.div<{ width?: string }>`
   border-radius: 30px;
@@ -284,15 +297,35 @@ const Paper = styled.div<{ width?: string }>`
   
   @media (max-width: 1450px) {
     padding: 20px;
+    display: block;
+  }
+  @media (max-width: 1024px) {
+    // display: flex;
+  }
+  @media (max-width: 425px) {
+    padding: 30px;
   }
 `
 const PartnerPaper = styled(Paper)`
 padding: 3px 28px !important;
-  @media (max-width: 480px) {
-    width: 120px;
-    height: 50px;
-    margin-top:10px;
-  }
+@media (max-width: 992px) {
+  min-width: 180px;
+  height: 70px;
+  // margin-top:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  // padding:30px 80px!important;
+}
+  // @media (max-width: 480px) {
+  //   min-width: 180px;
+  //   height: 70px;
+  //   // margin-top:10px;
+  //   display:flex;
+  //   align-items:center;
+  //   justify-content:center;
+  //   // padding:30px 80px!important;
+  // }
 `
 const StyledPaper = styled.div`
   border-radius: 30px;
@@ -314,13 +347,13 @@ const StyledPaper = styled.div`
   @media (max-width: 480px) {
     display: flex;
     flex-direction: row;
-    padding: 10px;
+    padding: 14px;
     align-items: center;
     column-gap: 10px;
     justify-content: start;
     h1 {
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 500;
       text-align: left;
     }
     div {
@@ -339,6 +372,7 @@ const TextTitle = styled.div`
   }
   @media (max-width: 480px) {
     font-size: 24px;
+    margin-bottom:0;
   }
 `
 
@@ -352,8 +386,9 @@ const TextContent = styled.div<{ textAlign?: string }>`
   @media (max-width: 1440px) {
     font-size: 20px;
   }
-  @media (max-width: 480px) {
-    font-size: 16px;
+  @media (max-width: 480px) { 
+    font-size: 15px;
+    margin-top:8px !important;
   }
 `
 
@@ -376,7 +411,8 @@ const Round = styled.div`
     }
   }
   @media (max-width: 480px) {
-    width: 70px;
+    max-width: 70px;
+    width:100%;
     height: 70px;
     margin: 0;
     img {

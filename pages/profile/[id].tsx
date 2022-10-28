@@ -166,8 +166,8 @@ export default function Home() {
               {(profile.mail || profile.discord) && (
                 <Card className="bg-border-linear">
                   <h3>Links</h3>
-                  <Stack spacing="5px" style={{
-                 display:'flex', flexDirection:'row',
+                  <Stack spacing="5px" className="profile-link" style={{
+                 display:'flex', flexDirection:'row'
                 }}>
                     {profile.mail && (
                       <HStack className='w-50'>
@@ -233,6 +233,7 @@ const Banner = styled.div`
   z-index: 10;
   @media (max-width: 480px) {
     height: 216px;
+    min-height:273px;
   }
 `
 const LogoImage = styled.div`
@@ -257,8 +258,9 @@ const LogoImage = styled.div`
     width: 120px;
     height: 120px;
     top: -60px;
-    left: calc(50% - 60px);
+    left: 50%;
     border: 3px solid #ffffff;
+    transform:translate(-50%);
   }
 `
 const ProfileContainer = styled.div`
@@ -285,12 +287,13 @@ const ProfileContainer = styled.div`
     text-align: center;
   }
   @media (max-width: 1024px) {
-    padding:0px 8px 0;
+    padding:0px 0;
+    display:block !important;
   }
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    padding: 0 20px;
+    // padding: 0 20px;
     h1 {
       font-size: 24px;
     }
@@ -313,11 +316,11 @@ const ProfileInfo = styled.div`
   position: relative;
   @media (max-width: 1024px) {
     padding: 80px 25px 25px 25px;
-    width:520px !important;
-
+    width:100% !important;
   }
   @media (max-width: 480px) {
     padding: 80px 25px 25px 25px;
+    width:100% !important;
   }
 `
 const VerticalDivider = styled.div`

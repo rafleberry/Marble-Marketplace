@@ -10,6 +10,7 @@ import {
   marketplaceViewFunction,
 } from 'util/near'
 import { NftCard } from 'components/NFT/nft-card'
+import { convertMicroDenomToDenom } from 'util/conversion'
 
 const Explore = () => {
   const [nfts, setNfts] = useState([])
@@ -20,8 +21,9 @@ const Explore = () => {
   })
   const [loading, setLoading] = useState(true)
   const [filtered, setFiltered] = useState([])
-  const [filterTab, setFilterTab] = useState('')
-  const [hasMore, setHasMore] = useState(false)
+  const [filterTab, setFilterTab] = useState('all')
+  const [hasMore, setHasMore] = useState(true)
+
   const fetchNfts = async () => {
     let collectionNFTs = []
     let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0 }
@@ -30,12 +32,13 @@ const Explore = () => {
       info = await nftViewFunction({
         methodName: 'nft_tokens',
         args: {
-          // from_index: nfts.length.toString(),
-          // limit: 20,
+          from_index: nfts.length.toString(),
+          limit: 20,
         },
       })
     } catch (error) {
       console.log('nft_tokens Error: ', error)
+      setHasMore(false)
       return []
     }
     await Promise.all(
@@ -64,7 +67,7 @@ const Explore = () => {
           )
           res_nft = await ipfs_nft.json()
           res_collection = await ipfs_collection.json()
-        } catch (err) {}
+        } catch (err) { }
 
         res_nft['tokenId'] = element.token_id.split(':')[1]
         res_nft['title'] = res_collection.name
@@ -84,52 +87,95 @@ const Explore = () => {
         counts[res_nft.saleType]++
       })
     )
-    return { nftList: collectionNFTs, nft_counts: counts }
+    // return { nftList: collectionNFTs, nft_counts: counts }
+    setNfts(nfts.concat(collectionNFTs))
   }
 
   useEffect(() => {
     // fetchCollections()
-    ;(async () => {
-      const { nftList, nft_counts }: any = await fetchNfts()
-      setNfts(nftList)
-      setFiltered(nftList)
-      setNftCounts(nft_counts)
-      setLoading(false)
+    ; (async () => {
+      // const { nftList, nft_counts }: any = await fetchNfts()
+      // setNfts(nftList)
+      // setFiltered(nftList)
+      // setNftCounts(nft_counts)
+      // setLoading(false)
+      await fetchNfts()
     })()
   }, [])
-  const handleFilter = (id: string) => {
-    const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+  // const handleFilter = (id: string) => {
+  //   const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+  //   setFiltered(filteredNFTs)
+  //   setFilterTab(id)
+  // }
+  useEffect(() => {
+    const filteredNFTs =
+      filterTab === 'all'
+        ? nfts
+        : nfts.filter((nft) => nft.saleType === filterTab)
     setFiltered(filteredNFTs)
+    setLoading(false)
+  }, [nfts, filterTab])
+  const handleFilter = (id: string) => {
+    // const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+    // setFiltered(filteredNFTs)
     setFilterTab(id)
+    setLoading(true)
   }
   const getMoreNfts = async () => {
     // await fetchNfts()
+    await fetchNfts()
   }
+
   return (
-    <ExploreWrapper style={{padding:"0px"}}>
+    <ExploreWrapper style={{ padding: "0px" }}>
       <Filter className="collection-tab">
-        <FilterCard onClick={() => handleFilter('Direct Sell')} className="bg-border-linear">
+        <FilterCard
+          onClick={() => handleFilter('all')}
+          isActive={filterTab === 'all'}
+        >
+          {/* <FilterCard onClick={() => handleFilter('Direct Sell')} className="bg-border-linear">
           <NumberWrapper isActive={filterTab === 'Direct Sell'}>
             {nftCounts['Direct Sell']}
           </NumberWrapper>
           Buy Now
+        */}
+          All
         </FilterCard>
-        <FilterCard onClick={() => handleFilter('Auction')} className="bg-border-linear">
+        {/* <FilterCard onClick={() => handleFilter('Auction')} className="bg-border-linear">
           <NumberWrapper isActive={filterTab === 'Auction'}>
             {nftCounts['Auction']}
           </NumberWrapper>
-          Live Auction
+          Live Auction */}
+        <FilterCard
+          onClick={() => handleFilter('Direct Sell')}
+          isActive={filterTab === 'Direct Sell'}
+        >
+          Buy Now
         </FilterCard>
-        <FilterCard onClick={() => handleFilter('NotSale')} className="bg-border-linear">
+        {/* <FilterCard onClick={() => handleFilter('NotSale')} className="bg-border-linear">
           <NumberWrapper isActive={filterTab === 'NotSale'}>
             {nftCounts['NotSale']}
           </NumberWrapper>
+          Active Offers */}
+
+        <FilterCard
+          onClick={() => handleFilter('Auction')}
+          isActive={filterTab === 'Auction'}
+        >
+          Live Auction
+        </FilterCard>
+
+        <FilterCard
+          onClick={() => handleFilter('Offer')}
+          isActive={filterTab === 'Offer'}
+        >
           Active Offers
         </FilterCard>
       </Filter>
-      {loading ? (
+      {console.log("loading", loading)}
+      {/* {loading ? (
         <ChakraProvider>
-          <div 
+          <div
             style={{
               width: '100%',
               display: 'flex',
@@ -185,7 +231,49 @@ const Explore = () => {
             ))}
           </Container>
         </InfiniteScroll>
-      )}
+      )} */}
+      <InfiniteScroll
+        dataLength={nfts.length}
+        next={getMoreNfts}
+        hasMore={hasMore}
+        loader={
+          <ChakraProvider>
+            <div
+              style={{
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100%',
+                padding: '20px',
+              }}
+            >
+             {loading && <Spinner size="xl" />}
+            </div>
+          </ChakraProvider>
+        }
+        endMessage={<h4></h4>}
+      >
+        <Container>
+          {filtered.map((nftInfo, index) => (
+            <Link
+              href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
+              passHref
+              key={index}
+            >
+              <LinkBox
+                as="picture"
+                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
+                _hover={{
+                  transform: 'scale(1.05)',
+                }}
+              >
+                <NftCard nft={nftInfo} id="" type="" />
+              </LinkBox>
+            </Link>
+          ))}
+        </Container>
+      </InfiniteScroll>
     </ExploreWrapper>
   )
 }

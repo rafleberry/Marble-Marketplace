@@ -176,14 +176,6 @@ const Filter = styled.div`
 `
 const FilterCard = styled.div`
   border-radius: 50px;
-  // backdrop-filter: blur(30px);
-  // box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-  //   inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  // background: linear-gradient(
-  //   180deg,
-  //   rgba(255, 255, 255, 0.06) 0%,
-  //   rgba(255, 255, 255, 0.06) 100%
-  // );
   display: flex;
   font-size: 16px;
   font-weight: 500;
@@ -196,6 +188,7 @@ const FilterCard = styled.div`
 
   @media (max-width: 480px) {
     font-size: 12px;
+    padding:9px 22px 10px 9px;
   }
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`

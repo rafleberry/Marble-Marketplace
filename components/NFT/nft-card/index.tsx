@@ -30,8 +30,6 @@ export function NftCard({ nft, id, type }): JSX.Element {
       setProfile(profile_info)
     })()
   }, [nft])
-  console.log("nft.saleType", nft.saleType)
-  console.log("backgroundColor", backgroundColor);
 
   return (
     <NftCardDiv
