@@ -194,7 +194,8 @@ width: 30%;
 // backdrop-filter: blur(40px);
 border-radius: 20px;
 padding: 15px;
-@media (max-width: 1024px) {
+
+@media (max-width: 1440px) {
   width: 100%;
   margin:0 auto;
 }

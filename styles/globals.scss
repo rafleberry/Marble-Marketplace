@@ -1028,7 +1028,7 @@ div {
   div {
     .main-section {
       margin-top: 20px;
-      padding: 10px !important;
+      padding: 20px !important;
     }
 
     .hasBanner {
@@ -1398,19 +1398,24 @@ footer {
 
 main {
   // max-width: 1490px !important;
-  @media (max-width:1024px) {
-    padding: 0 20px !important;
-  }
+  // @media (max-width:1024px) {
+  //   padding: 0 20px !important;
+  // }
   // margin: 0 auto !important;
 
 }
 .collection-grid{
-  @media (max-width:1024px) {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
+  // @media (max-width:1024px) {
+  //   grid-template-columns: repeat(2, 1fr) !important;
+  // }
 
-  @media (max-width:576px) {
+  @media (max-width:1024px) {
     grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+.collection-card-grid{
+  @media (max-width:768px) {
+    display: block !important;
   }
 }
 // .border-linear {
@@ -1439,7 +1444,6 @@ main {
   // background:linear-gradient(0deg, #191c2b, #272938) padding-box, linear-gradient(90.65deg, #565656 0.82%, rgba(0, 0, 0, 0) 125.47%) border-box !important;
   // backdrop-filter: blur(40px);
   
-  
   &::before {
       content: "";
       box-shadow: 0px 4px 40px rgb(42 47 50 / 9%), inset -2px -1px 24px #41414e;
@@ -1462,7 +1466,11 @@ main {
         #ffffff 0.82%,
         rgba(0, 0, 0, 0) 98.47%
     );
-    }
+  }
+  @media (max-width:768px) {
+    // margin-left:auto ;
+    // margin-top:0 !important;
+  }
 }
 // .bg-box-linear {
 
@@ -1529,11 +1537,14 @@ main {
       min-height: calc(100vh - 110px);
       backdrop-filter: blur(15px);
 
-    @media (max-width:576px) {
-      min-height: calc(100vh - 32%);
+    // @media (max-width:1024px) {
+    //   min-height: calc(100vh - 147%) !important;
+    // }
+    @media (max-width:1024px) {
+      min-height: calc(100vh - 153%) !important;
     }
   }
-  // &::before{
+  // &::before{calc(100vh - 110px)
   //   content: "";
   //   position: absolute;
   //   top: 0px;
@@ -1553,27 +1564,29 @@ main {
     text-align: right !important;
   }
 }
-.collection-banner {
-  @media (max-width:576px) {
-    height: calc(100vh - 100%) !important;
-  } 
+// .collection-banner {
+//   @media (max-width:576px) {
+//     height: calc(100vh - 77%) !important;
+//   } 
 
-}
+// }
 .footer-first{
   @media (max-width:576px) {
     width: 100% !important;
     margin-bottom: 20px ;
   }
 }
+
 .grid-collection{
-  @media (max-width:768px) {
+  @media (max-width:992px) {
     grid-template-columns: repeat(2, 1fr) !important;
   }
 
-  @media (max-width:576px) {
+  @media (max-width:768px) {
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }
+
 .curated-collect{
   .round-icon{
     &:before {
@@ -1583,6 +1596,9 @@ main {
 }
 
 .profile-info-linear{
+  // @media (max-width:768px) {
+  //   margin:20px;
+  // }
   &:before {
     border-radius: 0px 0px 20px 20px !important;
   }
@@ -1607,6 +1623,9 @@ main {
 }
 .collection-tab {
   overflow: auto ;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .bg-border-linear {
     &:before {
       border-radius: 50px !important;
@@ -1652,21 +1671,36 @@ main {
   @media (max-width:1024px) {
     display: block !important;
   }
-  // p{
-  //   @media (max-width:1024px) {
-  //     margin-left:0 !important;
-  //   }
-  // }
 }
-// .card-mt {
-//   margin: 20px auto !important;
-// }
-// .bid-size{
-//   width: 40px !important;
-//   height: 40px !important;
-// }
-// .bid-content-col{
-//   @media (max-width:480px) {
-//     display: flex !important;
+.btn-buy{
+  @media (max-width:576px) {
+    font-size:15px !important;
+    padding: 10px !important;
+  }
+
+}
+.create-collect-text{
+  @media (max-width:640px) {
+    font-size: 14px;
+    font-weight:500 !important;
+  }
+}
+.collection-rounded-icon{
+  @media (max-width:576px) {
+    width:50px !important;
+    height: 50px !important;
+  }
+}
+.browse-tab{
+  @media (max-width:576px) {
+  padding: 20px 20px !important;    
+  }
+}
+// .grid-collection {
+//   @media (max-width:1024px) {
+//     grid-template-columns:repeat(2, 1fr) !important; 
+//   }
+//   @media (max-width:992px) {
+//     grid-template-columns:repeat(1, 1fr) !important; 
 //   }
 // }

@@ -51,7 +51,7 @@ export default function Explores() {
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true} hasBanner={true}>
-        <Tabs overflow="auto" padding='20px 49px'>
+        <Tabs overflow="auto" padding='20px 49px' className='browse-tab'>
           <StyledTabList>
             <StyledTab>{`NFTs(${nfts})`}</StyledTab>
             <StyledTab>{`Collections(${collections})`}</StyledTab>

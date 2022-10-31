@@ -285,6 +285,13 @@ const Container = styled.div`
   padding: 40px 0;
   gap: 30px;
   max-width:100% !important;
+  
+  @media (max-width:1024px){
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (max-width:640px){
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 `
 const Filter = styled.div`
   display: flex;

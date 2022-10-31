@@ -57,7 +57,7 @@ export const CreateButton = styled.div`
   border-radius: 16px;
   cursor: pointer;
   color: black;
-  width: 130px;
+  min-width: 130px;
   text-align: center;
   margin-left: 25px;
   display: flex;

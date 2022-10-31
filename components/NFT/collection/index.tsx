@@ -57,7 +57,7 @@ const CategoryItem = styled.div<{ isActive: boolean }>`
   // border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 17px 0;
   cursor: pointer;
-  width: 130px;
+  min-width: 130px;
   font-weight:500;
   text-align: center;
   color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};

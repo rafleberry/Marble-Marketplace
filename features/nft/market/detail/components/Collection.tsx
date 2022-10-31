@@ -88,7 +88,7 @@ const CollectionInfo = ({ info }) => {
   return (
     <Container className="bg-border-linear">
       <ChakraProvider className="collection-tab">
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" className="collection-card-grid">
           <HStack>
             <ImgDiv>
               <Image src={info.image} alt="collection" />
@@ -200,21 +200,14 @@ const ImgDiv = styled.div`
   }
 `
 const CreatorInfo = styled.div`
-  // background: rgba(255, 255, 255, 0.06);
-  // border: rgba(255, 255, 255, 0.2);
-  // border-radius: 60px;
   border-radius:50px !important; 
   display: flex;
   padding: 10px;
-  // align-items: center;
   height: 70px;
   width: 210px;
-  // justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
     width: 160px;
-  }
-  @media (max-width: 1550px) {
     height: 50px;
     width: fit-content;
     margin-top: 20px;

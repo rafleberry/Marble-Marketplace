@@ -371,7 +371,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 10px;
   }
 `
@@ -379,7 +379,7 @@ const Title = styled.div`
   font-size: 46px;
   font-weight: 500;
   text-align: center;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 22px;
   }
 `
@@ -436,10 +436,11 @@ const Collections = styled.div`
   //   rgba(255, 255, 255, 0.2) 1.02%,
   //   rgba(255, 255, 255, 0) 100%
   // );
-  @media (max-width: 1024px) {
-    width: 760px !important;
-    padding: 20px;
+  @media (max-width: 1200px) {
+    width: 100% !important;
+    padding: 30px;
   }
+  
   @media (max-width: 480px) {
     width: 100% !important;
     padding: 15px;

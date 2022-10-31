@@ -205,6 +205,9 @@ const PartnerGrid = styled.div`
   column-gap: 30px;
   overflow: auto;
   margin-top:20px !important;
+  ::-webkit-scrollbar {
+    display: none;
+  }
   @media (max-width: 992px) {
     // width: 100vw;
     // display:block;
@@ -214,7 +217,7 @@ const PartnerGrid = styled.div`
     margin:0 10px;
   }
 
-  @media (max-width: 425px) {
+  @media (max-width: 480px) {
     width:370px;
   }
 `
@@ -297,7 +300,7 @@ const Paper = styled.div<{ width?: string }>`
   
   @media (max-width: 1450px) {
     padding: 20px;
-    display: block;
+    // display: block;
   }
   @media (max-width: 1024px) {
     // display: flex;
@@ -311,11 +314,9 @@ padding: 3px 28px !important;
 @media (max-width: 992px) {
   min-width: 180px;
   height: 70px;
-  // margin-top:10px;
   display:flex;
   align-items:center;
   justify-content:center;
-  // padding:30px 80px!important;
 }
   // @media (max-width: 480px) {
   //   min-width: 180px;

@@ -838,7 +838,7 @@
                   <Link href={`/collection/${collectionId}`} passHref>
                     <HStack style={{ cursor: 'pointer' }}>
                       <RoundedIcon size="26px" src={nft.collectionImage} />
-                      <Text fontSize="14px" fontWeight="800" fontFamily="Mulish">
+                      <Text fontSize="14px" fontWeight="500" fontFamily="Mulish">
                         {nft.collectionName}
                       </Text>
                     </HStack>
@@ -1636,13 +1636,7 @@
   const Container = styled('div', {
     padding: '170px 49px 0',
     '@media (max-width: 1024px)': {
-      padding: '100px 0px 0',
-    },
-    '@media (max-width: 768px)': {
-      padding: '30px',
-    },
-    '@media (max-width: 480px)': {
-      padding: '70px 0',
+      padding: '100px 20px 0',
     },
 
   })
@@ -1650,9 +1644,10 @@
     display: 'flex',
     justifyContent: 'space-between',
     columnGap: '40px',
-    '@media (max-width: 768px)': {
+    '@media (max-width: 1024px)': {
       flexDirection: 'column',
       rowGap: '40px',
+      display:'block',
     },
   })
 
@@ -1662,11 +1657,13 @@
     display: 'flex',
     flexDirection: 'column',
     rowGap: '40px',
-    '@media (max-width: 768px)': {
+
+    '@media (max-width: 1024px)': {
       width: '100%',
       rowGap: '20px',
     },
   })
+
   const NftBuyOfferTag = styled('div', {
     border: '1px solid rgba(255,255,255,0.2)',
     borderRadius: '30px',
@@ -1674,6 +1671,11 @@
     background: 'rgba(255,255,255,0.06)',
     height: '100%',
     marginBottom: '20px',
+
+    '@media (max-width: 1024px)': {
+      marginTop:'40px',
+    },
+
     '@media (max-width: 480px)': {
       padding: '10px 0',
       background: 'rgba(5,6,21,0.2)',
@@ -1712,6 +1714,7 @@
     display: 'flex',
     gap: '$8',
     marginTop: '$space$10',
+
     ' .btn-buy': {
       padding: '$space$10 $space$14',
       ' svg': {
@@ -1732,8 +1735,9 @@
         borderRadius: '2px',
       },
     },
+
     '@media (max-width: 480px)': {
-      flexDirection: 'column',
+      display:'block',
     },
   })
 
@@ -1774,7 +1778,11 @@
     objectFit: 'cover',
     objectPosition: 'center',
     zIndex: '-1',
-    
+
+    '@media (max-width: 1024px)': {
+      height: 'calc(100vh - 153%)',
+      
+    },
     // opacity: '0.1',
     // backgroundColor:"Blue",
   })

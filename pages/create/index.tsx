@@ -80,38 +80,36 @@ export default function Home() {
                     <Create />
                   </IconWrapper>
                   <Text
-                    fontSize={isMobile() ? '14px' : '20px'}
-                    fontWeight="700"
+                    fontWeight="700" className='create-collect-text'
                   >
-                    
-                  </Text>Create A New Collection
+                    Create A New Collection
+                  </Text>
                 </Card>
               </Link>
               {ownedCollections.map((info, index) => (
-                <Link href={`/collection/${info.token_series_id}`} key={index}>
-                  <Card className="bg-border-linear bg-border-card">
-                    <RoundedIcon
-                      size={isMobile() ? '50px' : '70px'}
-                      src={info.media}
-                      alt="collection"
-                    />
-                    <Stack marginLeft="20px">
-                      <Text
-                        fontSize={isMobile() ? '14px' : '20px'}
-                        fontWeight="600"
-                      >
-                        {info.metadata.title}
-                      </Text>
-                      <Text
-                        fontSize={isMobile() ? '14px' : '20px'}
-                        fontWeight="500"
-                        fontFamily="Mulish"
-                      >
-                        {info.counts} NFTs
-                      </Text>
-                    </Stack>
-                  </Card>
-                </Link>
+              <Link href={`/collection/${info.token_series_id}`} key={index}>
+                <Card className="bg-border-linear bg-border-card">
+                  <RoundedIcon
+                    size={isMobile() ? '50px' : '70px'}
+                    src={info.media}
+                    alt="collection"
+                  />
+                  <Stack marginLeft="20px">
+                    <Text
+                      fontWeight="600" className='create-collect-text'
+                    >
+                      {info.metadata.title}
+                    </Text>
+                    <Text
+                     className='create-collect-text'
+                      fontWeight="500"
+                      fontFamily="Mulish"
+                    >
+                      {info.counts} NFTs
+                    </Text>
+                  </Stack>
+                </Card>
+              </Link>
               ))}
             </Stack>
           </Collections>
@@ -154,7 +152,7 @@ const Title = styled.div`
   font-size: 46px;
   font-weight: 500;
   text-align: center;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 22px;
   }
 `
@@ -165,6 +163,7 @@ const SubTitle = styled.div`
   margin-bottom:25px;
   @media (max-width: 480px) {
     font-size: 20px;
+    margin-bottom:0 !important;
   }
 `
 
@@ -182,14 +181,20 @@ const Collections = styled.div`
   //   rgba(255, 255, 255, 0.2) 1.02%,
   //   rgba(255, 255, 255, 0) 100%
   // );
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     width: 760px !important;
     padding: 20px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 876px) {
+    width: 560px !important;
+    padding: 20px;
+    margin-top:30px;
+  }
+
+  @media (max-width: 640px) {
     width: 100% !important;
-    padding: 15px;
+    padding: 20px;
   }
 `
 const Card = styled.div`
@@ -215,7 +220,7 @@ const Card = styled.div`
   font-weight:500;
   
   @media (max-width:480px){
-   font-size:13px !important;
+  //  font-size:13px !important;
    padding:20px;
   }
 `

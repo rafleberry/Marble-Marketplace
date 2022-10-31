@@ -223,15 +223,8 @@ const Banner = styled.div`
   min-height: 543px;
   width: 100%;
   display: block;
-  // background: linear-gradient(
-  //   180deg,
-  //   rgba(255, 255, 255, 0.06) 0%,
-  //   rgba(255, 255, 255, 0.06) 100%
-  // );
-  // backdrop-filter: blur(30px);
-  // border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 10;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     height: 216px;
     min-height:273px;
   }
@@ -248,10 +241,9 @@ const LogoImage = styled.div`
   transform: translate(-50% , -50%);
 
   @media (max-width: 1024px) {
-    width: 222px;
-    height: 222px;
-    top: -60px;
-    left: calc(50% - 0px);
+    width: 182px;
+    height: 182px;
+    top: -10px;
   }
 
   @media (max-width: 480px) {
@@ -316,12 +308,13 @@ const ProfileInfo = styled.div`
   position: relative;
   @media (max-width: 1024px) {
     padding: 80px 25px 25px 25px;
-    width:100% !important;
+    max-width:90% !important;
+    margin:0 auto;
   }
-  @media (max-width: 480px) {
-    padding: 80px 25px 25px 25px;
-    width:100% !important;
-  }
+  // @media (max-width: 480px) {
+  //   padding: 80px 25px 25px 25px;
+  //   width:100% !important;
+  // }
 `
 const VerticalDivider = styled.div`
   border: 1px solid #5f5858;
