@@ -866,7 +866,7 @@
 
               {isMobile() && (
                 <NftInfoTag>
-                  {false ? (
+                 {marketStatus.isOnMarket ? (
                     <NftBuyOfferTag className="nft-buy-offer">
                       {marketStatus.data.is_auction ? (
                         <>
@@ -874,7 +874,7 @@
                             <NftSale>
                               <IconWrapper icon={<Clock />} />
                               {marketStatus.isEnded
-                                ? 'Auction already ended'
+                                ? 'Auction already ended '
                                 : 'Auction ends in'}
                               {!marketStatus.isEnded && (
                                 <Text>
@@ -1176,6 +1176,7 @@
                               onHandle={handleTransfer}
                             />
                           </Stack>
+
                           <BurnNFTModal
                             nftInfo={{
                               ft_token_id:
@@ -1613,12 +1614,14 @@
                   </NftBuyOfferTag>
                 )}
                 {marketStatus.data && marketStatus.data.bids && (
+                // {true && (
                   <Card title="Bid History">
                     <SimpleTable
                       data={marketStatus.data.bids}
                       unit={tokenInfo?.decimals}
                       paymentToken={tokenInfo?.symbol}
                     />
+                    {/* <p>hello</p> */}
                   </Card>
                 )}
               </NftInfoTag>
@@ -1674,6 +1677,7 @@
 
     '@media (max-width: 1024px)': {
       marginTop:'40px',
+      // paddingLeft:'0',
     },
 
     '@media (max-width: 480px)': {
@@ -1692,6 +1696,10 @@
     '&.disabled': {
       color: '$textColors$disabled',
     },
+    '@media (max-width: 1024px)': {
+      paddingLeft: '0',
+    },
+
     '@media (max-width: 480px)': {
       padding: '$4 $16',
     },
@@ -1703,7 +1711,7 @@
     ' .price-lbl': {
       color: '$colors$link',
     },
-    '@media (max-width: 1024px)': {
+    '@media (max-width: 1200px)': {
       padding: '0',
     },
     '@media (max-width: 480px)': {

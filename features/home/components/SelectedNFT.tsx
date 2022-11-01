@@ -117,6 +117,7 @@ const StyledButton = styled.button`
   font-weight: 500;
   @media (max-width: 480px) {
     width: 100%;
+    height: 58px;
   }
 `
 
@@ -131,7 +132,7 @@ const IntroContainer = styled.div`
   position:relative;
 
   @media (max-width: 576px) {
-    flex-direction: column-reverse;
+    // flex-direction: column-reverse;
     padding: 0px;
     margin-top: 0px;
     justify-content:start;
@@ -173,9 +174,10 @@ const Title = styled.div`
     font-size: 26px;
     text-align: center;
     margin-top: 20px;
+    margin-bottom:20px;
     padding: 0 0 10px 0;
   }
-  &:after {
+  & :after {
     content:"";
     position:absolute;
     top: 65px;
@@ -323,8 +325,6 @@ const Img = styled.img`
   border-radius: 40px;
 `
 const IntroWrapper = styled.div`
-  // display: flex;
-  // flex-direction: column;
   flex: 0 0 auto;
   width: 58.33333333%;
   // row-gap: 40px;
@@ -334,10 +334,10 @@ const IntroWrapper = styled.div`
     row-gap: 20px;
   }
 
-  @media (max-width: 1024px) {
-    // row-gap: 20px;
+  @media (max-width: 480px) {
     width:100%;
     order:2;
+    padding:0;
   }
 `
 const PriceArea = styled.div`
@@ -345,7 +345,6 @@ const PriceArea = styled.div`
   flex-direction: column;
   justify-content: center;
   margin-bottom: 30px;
-  // align-items: flex-end;
   p {
     font-size: 20px;
     font-weight:300;
@@ -377,6 +376,7 @@ const PriceArea = styled.div`
   }
   @media (max-width: 480px) {
     align-items: center;
+    margin-bottom: 16px;
 
     p {
       font-size: 14px;

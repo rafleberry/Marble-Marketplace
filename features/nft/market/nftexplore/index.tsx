@@ -286,7 +286,7 @@ const Container = styled.div`
   gap: 30px;
   max-width:100% !important;
   
-  @media (max-width:1024px){
+  @media (max-width:1200px){
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   @media (max-width:640px){
@@ -316,6 +316,8 @@ const FilterCard = styled.div`
   font-family: Mulish;
   align-items: center;
   width: fit-content;
+  min-width:100px;
+  justify-content:center;
   padding: 10px;
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`

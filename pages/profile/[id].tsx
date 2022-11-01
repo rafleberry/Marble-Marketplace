@@ -170,13 +170,13 @@ export default function Home() {
                  display:'flex', flexDirection:'row'
                 }}>
                     {profile.mail && (
-                      <HStack className='w-50'>
+                      <HStack className='w-50 icon-wrap'>
                         <Email /> &nbsp; <p>{profile.mail}</p>
                       </HStack>
                     )}
                     {profile.discord && (
-                      <HStack className='w-50'>
-                        <DiscordT /> &nbsp; <p>{profile.discord}</p>
+                      <HStack className='w-50 icon-wrap'>
+                        <DiscordT className='icon-size'/> &nbsp; <p>{profile.discord}</p>
                       </HStack>
                     )}
                   </Stack>
@@ -335,10 +335,9 @@ const Card = styled.div`
   }
 `
 const ProfileNFTInfo = styled.div`
-  // padding: 10px 50px;
   @media (max-width: 480px) {
     padding: 10px 0px;
-    width: 100%;
+    // width: 100%;
   }
 `
 const StyledTabList = styled(TabList)`

@@ -761,7 +761,7 @@ div {
       padding-top: 16px;
 
       @media (max-width:1440px) {
-        padding:0 70px;
+        // padding:0 70px;
       }
       // @media (max-width:1024px) {
       //   padding:30px !important;
@@ -1326,8 +1326,10 @@ footer {
   font-weight: 900 !important;
   font-size: 40px !important;
   margin: 0px !important;
-  // margin-left: 20px !important;
-  // margin-top: 10px !important;
+
+  @media (max-width:576px) {
+    font-size:28px !important;
+  }
 }
 .phgital-content{
   margin-left: 10px;
@@ -1564,12 +1566,6 @@ main {
     text-align: right !important;
   }
 }
-// .collection-banner {
-//   @media (max-width:576px) {
-//     height: calc(100vh - 77%) !important;
-//   } 
-
-// }
 .footer-first{
   @media (max-width:576px) {
     width: 100% !important;
@@ -1610,9 +1606,10 @@ main {
   padding-left: 30px !important;
   @media (max-width:1024px) {
     padding: 20px 0px 30px 25px ;
-    width: 80%;
-    padding-left: 0 !important;
+    width: 90%;
+    padding: 0 !important;
     margin: 0 auto;
+    padding: 30px;
   }
 
   @media (max-width:420px) {
@@ -1692,8 +1689,18 @@ main {
   }
 }
 .browse-tab{
-  @media (max-width:576px) {
+  @media (max-width:768px) {
   padding: 20px 20px !important;    
+  }
+}
+.icon-wrap{
+  svg {
+    min-width:20px;
+  }
+}
+.collection-nft-test{
+  &::before {
+    border-radius: 50px !important;
   }
 }
 // .grid-collection {

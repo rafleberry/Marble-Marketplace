@@ -134,13 +134,10 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
     margin-left:10px;
     font-weight:100;
   }
-  // @media (max-width: 480px) {
-  //   width: 320px;
-  // }
+
 `
 const NFTName = styled.div`
   font-size: 20px;
-  // margin-bottom:20px;
   font-weight:500;
 `
 const Title = styled.div`

@@ -74,11 +74,6 @@ const Home = () => {
         <SelectedNFT />
         <Collections>
           <TextTitle>Curated Collections</TextTitle>
-          {/* <Stack spacing="50px" className='w-100'>
-            {nftcollections.map((nftInfo, index) => (
-              <Collection info={nftInfo} key={index} />
-            ))}
-          </Stack> */}
         </Collections>
         <Flex justifyContent="center">
           <Paper className="bg-border-linear">
@@ -213,7 +208,7 @@ const PartnerGrid = styled.div`
     // display:block;
     display:flex;
     overflow-x:auto;
-    max-width:530px;
+    max-width:400px;
     margin:0 10px;
   }
 
@@ -231,9 +226,9 @@ const StyledButton = styled.button`
   color: black;
   font-size: 18px;
   font-weight: 500;
-  @media (max-width: 480px) {
+  @media (max-width: 576px) {
     width: 100%;
-    height: 56px;
+    height: 56px !important;
     font-size: 16px;
   }
 `
@@ -281,6 +276,9 @@ const StyledP = styled.div`
 `
 const Collections = styled.div`
   padding: 100px 0;
+  @media(max-width:640px){
+    padding:50px 0;
+  }
   @media(max-width:425px){
     padding:30px 0;
   }
@@ -374,6 +372,7 @@ const TextTitle = styled.div`
   @media (max-width: 480px) {
     font-size: 24px;
     margin-bottom:0;
+    margin-top:30px;
   }
 `
 
@@ -383,7 +382,6 @@ const TextContent = styled.div<{ textAlign?: string }>`
   font-weight: 300;
   opacity: 0.5;
   font-family: Mulish;
-  // margin-bottom:10px !important;
   @media (max-width: 1440px) {
     font-size: 20px;
   }

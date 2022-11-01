@@ -52,9 +52,10 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 50px 30px;
-  padding: 20px;
-  @media (max-width:1024px){
+  // padding: 20px;
+  @media (max-width:1200px){
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding:0;
   }
   @media (max-width:640px){
     grid-template-columns: repeat(1, minmax(0, 1fr));

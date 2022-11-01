@@ -99,7 +99,7 @@ const CollectionInfo = ({ info }) => {
             </Stack>
           </HStack>
           {!isMobile() && (
-            <CreatorInfo className="bg-border-linear" style={{borderRadius:"50px"}}>
+            <CreatorInfo className="bg-border-linear collection-nft-test" style={{borderRadius:"50px"}}>
               <RoundedIconComponent
                 size={isClientMobie ? '36px' : '48px'}
                 address={info.creator}

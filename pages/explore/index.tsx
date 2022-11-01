@@ -93,4 +93,7 @@ const StyledTab = styled(Tab)`
   // padding: 20px 70px 20px 0px;
   padding: 20px 0 !important;
   margin: 0 100px 0 0;
+  &:active {
+    background:transparent !important;
+  }
 `

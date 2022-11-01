@@ -250,18 +250,20 @@ const ProfilesContainer = styled.div`
   @media (max-width: 1550px) {
     padding: 0 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (max-width: 640px) {
     padding: 0 0px;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `
 const Card = styled.div`
-  // background: rgba(05, 06, 22, 0.2);
-  // box-shadow:0px 4px 40px rgb(42 47 50 / 9%), inset -20px 1px 24px #6d6d78;
-  // backdrop-filter: blur(40px);
-  // border-radius: 20px;
   padding: 30px;
   margin-right:30px;
-  @media (max-width: 1550px) {
+  @media (max-width:1024px){
+    margin-right:0 !important;
+    margin-bottom:30px
   }
 `
 const HorizontalDivider = styled.div`

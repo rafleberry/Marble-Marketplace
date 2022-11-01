@@ -72,11 +72,11 @@ export const MobileFooterBar = () => {
           </Stack>
           <Accordion allowToggle>
             <StyledAccordionItem>
-              <AccordionButton className='accordion-btn'>
+              <AccordionButton className='accordion-btn'> 
                 <h3 className="desktop-section">MARBLE</h3>
                 <AccordionIcon />
               </AccordionButton >
-              <AccordionPanel pb={4}>
+              <AccordionPanel pb={4} >
                 <ContainerForFooterLinks
                   className={`footer-links ${openQuickNav ? 'open' : 'close'}`}
                 >

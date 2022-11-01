@@ -40,7 +40,7 @@ const BidContainer = styled.div<{ isEnd: boolean }>`
   }
   @media (max-width:576px) {
     width: 100% !important;
-    padding:0;
+    // padding:0;
     // display:block !important;
   }
 `

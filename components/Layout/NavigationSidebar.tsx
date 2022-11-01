@@ -144,7 +144,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                       passHref
                     >
                       <a className="dropdown-item">
-                        <span >Feed</span>
+                        <span>Feed</span>
                       </a>
                     </Link>
                   </StyledLink>
