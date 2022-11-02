@@ -96,8 +96,6 @@ export const isStablePool = (id: string | number) => {
 
 export const BTC_POOL_ID = config.BTC_POOL_ID
 
-export const REF_AIRDRAOP_CONTRACT_ID = config.REF_AIRDROP_CONTRACT_ID
-
 export const REF_TOKEN_ID = config.REF_TOKEN_ID
 const XREF_TOKEN_ID = getConfig().XREF_TOKEN_ID
 
@@ -105,9 +103,13 @@ export const LP_STORAGE_AMOUNT = '0.01'
 
 export const ONE_YOCTO_NEAR = '0.000000000000000000000001'
 
-export const NFT_CONTRACT_NAME = config.NFT_CONTRACT_NAME
-
-export const MARKETPLACE_CONTRACT_NAME = config.MARKETPLACE_CONTRACT_NAME
+export const {
+  STAKING_CONTRACT_NAME,
+  STAKING_FT_NAME,
+  STAKING_NFT_NAME,
+  MARKETPLACE_CONTRACT_NAME,
+  NFT_CONTRACT_NAME,
+} = config
 export const HERA_CONTRACT_NAME = config.HERA_CONTRACT_NAME
 export const getGas = (gas: string) =>
   gas ? new BN(gas) : new BN('300000000000000')
@@ -122,6 +124,10 @@ export interface RefFiViewFunctionOptions {
 export interface RefFiFunctionCallOptions extends RefFiViewFunctionOptions {
   gas?: string
   amount?: string
+}
+
+export interface NearFunctionCallOptions extends RefFiFunctionCallOptions {
+  contractId: string
 }
 
 export const refFiFunctionCall = ({
@@ -279,6 +285,46 @@ export const marketplaceFunctionCall = ({
       getGas(gas),
       getAmount(amount)
     )
+}
+
+/////////////////////////////////////////////
+//////////////    General    ////////////////
+/////////////////////////////////////////////
+
+export const nearFunctionCall = ({
+  contractId,
+  methodName,
+  args,
+  gas,
+  amount,
+}: NearFunctionCallOptions) => {
+  const { wallet } = getCurrentWallet()
+  return wallet
+    .account()
+    .functionCall(contractId, methodName, args, getGas(gas), getAmount(amount))
+}
+
+export const nearViewFunction = ({ contractId, methodName, args }) => {
+  const { keyStores } = nearAPI
+  const keyStore = new keyStores.BrowserLocalStorageKeyStore()
+  const config = {
+    networkId: process.env.NEXT_PUBLIC_NODE_URL,
+    keyStore: keyStore,
+    headers: {},
+    nodeUrl: 'https://rpc.testnet.near.org',
+    walletUrl: 'https://wallet.testnet.near.org',
+    helperUrl: 'https://helper.testnet.near.org',
+    explorerUrl: 'https://explorer.testnet.near.org',
+  }
+  const near = new Near({
+    keyStore,
+    headers: {},
+    ...config,
+  })
+
+  // create wallet connection
+  const wallet = new SpecialWallet(near, contractId)
+  return wallet.account().viewFunction(contractId, methodName, args)
 }
 
 export const refFiManyFunctionCalls = (

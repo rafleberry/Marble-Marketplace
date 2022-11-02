@@ -219,6 +219,15 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   <span className={isActive('/defi')}>DeFi</span>
                 </a>
               </StyledLink>
+              {accountId && (
+                <StyledLink>
+                  <Link href="/staking" passHref>
+                    <a className="dropdown-item">
+                      <span className={isActive('/staking')}>Staking</span>
+                    </a>
+                  </Link>
+                </StyledLink>
+              )}
             </StyledListForLinks>
             <ButtonField>
               {accountId ? (
