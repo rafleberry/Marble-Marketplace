@@ -208,7 +208,7 @@ const MyCreatedNFTs = ({ id }) => {
 
 const CollectionWrapper = styled.div`
   @media (max-width: 480px) {
-    width: fit-content;
+    // width: fit-content;
   }
 `
 
@@ -240,6 +240,7 @@ const FilterCard = styled.div`
   @media (max-width: 480px) {
     font-size: 12px;
     padding:9px 22px 10px 9px;
+    font-size:12px !important;
   }
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`

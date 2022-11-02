@@ -154,7 +154,9 @@ const IntroContainer = styled.div`
     }
 
     @media (max-width: 576px) {
-      bottom: -30px;
+      bottom: -90px;
+      left: -140px;
+      background-position-x: right;
     }
   }
   

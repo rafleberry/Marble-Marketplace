@@ -16,9 +16,7 @@ export const StyledWrapper = styled.div`
   }
 `
 export const StyledListForLinks = styled.div`
-  // display: flex;
   row-gap: 10px;
-  // flex-direction: row;
   align-items: center;
 `
 export const StyledLink = styled.div`
@@ -43,10 +41,14 @@ export const StyledDivForLogo = styled.div`
     height:auto;
   }
   @media (max-width: 1550px) {
-    margin: 0 00px;
+    margin: 0 0 0px;
     img {
       width: 200px;
     }
+  }
+  @media (max-width: 576px) {
+    max-width:170px !important;
+    margin-right:15px;
   }
 `
 
@@ -63,7 +65,7 @@ export const CreateButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
   height: 75%;
   @media (max-width: 1550px) {
@@ -72,9 +74,9 @@ export const CreateButton = styled.div`
     font-size: 12px;
   }
   @media (max-width: 480px) {
-    height: 36px;
-    font-size: 12px;
-    width: 80px;
+    height: 200px
+    font-size: 13px;
+    min-width: 100px;
     border-radius: 14px;
     margin-left: 0px;
   }

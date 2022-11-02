@@ -42,7 +42,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
           <Image src={nft.image} alt="NFT Image" />
         </ImgDiv>
 
-        <Stack padding="30px 0 0 0">
+        <Stack className='card-padding'>
           <Flex justifyContent="space-between" alignItems="flex-start">
             <div>
               <NFTName>{nft.name}</NFTName>
@@ -129,6 +129,9 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
     @media (max-width: 1550px) {
       font-size: 16px;
     }
+    @media (max-width: 576px) {
+      font-size: 14px;
+    }
   }
   .ml-2{
     margin-left:10px;
@@ -139,6 +142,9 @@ const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
 const NFTName = styled.div`
   font-size: 20px;
   font-weight:500;
+  @media (max-width: 576px) {
+    font-size: 16px;
+  }
 `
 const Title = styled.div`
   font-size: 13px;
@@ -147,6 +153,10 @@ const Title = styled.div`
   margin:15px 0px 7px;
   @media (max-width: 1550px) {
     font-size: 12px;
+  }
+  @media (max-width: 576px) {
+    margin: 10px 0px 7px;
+    font-size:13px !important;
   }
 `
 const Value = styled.div`
@@ -178,6 +188,10 @@ const ImgDiv = styled.div`
   padding-bottom: 100%;
   display: block;
   position: relative;
+  @media (max-width:576px){
+    height:320px !important;
+    padding-bottom:0;
+  }
 `
 const Image = styled.img`
   position: absolute;
@@ -190,6 +204,10 @@ const Image = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
+  
+  @media (max-width:576px){
+    height:320px !important;
+  }
 `
 const Logo = styled.img<{ size: string }>`
   width: ${({ size }) => size};

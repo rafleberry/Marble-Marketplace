@@ -1222,12 +1222,12 @@
                 ))}
               </Stack>
               <Stack spacing={10}>
-                <Card title="Description">
+                <Card title="Description" className="profile-bg-card">
                   <Text fontSize="18px" fontWeight="400" fontFamily="Mulish">
                     {nft.description}
                   </Text>
                 </Card>
-                <Card title="Minted On" fontWeight="500">
+                <Card title="Minted On" fontWeight="500" className="profile-bg-card">
                   <Text fontSize="16px" fontWeight="400" fontFamily="Mulish">
                     {nft.createdAt}
                   </Text>
@@ -1641,6 +1641,9 @@
     '@media (max-width: 1024px)': {
       padding: '100px 20px 0',
     },
+    '@media (max-width: 576px)': {
+      padding: '50px 0 0',
+    },
 
   })
   const NFTInfoWrapper = styled('div', {
@@ -1651,6 +1654,9 @@
       flexDirection: 'column',
       rowGap: '40px',
       display:'block',
+    },
+    '@media (max-width: 576px)': {
+      padding:'50px 20px',
     },
   })
 
@@ -1670,14 +1676,17 @@
   const NftBuyOfferTag = styled('div', {
     border: '1px solid rgba(255,255,255,0.2)',
     borderRadius: '30px',
-    padding: '20px',
+    // padding: '20px',
     background: 'rgba(255,255,255,0.06)',
     height: '100%',
     marginBottom: '20px',
 
     '@media (max-width: 1024px)': {
       marginTop:'40px',
-      // paddingLeft:'0',
+    },
+
+    '@media (max-width: 576px)': {
+      marginTop:'20px',
     },
 
     '@media (max-width: 480px)': {
@@ -1689,33 +1698,33 @@
   })
   const NftSale = styled('div', {
     display: 'flex',
-    padding: '$12 $16',
+    padding: '30px 36px',
     alignItems: 'center',
     gap: '$4',
     borderBottom: '1px solid $borderColors$default',
     '&.disabled': {
       color: '$textColors$disabled',
     },
-    '@media (max-width: 1024px)': {
-      paddingLeft: '0',
-    },
+    // '@media (max-width: 1024px)': {
+    //   paddingLeft: '0',
+    // },
 
     '@media (max-width: 480px)': {
-      padding: '$4 $16',
+      padding: '15px 20px',
     },
   })
   const PriceTag = styled('div', {
     display: 'flex',
     flexDirection: 'column',
-    padding: '$12 $16',
+    padding: '30px 36px',
     ' .price-lbl': {
       color: '$colors$link',
     },
-    '@media (max-width: 1200px)': {
-      padding: '0',
-    },
+    // '@media (max-width: 1200px)': {
+    //   padding: '0',
+    // },
     '@media (max-width: 480px)': {
-      padding: '$4 $16',
+      padding: '15px 20px',
     },
   })
   const ButtonGroup = styled('div', {
@@ -1789,7 +1798,10 @@
 
     '@media (max-width: 1024px)': {
       height: 'calc(100vh - 153%)',
-      
+    },
+
+    '@media (max-width: 576px)': {
+      height: 'calc(100vh - 73%)',
     },
     // opacity: '0.1',
     // backgroundColor:"Blue",

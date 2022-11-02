@@ -39,7 +39,8 @@ export function CategoryTab({
 const Container = styled.div`
   margin: 30px 0;
   @media (max-width: 480px) {
-    width: 1366px;
+    max-width: 800px;
+    overflow: auto;
   }
 `
 

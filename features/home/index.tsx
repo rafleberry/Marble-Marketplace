@@ -91,7 +91,7 @@ const Home = () => {
                 <StyledButton>Get Started</StyledButton>
               </Stack>
               <Stack className='double-card-img'>
-                <img src="/images/doubleCardLogo.png" alt="cardlogo" />
+                <img src="/images/download-card-3.png" alt="cardlogo" />
               </Stack>
             </MarbleCardGrid>
           </Paper>
@@ -148,7 +148,7 @@ const Home = () => {
             </DestinationGrid>
           </Stack>
         </Stack>
-        <Stack marginTop={isMobile() ? '50px' : '100px'} alignItems="center">
+        <Stack marginTop={isMobile() ? '50px' : '100px'} alignItems="center" className='marble-content'>
           <Stack spacing={isMobile() ? '10px' : 10} alignItems="center">
             <TextTitle>Marble is powered by</TextTitle>
             <StyledP>
@@ -189,9 +189,9 @@ const DestinationGrid = styled.div`
 
   @media (max-width: 576px) {
     display: flex;
-    // grid-template-columns: repeat(1, 1fr);
     flex-direction: column;
     row-gap: 15px;
+    margin-top:0px !important;
   }
 `
 const PartnerGrid = styled.div`
@@ -214,6 +214,7 @@ const PartnerGrid = styled.div`
 
   @media (max-width: 480px) {
     width:370px;
+    column-gap: 20px;
   }
 `
 const StyledButton = styled.button`
@@ -237,13 +238,14 @@ const MarbleCardGrid = styled.div`
   // grid-template-columns: 1fr 1fr;
   display:flex;
   align-items: center;
- 
+  
   @media (max-width: 1550px) {
     padding: 0 30px;
   }
   @media (max-width: 768px) {
-    display: block;
-    flex-direction: column-reverse;
+    flex-wrap:wrap;
+    // display: block;
+    // flex-direction: column-reverse;
   }
   @media (max-width: 768px) {
     padding: 0;
@@ -280,13 +282,11 @@ const Collections = styled.div`
     padding:50px 0;
   }
   @media(max-width:425px){
-    padding:30px 0;
+    padding:30px 0 20px;
   }
 `
 const Paper = styled.div<{ width?: string }>`
   border-radius: 30px;
-  // border:1px solid rgba(255, 255, 255, 0.2);
-  // background:rgba(255, 255, 255, 0.06);
   padding: 30px 80px;
   padding-bottom: 40px;
   width: ${({ width }) => width || '100%'};
@@ -298,10 +298,7 @@ const Paper = styled.div<{ width?: string }>`
   
   @media (max-width: 1450px) {
     padding: 20px;
-    // display: block;
-  }
-  @media (max-width: 1024px) {
-    // display: flex;
+    display: block;
   }
   @media (max-width: 425px) {
     padding: 30px;
@@ -316,15 +313,10 @@ padding: 3px 28px !important;
   align-items:center;
   justify-content:center;
 }
-  // @media (max-width: 480px) {
-  //   min-width: 180px;
-  //   height: 70px;
-  //   // margin-top:10px;
-  //   display:flex;
-  //   align-items:center;
-  //   justify-content:center;
-  //   // padding:30px 80px!important;
-  // }
+@media (max-width: 480px) {
+  min-width: 140px;
+  height: 60px;
+}
 `
 const StyledPaper = styled.div`
   border-radius: 30px;
@@ -372,7 +364,7 @@ const TextTitle = styled.div`
   @media (max-width: 480px) {
     font-size: 24px;
     margin-bottom:0;
-    margin-top:30px;
+    margin-top:50px;
   }
 `
 

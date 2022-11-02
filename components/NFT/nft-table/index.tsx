@@ -40,7 +40,4 @@ const NftGrid = styled.div<{ columns: number }>`
     grid-template-columns: repeat(1,1fr) !important;
   }
 
-  // @media (max-width:420px){
-  //   grid-template-columns: repeat(2,2fr) !important;
-  // }
 `

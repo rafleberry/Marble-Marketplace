@@ -129,7 +129,7 @@ const Explore = () => {
   return (
     <ExploreWrapper style={{ padding: "0px" }}>
       <Filter className="collection-tab">
-        <FilterCard
+        <FilterCard className="bg-border-linear"
           onClick={() => handleFilter('all')}
           isActive={filterTab === 'all'}
         >
@@ -146,7 +146,7 @@ const Explore = () => {
             {nftCounts['Auction']}
           </NumberWrapper>
           Live Auction */}
-        <FilterCard
+        <FilterCard  className="bg-border-linear"
           onClick={() => handleFilter('Direct Sell')}
           isActive={filterTab === 'Direct Sell'}
         >
@@ -158,14 +158,14 @@ const Explore = () => {
           </NumberWrapper>
           Active Offers */}
 
-        <FilterCard
+        <FilterCard  className="bg-border-linear"
           onClick={() => handleFilter('Auction')}
           isActive={filterTab === 'Auction'}
         >
           Live Auction
         </FilterCard>
 
-        <FilterCard
+        <FilterCard  className="bg-border-linear"
           onClick={() => handleFilter('Offer')}
           isActive={filterTab === 'Offer'}
         >
@@ -296,7 +296,7 @@ const Container = styled.div`
 const Filter = styled.div`
   display: flex;
   column-gap: 20px;
-  width: 800px;
+  max-width: 800px;
   // padding:0 !important;
 `
 const FilterCard = styled.div`
@@ -317,8 +317,14 @@ const FilterCard = styled.div`
   align-items: center;
   width: fit-content;
   min-width:100px;
+  white-space:nowrap;
   justify-content:center;
   padding: 10px;
+  @media (max-width:576px){
+    font-size:14px !important;
+    height:55px;
+    min-width:120px;
+  }
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`
   height: 34px;

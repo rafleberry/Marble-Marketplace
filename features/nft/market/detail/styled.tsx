@@ -26,6 +26,9 @@ export const MoreTitle = styled.div`
     margin:30px 0 20px;
 
   }
+  @media (max-width: 576px) {
+    margin:30px 10px 20px;
+  }
 `
 
 export const RoyaltyContainer = styled.div`

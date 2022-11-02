@@ -129,7 +129,7 @@ export default function Home() {
                 </HStack>
                 {wallet.accountId !== id && wallet.accountId && (
                   <Button
-                    className="btn-buy btn-default"
+                    className="btn-buy btn-default btn-follow"
                     css={{
                       background: '$white',
                       color: '$black',
@@ -147,7 +147,7 @@ export default function Home() {
                   </Button>
                 )}
               </Stack>
-              <div
+              <div className='follow-text'
                 style={{
                   opacity: '0.5',
                   textAlign: 'center',
@@ -157,14 +157,14 @@ export default function Home() {
               >
                 Not followed by anyone you follow
               </div>
-              <Card className="bg-border-linear" style={{
+              <Card className="bg-border-linear profile-bg-card" style={{
                 marginTop:"40px",
                 }}>
                 <h3>Bio</h3>
                 <p>{profile.bio || 'Undefined'}</p>
               </Card>
               {(profile.mail || profile.discord) && (
-                <Card className="bg-border-linear">
+                <Card className="bg-border-linear profile-bg-card">
                   <h3>Links</h3>
                   <Stack spacing="5px" className="profile-link" style={{
                  display:'flex', flexDirection:'row'
@@ -263,6 +263,9 @@ const ProfileContainer = styled.div`
     font-size: 18px;
     font-weight: 400;
     font-family: Mulish;
+    @media (max-width:576px){
+      font-size: 15px !important;
+    }
   }
   h3 {
     font-size: 20px;
@@ -341,7 +344,6 @@ const ProfileNFTInfo = styled.div`
   }
 `
 const StyledTabList = styled(TabList)`
-  // width: fit-content;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, 0.1);
   font-weight: 400;
@@ -362,7 +364,7 @@ const StyledTab = styled(Tab)`
     padding: 20px 70px 20px 70px;
   }
   @media (max-width: 480px) {
-    font-size: 12px;
+    font-size: 15px;
     padding: 10px 35px 10px 0px;
   }
 `

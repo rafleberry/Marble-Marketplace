@@ -385,9 +385,6 @@ div {
 
 .footer-logo {
   width: 243px;
-  // @media (max-width:768px) {
-  //   width: 400px;
-  // }
 }
 
 .footer-desc {
@@ -395,7 +392,7 @@ div {
   padding: 40px 0 50px 0 !important;
 
   @media (max-width:768px) {
-    font-size: 19px !important;
+    font-size: 18px !important;
     font-weight: 300 !important;
   }
 }
@@ -527,6 +524,9 @@ div {
 
   .logo-img {
     width: 180px;
+    // @media (max-width:576px) {
+    //   margin-right:20px;
+    // }
   }
 
   .wrap-header {
@@ -1355,6 +1355,9 @@ footer {
   font-weight: 500 !important;
   font-family:'Mulish';
   font-size: 18px !important;
+  @media (max-width:576px) {
+    font-size:16px !important;
+  }
   // color: red !important;
 }
 
@@ -1368,6 +1371,9 @@ footer {
   .create-text{
     max-width:100%;
     margin-bottom: 40px;
+    @media (max-width:576px) {
+      margin-bottom: 20px;
+    }
   }
 }
 .select-input {
@@ -1384,13 +1390,17 @@ footer {
   svg {
     width: 2em;
     height: 1.5em;
+    @media (max-width:576px) {
+      height: 1em;
+    }
   }
 }
 
 .royalty{
   font-size: 30px !important;
   @media (max-width:480px) {
-    font-size: 14px !important;
+    font-size: 13px !important;
+    margin-top:15px !important;
   }
 }
 
@@ -1509,7 +1519,7 @@ main {
     margin-top: 0 !important;
     @media (max-width:480px) {
       &:nth-child(2), &:nth-child(3){
-        margin-top: 40px !important;
+        margin-top: 30px !important;
       }
       // &:nth-child(3){
       //   margin-top: 40px !important;
@@ -1539,26 +1549,14 @@ main {
       min-height: calc(100vh - 110px);
       backdrop-filter: blur(15px);
 
-    // @media (max-width:1024px) {
-    //   min-height: calc(100vh - 147%) !important;
-    // }
     @media (max-width:1024px) {
       min-height: calc(100vh - 153%) !important;
     }
+    @media (max-width:576px) {
+      min-height: calc(100vh - 73%) !important;
+    }
   }
-  // &::before{calc(100vh - 110px)
-  //   content: "";
-  //   position: absolute;
-  //   top: 0px;
-  //   left: 0;
-  //   background-color: #0a0c1a;
-  //   opacity: 0.9;
-  //   width: 100%;
-  //   min-height: calc(100vh - 110px);
-  //   @media (max-width:576px) {
-  //     min-height: calc(100vh - 100%);;
-  //   }
-  // }
+
 }
 .payment-text{
   @media (max-width:576px) {
@@ -1614,7 +1612,7 @@ main {
 
   @media (max-width:420px) {
     padding: 20px 0px 30px 25px ;
-    width: 80%;
+    // width: 80%;
     padding-left: 0 !important;
   }
 }
@@ -1634,11 +1632,14 @@ main {
 }
 .set-up {
   margin-top: 30px !important;
- 
+ @media (max-width:576px) {
+  margin-top: 20px !important;
+ }
 }
 .template-grid {
   @media (max-width:1024px) {
     grid-template-columns:repeat(2, 1fr) !important;
+    margin-bottom:10px !important;
   }
 }
 .nft-text{
@@ -1647,7 +1648,7 @@ main {
   }
 }
 .collection-input{
-  margin-top: 15px;
+  margin-top: 25px !important;
 }
 .text-sm{
   @media (max-width:480px) {
@@ -1703,11 +1704,30 @@ main {
     border-radius: 50px !important;
   }
 }
-// .grid-collection {
-//   @media (max-width:1024px) {
-//     grid-template-columns:repeat(2, 1fr) !important; 
-//   }
-//   @media (max-width:992px) {
-//     grid-template-columns:repeat(1, 1fr) !important; 
-//   }
-// }
+.marble-content{
+  margin-top: 100px !important;
+  @media (max-width:576px) {
+    margin-top:0px !important;
+  }
+}
+.btn-follow{
+  @media (max-width:576px) {
+    height: 58px !important;    
+  }
+}
+.follow-text{
+  @media (max-width:576px) {
+    margin-top: 20px !important;
+  }
+}
+.profile-bg-card{
+  @media (max-width:576px) {
+    margin-top:20px !important;    
+  }
+}
+.card-padding {
+  padding: 30px 0 0 0;
+  @media (max-width:576px) {
+    padding: 20px 0 0 0 !important;
+  }
+}

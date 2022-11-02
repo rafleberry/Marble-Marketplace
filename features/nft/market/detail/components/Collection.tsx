@@ -136,7 +136,7 @@ const CollectionInfo = ({ info }) => {
         </Grid>
         
         {isMobile() && (
-          <CreatorInfo>
+          <CreatorInfo className="bg-border-linear collection-nft-test" style={{borderRadius:"50px"}}>
             <RoundedIconComponent
               size={isClientMobie ? '36px' : '48px'}
               address={info.creator}

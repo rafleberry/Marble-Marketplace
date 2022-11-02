@@ -13,16 +13,11 @@ const Card = ({ title, children }) => {
 const Container = styled.div`
   padding: 30px 36px;
   width: 100%;
-  // background: rgba(255, 255, 255, 0.06);
-  // border: 1px solid rgba(255, 255, 255, 0.2);
-  // border-radius: 30px;
   @media (max-width: 480px) {
     padding: 15px 20px;
-    // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-    // background: rgba(5, 6, 21, 0.2);
+    margin-top:20px !important;
   }
 `
-
 const Title = styled.div`
   font-size: 20px;
   font-weight: 500;

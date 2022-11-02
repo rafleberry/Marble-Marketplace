@@ -73,13 +73,13 @@ const AllProfiles = ({ profileCounts }) => {
     <Container>
       {isMobile() ? (
         <HStack justifyContent="space-between" paddingBottom="20px">
-          <MobileSortWrapper onClick={() => setFilterShow(true)}>
+          <MobileSortWrapper onClick={() => setFilterShow(true)} className="bg-border-linear">
             Filter
             <Filter />
           </MobileSortWrapper>
           <MobileSortComponent>
             <p>Sort by</p>
-            <MobileSortWrapper onClick={() => setAsc(!asc)}>
+            <MobileSortWrapper onClick={() => setAsc(!asc)} className="bg-border-linear">
               <Sort /> {asc ? 'A-Z' : 'Z-A'}
             </MobileSortWrapper>
           </MobileSortComponent>
@@ -281,6 +281,7 @@ const SortComponent = styled.div`
     font-size: 18px;
     font-weight: 600;
     opacity: 0.5;
+   
   }
 `
 const MobileSortComponent = styled.div`
@@ -290,6 +291,11 @@ const MobileSortComponent = styled.div`
     font-size: 18px;
     font-weight: 600;
     opacity: 0.5;
+
+    @media (max-width:576px){
+      font-size:14px !important;
+      margin-right:10px;
+    }
   }
 `
 const SortWrapper = styled.div`
@@ -311,25 +317,26 @@ const SortWrapper = styled.div`
   cursor: pointer;
 `
 const MobileSortWrapper = styled.div`
-  backdrop-filter: blur(40px);
+  // backdrop-filter: blur(40px);
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 20px;
-  padding: 15px;
+  padding: 12px;
   display: flex;
   align-items: center;
   column-gap: 20px;
   cursor: pointer;
-  background: linear-gradient(0deg, #050616, #050616),
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%);
-  border: 1px solid;
+  // background: linear-gradient(0deg, #050616, #050616),
+  //   linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%);
+  // border: 1px solid;
 
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
+  // border-image-source: linear-gradient(
+  //   90.65deg,
+  //   #ffffff 0.82%,
+  //   rgba(0, 0, 0, 0) 98.47%
+  // );
+  // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
   font-family: Mulish;
+  font-size:14px;
 `
 
 const MobileFilterWrapper = styled.div`

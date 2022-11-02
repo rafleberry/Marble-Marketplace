@@ -58,6 +58,10 @@ const ImgDiv = styled.div`
   padding-bottom: 75%;
   display: block;
   position: relative;
+  
+  @media (max-width:576px){
+    height:320px !important;
+  }
 `
 const Image = styled.img`
   position: absolute;
@@ -70,6 +74,10 @@ const Image = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
+
+  @media (max-width:576px){
+    height:320px !important;
+  }
 `
 const LogoImage = styled.img`
   position: absolute;

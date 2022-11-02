@@ -266,7 +266,7 @@ export default function Collection() {
                     }}
                   />
                 </Stack>
-                <Stack>
+                <Stack className="collection-input">
                   <InputLabel>Collection Category</InputLabel>
                   <Select className='select-input'
                     defaultValue={options[0]}
@@ -348,7 +348,7 @@ export default function Collection() {
                       width: '100%',
                       padding: '20px',
                       fontWeight: "500",
-                      marginTop:"20px !important",
+                      marginTop:"10px !important",
                     }}
                     variant="primary"
                     size="large"
@@ -405,6 +405,7 @@ const InputLabel = styled.div`
   @media (max-width: 480px) {
     font-size: 12px;
     font-weight: 400;
+    margin-left:20px;
   }
 `
 const RoyaltyLabel = styled.div`
@@ -414,6 +415,7 @@ const RoyaltyLabel = styled.div`
   @media (max-width: 480px) {
     font-size: 12px;
     margin-left: 0;
+    // margin-top: 30px;
   }
 `
 const Collections = styled.div`
@@ -494,5 +496,7 @@ const IconWrapper = styled.div<{ width?: string; m?: string }>`
   margin: ${({ m }) => m || '0'};
   align-items: center;
   justify-content: center;
-  // margin-top:15px !important;
+  @media (max-width:576px){
+    height:60px;
+  }
 `

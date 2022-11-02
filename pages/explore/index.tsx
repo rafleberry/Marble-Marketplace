@@ -51,7 +51,7 @@ export default function Explores() {
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true} hasBanner={true}>
-        <Tabs overflow="auto" padding='20px 49px' className='browse-tab'>
+        <Tabs padding='20px 49px' className='browse-tab'>
           <StyledTabList>
             <StyledTab>{`NFTs(${nfts})`}</StyledTab>
             <StyledTab>{`Collections(${collections})`}</StyledTab>
@@ -90,10 +90,13 @@ const StyledTabList = styled(TabList)`
 const StyledTab = styled(Tab)`
   font-size: 22px !important;
   font-weight: 300;
-  // padding: 20px 70px 20px 0px;
   padding: 20px 0 !important;
   margin: 0 100px 0 0;
   &:active {
     background:transparent !important;
+  }
+  @media (max-width:576px){
+    font-size:14px !important;
+    margin:0 30px 0 0;
   }
 `
