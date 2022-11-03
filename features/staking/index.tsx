@@ -218,7 +218,6 @@ const Staking = () => {
       amount: ONE_YOCTO_NEAR,
     })
   }
-  console.log('ownedNfts: ', ownedNfts)
   return (
     <Container>
       <Header>NFT staking</Header>
@@ -241,8 +240,11 @@ const Staking = () => {
               <h3>{getClaimableReward()} Block</h3>
             </InfoContent>
             <InfoContent>
-              <h2>Day Staked</h2>
-              <h3>10</h3>
+              <h2>Total Staked</h2>
+              <h3>
+                {ownedNfts.length + userStakeInfo.token_ids.length}/
+                {userStakeInfo.token_ids.length}
+              </h3>
             </InfoContent>
             <InfoContent>
               <h2>Days Left</h2>
