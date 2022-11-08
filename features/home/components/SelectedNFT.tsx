@@ -232,7 +232,7 @@ const MiniInfoTitle = styled.div`
 `
 const Name = styled.div`
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
   font-family: Mulish;
   margin-left:10px;
 `

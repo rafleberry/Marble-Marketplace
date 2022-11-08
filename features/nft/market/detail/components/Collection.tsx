@@ -175,10 +175,9 @@ const Image = styled.img`
   border-radius: 50%;
 `
 const ImgDiv = styled.div`
-  // min-width: 80px;
-  width:80px;
-  height:70px;
-  border:3px solid rgba(255,255,255,0.13);
+  width:100px;
+  height:100px;
+  border:6px solid rgba(255,255,255,0.13);
   padding-bottom: 70px;
   display: block;
   position: relative;
@@ -187,6 +186,7 @@ const ImgDiv = styled.div`
   @media (max-width: 1550px) {
     padding-bottom: 55px;
     width: 55px;
+    border:3px solid rgba(255,255,255,0.13);
   }
   @media (max-width: 1024px) {
     // padding-bottom: 55px;
@@ -202,6 +202,7 @@ const ImgDiv = styled.div`
 const CreatorInfo = styled.div`
   border-radius:50px !important; 
   display: flex;
+  align-items:center;
   padding: 10px;
   height: 70px;
   width: 210px;
@@ -209,7 +210,6 @@ const CreatorInfo = styled.div`
     height: 50px;
     width: 160px;
     height: 50px;
-    width: fit-content;
     margin-top: 20px;
   }
 `

@@ -867,7 +867,7 @@
               {isMobile() && (
                 <NftInfoTag>
                  {marketStatus.isOnMarket ? (
-                    <NftBuyOfferTag className="nft-buy-offer">
+                    <NftBuyOfferTag className="nft-buy-offer bg-border-linear">
                       {marketStatus.data.is_auction ? (
                         <>
                           {marketStatus.isStarted ? (
@@ -1123,12 +1123,13 @@
                       </PriceTag>
                     </NftBuyOfferTag>
                   ) : (
-                    <NftBuyOfferTag className="nft-buy-offer">
+                    <NftBuyOfferTag className="nft-buy-offer bg-border-linear">
                       <Text className="nft-text"
                         fontSize="25px"
                         fontWeight="700"
                         fontFamily="Mulish"
                         textAlign="center"
+                        paddingTop="10px"
                       >
                         {nft.user === wallet.accountId
                           ? 'Manage NFT'
@@ -1247,7 +1248,7 @@
             {!isMobile() && (
               <NftInfoTag>
                 {marketStatus.isOnMarket ? (
-                  <NftBuyOfferTag className="nft-buy-offer">
+                  <NftBuyOfferTag className="nft-buy-offer bg-border-linear">
                     {marketStatus.data.is_auction ? (
                       <>
                         {marketStatus.isStarted ? (
@@ -1535,12 +1536,14 @@
                     </PriceTag>
                   </NftBuyOfferTag>
                 ) : (
-                  <NftBuyOfferTag className="nft-buy-offer">
+                  <NftBuyOfferTag className="nft-buy-offer bg-border-linear">
                     <Text
                       fontSize="25px"
                       fontWeight="700"
                       fontFamily="Mulish"
-                      textAlign="center" className='nft-text'
+                      textAlign="center"
+                      paddingTop="10px"
+                      className='nft-text'
                     >
                       {/* {nft.user === wallet.accountId */}
                       {true
@@ -1674,10 +1677,10 @@
   })
 
   const NftBuyOfferTag = styled('div', {
-    border: '1px solid rgba(255,255,255,0.2)',
+    // border: '1px solid rgba(255,255,255,0.2)',
     borderRadius: '30px',
     // padding: '20px',
-    background: 'rgba(255,255,255,0.06)',
+    // background: 'rgba(255,255,255,0.06)',
     height: '100%',
     marginBottom: '20px',
 
@@ -1798,6 +1801,10 @@
 
     '@media (max-width: 1024px)': {
       height: 'calc(100vh - 153%)',
+    },
+    
+    '@media (max-width: 1024px)': {
+      height: 'calc(100vh - 263%)',
     },
 
     '@media (max-width: 576px)': {

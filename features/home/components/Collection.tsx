@@ -204,6 +204,7 @@ const CreatorInfo = styled.div`
   // box-shadow:0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4);
   // border-radius: 50px !important;
   display: flex;
+  align-items:center;
   padding: 13px;
   // align-items: center;
   height: 70px;

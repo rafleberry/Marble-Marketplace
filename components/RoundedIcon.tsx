@@ -22,6 +22,7 @@ export const Flex = styled.div<{ direction: string }>`
   // align-items: center;
   column-gap: 9px;
   row-gap: 15px;
+  align-items:center;
 `
 
 export const RoundedIconComponent = ({
@@ -43,7 +44,7 @@ export const RoundedIconComponent = ({
     <Link  href={`/profile/${address}`}>
       <Flex direction={direction}>
         {size !== '0px' && <RoundedIcon size={size} src={src}/>}
-        <Text fontSize={font} className={`${font=='14px'?'profile-text':''}`} fontWeight="500" fontFamily="Mulish">
+        <Text fontSize={font} className={`${font=='14px'?'profile-text':''}`} fontWeight="600" fontFamily="Mulish">
           {user}
         </Text>
       </Flex>
