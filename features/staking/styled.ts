@@ -62,3 +62,9 @@ export const OwnedNftsContainer = styled.div`
   width: 100%;
   margin-top: 50px;
 `
+export const CountDownWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: 700;
+`

@@ -4,14 +4,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable class-methods-use-this */
-import React, { Component, ReactInstance } from 'react'
-import { styled } from './theme'
+import { Component } from 'react'
 const calculateStateFromProps = (
   props: DateCountdownProps = defaultDateCountdownProps
 ): DateCountdownStates => {
   let { dateTo, dateFrom, numberOfFigures, mostSignificantFigure } = props
   const currentDate: Date = dateFrom ? new Date(dateFrom) : new Date()
-  const targetDate: Date = new Date(dateTo)
+  const targetDate: Date = new Date(Number(dateTo) * 1000)
 
   const diff = targetDate.getTime() - currentDate.getTime()
   let significance = ['year', 'month', 'day', 'hour', 'min', 'sec']
@@ -89,7 +88,7 @@ const figuresMax = {
 
 const defaultDateCountdownProps = {
   locales: ['year', 'month', 'day', 'hour', 'minute', 'second'],
-  locales_plural: ['years', 'months', 'days', 'hours', 'minutes', 'seconds'],
+  locales_plural: ['years', 'months', 'days', 'hours', 'minutes', 'secs'],
   dateTo: new Date().toString(),
   dateFrom: '',
   interval: 0,
@@ -118,18 +117,17 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
   componentDidMount() {
     const state = calculateStateFromProps(this.props)
     const { diff } = state
-    this.setState(state, () => {
-      if (diff > 0) {
-        let tickId = setInterval(this.tick, 1000)
-        this.setState({ tickId })
-      }
-    })
+    if (diff > 0) {
+      let tickId = setInterval(this.tick, 1000)
+      this.setState({ tickId })
+    }
+    this.setState(state)
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     const state = calculateStateFromProps(nextProps)
     const { diff } = state
-    const { tickId } = this.state
+    // const { tickId } = this.state
     this.setState(state, () => {
       if (diff > 0) {
         const { tickId } = this.state
@@ -218,7 +216,6 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
   tick() {
     const { sec, min, hour, day, month, year, tickId } = this.state
     const { callback, loop, interval } = this.props
-
     if (
       sec === 0 &&
       min === 0 &&
@@ -303,29 +300,35 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
     // eslint-disable-next-line camelcase
     let { locales, locales_plural } = this.props
     let units = ['year', 'month', 'day', 'hour', 'min', 'sec']
-
+    console.log('diff: ', diff)
     if (diff < 0) {
+      return null
       // past date
-      return (
-        <span className="odometer-block">
-          {units.map((unit, key) => {
-            if (significance.indexOf(unit) !== -1) {
-              return (
-                <span style={{ display: 'flex' }} key={`unit-${key}`}>
-                  <span className="dcd-info">
-                    <span ref={unit} className={`${unit} dcd-val`}>
-                      00
-                    </span>
-                    <span className="dcd-comment">{locales[key]}</span>
-                  </span>
-                  <span>{unit != 'sec' && ':'}</span>
-                </span>
-              )
-            }
-            return null
-          })}
-        </span>
-      )
+      // return (
+      //   <span className="odometer-block">
+      //     {units.map((unit, key) => {
+      //       if (significance.indexOf(unit) !== -1) {
+      //         return (
+      //           <span
+      //             style={{
+      //               display: 'flex',
+      //               alignItems: 'center',
+      //             }}
+      //             key={`unit-${key}`}
+      //           >
+      //             <span className="dcd-info">
+      //               <span ref={unit} className={`${unit} dcd-val`}>
+      //                 00
+      //               </span>
+      //             </span>
+      //             <span>{key != 2 && ':'}</span>
+      //           </span>
+      //         )
+      //       }
+      //       return null
+      //     })}
+      //   </span>
+      // )
     }
 
     return (
@@ -333,14 +336,13 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
         {units.map((unit, key) => {
           if (significance.indexOf(unit) !== -1) {
             return (
-              <span style={{ display: 'flex' }} key={`unit-${key}`}>
+              <span
+                style={{ display: 'flex', alignItems: 'center' }}
+                key={`unit-${key}`}
+              >
                 <span className="dcd-info">
                   <span ref={unit} className={`${unit} dcd-val`}>
                     {this.dissect(state[unit])}
-                  </span>
-                  <span className="dcd-comment">
-                    {state[unit] <= 1 && locales[key]}
-                    {state[unit] > 1 && locales_plural[key]}
                   </span>
                 </span>
                 <span>
