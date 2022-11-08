@@ -102,7 +102,6 @@ const Staking = () => {
         methodName: 'get_config',
         args: {},
       })
-      console.log('config: ', config)
       setStakeConfig(config)
 
       try {
@@ -191,7 +190,6 @@ const Staking = () => {
 
     return claimable
   }
-  console.log('userStakeINfo: ', userStakeInfo)
   const handleStake = async () => {
     if (ownedNfts.length === 0) return
     const selectedNum = getRandomInt(ownedNfts.length)
@@ -235,7 +233,6 @@ const Staking = () => {
         ],
       })
     }
-    console.log('tokenId: ', ownedNfts, selectedNum)
     transactions.push({
       receiverId: NFT_CONTRACT_NAME,
       functionCalls: [

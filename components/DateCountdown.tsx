@@ -300,7 +300,6 @@ class DateCountdown extends Component<DateCountdownProps, DateCountdownStates> {
     // eslint-disable-next-line camelcase
     let { locales, locales_plural } = this.props
     let units = ['year', 'month', 'day', 'hour', 'min', 'sec']
-    console.log('diff: ', diff)
     if (diff < 0) {
       return null
       // past date
