@@ -1070,6 +1070,10 @@ div {
 
 }
 
+.profile-text{
+  font-size: 14px !important;
+}
+
 .dropbtn {
   color: white;
   font-style: normal;
@@ -1444,17 +1448,6 @@ main {
 // }
 .bg-border-linear {
   position: relative;
-  // box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #41414e;
-  // backdrop-filter: blur(40px);
-  // border-radius: 20px;
-  // border: 1px solid;
-  // border-image-source: linear-gradient(
-  //   90.65deg,
-  //   #ffffff 0.82%,
-  //   rgba(0, 0, 0, 0) 98.47%
-  // // );
-  // background:linear-gradient(0deg, #191c2b, #272938) padding-box, linear-gradient(90.65deg, #565656 0.82%, rgba(0, 0, 0, 0) 125.47%) border-box !important;
-  // backdrop-filter: blur(40px);
   
   &::before {
       content: "";
@@ -1479,10 +1472,7 @@ main {
         rgba(0, 0, 0, 0) 98.47%
     );
   }
-  @media (max-width:768px) {
-    // margin-left:auto ;
-    // margin-top:0 !important;
-  }
+ 
 }
 // .bg-box-linear {
 

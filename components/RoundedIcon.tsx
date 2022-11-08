@@ -19,7 +19,7 @@ export const Flex = styled.div<{ direction: string }>`
   display: flex;
   cursor: pointer;
   flex-direction: ${({ direction }) => direction};
-  align-items: center;
+  // align-items: center;
   column-gap: 9px;
   row-gap: 15px;
 `
@@ -43,7 +43,7 @@ export const RoundedIconComponent = ({
     <Link  href={`/profile/${address}`}>
       <Flex direction={direction}>
         {size !== '0px' && <RoundedIcon size={size} src={src}/>}
-        <Text fontSize={font} fontWeight="500" fontFamily="Mulish">
+        <Text fontSize={font} className={`${font=='14px'?'profile-text':''}`} fontWeight="500" fontFamily="Mulish">
           {user}
         </Text>
       </Flex>

@@ -126,7 +126,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                         size="48px"
                         address={accountId}
                         direction="column"
-                        font="16px"
+                        font="14px"
                       />
                       <MobileWalletInfo>
                         <p>Wallet Balance</p>
@@ -330,6 +330,7 @@ const Flex = styled('div', {
   alignItems: 'center',
   ' p': {
     fontSize: '22px',
+   
   },
 })
 const VFlex = styled('div', {

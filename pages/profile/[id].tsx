@@ -288,7 +288,6 @@ const ProfileContainer = styled.div`
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column;
-    // padding: 0 20px;
     h1 {
       font-size: 24px;
     }
