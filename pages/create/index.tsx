@@ -129,7 +129,7 @@ const IconWrapper = styled.div`
   align-items: center;
   margin-right: 20px;
   @media (max-width: 480px) {
-    width: 50px;
+    width: 65px;
     height: 50px;
     margin-right:18px;
   }

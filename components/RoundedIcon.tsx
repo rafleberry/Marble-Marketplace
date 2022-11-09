@@ -44,7 +44,7 @@ export const RoundedIconComponent = ({
     <Link  href={`/profile/${address}`}>
       <Flex direction={direction}>
         {size !== '0px' && <RoundedIcon size={size} src={src}/>}
-        <Text fontSize={font} className={`${font=='14px'?'profile-text':''}`} fontWeight="600" fontFamily="Mulish">
+        <Text fontSize={font} className={`${font=='14px'?'profile-text':''}`} fontWeight="500" fontFamily="Mulish">
           {user}
         </Text>
       </Flex>

@@ -74,9 +74,14 @@ const Home = () => {
         <SelectedNFT />
         <Collections>
           <TextTitle>Curated Collections</TextTitle>
+          <Stack spacing="50px" className='w-100'>
+            {nftcollections.map((nftInfo, index) => (
+              <Collection info={nftInfo} key={index} />
+            ))}
+          </Stack>
         </Collections>
-        <Flex justifyContent="center">
-          <Paper className="bg-border-linear">
+        <Flex justifyContent="center" className="bg-border-linear p-20">
+          <Paper>
             <MarbleCardGrid>
               <Stack spacing={10} className="pygital-nft">
                 <Title>Discover 
@@ -96,7 +101,7 @@ const Home = () => {
             </MarbleCardGrid>
           </Paper>
         </Flex>
-        <Stack marginTop="100px" alignItems="center" className='marble-content'>
+        <Stack marginTop="100px" alignItems="center" className='marble-content p-20'>
           <Stack spacing={10}>
             <Stack margin="0 auto" alignItems="center">
               <TextTitle>Marble - Where will you fit in?</TextTitle>
@@ -397,7 +402,7 @@ const Round = styled.div`
     height: 100px;
     margin: 0 auto;
     img {
-      width: 50px;
+      width: 65px;
       height: 50px;
     }
   }

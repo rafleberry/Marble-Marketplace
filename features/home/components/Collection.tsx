@@ -79,7 +79,7 @@ const CollectionInfo = ({ info }) => {
     return collectionNFTs
   }, [info.id])
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const tokensInfo = await fetchTokensInfo()
       setNfts(tokensInfo)
     })()
@@ -90,13 +90,13 @@ const CollectionInfo = ({ info }) => {
         <Flex
           justifyContent="space-between"
           marginBottom="20px"
-          padding="0 30px"
+          className='px-30'
         >
           <HStack>
             <ImgDiv>
               <Image src={info.image} alt="collection" />
             </ImgDiv>
-            
+
             <Stack>
               <Title>{info.name}</Title>
               <SubTitle>{info.cat_ids}</SubTitle>
@@ -105,9 +105,11 @@ const CollectionInfo = ({ info }) => {
           {!isMobile() && (
             <CreatorInfo className="bg-border-linear round-icon">
               <RoundedIconComponent
-                size={isClientMobie ? '47px' : '48px'}
+                size={'48px'}
+                // size={isClientMobie ? '47px' : '48px'}
                 address={info.creator}
-                font={isClientMobie ? '47px' : '20px'}
+                font={'20px'}
+                // font={isClientMobie ? '47px' : '20px'}
               />
             </CreatorInfo>
           )}
@@ -120,7 +122,7 @@ const CollectionInfo = ({ info }) => {
           overflowX="auto"
           overflowY="hidden"
           padding={isMobile() ? '0 10px' : '15px 30px'}
-          
+
         >
           {nfts.map((nftInfo, index) => (
             <Link
@@ -144,9 +146,11 @@ const CollectionInfo = ({ info }) => {
           <Flex justifyContent="space-between" marginTop="20px">
             <CreatorInfo>
               <RoundedIconComponent
-                size={isClientMobie ? '36px' : '48px'}
+                size={isClientMobie ? '42px' : '48px'}
+                // size={'48px'}
                 address={info.creator}
                 font={isClientMobie ? '15px' : '20px'}
+                // font={'20px'}
               />
             </CreatorInfo>
           </Flex>
@@ -163,7 +167,7 @@ const Container = styled.div`
   // box-shadow: 0px 7px 14px 0px #0000001a;
   backdrop-filter: blur(30px);
   margin: 10px 0;
-  padding: 40px 0 20px 0;
+  padding: 28px 0 20px 0;
   height: 100%;
   @media (max-width: 480px) {
     padding: 10px 0 10px 0;
@@ -195,7 +199,7 @@ const ImgDiv = styled.div`
     width: 55px;
   }
   @media (max-width: 480px) {
-    width: 50px;
+    width: 65px;
   }
 `
 const CreatorInfo = styled.div`
@@ -211,10 +215,12 @@ const CreatorInfo = styled.div`
   width: 210px;
   border-radius:50% !important;
   font-size:18px;
-  // justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
     width: 160px;
+  }
+  @media (max-width: 1024px) {
+    height: 65px;
   }
 `
 

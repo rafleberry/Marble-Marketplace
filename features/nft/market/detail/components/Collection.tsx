@@ -80,7 +80,7 @@ const CollectionInfo = ({ info }) => {
     return collectionNFTs
   }, [info.id])
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const tokensInfo = await fetchTokensInfo()
       setNfts(tokensInfo)
     })()
@@ -99,16 +99,18 @@ const CollectionInfo = ({ info }) => {
             </Stack>
           </HStack>
           {!isMobile() && (
-            <CreatorInfo className="bg-border-linear collection-nft-test" style={{borderRadius:"50px"}}>
+            <CreatorInfo className="bg-border-linear collection-nft-test" style={{ borderRadius: "50px" }}>
               <RoundedIconComponent
-                size={isClientMobie ? '36px' : '48px'}
+                // size={isClientMobie ? '42px' : '48px'}
+                size={'48px'}
                 address={info.creator}
-                font={isClientMobie ? '15px' : '20px'}
+                // font={isClientMobie ? '15px' : '20px'}
+                font={'20px'}
               />
             </CreatorInfo>
           )}
         </Flex>
-        
+
         <Grid
           templateColumns="repeat(3, 1fr)"
           gap={6}
@@ -134,9 +136,9 @@ const CollectionInfo = ({ info }) => {
             </Link>
           ))}
         </Grid>
-        
+
         {isMobile() && (
-          <CreatorInfo className="bg-border-linear collection-nft-test" style={{borderRadius:"50px"}}>
+          <CreatorInfo className="bg-border-linear collection-nft-test" style={{ borderRadius: "50px" }}>
             <RoundedIconComponent
               size={isClientMobie ? '36px' : '48px'}
               address={info.creator}
@@ -185,12 +187,11 @@ const ImgDiv = styled.div`
   margin-right:15px;
   @media (max-width: 1550px) {
     padding-bottom: 55px;
-    width: 55px;
+    // width: 55px;
     border:3px solid rgba(255,255,255,0.13);
   }
   @media (max-width: 1024px) {
-    // padding-bottom: 55px;
-    width: 70px;
+    width: 100px;
   }
   @media (max-width: 480px) {
     width: 55px;
@@ -211,6 +212,9 @@ const CreatorInfo = styled.div`
     width: 160px;
     height: 50px;
     margin-top: 20px;
+  }
+  @media (max-width: 1024px) {
+    height: 65px;
   }
 `
 const Title = styled.div`

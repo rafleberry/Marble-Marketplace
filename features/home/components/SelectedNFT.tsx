@@ -59,7 +59,7 @@ const SelectedNFT = () => {
   }, [])
   console.log('showData: ', showData)
   return (
-    <IntroContainer>
+    <IntroContainer className="p-20">
       <IntroWrapper>
         <Title>
           {/* TILL DEATH DO US PART */}
