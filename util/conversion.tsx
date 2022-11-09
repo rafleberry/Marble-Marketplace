@@ -30,6 +30,11 @@ export function convertToFixedDecimals(value: number | string): string {
   return amount > 0.01 ? amount.toFixed(2) : String(amount)
 }
 
+export function convertToFixedDecimalNumber(value: number | string): number {
+  const amount = Number(value)
+  return Number(amount.toFixed(2))
+}
+
 export const formatTokenName = (name: string) => {
   if (name) {
     return name.slice(0, 1).toUpperCase() + name.slice(1).toLowerCase()

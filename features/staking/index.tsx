@@ -19,6 +19,7 @@ import {
 } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { getRandomInt } from 'util/numbers'
+import { convertToFixedDecimalNumber } from 'util/conversion'
 import {
   Container,
   Header,
@@ -188,7 +189,18 @@ const Staking = () => {
         userStakeInfo.token_ids.length) /
         stakeConfig.total_supply
 
-    return claimable
+    return convertToFixedDecimalNumber(claimable)
+  }
+  const getDailyRewards = () => {
+    if (
+      stakeConfig.total_supply === 0 ||
+      userStakeInfo.create_unstake_timestamp !== 0
+    )
+      return 0
+    const dailyReward =
+      (stakeConfig.daily_reward * userStakeInfo.token_ids.length) /
+      stakeConfig.total_supply
+    return convertToFixedDecimalNumber(dailyReward)
   }
   const handleStake = async () => {
     if (ownedNfts.length === 0) return
@@ -293,11 +305,7 @@ const Staking = () => {
             <InfoContent>
               <h2>Daily Rewards</h2>
               <h3>
-                {stakeConfig.total_supply === 0
-                  ? 0
-                  : (stakeConfig.daily_reward *
-                      userStakeInfo.token_ids.length) /
-                    stakeConfig.total_supply}{' '}
+                {getDailyRewards()}
                 Block/Day
               </h3>
             </InfoContent>
