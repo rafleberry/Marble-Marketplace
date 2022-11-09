@@ -80,7 +80,7 @@ const Home = () => {
             ))}
           </Stack>
         </Collections>
-        <Flex justifyContent="center" className="bg-border-linear p-20">
+        <Flex justifyContent="center" className="bg-border-linear m-2">
           <Paper>
             <MarbleCardGrid>
               <Stack spacing={10} className="pygital-nft">

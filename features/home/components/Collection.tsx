@@ -198,7 +198,7 @@ const ImgDiv = styled.div`
     padding-bottom: 55px;
     width: 55px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     width: 65px;
   }
 `

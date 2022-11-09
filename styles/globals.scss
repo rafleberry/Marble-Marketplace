@@ -1424,11 +1424,11 @@ main {
 
 }
 .collection-grid{
-  // @media (max-width:1024px) {
-  //   grid-template-columns: repeat(2, 1fr) !important;
-  // }
 
   @media (max-width:1024px) {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  @media (max-width:576px) {
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }
@@ -1728,11 +1728,19 @@ main {
   }
 }
 .p-20 {
-  margin:0 20px !important; 
+  margin:100px 20px !important; 
+  @media (max-width:1024px) {
+    margin:20px !important;
+  }
 }
 .px-30{
   padding:0 30px;
   @media (max-width:576px) {
     padding:0 11px;
+  }
+}
+.m-2{
+  @media (max-width:576px) {
+    margin:20px !important;
   }
 }
