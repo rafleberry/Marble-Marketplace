@@ -9,7 +9,7 @@ const SimpleTable = ({ data, unit, paymentToken }) => {
     <Container>
       {data.map((element, index) => (
         <BidContainer key={index} isEnd={data.length - 1 === index}>
-          <HStack style={{ display: 'flex', alignItems: 'center' }} className="bid-content-col">
+          <HStack style={{ display: 'flex'}} className="bid-content-col">
             <RoundedBidIconComponent
               size="56px"
               address={element.bidder_id}
@@ -36,7 +36,8 @@ const BidContainer = styled.div<{ isEnd: boolean }>`
   padding: 24px 0;
   align-items: center;
   &:nth-child(1) {
-    padding-top:20px !important;
+    padding-top:10px !important;
+    padding-bottom:10px !important;
   }
   @media (max-width:576px) {
     width: 100% !important;

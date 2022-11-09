@@ -23,6 +23,7 @@ const Title = styled.div`
   font-weight: 500;
   @media (max-width: 480px) {
     font-size: 16px;
+    margin-bottom:10px;
   }
 `
 

@@ -10,8 +10,8 @@ export const RoundedIcon = styled.img<{ size: string }>`
   border-radius: 50%;
   border: 1px solid #ffffff;
   @media (max-width:576px){
-    width:36px;
-    height:36px;
+    width:38px;
+    height:38px;
   }
 `
 
