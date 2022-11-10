@@ -282,7 +282,7 @@ const StyledP = styled.div`
   }
 `
 const Collections = styled.div`
-  padding: 100px 0;
+  padding: 0px 0 100px;
   @media(max-width:640px){
     padding:50px 0;
   }
