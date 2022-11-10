@@ -143,7 +143,7 @@ const IntroContainer = styled.div`
     background-image: url('/images/home-Vector.png');
     position: absolute;
     bottom: 0px;
-    left: -210px;
+    left: -230px;
     width: 100%;
     height: 100px;
     /* background-size: cover; */
