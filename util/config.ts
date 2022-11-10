@@ -13,7 +13,7 @@ export function getExtendConfig(env: string = process.env.NEAR_ENV) {
             simpleName: 'blockpi rpc',
           },
         },
-      };
+      }
     case 'development':
     case 'pub-testnet':
       return {
@@ -27,7 +27,7 @@ export function getExtendConfig(env: string = process.env.NEAR_ENV) {
             simpleName: 'blockpi rpc',
           },
         },
-      };
+      }
     case 'testnet':
       return {
         RPC_LIST: {
@@ -40,7 +40,7 @@ export function getExtendConfig(env: string = process.env.NEAR_ENV) {
             simpleName: 'blockpi rpc',
           },
         },
-      };
+      }
     default:
       return {
         RPC_LIST: {
@@ -53,15 +53,17 @@ export function getExtendConfig(env: string = process.env.NEAR_ENV) {
             simpleName: 'blockpi rpc',
           },
         },
-      };
+      }
   }
 }
-export default function getConfig(env: string = process.env.NEXT_PUBLIC_NODE_URL) {
-  const RPC_LIST = getExtendConfig().RPC_LIST;
-  let endPoint = 'defaultRpc';
+export default function getConfig(
+  env: string = process.env.NEXT_PUBLIC_NODE_URL
+) {
+  const RPC_LIST = getExtendConfig().RPC_LIST
+  let endPoint = 'defaultRpc'
   try {
-    endPoint = window.localStorage.getItem('endPoint') || endPoint;
-  } catch (error) { }
+    endPoint = window.localStorage.getItem('endPoint') || endPoint
+  } catch (error) {}
   switch (env) {
     case 'production':
     case 'mainnet':
@@ -119,7 +121,7 @@ export default function getConfig(env: string = process.env.NEXT_PUBLIC_NODE_URL
         CUMULATIVE_REF_BUYBACK:
           process.env.CUMULATIVE_REF_BUYBACK || '132011.3147',
         BLACKLIST_POOL_IDS: [''],
-      };
+      }
     case 'pub-testnet':
       return {
         networkId: 'testnet',
@@ -173,7 +175,7 @@ export default function getConfig(env: string = process.env.NEXT_PUBLIC_NODE_URL
         CUMULATIVE_REF_BUYBACK:
           process.env.CUMULATIVE_REF_BUYBACK || '132011.3147',
         BLACKLIST_POOL_IDS: [''],
-      };
+      }
     case 'testnet':
       return {
         networkId: 'testnet',
@@ -227,10 +229,13 @@ export default function getConfig(env: string = process.env.NEXT_PUBLIC_NODE_URL
         CUMULATIVE_REF_BUYBACK:
           process.env.CUMULATIVE_REF_BUYBACK || '132011.3147',
         BLACKLIST_POOL_IDS: [''],
-        NFT_CONTRACT_NAME:'marblenft.marbledao.testnet',
-        MARKETPLACE_CONTRACT_NAME: "marketplace.marbledao.testnet",
-        HERA_CONTRACT_NAME: "hera.cmdev0.testnet"
-      };
+        NFT_CONTRACT_NAME: 'marblenft.marbledao.testnet',
+        MARKETPLACE_CONTRACT_NAME: 'marketplace.marbledao.testnet',
+        HERA_CONTRACT_NAME: 'hera.cmdev0.testnet',
+        STAKING_CONTRACT_NAME: 'staking.marblestaking.testnet',
+        STAKING_NFT_NAME: 'nft.marblestaking.testnet',
+        STAKING_FT_NAME: 'ft.marblestaking.testnet',
+      }
     default:
       return {
         networkId: 'mainnet',
@@ -295,7 +300,7 @@ export default function getConfig(env: string = process.env.NEXT_PUBLIC_NODE_URL
         CUMULATIVE_REF_BUYBACK:
           process.env.CUMULATIVE_REF_BUYBACK || '132011.3147',
         BLACKLIST_POOL_IDS: [''],
-      };
+      }
   }
 }
 
@@ -319,7 +324,7 @@ export function getExtraStablePoolConfig(env: string = process.env.NEAR_ENV) {
           'cusd.token.a11bd.near': 1,
         },
         CUSD_STABLE_POOL_ID: '3433',
-      };
+      }
     case 'development':
     case 'pub-testnet':
       return {
@@ -335,7 +340,7 @@ export function getExtraStablePoolConfig(env: string = process.env.NEAR_ENV) {
           'cusd.fakes.testnet': 1,
         },
         CUSD_STABLE_POOL_ID: '494',
-      };
+      }
     case 'testnet':
       return {
         BTCIDS: ['wbtc.fakes.testnet', 'hbtc.fakes.testnet'],
@@ -350,7 +355,7 @@ export function getExtraStablePoolConfig(env: string = process.env.NEAR_ENV) {
           'cusd.fakes.testnet': 1,
         },
         CUSD_STABLE_POOL_ID: '608',
-      };
+      }
     default:
       return {
         BTCIDS: [
@@ -368,6 +373,6 @@ export function getExtraStablePoolConfig(env: string = process.env.NEAR_ENV) {
           'cusd.token.a11bd.near': 1,
         },
         CUSD_STABLE_POOL_ID: '3433',
-      };
+      }
   }
 }

@@ -1,10 +1,8 @@
-import * as React from 'react'
-import { ChakraProvider, Stack, HStack, LinkBox } from '@chakra-ui/react'
+import { ChakraProvider, LinkBox } from '@chakra-ui/react'
 import Link from 'next/link'
 import { NftCollection } from 'services/nft'
-import { RoundedIconComponent } from 'components/RoundedIcon'
-import { isClientMobie } from 'util/device'
 import styled from 'styled-components'
+import CollectionCard from './collection-card'
 interface NftCollectionProps {
   readonly collections: NftCollection[]
 }
@@ -24,22 +22,7 @@ export function NftCollectionTable({
                 transform: 'scale(1.05)',
               }}
             >
-              <CollectionDiv className="collection bg-border-linear" key={idx}>
-                <ImgDiv className="nft-img-div">
-                  <Image src={collection.image} alt="NFT Image" />
-                </ImgDiv>
-                <HStack marginTop="30px">
-                  <Logo src={collection.banner_image} alt="image" size="70px" />
-                  <Stack>
-                    <Title>{collection.name}</Title>
-                    <RoundedIconComponent
-                      size="0px"
-                      address={collection.creator}
-                      font={isClientMobie ? '15px' : '20px'}
-                    />
-                  </Stack>
-                </HStack>
-              </CollectionDiv>
+              <CollectionCard key={idx} collection={collection} />
             </LinkBox>
           </Link>
         ))}
