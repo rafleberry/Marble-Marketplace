@@ -6,6 +6,7 @@ import { toPrecision } from './numbers'
 import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 import { getCurrentWallet } from './sender-wallet'
+import { getReducedAddress } from './conversion'
 
 const config = getConfig()
 
@@ -112,11 +113,11 @@ export const getLogoUriFromAddress = async (address) => {
       avatar: data.avatar
         ? process.env.NEXT_PUBLIC_PINATA_URL + data.avatar
         : '/default.png',
-      name: data.name || address,
+      name: data.name || getReducedAddress(address),
     }
   } catch (err) {
     console.log('axios get logo uri error: ', err)
-    return { avatar: '/default.png', name: address }
+    return { avatar: '/default.png', name: getReducedAddress(address) }
   }
 }
 

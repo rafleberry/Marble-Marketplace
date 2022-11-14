@@ -15,23 +15,35 @@ import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
 import { isMobile } from 'util/device'
 
+const collectionList = [27, 111, 112]
+
 const Home = () => {
   const [nftcollections, setNftCollections] = useState<NftCollection[]>([])
 
   const fetchCollections = async () => {
-    try {
-      const data = await nftViewFunction({
-        methodName: 'nft_get_series',
-        args: {
-          from_index: '0',
-          limit: 3,
-        },
+    // const data = await nftViewFunction({
+    //   methodName: 'nft_get_series',
+    //   args: {
+    //     from_index: '111',
+    //     limit: 1,
+    //   },
+    // })
+    const data = await Promise.all(
+      collectionList.map(async (collection_id) => {
+        try {
+          const _collectionInfo = await nftViewFunction({
+            methodName: 'nft_get_series_single',
+            args: {
+              token_series_id: collection_id.toString(),
+            },
+          })
+          return _collectionInfo
+        } catch (err) {
+          return {}
+        }
       })
-      return data
-    } catch (error) {
-      console.log('nft_get_series Error: ', error)
-      return []
-    }
+    )
+    return data
   }
 
   useEffect(() => {
@@ -40,7 +52,9 @@ const Home = () => {
       let collections = []
       let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
       let { categories } = await res_categories.json()
+      console.log('categories: ', categories)
       const collectionList = await fetchCollections()
+      console.log('collectionList: ', collectionList)
       for (let i = 0; i < collectionList.length; i++) {
         let res_collection: any = {}
         try {
@@ -49,6 +63,7 @@ const Home = () => {
               collectionList[i].metadata.reference
           )
           res_collection = await ipfs_collection.json()
+          console.log('rescollection: ', res_collection)
           let collection_info: any = {}
           collection_info.id = collectionList[i].token_series_id
           collection_info.name = res_collection.name
@@ -60,8 +75,8 @@ const Home = () => {
             res_collection.logo &&
             process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
           collection_info.slug = res_collection.slug
-          collection_info.creator = res_collection.owner ?? ''
-          collection_info.cat_ids = categories[res_collection.category].name
+          collection_info.creator = collectionList[i].creator_id ?? ''
+          collection_info.cat_ids = 'All'
           collections.push(collection_info)
         } catch (err) {
           console.log('err', err)

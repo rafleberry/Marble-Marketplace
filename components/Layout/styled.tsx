@@ -30,10 +30,13 @@ export const StyledLink = styled.div`
 export const StyledDivForLogo = styled.div`
   align-items: center;
   margin-right: 40px;
+  img {
+    width: 200px;
+  }
   @media (max-width: 1550px) {
     margin: 0 00px;
     img {
-      width: 200px;
+      width: 150px;
     }
   }
 `
