@@ -19,7 +19,10 @@ import {
 } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { getRandomInt } from 'util/numbers'
-import { convertToFixedDecimalNumber } from 'util/conversion'
+import {
+  convertToFixedDecimalNumber,
+  convertMicroDenomToDenom,
+} from 'util/conversion'
 import {
   Container,
   Header,
@@ -192,7 +195,7 @@ const Staking = () => {
           (end_date - userStakeInfo.last_timestamp) / stakeConfig.interval
         )
       ) *
-        stakeConfig.daily_reward *
+        convertMicroDenomToDenom(stakeConfig.daily_reward, 8) *
         userStakeInfo.token_ids.length) /
         stakeConfig.total_supply
 
@@ -205,7 +208,8 @@ const Staking = () => {
     )
       return 0
     const dailyReward =
-      (stakeConfig.daily_reward * userStakeInfo.token_ids.length) /
+      (convertMicroDenomToDenom(stakeConfig.daily_reward, 8) *
+        userStakeInfo.token_ids.length) /
       stakeConfig.total_supply
     return convertToFixedDecimalNumber(dailyReward)
   }
@@ -317,12 +321,12 @@ const Staking = () => {
               <h2>Daily Rewards</h2>
               <h3>
                 {getDailyRewards()}
-                Block/Day
+                Hera/Day
               </h3>
             </InfoContent>
             <InfoContent>
               <h2>Claimable Reward</h2>
-              <h3>{getClaimableReward()} Block</h3>
+              <h3>{getClaimableReward()} Hera</h3>
             </InfoContent>
             <InfoContent>
               <h2>Total Staked</h2>
