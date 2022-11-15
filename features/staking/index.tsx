@@ -404,7 +404,7 @@ const Staking = () => {
           </ButtonWrapper>
         </CollectionContent>
       </StakingCardWrapper>
-      <OwnedNftsContainer>
+      {/* <OwnedNftsContainer>
         {ownedNfts.map((_nft, index) => (
           <CollectionCard
             collection={{
@@ -416,7 +416,7 @@ const Staking = () => {
             key={index}
           />
         ))}
-      </OwnedNftsContainer>
+      </OwnedNftsContainer> */}
     </Container>
   )
 }
