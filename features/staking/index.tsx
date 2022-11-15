@@ -52,6 +52,7 @@ interface StakeConfigType {
   nft_address: string
   collection_number: string
   total_supply: number
+  end_date: number
 }
 
 interface CollectionType {
@@ -87,6 +88,7 @@ const Staking = () => {
     nft_address: '',
     collection_number: '',
     total_supply: 0,
+    end_date: 0,
   })
   const [collection, setCollection] = useState<CollectionType>({
     image: '/marblenauts.gif',
@@ -177,12 +179,17 @@ const Staking = () => {
     if (userStakeInfo.create_unstake_timestamp !== 0)
       return userStakeInfo.unclaimed_amount
     if (stakeConfig.total_supply === 0) return 0
+    const end_date =
+      Date.now() / 1000 > stakeConfig.end_date
+        ? stakeConfig.end_date
+        : Date.now() / 1000
+    if (end_date < userStakeInfo.last_timestamp)
+      return convertToFixedDecimalNumber(userStakeInfo.unclaimed_amount)
     const claimable =
       userStakeInfo.unclaimed_amount +
       (Math.floor(
         Math.abs(
-          (Date.now() / 1000 - userStakeInfo.last_timestamp) /
-            stakeConfig.interval
+          (end_date - userStakeInfo.last_timestamp) / stakeConfig.interval
         )
       ) *
         stakeConfig.daily_reward *
@@ -201,6 +208,10 @@ const Staking = () => {
       (stakeConfig.daily_reward * userStakeInfo.token_ids.length) /
       stakeConfig.total_supply
     return convertToFixedDecimalNumber(dailyReward)
+  }
+
+  const getLeftDays = () => {
+    return ((stakeConfig.end_date - Date.now() / 1000) / 86400).toFixed(0)
   }
   const handleStake = async () => {
     if (ownedNfts.length === 0) return
@@ -322,7 +333,7 @@ const Staking = () => {
             </InfoContent>
             <InfoContent>
               <h2>Days Left</h2>
-              <h3>9</h3>
+              <h3>{getLeftDays()}</h3>
             </InfoContent>
           </StakingInfoContainer>
           {userStakeInfo.create_unstake_timestamp !== 0 && (
