@@ -57,7 +57,7 @@ export const RoundedBidIconComponent = ({ size, address, font = '14px' }) => {
     })()
   }, [address])
   return (
-    <Link href={`/profile/${address}`}>
+    <Link href={`/profile/${address}`} passHref>
       <HStack style={{ cursor: 'pointer' }}>
         <RoundedIcon size={size} src={src} />
         <Stack>

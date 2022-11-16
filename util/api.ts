@@ -106,7 +106,7 @@ export const getCurrentUnixTime = async (): Promise<any> => {
 
 export const getLogoUriFromAddress = async (address) => {
   try {
-    const { data } = await axios.get(`${backend_url}/get_user`, {
+    const { data } = await axios.get(`${backend_url}/get_simple_user`, {
       params: { id: address },
     })
     return {
@@ -119,39 +119,4 @@ export const getLogoUriFromAddress = async (address) => {
     console.log('axios get logo uri error: ', err)
     return { avatar: '/default.png', name: getReducedAddress(address) }
   }
-}
-
-export const currentRefPrice = async (): Promise<any> => {
-  return await fetch(
-    getConfig().indexerUrl +
-      '/get-token-price?token_id=token.v2.ref-finance.near',
-    {
-      method: 'GET',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    }
-  )
-    .then((res) => res.json())
-    .then((priceBody) => {
-      return priceBody.price
-    })
-    .catch(() => {
-      return '-'
-    })
-}
-
-export const currentTokensPrice = async (ids: string): Promise<any> => {
-  return await fetch(
-    config.indexerUrl + '/list-token-price-by-ids?ids=' + ids,
-    {
-      method: 'GET',
-      headers: { 'Content-type': 'application/json; charset=UTF-8' },
-    }
-  )
-    .then((res) => res.json())
-    .then((priceBody) => {
-      return priceBody
-    })
-    .catch(() => {
-      return []
-    })
 }

@@ -6,12 +6,10 @@ import { useEffect, useState } from 'react'
 import { isMobile } from 'util/device'
 import TagManager from 'react-gtm-module'
 import { FetchCoinInfo } from 'hooks/useTokenBalance'
-
+import useExplorer from 'hooks/useExplorer'
 const tagManagerArgs = {
   gtmId: process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID,
 }
-
-//TagManager.initialize(tagManagerArgs)
 
 export const AppLayout = ({
   footerBar = isMobile() ? <MobileFooterBar /> : <FooterBar />,
@@ -21,6 +19,8 @@ export const AppLayout = ({
 }) => {
   const [openNav, setOpenNav] = useState(false)
   FetchCoinInfo()
+  useExplorer()
+
   useEffect(() => {
     TagManager.initialize(tagManagerArgs)
   }, [])

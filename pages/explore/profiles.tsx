@@ -1,28 +1,32 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { AppLayout } from 'components/Layout/AppLayout'
-import NFTExplorer from 'features/nft/market/nftexplore'
+import Profiles from 'features/nft/market/profile/allprofiles'
+import useExplorer from 'hooks/useExplorer'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { useSelector } from 'react-redux'
 // import { getTotalPools } from 'util/pool'
 
 export default function Explores() {
   const { countInfo } = useSelector((state: any) => state.uiData)
+
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true}>
         <StyledTabList>
           <Link href="/explore" passHref>
-            <StyledTab isActive={true}>{`NFTs(${countInfo.nft})`}</StyledTab>
+            <StyledTab>{`NFTs(${countInfo.nft})`}</StyledTab>
           </Link>
           <Link href="/explore/collections" passHref>
             <StyledTab>{`Collections(${countInfo.collection})`}</StyledTab>
           </Link>
           <Link href="/explore/profiles" passHref>
-            <StyledTab>{`Profiles(${countInfo.profile.profiles})`}</StyledTab>
+            <StyledTab
+              isActive={true}
+            >{`Profiles(${countInfo.profile.profiles})`}</StyledTab>
           </Link>
         </StyledTabList>
-        <NFTExplorer />
+        <Profiles profileCounts={countInfo.profile} />
       </AppLayout>
     </ChakraProvider>
   )
@@ -33,7 +37,6 @@ const StyledTabList = styled.div`
   border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 400;
   display: flex;
-  margin-bottom: 20px;
 `
 
 const StyledTab = styled.div<{ isActive: boolean }>`

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import DateCountdown from 'components/DateCountdownMin'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { convertMicroDenomToDenom } from 'util/conversion'
-import { getProfileInfo } from 'hooks/useProfile'
+import { getSimpleProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
 
 const saleType = {
@@ -27,7 +27,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
   // console.log('nft.owner: ', nft.owner)
   useEffect(() => {
     ;(async () => {
-      const profile_info = await getProfileInfo(nft.owner)
+      const profile_info = await getSimpleProfileInfo(nft.owner)
       setProfile(profile_info)
     })()
   }, [nft])

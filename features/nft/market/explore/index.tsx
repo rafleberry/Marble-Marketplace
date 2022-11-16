@@ -105,7 +105,7 @@ export const Explore = () => {
         res_collection = await ipfs_collection.json()
       } catch (err) {
         console.log('err', err)
-        res_collection = -{}
+        res_collection = {}
       }
       let collection_info: any = {}
       collection_info.id = collectionList[i].token_series_id
