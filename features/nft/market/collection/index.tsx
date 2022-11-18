@@ -207,12 +207,10 @@ export const Collection = ({ id }: CollectionProps) => {
       if (id === undefined || id == '[name]') return false
 
       const tokensInfo = await fetchTokensInfo()
-      console.log('tokensInfo: ', tokensInfo)
       setNfts(tokensInfo)
     })()
   }, [id])
   const getMoreNfts = async () => {
-    console.log('getMoreNfts: ')
     const _tokensInfo = await fetchTokensInfo()
     setNfts([...nfts, ..._tokensInfo])
   }

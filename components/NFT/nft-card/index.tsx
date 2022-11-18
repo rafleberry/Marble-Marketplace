@@ -25,7 +25,6 @@ const backgroundColor = {
 export function NftCard({ nft, id, type }): JSX.Element {
   const tokenInfo = useTokenInfoFromAddress(nft.ft_token_id)
   const [profile, setProfile] = useState<any>({})
-  // console.log('nft.owner: ', nft.owner)
   useEffect(() => {
     ;(async () => {
       const profile_info = await getSimpleProfileInfo(nft.owner)

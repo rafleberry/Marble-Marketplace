@@ -173,7 +173,6 @@ export default function Collection() {
             if (!transactionErrorType && !errorType) {
               successToast(txHash)
               const parsedLog = JSON.parse(logs)
-              console.log('parsedLog: ', parsedLog)
               createNewCollection({
                 id: parsedLog?.params?.token_series_id,
                 creator: parsedLog?.params?.creator_id,
