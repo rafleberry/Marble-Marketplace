@@ -264,7 +264,7 @@ const StyledP = styled.div`
   font-family: Mulish;
   text-align: center;
   width: 1000px;
-  @media (max-width: 1450px) {
+  @media (max-width: 1550px) {
     font-size: 18px;
   }
   @media (max-width: 480px) {
@@ -309,7 +309,7 @@ const StyledPaper = styled(SecondGradientBackground)`
     font-weight: 700;
     text-align: center;
   }
-  @media (max-width: 1450px) {
+  @media (max-width: 1550px) {
     padding: 40px 30px;
   }
   @media (max-width: 480px) {
@@ -348,7 +348,7 @@ const TextContent = styled.div<{ textAlign?: string }>`
   font-weight: 300;
   opacity: 0.5;
   font-family: Mulish;
-  @media (max-width: 1440px) {
+  @media (max-width: 1550px) {
     font-size: 20px;
   }
   @media (max-width: 480px) {
