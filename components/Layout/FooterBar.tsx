@@ -45,18 +45,10 @@ export const FooterBar = () => {
                   />
                 </StyledLogo>
               </Link>
-              <Text
-                className="footer-desc"
-                css={{
-                  color: '#C7C7C7',
-                  fontSize: '18px',
-                  padding: '$space$10 0',
-                  lineHeight: '32px',
-                }}
-              >
+              <TextContent>
                 Made of Phygital NFTs. Built on COSMOS and NEAR. We empower
                 Creators and Brands by connecting them with AR and VR.
-              </Text>
+              </TextContent>
               <HStack spacing={3}>
                 <Button
                   as="a"
@@ -96,6 +88,7 @@ export const FooterBar = () => {
               </HStack>
             </ContainerForColumn>
           </Stack>
+          <Stack width="10%" />
           <Stack width="20%">
             <ContainerForColumn className="bottom-quick-section">
               <h3 className="desktop-section">MARBLE</h3>
@@ -182,6 +175,7 @@ const HorizontalDivider = styled.div`
 
 const StyledImage = styled.img`
   margin-right: 10px;
+  width: 200px;
 `
 
 const StyledLogo = styled.div`
@@ -198,6 +192,11 @@ const ContainerForColumn = styled.div`
     font-weight: 700;
     margin-bottom: 10px;
   }
+  @media (max-width: 1550px) {
+    h3 {
+      font-size: 18px;
+    }
+  }
 `
 const ContainerForFooterLinks = styled.div`
   display: flex;
@@ -207,8 +206,17 @@ const ContainerForFooterLinks = styled.div`
     color: white;
     font-size: 16px;
     opacity: 0.5;
+    font-family: Mulish;
   }
   height: 100%;
+  @media (max-width: 1550px) {
+    a {
+      padding: 12px;
+      color: white;
+      font-size: 16px;
+      opacity: 0.5;
+    }
+  }
 `
 
 const StyledFooter = styled.footer`
@@ -243,7 +251,17 @@ const StyledFooter = styled.footer`
     height: 100%;
   } */
 `
-
+const TextContent = styled.div`
+  color: white;
+  font-size: 18px;
+  padding: 20px 0;
+  line-height: 32px;
+  font-family: Mulish;
+  opacity: 0.5;
+  @media (max-width: 1550px) {
+    font-size: 16px;
+  }
+`
 const FooterText = styled.div`
   font-size: 16px;
   text-align: center;
