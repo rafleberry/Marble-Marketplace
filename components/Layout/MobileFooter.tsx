@@ -206,7 +206,7 @@ const HorizontalDivider = styled('div', {
 })
 const StyledImage = styled('img', {
   // width: "50px",
-  width: '100px',
+  width: '200px',
 })
 const StyledLogo = styled('div', {
   display: 'flex',

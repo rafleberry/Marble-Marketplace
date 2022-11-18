@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
 export const StyledWrapper = styled.div`
   color: #ffffff;
@@ -7,6 +8,7 @@ export const StyledWrapper = styled.div`
   align-items: center;
   border-bottom: 1px solid #363b4e;
   background: rgba(8, 12, 28, 0.6);
+  backdrop-filter: blur(20px);
   @media (max-width: 1550px) {
     height: 80px;
   }
@@ -96,4 +98,26 @@ export const StyledMenuItem = styled.div`
   justify-content: space-between;
   cursor: pointer;
   border-radius: 20px;
+`
+export const MobileProfileInfo = styled(GradientBackground)`
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  width: 100%;
+`
+export const AddressWrapper = styled(SecondGradientBackground)`
+  &:before {
+    border-radius: 10px;
+    opacity: 0.3;
+  }
+  display: flex;
+  p {
+    font-size: 14px;
+  }
+  padding: 10px;
+  align-items: center;
 `

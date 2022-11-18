@@ -26,6 +26,7 @@ import {
   formatNearToYocto,
   formatHera,
 } from 'util/conversion'
+import { SecondGradientBackground } from 'styles/styles'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])
@@ -106,7 +107,7 @@ const CollectionInfo = ({ info }) => {
   return (
     <Container>
       <ChakraProvider>
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" padding="20px 20px 0 30px">
           <HStack>
             <ImgDiv>
               <Image src={info.image} alt="collection" />
@@ -127,13 +128,13 @@ const CollectionInfo = ({ info }) => {
           )}
         </Flex>
         <Grid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat(3, 1fr)"
           gap={6}
           overflowX="auto"
           overflowY="unset"
           padding="30px"
         >
-          {nfts.slice(0, 4).map((nftInfo, index) => (
+          {nfts.slice(0, 3).map((nftInfo, index) => (
             <Link
               href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
               passHref
@@ -165,18 +166,14 @@ const CollectionInfo = ({ info }) => {
   )
 }
 
-const Container = styled.div`
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
+const Container = styled(SecondGradientBackground)`
+  &:before {
+    opacity: 0.3;
+    border-radius: 30px;
+  }
   backdrop-filter: blur(30px);
   margin: 10px 0;
-  padding: 40px;
   width: 100%;
-  @media (max-width: 1550px) {
-    padding: 20px;
-  }
 `
 const Image = styled.img`
   position: absolute;

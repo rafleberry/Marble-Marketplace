@@ -18,6 +18,7 @@ import {
   successToast,
   getErrorMessage,
 } from 'components/transactionTipPopUp'
+import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
 const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
@@ -280,7 +281,7 @@ export default function NFTCreate() {
                           </Footer>
                         </Stack>
                         <Stack>
-                          <h3>Collections</h3>
+                          <h3>Collection</h3>
                           <CollectionCard>
                             <RoundedIcon
                               size="70px"
@@ -429,7 +430,6 @@ const Container = styled.div`
   p {
     font-size: 18px;
     font-family: Mulish;
-    font-weight: 600;
   }
   h1 {
     font-size: 46px;
@@ -466,25 +466,17 @@ const Container = styled.div`
     p {
       font-size: 14px;
       font-family: Mulish;
-      font-weight: 400;
     }
   }
 `
-const Card = styled.div<{ fullWidth: boolean }>`
+const Card = styled(SecondGradientBackground)<{ fullWidth: boolean }>`
+  &:before {
+    opacity: 0.3;
+    border-radius: 30px;
+  }
   padding: 40px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  backdrop-filter: blur(30px);
-  /* Note: backdrop-filter has minimal browser support */
 
-  border-radius: 30px;
   width: ${({ fullWidth }) => (fullWidth ? '100%' : '60%')};
-  border: 1px solid rgba(255, 255, 255, 0.2);
   @media (max-width: 480px) {
     width: 100%;
     padding: 20px;
@@ -522,36 +514,25 @@ const Footer = styled.div`
     font-family: Mulish;
   }
 `
-const CollectionCard = styled.div`
-  background: linear-gradient(0deg, #050616, #050616) padding-box,
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  backdrop-filter: blur(40px);
-  border-radius: 20px;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
+const CollectionCard = styled(GradientBackground)`
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
   padding: 25px;
   display: flex;
   align-items: center;
   cursor: pointer;
 `
-const NFTContainer = styled.div`
+const NFTContainer = styled(SecondGradientBackground)`
+  &:before {
+    border-radius: 30px;
+    opacity: 0.3;
+  }
   width: 35%;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.2);
   padding: 25px;
-  border-radius: 30px;
-  backdrop-filter: blur(30px);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+
+  height: fit-content;
   @media (max-width: 480px) {
     width: 100%;
   }

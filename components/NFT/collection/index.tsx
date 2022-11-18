@@ -46,19 +46,25 @@ const Container = styled.div`
 const CategoryDiv = styled.div``
 
 const CategoryItem = styled.div<{ isActive: boolean }>`
+  border-radius: 30px;
+
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    106.01deg,
+    rgba(255, 255, 255, 0.2) 1.02%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow: 0px 7px 14px 0px #0000001a, 0px 14px 24px 0px #11141d66 inset;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.06) 0%,
     rgba(255, 255, 255, 0.06) 100%
   );
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  border-radius: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 15px 0;
+  padding: 15px 30px;
   cursor: pointer;
-  width: 130px;
   text-align: center;
+  font-family: Mulish;
   color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
   @media (max-width: 480px) {
     width: 114px;

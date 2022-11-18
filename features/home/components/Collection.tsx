@@ -19,6 +19,7 @@ import {
   NFT_CONTRACT_NAME,
   TOKEN_DENOMS,
 } from 'util/near'
+import { SecondGradientBackground } from 'styles/styles'
 
 const CollectionInfo = ({ info }) => {
   const [nfts, setNfts] = useState([])
@@ -123,7 +124,7 @@ const CollectionInfo = ({ info }) => {
           )}
         </Flex>
         <Grid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat(3, 1fr)"
           gap={6}
           overflowX="auto"
           overflowY="hidden"
@@ -148,7 +149,7 @@ const CollectionInfo = ({ info }) => {
           ))}
         </Grid>
         {isMobile() && (
-          <Flex justifyContent="space-between" marginTop="20px">
+          <Flex justifyContent="space-between" marginLeft="20px">
             <CreatorInfo>
               <RoundedIconComponent
                 size={isClientMobie ? '36px' : '48px'}
@@ -163,14 +164,13 @@ const CollectionInfo = ({ info }) => {
   )
 }
 
-const Container = styled.div`
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
+const Container = styled(SecondGradientBackground)`
+  &:before {
+    border-radius: 30px;
+    opacity: 0.3;
+  }
   margin: 10px 0;
-  padding: 40px 0 20px 0;
+  padding: 30px 0 20px 0;
   height: 100%;
   @media (max-width: 480px) {
     padding: 10px 0 10px 0;
@@ -202,19 +202,18 @@ const ImgDiv = styled.div`
     width: 50px;
   }
 `
-const CreatorInfo = styled.div`
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  border-radius: 60px;
+const CreatorInfo = styled(SecondGradientBackground)`
+  &:before {
+    opacity: 0.7;
+    border-radius: 60px;
+  }
   display: flex;
   padding: 10px;
   align-items: center;
   height: 70px;
-  width: 210px;
   justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
-    width: 160px;
   }
 `
 
@@ -230,7 +229,6 @@ const Title = styled.div`
 `
 const SubTitle = styled.div`
   font-size: 20px;
-  font-weight: 600;
   @media (max-width: 1550px) {
     font-size: 15px;
   }

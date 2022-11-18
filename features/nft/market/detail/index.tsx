@@ -59,7 +59,7 @@ import {
   formatNearToYocto,
   formatHera,
 } from 'util/conversion'
-import { NFTName, MoreTitle, RoyaltyContainer } from './styled'
+import { NFTName, MoreTitle, RoyaltyContainer, NftBuyOfferTag } from './styled'
 import { isMobile } from 'util/device'
 import { default_image } from 'util/constants'
 
@@ -838,7 +838,7 @@ export const NFTDetail = ({ collectionId, id }) => {
               spacing={isMobile() ? 8 : 20}
               flexDirection={isMobile() ? 'column' : 'row'}
             >
-              <Stack spacing={3}>
+              <Stack spacing={3} marginRight="20px">
                 <Text fontSize="14px">Collection</Text>
                 <Link href={`/collection/${collectionId}`} passHref>
                   <HStack style={{ cursor: 'pointer' }}>
@@ -854,7 +854,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                 justifyContent="flex-start"
                 marginTop={isMobile() ? 'auto' : '0 !important'}
               >
-                <Stack spacing={3}>
+                <Stack spacing={3} marginRight="20px">
                   <Text fontSize="14px">Created By</Text>
                   <HStack>
                     {nft.creator && (
@@ -862,7 +862,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                     )}
                   </HStack>
                 </Stack>
-                <Stack spacing={3}>
+                <Stack spacing={3} marginRight="20px">
                   <Text fontSize="14px">Owned By</Text>
                   <HStack>
                     {nft.user && (
@@ -1230,12 +1230,12 @@ export const NFTDetail = ({ collectionId, id }) => {
             </Stack>
             <Stack spacing={10}>
               <Card title="Description">
-                <Text fontSize="18px" fontWeight="600" fontFamily="Mulish">
+                <Text fontSize="18px" fontFamily="Mulish">
                   {nft.description}
                 </Text>
               </Card>
               <Card title="Minted On">
-                <Text fontSize="18px" fontWeight="600" fontFamily="Mulish">
+                <Text fontSize="18px" fontFamily="Mulish">
                   {nft.createdAt}
                 </Text>
               </Card>
@@ -1642,6 +1642,8 @@ const Container = styled('div', {
   '@media (max-width: 480px)': {
     padding: '20px',
   },
+  maxWidth: '1700px',
+  margin: '0 auto',
 })
 const NFTInfoWrapper = styled('div', {
   display: 'flex',
@@ -1664,20 +1666,7 @@ const NftInfoTag = styled('div', {
     rowGap: '20px',
   },
 })
-const NftBuyOfferTag = styled('div', {
-  border: '1px solid rgba(255,255,255,0.2)',
-  borderRadius: '30px',
-  padding: '20px',
-  background: 'rgba(255,255,255,0.06)',
-  height: '100%',
-  marginBottom: '20px',
-  '@media (max-width: 480px)': {
-    padding: '10px 0',
-    background: 'rgba(5,6,21,0.2)',
-    boxShadow:
-      '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
-  },
-})
+
 const NftSale = styled('div', {
   display: 'flex',
   padding: '$12 $16',
@@ -1745,6 +1734,10 @@ const Banner = styled('div', {
   width: '100%',
   display: 'block',
   paddingTop: '190px',
+  '@media (max-width: 1550px)': {
+    paddingTop: '100px',
+    height: '850px',
+  },
   '@media (max-width: 480px)': {
     height: '560px',
     paddingTop: '60px',

@@ -10,6 +10,7 @@ import {
 import { RoundedIconComponent } from 'components/RoundedIcon'
 import { convertMicroDenomToDenom } from 'util/conversion'
 import { useNearDollarValue } from 'hooks/useTokenDollarValue'
+import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
 const SelectedNFT = () => {
   const [showData, setShowData] = useState<any>({})
@@ -55,45 +56,43 @@ const SelectedNFT = () => {
   }, [])
   return (
     <IntroContainer>
-      <div>
-        <IntroWrapper>
-          <Title>
-            {/* TILL DEATH DO US PART */}
-            Till Death Do Us Part
-          </Title>
-          <HStack spacing={5}>
-            <MiniInfoCard>
-              <MiniInfoTitle>Created by</MiniInfoTitle>
-              <RoundedIconComponent
-                size="36px"
-                address={showData.creator}
-                font="16px"
-              />
-            </MiniInfoCard>
-            <MiniInfoCard>
-              <MiniInfoTitle>Collection</MiniInfoTitle>
-              <Info>
-                <Image src={showData.collectionLogo} alt="logo" />
-                <Name>&nbsp;{showData.collectionName}</Name>
-              </Info>
-            </MiniInfoCard>
-          </HStack>
-          {showData.price && (
-            <PriceArea>
-              <p>Price</p>
-              <HStack alignItems="center">
-                <h1>{Number(showData.price.toFixed(2))} Near</h1>
-                <h2>${Number(showData.price.toFixed(2)) * nearValue}</h2>
-              </HStack>
-            </PriceArea>
-          )}
-          <Stack>
-            <Link href="/nft/6/2" passHref>
-              <StyledButton>View Nft</StyledButton>
-            </Link>
-          </Stack>
-        </IntroWrapper>
-      </div>
+      <IntroWrapper>
+        <Title>
+          {/* TILL DEATH DO US PART */}
+          Till Death Do Us Part
+        </Title>
+        <HStack spacing={5}>
+          <MiniInfoCard>
+            <MiniInfoTitle>Created by</MiniInfoTitle>
+            <RoundedIconComponent
+              size="36px"
+              address={showData.creator}
+              font="16px"
+            />
+          </MiniInfoCard>
+          <MiniInfoCard>
+            <MiniInfoTitle>Collection</MiniInfoTitle>
+            <Info>
+              <Image src={showData.collectionLogo} alt="logo" />
+              <Name>&nbsp;{showData.collectionName}</Name>
+            </Info>
+          </MiniInfoCard>
+        </HStack>
+        {showData.price && (
+          <PriceArea>
+            <p>Price</p>
+            <HStack alignItems="center">
+              <h1>{Number(showData.price.toFixed(2))} Near</h1>
+              <h2>${Number(showData.price.toFixed(2)) * nearValue}</h2>
+            </HStack>
+          </PriceArea>
+        )}
+        <Stack>
+          <Link href="/nft/6/2" passHref>
+            <StyledButton>View Nft</StyledButton>
+          </Link>
+        </Stack>
+      </IntroWrapper>
       <NFTPicture>
         <ImgDiv>
           <Img alt="logo" src={showData.nftLogo} />
@@ -120,10 +119,8 @@ const IntroContainer = styled.div`
   display: flex;
   margin-top: 50px;
   justify-content: space-between;
-  padding: 0 120px;
   @media (max-width: 480px) {
     flex-direction: column-reverse;
-    padding: 0 10px;
     margin-top: 0px;
   }
 `
@@ -133,7 +130,7 @@ const Title = styled.div`
   font-weight: 700;
   padding: 40px 0;
   @media (max-width: 1550px) {
-    font-size: 35px;
+    font-size: 40px;
   }
   @media (max-width: 480px) {
     font-size: 26px;
@@ -143,14 +140,17 @@ const Title = styled.div`
   }
 `
 
-const MiniInfoCard = styled.div`
+const MiniInfoCard = styled(GradientBackground)`
   width: 40%;
   height: 110px;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  border-radius: 20px;
   padding: 15px;
-  border: 1px solid rgba(5, 6, 22, 0.2);
-  backdrop-filter: blur(40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &:before {
+    border-radius: 20px;
+    opacity: 0.2;
+  }
   @media (max-width: 480px) {
     width: 100%;
   }
@@ -178,16 +178,12 @@ const Info = styled.div`
   display: flex;
   align-items: center;
 `
-const NFTPicture = styled.div`
+const NFTPicture = styled(SecondGradientBackground)`
   width: 40%;
-  border-radius: 30px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  &:before {
+    border-radius: 30px;
+    opacity: 0.7;
+  }
   padding: 37px;
   @media (max-width: 1550px) {
     padding: 30px;
@@ -237,8 +233,9 @@ const PriceArea = styled.div`
     font-size: 20px;
   }
   h1 {
-    font-size: 36px;
+    font-size: 40px;
     font-family: Mulish;
+    font-weight: 900;
   }
   h2 {
     font-size: 22px;

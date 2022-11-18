@@ -30,6 +30,7 @@ import EditProfileModal from 'features/profile/EditProfileModal'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { getReducedAddress } from 'util/conversion'
 import { isMobile } from 'util/device'
+import { GradientBackground } from 'styles/styles'
 
 export default function Home() {
   const { asPath } = useRouter()
@@ -235,6 +236,12 @@ const LogoImage = styled.div`
   top: -100px;
   left: calc(50% - 100px);
   z-index: 1000;
+  @media (max-width: 1550px) {
+    width: 150px;
+    height: 150px;
+    top: -75px;
+    left: calc(50% - 75px);
+  }
   @media (max-width: 480px) {
     width: 120px;
     height: 120px;
@@ -245,7 +252,7 @@ const LogoImage = styled.div`
 `
 const ProfileContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 2.5fr;
   padding: 0 50px;
   p {
     font-size: 18px;
@@ -281,15 +288,18 @@ const ProfileContainer = styled.div`
     }
   }
 `
-const ProfileInfo = styled.div`
+const ProfileInfo = styled(GradientBackground)`
   padding: 120px 50px 50px 50px;
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  /* Note: backdrop-filter has minimal browser support */
 
-  border-radius: 0px 0px 20px 20px;
+  &:before {
+    border-radius: 0px 0px 20px 20px;
+    opacity: 0.2;
+  }
   height: fit-content;
   position: relative;
+  @media (max-width: 1550px) {
+    padding: 120px 30px 30px 30px;
+  }
   @media (max-width: 480px) {
     padding: 80px 25px 25px 25px;
   }
@@ -300,11 +310,12 @@ const VerticalDivider = styled.div`
   width: 90px;
   height: 0px;
 `
-const Card = styled.div`
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
+const Card = styled(GradientBackground)`
   backdrop-filter: blur(40px);
-  border-radius: 20px;
+  &:before {
+    border-radius: 20px;
+    opacity: 0.2;
+  }
   padding: 20px;
   @media (max-width: 480px) {
     p {

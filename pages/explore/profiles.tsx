@@ -37,6 +37,10 @@ const StyledTabList = styled.div`
   border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 400;
   display: flex;
+  overflow: auto;
+  @media (max-width: 480px) {
+    width: 100vw;
+  }
 `
 
 const StyledTab = styled.div<{ isActive: boolean }>`

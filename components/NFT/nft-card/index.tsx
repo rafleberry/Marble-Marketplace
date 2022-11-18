@@ -6,6 +6,7 @@ import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { convertMicroDenomToDenom } from 'util/conversion'
 import { getSimpleProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
+import { GradientBackground } from 'styles/styles'
 
 const saleType = {
   NotSale: 'NOT ON SALE',
@@ -95,11 +96,16 @@ export function NftCard({ nft, id, type }): JSX.Element {
   )
 }
 
-const NftCardDiv = styled.div<{ color: string; revertColor: boolean }>`
-  border-radius: 20px;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+const NftCardDiv = styled(GradientBackground)<{
+  color: string
+  revertColor: boolean
+}>`
+  &:before {
+    border-radius: 20px;
+    opacity: 0.2;
+  }
   background: ${({ color }) => color};
+  border-radius: 20px;
   padding: 30px;
   height: 100%;
   width: 100%;

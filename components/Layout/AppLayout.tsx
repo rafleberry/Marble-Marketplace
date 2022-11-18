@@ -25,37 +25,36 @@ export const AppLayout = ({
     TagManager.initialize(tagManagerArgs)
   }, [])
   return (
-    <>
+    <Container>
       <StyledWrapper>
         <NavigationSidebar openNav={openNav} setOpenNav={setOpenNav} />
-        <div
-          className={`main-section ${fullWidth ? 'fullWidth' : ''} ${
-            hasBanner ? 'hasBanner' : ''
-          }`}
-        >
-          <StyledContainer hasBanner={hasBanner}>
-            <main>{children}</main>
-          </StyledContainer>
-        </div>
-        <StyledFooter className="footer">
-          <StyledFooterWrapper className="container">
-            <StyledContainer>{footerBar}</StyledContainer>
-          </StyledFooterWrapper>
+
+        <StyledContainer hasBanner={hasBanner}>
+          <main>{children}</main>
+        </StyledContainer>
+        <StyledFooter>
+          <StyledFooterWrapper>{footerBar}</StyledFooterWrapper>
         </StyledFooter>
       </StyledWrapper>
-    </>
+    </Container>
   )
 }
 
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const Container = styled.div`
   background-image: url('/images/background.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  justify-content: center;
+  display: flex;
+`
+const StyledWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   position: relative;
   color: white;
+  width: 100%;
+  align-items: center;
 `
 
 const StyledContainer = styled.div<{ hasBanner: boolean }>`
@@ -64,16 +63,27 @@ const StyledContainer = styled.div<{ hasBanner: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-top: ${({ hasBanner }) => (hasBanner ? '0' : '130px')};
+  padding: ${({ hasBanner }) => (hasBanner ? '0' : '40px')};
+  ${({ hasBanner }) => !hasBanner && 'max-width: 1700px'};
+  width: 100%;
+  @media (max-width: 1600px) {
+    margin-top: 60px;
+  }
+  @media (max-width: 480px) {
+    padding: 10px;
+    margin-top: 0;
+  }
 `
 
 const StyledFooter = styled.div`
   position: relative;
   z-index: 1;
   display: flex;
-  margin-top: 100px;
   flex-direction: column;
   justify-content: space-between;
   padding: 40px 0 0 0;
+  width: 100%;
 `
 
 const StyledFooterWrapper = styled.div`

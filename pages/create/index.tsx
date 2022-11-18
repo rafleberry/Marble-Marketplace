@@ -9,6 +9,7 @@ import { nftViewFunction } from 'util/near'
 import styled from 'styled-components'
 import { default_image } from 'util/constants'
 import { isMobile } from 'util/device'
+import { GradientBackground } from 'styles/styles'
 
 export default function Home() {
   const wallet = getCurrentWallet()
@@ -86,7 +87,11 @@ export default function Home() {
                 </Card>
               </Link>
               {ownedCollections.map((info, index) => (
-                <Link href={`/collection/${info.token_series_id}`} key={index}>
+                <Link
+                  href={`/collection/${info.token_series_id}`}
+                  key={index}
+                  passHref
+                >
                   <Card>
                     <RoundedIcon
                       size={isMobile() ? '50px' : '70px'}
@@ -184,18 +189,11 @@ const Collections = styled.div`
     padding: 20px;
   }
 `
-const Card = styled.div`
-  background: linear-gradient(0deg, #050616, #050616) padding-box,
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  backdrop-filter: blur(40px);
-  border-radius: 20px;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
+const Card = styled(GradientBackground)`
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
   padding: 25px;
   display: flex;
   align-items: center;

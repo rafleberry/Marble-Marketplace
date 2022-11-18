@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { default_image } from 'util/constants'
 import { getReducedAddress } from 'util/conversion'
+import { GradientBackground } from 'styles/styles'
 
 const ProfileCard = ({ profileInfo }) => {
   return (
@@ -35,11 +36,12 @@ const ProfileCard = ({ profileInfo }) => {
 
 export default ProfileCard
 
-const Container = styled.div`
+const Container = styled(GradientBackground)`
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
   padding: 30px;
-  border-radius: 60px;
-  background: rgba(05, 06, 22, 0.2);
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
   backdrop-filter: blur(40px);
   /* Note: backdrop-filter has minimal browser support */
   cursor: pointer;

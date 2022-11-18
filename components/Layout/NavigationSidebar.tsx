@@ -25,6 +25,8 @@ import {
   StyledDivForLogo,
   CreateButton,
   StyledMenuItem,
+  MobileProfileInfo,
+  AddressWrapper,
 } from './styled'
 
 export function NavigationSidebar({ openNav, setOpenNav }) {
@@ -317,21 +319,6 @@ const GreenRound = styled('div', {
   background: '#24BE74',
   borderRadius: '50%',
 })
-const AddressWrapper = styled('div', {
-  background:
-    'linear-gradient(180deg, rgba(0, 0, 0, 0.06) 0%, rgba(0, 0, 0, 0.37) 100%)',
-  boxShadow:
-    '0px 7px 14px rgba(0, 0, 0, 0.1), inset 0px 14px 24px rgba(17, 20, 29, 0.4)',
-  backdropFilter: 'blur(30px)',
-  borderRadius: '10px',
-  border: '1px solid rgba(255,255,255,0.2)',
-  display: 'flex',
-  ' p': {
-    fontSize: '14px',
-  },
-  padding: '10px',
-  alignItems: 'center',
-})
 const Flex = styled('div', {
   display: 'flex',
   alignItems: 'center',
@@ -362,21 +349,7 @@ const StyledMenuList = styled(MenuList, {
   width: '400px !important',
   backdropFilter: 'blur(30px) !important',
 })
-// const StyledMenuItem = styled('div', {
-//   background: 'rgba(05, 06, 22, 0.2)',
-//   boxShadow: '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
-//   backDropFilter: 'blur(40px)',
-//   borderRadius: '20px',
-//   padding: '20px 25px',
-//   margin: '10px 0',
-//   display: 'flex',
-//   alignItems: 'center',
-//   justifyContent: 'space-between',
-//   cursor: 'pointer',
-//   '&:hover': {
-//     opacity: '0.7 !important',
-//   },
-// })
+
 const ProfileMenuItem = styled('div', {
   backDropFilter: 'blur(40px)',
   margin: '5px 0',
@@ -448,17 +421,9 @@ const MobileWrapper = styled('div', {
   alignItems: 'center',
   zIndex: '2',
   background: 'rgba(8,12,28,0,6)',
-})
-const MobileProfileInfo = styled('div', {
-  background: 'rgba(5,6,21,0.2)',
-  boxShadow: '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
-  backdropFilter: 'blur(40px)',
-  borderRadius: '20px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  padding: '15px',
   width: '100%',
 })
+
 const MobileWalletInfo = styled('div', {
   '& p': {
     fontSize: '12px',

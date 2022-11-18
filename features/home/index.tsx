@@ -14,6 +14,7 @@ import { NftCollection } from 'services/nft'
 import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
 import { isMobile } from 'util/device'
+import { SecondGradientBackground } from 'styles/styles'
 
 const collectionList = [27, 111, 112]
 
@@ -52,9 +53,7 @@ const Home = () => {
       let collections = []
       let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
       let { categories } = await res_categories.json()
-      console.log('categories: ', categories)
       const collectionList = await fetchCollections()
-      console.log('collectionList: ', collectionList)
       for (let i = 0; i < collectionList.length; i++) {
         let res_collection: any = {}
         try {
@@ -63,7 +62,6 @@ const Home = () => {
               collectionList[i].metadata.reference
           )
           res_collection = await ipfs_collection.json()
-          console.log('rescollection: ', res_collection)
           let collection_info: any = {}
           collection_info.id = collectionList[i].token_series_id
           collection_info.name = res_collection.name
@@ -101,12 +99,15 @@ const Home = () => {
           <Paper>
             <MarbleCardGrid>
               <Stack spacing={10}>
-                <Title>Discover Phygital NFTs</Title>
+                <Title>
+                  <span style={{ fontWeight: '500' }}>Discover</span> Phygital
+                  NFTs
+                </Title>
                 <TextContent textAlign={isMobile() ? 'center' : 'left'}>
-                  Marble, the future of NFTs is already here. Collect Phygital
-                  NFTs which bring real Art to life in spectacular 3D. Enjoy
-                  sculptures, paintings, and physical artworks through Augmented
-                  Reality and Virtual Reality.
+                  Here at Marble DAO, the future of NFTs is already here.
+                  Collect Phygital NFTs which bring real Art to life in
+                  spectacular 3D. Enjoy sculptures, paintings, and physical
+                  artworks through Augmented Reality and Virtual Reality.
                 </TextContent>
                 <StyledButton>Get Started</StyledButton>
               </Stack>
@@ -118,7 +119,7 @@ const Home = () => {
         </Flex>
         <Stack marginTop="100px" alignItems="center">
           <Stack spacing={10}>
-            <Stack margin="0 auto" alignItems="center">
+            <Stack margin="0 auto" alignItems="center" spacing="30px">
               <TextTitle>Marble - Where will you fit in?</TextTitle>
               <StyledP>
                 Marble is an all-in-one platform hosting an NFT marketplace as
@@ -186,7 +187,11 @@ const Home = () => {
                 <StyledImg src="/images/cosmos.svg" alt="cosmos" />
               </PartnerPaper>
               <PartnerPaper>
-                <StyledImg src="/images/juno.svg" alt="juno" />
+                <StyledImg
+                  src="/images/juno.svg"
+                  alt="juno"
+                  style={{ width: '150px' }}
+                />
               </PartnerPaper>
               <PartnerPaper>
                 <StyledImg src="/images/pinata.svg" alt="pinata" />
@@ -201,7 +206,7 @@ const Home = () => {
 const DestinationGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 60px;
+  column-gap: 20px;
   @media (max-width: 480px) {
     display: flex;
     flex-direction: column;
@@ -214,7 +219,7 @@ const PartnerGrid = styled.div`
   column-gap: 10px;
   overflow: auto;
   @media (max-width: 480px) {
-    width: 100vw;
+    width: 90vw;
   }
 `
 const StyledButton = styled.button`
@@ -258,7 +263,7 @@ const StyledP = styled.div`
   opacity: 0.5;
   font-family: Mulish;
   text-align: center;
-  width: 700px;
+  width: 1000px;
   @media (max-width: 1450px) {
     font-size: 18px;
   }
@@ -272,12 +277,11 @@ const Collections = styled.div`
   padding: 50px 0;
 `
 
-const Paper = styled.div<{ width?: string }>`
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
+const Paper = styled(SecondGradientBackground)<{ width?: string }>`
+  &:before {
+    border-radius: 30px;
+    opacity: 0.3;
+  }
   padding: 40px 80px;
   width: ${({ width }) => width || '100%'};
   display: flex;
@@ -292,14 +296,13 @@ const PartnerPaper = styled(Paper)`
     height: 50px;
   }
 `
-const StyledPaper = styled.div`
-  border-radius: 30px;
-  background: rgba(255, 255, 255, 0.06);
-  border: rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a;
-  backdrop-filter: blur(30px);
+const StyledPaper = styled(SecondGradientBackground)`
+  &:before {
+    opacity: 0.5;
+    border-radius: 30px;
+  }
   justify-content: center;
-  padding: 40px 80px;
+  padding: 40px 60px;
   flex-direction: column;
   h1 {
     font-size: 36px;
@@ -307,15 +310,14 @@ const StyledPaper = styled.div`
     text-align: center;
   }
   @media (max-width: 1450px) {
-    padding: 40px 40px;
+    padding: 40px 30px;
   }
   @media (max-width: 480px) {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: auto auto;
     padding: 10px;
     align-items: center;
     column-gap: 10px;
-    justify-content: start;
     h1 {
       font-size: 20px;
       font-weight: 700;
@@ -373,7 +375,7 @@ const Round = styled.div`
 `
 const Title = styled.div`
   font-size: 65px;
-  font-weight: 700;
+  font-weight: 400;
   @media (max-width: 1550px) {
     font-size: 40px;
   }

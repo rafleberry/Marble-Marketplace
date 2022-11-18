@@ -5,6 +5,7 @@ import { NftCollection } from 'services/nft'
 import { RoundedIconComponent } from 'components/RoundedIcon'
 import { isClientMobie } from 'util/device'
 import styled from 'styled-components'
+import { GradientBackground } from 'styles/styles'
 
 export default function NftCollectionCard({ collection }): JSX.Element {
   return (
@@ -13,41 +14,19 @@ export default function NftCollectionCard({ collection }): JSX.Element {
         <Image src={collection.image} alt="NFT Image" />
       </ImgDiv>
       <HStack marginTop="30px">
-        <Logo src={collection.banner_image} alt="image" size="70px" />
+        <Logo src={collection.banner_image} alt="image" />
         <Stack>
           <Title>{collection.name}</Title>
           <RoundedIconComponent
             size="0px"
             address={collection.creator}
-            font={isClientMobie ? '15px' : '20px'}
+            font={isClientMobie ? '15px' : '15px'}
           />
         </Stack>
       </HStack>
     </CollectionDiv>
   )
 }
-
-const CollectionDiv = styled.div`
-  border-radius: 20px;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6d6d78;
-  border: 1px solid;
-  border-image-source: linear-gradient(
-    90.65deg,
-    #ffffff 0.82%,
-    rgba(0, 0, 0, 0) 98.47%
-  );
-  background: linear-gradient(0deg, #050616, #050616) padding-box,
-    linear-gradient(90.65deg, #ffffff 0.82%, rgba(0, 0, 0, 0) 98.47%) border-box;
-  padding: 30px;
-  height: 100%;
-  cursor: pointer;
-  @media (max-width: 1450px) {
-    padding: 15px;
-  }
-  @media (max-width: 480px) {
-    width: 320px;
-  }
-`
 
 const ImgDiv = styled.div`
   width: 100%;
@@ -68,15 +47,34 @@ const Image = styled.img`
   object-position: center;
   border-radius: 20px;
 `
-const Logo = styled.img<{ size: string }>`
-  width: ${({ size }) => size};
-  height: ${({ size }) => size};
+const Logo = styled.img`
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+  @media (max-width: 1550px) {
+    width: 50px;
+    height: 50px;
+  }
 `
 const Title = styled.div`
   font-size: 24px;
   overflow-wrap: anywhere;
   @media (max-width: 1450px) {
     font-size: 18px;
+  }
+`
+const CollectionDiv = styled(GradientBackground)`
+  &:before {
+    border-radius: 20px;
+    opacity: 0.2;
+  }
+  padding: 30px;
+  height: 100%;
+  cursor: pointer;
+  @media (max-width: 1450px) {
+    padding: 15px;
+  }
+  @media (max-width: 480px) {
+    width: 320px;
   }
 `

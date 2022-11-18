@@ -78,13 +78,16 @@ export const Explore = () => {
           res_collection = -{}
         }
         let collection_info: any = {}
+
         collection_info.id = collectionList[i].token_series_id
         collection_info.name = collectionList[i].metadata.title
         collection_info.description = res_collection.description
-        collection_info.image =
-          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
-        collection_info.banner_image =
-          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+        collection_info.image = res_collection.featuredImage
+          ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
+          : '/default-image.png'
+        collection_info.banner_image = res_collection.logo
+          ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+          : '/default-image.png'
         collection_info.slug = res_collection.slug
         collection_info.creator = collectionList[i].creator_id ?? ''
         collections.push(collection_info)
@@ -111,10 +114,12 @@ export const Explore = () => {
       collection_info.id = collectionList[i].token_series_id
       collection_info.name = collectionList[i].metadata.title
       collection_info.description = res_collection.description
-      collection_info.image =
-        process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
-      collection_info.banner_image =
-        process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+      collection_info.image = res_collection.featuredImage
+        ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.featuredImage
+        : '/default-image.png'
+      collection_info.banner_image = res_collection.logo
+        ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+        : '/default-image.png'
       collection_info.slug = res_collection.slug
       collection_info.creator = collectionList[i].creator_id ?? ''
       collections.push(collection_info)

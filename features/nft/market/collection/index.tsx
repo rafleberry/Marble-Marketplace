@@ -32,6 +32,7 @@ import { getCurrentWallet } from 'util/sender-wallet'
 import EditCollectionModal from './components/EditCollectionModal'
 import { RoundedIconComponent } from 'components/RoundedIcon'
 import { isMobile } from 'util/device'
+import { SecondGradientBackground } from 'styles/styles'
 
 export const CollectionTab = ({ index }) => {
   return (
@@ -244,9 +245,12 @@ export const Collection = ({ id }: CollectionProps) => {
           </Stack>
         </Banner>
         <Heading>
-          <Text fontSize={isMobile() ? '24px' : '46px'} fontWeight="700">
-            NFTs
-          </Text>
+          <Stack>
+            <Text fontSize={isMobile() ? '24px' : '36px'} fontWeight="700">
+              Description
+            </Text>
+            <DescriptionArea>{collectionInfo.description}</DescriptionArea>
+          </Stack>
 
           {wallet.accountId === collectionInfo.creator && (
             <Link href={`/nft/${id}/create`} passHref>
@@ -264,6 +268,11 @@ export const Collection = ({ id }: CollectionProps) => {
               </Button>
             </Link>
           )}
+        </Heading>
+        <Heading>
+          <Text fontSize={isMobile() ? '24px' : '36px'} fontWeight="700">
+            NFTs
+          </Text>
         </Heading>
         <NftList
           className={`${isCollapse ? 'collapse-close' : 'collapse-open'}`}
@@ -302,7 +311,7 @@ export const Collection = ({ id }: CollectionProps) => {
               </Text>
               <Text fontSize="18px" fontWeight="600">
                 Before you mint an NFT to your collection, customize it by
-                uploading <br /> a logo, cover image and description
+                uploading a logo, cover image and description
               </Text>
               <EditCollectionModal
                 collectionInfo={collectionInfo}
@@ -320,11 +329,18 @@ export const Collection = ({ id }: CollectionProps) => {
 }
 
 const CollectionWrapper = styled.div``
+const DescriptionArea = styled(SecondGradientBackground)`
+  padding: 25px;
+  font-family: Mulish;
+  &:before {
+    border-radius: 20px;
+    opacity: 0.3;
+  }
+`
 const Heading = styled.div`
-  padding: 40px;
+  padding: 30px 30px 0 30px;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #363b4e;
   align-items: center;
   @media (max-width: 480px) {
     padding: 20px;

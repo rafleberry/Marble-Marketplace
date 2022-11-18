@@ -8,7 +8,7 @@ export const RoundedIcon = styled.img<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   border-radius: 50%;
-  border: 1px solid #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.13);
   object-fit: cover;
 `
 export const Flex = styled.div<{ direction: string }>`

@@ -240,10 +240,11 @@ export default function Collection() {
             <Title>Create On Marble Dao</Title>
             <Collections>
               <Stack spacing={isMobile() ? '20px' : '50px'}>
-                <Stack>
+                <Stack alignItems="center">
                   <CardTitle>Create A Collection</CardTitle>
                   <SubText>Deploy a smart contract to showcase NFTs</SubText>
                 </Stack>
+                <HorizontalDivider />
                 <Stack>
                   <SubTitle>Set Up Your Smart Contract</SubTitle>
                   <SubText>
@@ -369,6 +370,11 @@ const Container = styled.div`
     padding: 10px;
   }
 `
+const HorizontalDivider = styled.div`
+  border-bottom: 1px solid #363b4e;
+  width: 100%;
+`
+
 const Title = styled.div`
   font-size: 46px;
   font-weight: 600;
@@ -379,22 +385,22 @@ const Title = styled.div`
 `
 const CardTitle = styled.div`
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 500;
   @media (max-width: 480px) {
     font-size: 20px;
     text-align: center;
   }
 `
 const SubTitle = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 25px;
+  font-weight: 500;
   @media (max-width: 480px) {
     font-size: 14px;
   }
 `
 const InputLabel = styled.div`
-  font-size: 25px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
   margin-left: 30px;
   @media (max-width: 480px) {
     font-size: 12px;
@@ -402,8 +408,8 @@ const InputLabel = styled.div`
   }
 `
 const RoyaltyLabel = styled.div`
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
   margin-left: 30px;
   @media (max-width: 480px) {
     font-size: 12px;
@@ -436,17 +442,18 @@ const Collections = styled.div`
 const SubText = styled.div`
   font-size: 18px;
   font-family: Mulish;
-  font-weight: 600;
   @media (max-width: 480px) {
     font-size: 14px;
     font-weight: 400;
   }
 `
 const StyledLink = styled.a`
+  padding-top: 10px;
   font-size: 18px;
   font-family: Mulish;
   font-weight: 600;
   color: #cccccc;
+  text-decoration: underline;
   @media (max-width: 480px) {
     font-size: 14px;
     font-weight: 400;
