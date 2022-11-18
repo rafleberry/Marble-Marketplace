@@ -1,65 +1,26 @@
-import {
-  ChakraProvider,
-  Spinner,
-  Stack,
-  Tab,
-  Text,
-  HStack,
-} from '@chakra-ui/react'
-import { useRouter } from 'next/router'
+import { ChakraProvider, Spinner, Stack, Text } from '@chakra-ui/react'
 import { Button } from 'components/Button'
-import { IconWrapper } from 'components/IconWrapper'
 import { NftTable } from 'components/NFT'
-import { Activity, Grid } from 'icons'
+import { RoundedIconComponent } from 'components/RoundedIcon'
+import { getCollectionCategory } from 'hooks/useCollection'
+import { More, ArrowDown } from 'icons'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useDispatch, useSelector } from 'react-redux'
-import { NftInfo } from 'services/nft'
-import { State } from 'store/reducers'
-import { NFT_COLUMN_COUNT } from 'store/types'
 import styled from 'styled-components'
-import { default_image, default_featured_image } from 'util/constants'
+import { SecondGradientBackground } from 'styles/styles'
+import { default_featured_image, default_image } from 'util/constants'
+import { convertMicroDenomToDenom } from 'util/conversion'
+import { isMobile } from 'util/device'
 import {
   marketplaceViewFunction,
   nftViewFunction,
   NFT_CONTRACT_NAME,
   TOKEN_DENOMS,
 } from 'util/near'
-import { convertMicroDenomToDenom } from 'util/conversion'
-import { getCollectionCategory } from 'hooks/useCollection'
 import { getCurrentWallet } from 'util/sender-wallet'
 import EditCollectionModal from './components/EditCollectionModal'
-import { RoundedIconComponent } from 'components/RoundedIcon'
-import { isMobile } from 'util/device'
-import { SecondGradientBackground } from 'styles/styles'
-
-export const CollectionTab = ({ index }) => {
-  return (
-    <TabWrapper>
-      <Tab>
-        <Button
-          className={`hide tab-link ${index == 0 ? 'active' : ''}`}
-          as="a"
-          variant="ghost"
-          iconLeft={<IconWrapper icon={<Grid />} />}
-        >
-          Items
-        </Button>
-      </Tab>
-      <Tab>
-        <Button
-          className={`hide tab-link ${index == 1 ? 'active' : ''}`}
-          as="a"
-          variant="ghost"
-          iconLeft={<IconWrapper icon={<Activity />} />}
-        >
-          Activity
-        </Button>
-      </Tab>
-    </TabWrapper>
-  )
-}
 
 interface CollectionProps {
   readonly id: string
@@ -73,13 +34,10 @@ export const Collection = ({ id }: CollectionProps) => {
   const [collectionInfo, setCollectionInfo] = useState<any>({})
   const [pageNum, setPageNum] = useState(0)
   const [isCollapse, setCollapse] = useState(false)
-  const [nfts, setNfts] = useState<NftInfo[]>([])
+  const [nfts, setNfts] = useState<any[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const dispatch = useDispatch()
-
-  const filterData = useSelector((state: State) => state.filterData)
-  const { filter_status } = filterData
-  const [searchVal, setSearchVal] = useState('')
+  const [filtered, setFiltered] = useState([])
+  const [filterTab, setFilterTab] = useState('all')
   const fetchCollectionInfo = useCallback(async () => {
     let result: any = {}
     let collection_info: any = {}
@@ -214,7 +172,18 @@ export const Collection = ({ id }: CollectionProps) => {
     const _tokensInfo = await fetchTokensInfo()
     setNfts([...nfts, ..._tokensInfo])
   }
-
+  const handleFilter = (id: string) => {
+    // const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
+    // setFiltered(filteredNFTs)
+    setFilterTab(id)
+  }
+  useEffect(() => {
+    const filteredNFTs =
+      filterTab === 'all'
+        ? nfts
+        : nfts.filter((nft: any) => nft.saleType === filterTab)
+    setFiltered(filteredNFTs)
+  }, [nfts, filterTab])
   return (
     <ChakraProvider>
       <CollectionWrapper>
@@ -234,13 +203,31 @@ export const Collection = ({ id }: CollectionProps) => {
                 />
               </Stack>
             )}
-            <ProfileLogo>
-              <RoundedIconComponent
-                size="44px"
-                address={collectionInfo.creator}
-              />
-            </ProfileLogo>
+            <ProfileInfo>
+              <ProfileInfoItem>
+                <ProfileInfoTitle>Creator</ProfileInfoTitle>
+                <RoundedIconComponent
+                  size="30px"
+                  address={collectionInfo.creator}
+                />
+              </ProfileInfoItem>
+              <ProfileInfoItem>
+                <ProfileInfoTitle>Symbol</ProfileInfoTitle>
+                <ProfileInfoContent>NEAR</ProfileInfoContent>
+              </ProfileInfoItem>
+              <ProfileInfoItem>
+                <ProfileInfoTitle>Collection Of</ProfileInfoTitle>
+                <ProfileInfoContent>{id}</ProfileInfoContent>
+              </ProfileInfoItem>
+              <ProfileInfoItem>
+                <ProfileInfoTitle>Total Sales</ProfileInfoTitle>
+                <ProfileInfoContent>10 NEAR</ProfileInfoContent>
+              </ProfileInfoItem>
+            </ProfileInfo>
           </Stack>
+          <ReportWrapper>
+            <More />
+          </ReportWrapper>
         </Banner>
         <Heading>
           <Stack>
@@ -272,9 +259,38 @@ export const Collection = ({ id }: CollectionProps) => {
             NFTs
           </Text>
         </Heading>
-        <NftList
-          className={`${isCollapse ? 'collapse-close' : 'collapse-open'}`}
-        >
+        <FilterWrapper>
+          <Filter>
+            <FilterCard
+              onClick={() => handleFilter('all')}
+              isActive={filterTab === 'all'}
+            >
+              All
+            </FilterCard>
+            <FilterCard
+              onClick={() => handleFilter('Direct Sell')}
+              isActive={filterTab === 'Direct Sell'}
+            >
+              Buy Now
+            </FilterCard>
+            <FilterCard
+              onClick={() => handleFilter('Auction')}
+              isActive={filterTab === 'Auction'}
+            >
+              Live Auction
+            </FilterCard>
+            <FilterCard
+              onClick={() => handleFilter('Offer')}
+              isActive={filterTab === 'Offer'}
+            >
+              Active Offers
+            </FilterCard>
+          </Filter>
+          <Sort>
+            Most Active <ArrowDown />
+          </Sort>
+        </FilterWrapper>
+        <NftList>
           <InfiniteScroll
             dataLength={nfts.length}
             next={getMoreNfts}
@@ -295,7 +311,7 @@ export const Collection = ({ id }: CollectionProps) => {
             }
             endMessage={<h4></h4>}
           >
-            <NftTable data={nfts} id={id} type="buy" />
+            <NftTable data={filtered} id={id} type="buy" />
           </InfiniteScroll>
           {nfts.length === 0 && wallet.accountId === collectionInfo.creator && (
             <Stack
@@ -404,20 +420,6 @@ const Logo = styled.img`
   }
 `
 
-const SelectOption = styled.div<{ isActive: boolean }>`
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0px 7px 14px 0px #0000001a, 0px 14px 24px 0px #11141d66 inset;
-  border-radius: 30px;
-  display: flex;
-  padding: 15px;
-  min-width: 170px;
-  justify-content: center;
-  cursor: pointer;
-  color: ${({ isActive }) => (isActive ? '#FFFFFF' : 'rgba(255,255,255,0.5)')};
-`
-
-const TabWrapper = styled.div``
-
 const NftList = styled.div`
   padding: 40px;
   @media (max-width: 480px) {
@@ -425,11 +427,137 @@ const NftList = styled.div`
     width: 100%;
   }
 `
-const ProfileLogo = styled.div`
-  padding: 10px;
-  border-radius: 60px;
-  background: rgba(0, 0, 0, 0.2);
+const ProfileInfo = styled.div`
+  padding: 20px;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 24px rgba(109, 109, 120, 0.38);
+  backdrop-filter: blur(20px);
+  background: linear-gradient(0deg, #050616, #050616) padding-box,
+    linear-gradient(
+        90.65deg,
+        rgba(255, 255, 255, 0.13) 0.82%,
+        rgba(255, 255, 255, 0.17) 98.47%
+      )
+      border-box;
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    90.65deg,
+    rgba(255, 255, 255, 0.13) 0.82%,
+    rgba(255, 255, 255, 0.17) 98.47%
+  );
+  position: absolute;
+  bottom: 40px;
+  border-radius: 20px;
   display: flex;
   width: fit-content;
   align-items: center;
+  column-gap: 60px;
+`
+
+const ReportWrapper = styled.div`
+  position: absolute;
+  right: 80px;
+  bottom: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 24px rgba(109, 109, 120, 0.38);
+  backdrop-filter: blur(20px);
+  background: linear-gradient(0deg, #050616, #050616) padding-box,
+    linear-gradient(
+        90.65deg,
+        rgba(255, 255, 255, 0.13) 0.82%,
+        rgba(255, 255, 255, 0.17) 98.47%
+      )
+      border-box;
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    90.65deg,
+    rgba(255, 255, 255, 0.13) 0.82%,
+    rgba(255, 255, 255, 0.17) 98.47%
+  );
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  svg {
+    width: 20px;
+  }
+`
+const ProfileInfoItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+`
+
+const ProfileInfoTitle = styled.div`
+  font-size: 14px;
+  font-weight: 300;
+`
+const ProfileInfoContent = styled.div`
+  font-family: Mulish;
+  font-size: 20px;
+  font-weight: 500;
+`
+const Filter = styled.div`
+  display: flex;
+  column-gap: 20px;
+  width: 800px;
+`
+const FilterCard = styled.div<{ isActive: boolean }>`
+  border-radius: 30px;
+
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    106.01deg,
+    rgba(255, 255, 255, 0.2) 1.02%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow: 0px 7px 14px 0px #0000001a, 0px 14px 24px 0px #11141d66 inset;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  padding: 15px 30px;
+  cursor: pointer;
+  text-align: center;
+  font-family: Mulish;
+  color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
+  @media (max-width: 480px) {
+    width: 114px;
+    font-size: 12px;
+  }
+`
+const FilterWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 30px 0 30px;
+`
+const Sort = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
+    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
+  backdrop-filter: blur(15px);
+  /* Note: backdrop-filter has minimal browser support */
+  border: 1px solid #ffffff;
+
+  border-radius: 30px;
+  padding: 15px 30px;
+  font-family: Mulish;
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+  cursor: pointer;
+  svg {
+    width: 15px;
+  }
 `

@@ -219,6 +219,9 @@ const Container = styled.div`
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 20px 0;
   gap: 20px;
+  @media (max-width: 1550px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 `
 const Filter = styled.div`
   display: flex;
@@ -227,22 +230,29 @@ const Filter = styled.div`
 `
 const FilterCard = styled.div<{ isActive: boolean }>`
   border-radius: 30px;
-  backdrop-filter: blur(30px);
-  box-shadow: 0px 7px 14px rgba(0, 0, 0, 0.1),
-    inset 0px 14px 24px rgba(17, 20, 29, 0.4);
-  background: ${({ isActive }) =>
-    isActive
-      ? 'white'
-      : 'linear-gradient(180deg,rgba(255, 255, 255, 0.06) 0%,rgba(255, 255, 255, 0.06) 100%)'};
-  color: ${({ isActive }) => (isActive ? 'black' : 'white')};
-  display: flex;
-  font-size: 16px;
-  font-weight: 700;
+
+  border: 1px solid;
+
+  border-image-source: linear-gradient(
+    106.01deg,
+    rgba(255, 255, 255, 0.2) 1.02%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow: 0px 7px 14px 0px #0000001a, 0px 14px 24px 0px #11141d66 inset;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  padding: 15px 30px;
   cursor: pointer;
+  text-align: center;
   font-family: Mulish;
-  align-items: center;
-  width: fit-content;
-  padding: 10px;
+  color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
+  @media (max-width: 480px) {
+    width: 114px;
+    font-size: 12px;
+  }
 `
 const NumberWrapper = styled.div<{ isActive: boolean }>`
   height: 34px;

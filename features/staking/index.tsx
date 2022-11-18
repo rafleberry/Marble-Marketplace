@@ -34,6 +34,7 @@ import {
   ButtonWrapper,
   OwnedNftsContainer,
   CountDownWrapper,
+  StyledButton,
 } from './styled'
 
 interface UserStakeInfoType {
@@ -356,28 +357,14 @@ const Staking = () => {
           )}
           <ButtonWrapper>
             {userStakeInfo.create_unstake_timestamp === 0 && (
-              <Button
-                className="btn-buy btn-default"
-                css={{
-                  background: '$white',
-                  color: '$black',
-                  stroke: '$black',
-                  padding: '15px auto',
-                }}
+              <StyledButton
                 disabled={ownedNfts.length === 0}
                 onClick={handleStake}
               >
                 Stake
-              </Button>
+              </StyledButton>
             )}
-            <Button
-              className="btn-buy btn-default"
-              css={{
-                background: '$white',
-                color: '$black',
-                stroke: '$black',
-                padding: '15px auto',
-              }}
+            <StyledButton
               disabled={
                 userStakeInfo.create_unstake_timestamp + stakeConfig.lock_time >
                   Date.now() / 1000 || userStakeInfo.token_ids.length === 0
@@ -387,20 +374,13 @@ const Staking = () => {
               {userStakeInfo.create_unstake_timestamp === 0
                 ? 'Unstake'
                 : 'Fetch Nft'}
-            </Button>
-            <Button
-              className="btn-buy btn-default"
-              css={{
-                background: '$white',
-                color: '$black',
-                stroke: '$black',
-                padding: '15px auto',
-              }}
+            </StyledButton>
+            <StyledButton
               disabled={getClaimableReward() === 0}
               onClick={handleClaim}
             >
               Claim Rewards
-            </Button>
+            </StyledButton>
           </ButtonWrapper>
         </CollectionContent>
       </StakingCardWrapper>

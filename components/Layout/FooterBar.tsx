@@ -20,15 +20,30 @@ export const FooterBar = () => {
 
   const buttonIconCss = {
     borderRadius: '50%',
-    background: 'rgba(18, 21, 33)',
-    boxShadow:
-      '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
-    '& svg': {
-      fill: 'white',
-    },
+
     width: '45px',
     height: '45px',
     backdropFilter: 'blur(40px)',
+    position: 'relative',
+    background: 'transparent',
+    '& svg': {
+      fill: 'white',
+    },
+
+    '&::before': {
+      content: '',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      borderRadius: '50%',
+      width: '100%',
+      height: '100%',
+      background: 'rgba(18, 21, 33)',
+      boxShadow:
+        '0px 4px 40px rgba(42, 47, 50, 0.09), inset 0px 7px 24px #6D6D78',
+      zIndex: '-1',
+      opacity: '0.3',
+    },
   }
   return (
     <ChakraProvider>

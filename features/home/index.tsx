@@ -334,7 +334,8 @@ const TextTitle = styled.div`
   font-weight: 700;
   text-align: center;
   @media (max-width: 1550px) {
-    font-size: 40px;
+    font-size: 35px;
+    font-weight: 500;
   }
   @media (max-width: 480px) {
     font-size: 24px;

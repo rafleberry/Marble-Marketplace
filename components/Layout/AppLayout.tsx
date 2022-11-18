@@ -69,6 +69,7 @@ const StyledContainer = styled.div<{ hasBanner: boolean }>`
   width: 100%;
   @media (max-width: 1600px) {
     margin-top: 60px;
+    ${({ hasBanner }) => !hasBanner && 'max-width: 1200px'};
   }
   @media (max-width: 480px) {
     padding: 10px;

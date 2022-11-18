@@ -50,4 +50,9 @@ const StyledTab = styled.div<{ isActive: boolean }>`
   margin: 0 20px;
   cursor: pointer;
   ${({ isActive }) => isActive && 'border-bottom: 2px solid'};
+  @media (max-width: 1550px) {
+    font-size: 18px;
+    margin: 0 15px;
+    padding: 15px;
+  }
 `
