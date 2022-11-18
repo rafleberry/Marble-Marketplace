@@ -286,7 +286,7 @@ const Paper = styled(SecondGradientBackground)<{ width?: string }>`
   width: ${({ width }) => width || '100%'};
   display: flex;
   align-items: center;
-  @media (max-width: 1450px) {
+  @media (max-width: 1550px) {
     padding: 20px;
   }
 `
