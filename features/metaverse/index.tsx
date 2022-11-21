@@ -309,9 +309,7 @@ const Staking = () => {
     })
   }
   return (
-    <Container>
-      <iframe src="http://spatial.io/s/Marbleverse-633c3595b4f3e70001089a4d" allow="microphone https://spatial.io; camera https://spatial.io"></iframe>
-    </Container>
+      <iframe width="100%" height="720px" src="http://spatial.io/s/Marbleverse-633c3595b4f3e70001089a4d" allow="microphone https://spatial.io; camera https://spatial.io"></iframe>
   )
 }
 
