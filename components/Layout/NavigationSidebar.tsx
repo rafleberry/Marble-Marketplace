@@ -172,7 +172,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                     </Link>
                   </StyledLink>
                   <StyledLink>
-                    <Link href="/" passHref>
+                    <Link href="/metaverse" passHref>
                       <a className="dropdown-item">
                         <span className={isActive('/metaverse')}>Metaverse</span>
                       </a>
@@ -242,7 +242,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 </Link>
               </StyledLink>
               <StyledLink>
-                <Link href="/" passHref>
+                <Link href="/metaverse" passHref>
                   <a className="dropdown-item">
                     <span className={isActive('/metaverse')}>Metaverse</span>
                   </a>
