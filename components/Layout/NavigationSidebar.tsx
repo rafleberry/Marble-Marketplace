@@ -171,14 +171,21 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                       </a>
                     </Link>
                   </StyledLink>
+                  <StyledLink>
+                    <Link href="/" passHref>
+                      <a className="dropdown-item">
+                        <span className={isActive('/metaverse')}>Metaverse</span>
+                      </a>
+                    </Link>
+                  </StyledLink>
                   <HorizontalDivider />
                   <StyledLink>
                     <Setting />
-                    &nbsp; Setting(soon)
+                    &nbsp; Settings (soon)
                   </StyledLink>
                   <StyledLink>
                     <Help />
-                    &nbsp; Help(soon)
+                    &nbsp; Help (soon)
                   </StyledLink>
                 </MobileLinkWrapper>
                 <ConnectedWalletButton
@@ -227,7 +234,6 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 <span className={isActive('/defi')}>DeFi</span>
               </a>
             </StyledLink>
-            {accountId && (
               <StyledLink>
                 <Link href="/staking" passHref>
                   <a className="dropdown-item">
@@ -235,7 +241,13 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   </a>
                 </Link>
               </StyledLink>
-            )}
+              <StyledLink>
+                <Link href="/" passHref>
+                  <a className="dropdown-item">
+                    <span className={isActive('/metaverse')}>Metaverse</span>
+                  </a>
+                </Link>
+              </StyledLink>
           </StyledListForLinks>
           <ButtonField>
             {accountId ? (
@@ -275,14 +287,14 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   <StyledMenuItem>
                     <Flex>
                       <Setting />
-                      &nbsp; Setting(soon)
+                      &nbsp; Settings (soon)
                     </Flex>
                     <RoundedLeft />
                   </StyledMenuItem>
                   <StyledMenuItem>
                     <Flex>
                       <Help />
-                      &nbsp; Help(soon)
+                      &nbsp; Help (soon)
                     </Flex>
                     <RoundedLeft />
                   </StyledMenuItem>
