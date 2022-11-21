@@ -52,7 +52,6 @@ const Home = () => {
     ;(async () => {
       let collections = []
       let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
-      let { categories } = await res_categories.json()
       const collectionList = await fetchCollections()
       for (let i = 0; i < collectionList.length; i++) {
         let res_collection: any = {}
@@ -218,7 +217,7 @@ const PartnerGrid = styled.div`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: 10px;
   overflow: auto;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 90vw;
   }
 `
@@ -232,7 +231,7 @@ const StyledButton = styled.button`
   color: black;
   font-size: 18px;
   font-weight: bold;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 100%;
     height: 56px;
     font-size: 16px;
@@ -277,7 +276,7 @@ const StyledP = styled.div`
   @media (max-width: 1050px) {
     width: 100%;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
     padding: 0 20px;
     width: 100%;
@@ -301,7 +300,7 @@ const Paper = styled(SecondGradientBackground)<{ width?: string }>`
   }
 `
 const PartnerPaper = styled(Paper)`
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 120px;
     height: 50px;
   }
@@ -324,6 +323,7 @@ const StyledPaper = styled(SecondGradientBackground)`
   }
   @media (max-width: 800px) {
     display: grid;
+    justify-content: start;
     grid-template-columns: auto auto;
     padding: 10px;
     align-items: center;
@@ -347,7 +347,7 @@ const TextTitle = styled.div`
     font-size: 35px;
     font-weight: 500;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 24px;
   }
 `
@@ -361,7 +361,7 @@ const TextContent = styled.div<{ textAlign?: string }>`
   @media (max-width: 1550px) {
     font-size: 20px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
   }
 `
@@ -390,7 +390,7 @@ const Title = styled.div`
   @media (max-width: 1550px) {
     font-size: 40px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 30px;
     text-align: center;
   }

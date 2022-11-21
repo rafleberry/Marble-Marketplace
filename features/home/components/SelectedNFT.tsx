@@ -11,6 +11,10 @@ import { RoundedIconComponent } from 'components/RoundedIcon'
 import { convertMicroDenomToDenom } from 'util/conversion'
 import { useNearDollarValue } from 'hooks/useTokenDollarValue'
 import { GradientBackground, SecondGradientBackground } from 'styles/styles'
+import {
+  PINATA_PRIMARY_IMAGE_SIZE,
+  PINATA_SECONDARY_IMAGE_SIZE,
+} from 'util/constants'
 
 const SelectedNFT = () => {
   const [showData, setShowData] = useState<any>({})
@@ -42,10 +46,15 @@ const SelectedNFT = () => {
         creator: collection.creator_id,
         collectionName: collection.metadata.title,
         collectionLogo:
-          process.env.NEXT_PUBLIC_PINATA_URL + collection.metadata.media,
+          process.env.NEXT_PUBLIC_PINATA_URL +
+          collection.metadata.media +
+          PINATA_SECONDARY_IMAGE_SIZE,
         price:
           marketData.price && convertMicroDenomToDenom(marketData.price, 24),
-        nftLogo: process.env.NEXT_PUBLIC_PINATA_URL + data.metadata.media,
+        nftLogo:
+          process.env.NEXT_PUBLIC_PINATA_URL +
+          data.metadata.media +
+          PINATA_PRIMARY_IMAGE_SIZE,
       })
     } catch (err) {
       console.log('NFT Contract Error: ', err)

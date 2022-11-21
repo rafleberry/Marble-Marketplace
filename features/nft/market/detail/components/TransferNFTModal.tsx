@@ -94,7 +94,7 @@ const Container = styled(ModalContent)`
   color: white !important;
   overflow: hidden;
   max-width: 1320px !important;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 90vw !important;
     padding: 10px;
     max-height: 100vh;
@@ -111,7 +111,7 @@ const MainWrapper = styled.div`
     font-size: 20px;
     font-family: Mulish;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     flex-direction: column-reverse;
     p {
       font-size: 14px;
@@ -122,7 +122,7 @@ const CardWrapper = styled.div`
   display: flex;
   height: 556px;
   width: 434px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 100%;
     height: 100%;
     justify-content: center;
@@ -145,7 +145,7 @@ const StyledInput = styled.input`
 const Title = styled.div`
   font-size: 30px;
   font-weight: 600;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 20px;
   }
 `

@@ -197,7 +197,7 @@ const ImgDiv = styled.div`
     padding-bottom: 55px;
     width: 55px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 50px;
     padding-bottom: 50px;
   }
@@ -228,7 +228,7 @@ const Title = styled.div`
   @media (max-width: 1550px) {
     font-size: 23px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
   }
 `

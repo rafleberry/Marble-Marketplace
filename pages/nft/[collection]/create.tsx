@@ -468,7 +468,7 @@ const Container = styled.div`
       font-family: Mulish;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 0;
     h1 {
       font-size: 22px;
@@ -506,7 +506,7 @@ const StyledInput = styled.input`
   padding: 20px;
   font-size: 20px;
   font-family: Mulish;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
   }
 `

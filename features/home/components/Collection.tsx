@@ -172,7 +172,7 @@ const Container = styled(SecondGradientBackground)`
   margin: 10px 0;
   padding: 30px 0 20px 0;
   height: 100%;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 10px 0 10px 0;
   }
 `
@@ -198,7 +198,7 @@ const ImgDiv = styled.div`
     padding-bottom: 55px;
     width: 55px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 50px;
   }
 `
@@ -223,7 +223,7 @@ const Title = styled.div`
   @media (max-width: 1550px) {
     font-size: 23px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
   }
 `
@@ -232,7 +232,7 @@ const SubTitle = styled.div`
   @media (max-width: 1550px) {
     font-size: 15px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 12px;
   }
 `

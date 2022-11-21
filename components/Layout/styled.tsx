@@ -72,7 +72,7 @@ export const CreateButton = styled.div`
     font-size: 12px;
     height: 37px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     height: 36px;
     font-size: 12px;
     width: 80px;

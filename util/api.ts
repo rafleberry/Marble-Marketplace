@@ -7,6 +7,7 @@ import { BigNumber } from 'bignumber.js'
 import moment from 'moment'
 import { getCurrentWallet } from './sender-wallet'
 import { getReducedAddress } from './conversion'
+import { PINATA_SECONDARY_IMAGE_SIZE } from './constants'
 
 const config = getConfig()
 
@@ -111,8 +112,10 @@ export const getLogoUriFromAddress = async (address) => {
     })
     return {
       avatar: data.avatar
-        ? process.env.NEXT_PUBLIC_PINATA_URL + data.avatar
-        : '/default.png',
+        ? process.env.NEXT_PUBLIC_PINATA_URL +
+          data.avatar +
+          PINATA_SECONDARY_IMAGE_SIZE
+        : '/default.png' + PINATA_SECONDARY_IMAGE_SIZE,
       name: data.name || getReducedAddress(address),
     }
   } catch (err) {

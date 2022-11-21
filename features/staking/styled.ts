@@ -3,7 +3,7 @@ import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 import { Button } from 'components/Button'
 
 export const Container = styled.div`
-  max-width: 70vw;
+  max-width: 1000px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

@@ -243,7 +243,7 @@ const CardWrapper = styled.div`
   display: flex;
   height: 406px;
   width: 300px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 100%;
     height: 100%;
     justify-content: center;
@@ -258,7 +258,7 @@ const Container = styled(ModalContent)`
   color: white !important;
   overflow: hidden;
   max-width: 1000px !important;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 90vw !important;
     padding: 10px;
     max-height: 100vh;
@@ -270,7 +270,7 @@ const MainWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   column-gap: 30px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     flex-direction: column-reverse;
   }
 `
@@ -300,7 +300,7 @@ const StyledRadio = styled.div<{ isActive: boolean }>`
     font-family: Mulish;
     text-align: center;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 50%;
     padding: 15px;
     h1 {
@@ -324,7 +324,7 @@ const StyledInput = styled(Input)`
 const Title = styled.div`
   font-size: 30px;
   font-weight: 600;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 20px;
   }
 `

@@ -6,15 +6,25 @@ import { RoundedIconComponent } from 'components/RoundedIcon'
 import { isClientMobie } from 'util/device'
 import styled from 'styled-components'
 import { GradientBackground } from 'styles/styles'
+import {
+  PINATA_PRIMARY_IMAGE_SIZE,
+  PINATA_SECONDARY_IMAGE_SIZE,
+} from 'util/constants'
 
 export default function NftCollectionCard({ collection }): JSX.Element {
   return (
     <CollectionDiv className="collection">
       <ImgDiv className="nft-img-div">
-        <Image src={collection.image} alt="NFT Image" />
+        <Image
+          src={collection.image + PINATA_PRIMARY_IMAGE_SIZE}
+          alt="NFT Image"
+        />
       </ImgDiv>
       <HStack marginTop="30px">
-        <Logo src={collection.banner_image} alt="image" />
+        <Logo
+          src={collection.banner_image + PINATA_SECONDARY_IMAGE_SIZE}
+          alt="image"
+        />
         <Stack>
           <Title>{collection.name}</Title>
           <RoundedIconComponent

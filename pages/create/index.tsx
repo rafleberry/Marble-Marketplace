@@ -128,7 +128,7 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 20px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 50px;
     height: 50px;
   }
@@ -144,7 +144,7 @@ const Container = styled.div`
     padding: 100px 30px;
     row-gap: 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 10px;
   }
 `
@@ -156,7 +156,7 @@ const Title = styled.div`
   @media (max-width: 1024px) {
     font-size: 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 22px;
   }
 `
@@ -164,7 +164,7 @@ const SubTitle = styled.div`
   font-size: 30px;
   font-weight: 600;
   text-align: center;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 20px;
   }
 `
@@ -191,7 +191,7 @@ const Collections = styled.div`
     width: 100%;
     padding: 20px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 100%;
     padding: 20px;
   }

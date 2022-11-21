@@ -45,6 +45,11 @@ export const __POOL_REWARDS_ENABLED__ = true // is under development and cannot 
 export const __TRANSFERS_ENABLED__ = JSON.parse(
   process.env.NEXT_PUBLIC_ENABLE_FEATURE_TRANSFERS
 )
+
+export const PINATA_PRIMARY_IMAGE_SIZE =
+  process.env.NEXT_PUBLIC_PINATA_PRIMARY_IMAGE_SIZE
+export const PINATA_SECONDARY_IMAGE_SIZE =
+  process.env.NEXT_PUBLIC_PINATA_SECONDARY_IMAGE_SIZE
 /* /feature flags */
 export const backend_url = 'https://marble-backend.herokuapp.com'
 // export const backend_url = 'http://localhost:3030'

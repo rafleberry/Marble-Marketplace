@@ -361,7 +361,7 @@ const Heading = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 20px;
     flex-direction: column;
     row-gap: 20px;
@@ -379,7 +379,7 @@ const LogoTitle = styled.div`
   @media (max-width: 1024px) {
     font-size: 40px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 30px;
   }
 `
@@ -426,7 +426,7 @@ const Logo = styled.img`
     width: 135px;
     height: 135px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 100px;
     height: 100px;
     border: 3px solid #ffffff21;
@@ -435,7 +435,7 @@ const Logo = styled.img`
 
 const NftList = styled.div`
   padding: 40px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 20px;
     width: 100%;
   }

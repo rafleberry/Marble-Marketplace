@@ -222,7 +222,7 @@ const Banner = styled.div`
   backdrop-filter: blur(30px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 10;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     height: 216px;
   }
 `
@@ -241,7 +241,7 @@ const LogoImage = styled.div`
     top: -75px;
     left: calc(50% - 75px);
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 120px;
     height: 120px;
     top: -60px;
@@ -299,7 +299,7 @@ const ProfileInfo = styled(GradientBackground)`
   @media (max-width: 1550px) {
     padding: 120px 30px 30px 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 80px 25px 25px 25px;
   }
 `
@@ -316,7 +316,7 @@ const Card = styled(GradientBackground)`
     opacity: 0.2;
   }
   padding: 20px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     p {
       font-size: 14px;
     }
@@ -327,7 +327,7 @@ const ProfileNFTInfo = styled.div`
   @media (max-width: 1200px) {
     padding: 10px 10px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 10px 0px;
     width: 100%;
   }
@@ -350,7 +350,7 @@ const StyledTab = styled(Tab)`
   font-size: 22px;
   font-weight: 400;
   padding: 20px 70px 20px 10px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 12px;
     padding: 10px 35px 10px 0px;
   }

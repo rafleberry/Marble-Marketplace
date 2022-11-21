@@ -18,7 +18,7 @@ const Container = styled(SecondGradientBackground)`
     border-radius: 30px;
     opacity: 0.3;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 15px 20px;
   }
 `
@@ -26,7 +26,7 @@ const Container = styled(SecondGradientBackground)`
 const Title = styled.div`
   font-size: 20px;
   font-weight: 700;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 16px;
   }
 `

@@ -3,6 +3,10 @@ import styled from 'styled-components'
 import { default_image } from 'util/constants'
 import { getReducedAddress } from 'util/conversion'
 import { GradientBackground } from 'styles/styles'
+import {
+  PINATA_PRIMARY_IMAGE_SIZE,
+  PINATA_SECONDARY_IMAGE_SIZE,
+} from 'util/constants'
 
 const ProfileCard = ({ profileInfo }) => {
   return (
@@ -11,16 +15,20 @@ const ProfileCard = ({ profileInfo }) => {
         <Image
           src={
             profileInfo.banner
-              ? process.env.NEXT_PUBLIC_PINATA_URL + profileInfo.banner
-              : default_image
+              ? process.env.NEXT_PUBLIC_PINATA_URL +
+                profileInfo.banner +
+                PINATA_PRIMARY_IMAGE_SIZE
+              : default_image + PINATA_PRIMARY_IMAGE_SIZE
           }
           alt="NFT Image"
         />
         <LogoImage
           src={
             profileInfo.avatar
-              ? process.env.NEXT_PUBLIC_PINATA_URL + profileInfo.avatar
-              : default_image
+              ? process.env.NEXT_PUBLIC_PINATA_URL +
+                profileInfo.avatar +
+                PINATA_SECONDARY_IMAGE_SIZE
+              : default_image + PINATA_SECONDARY_IMAGE_SIZE
           }
           alt="avatar"
         />

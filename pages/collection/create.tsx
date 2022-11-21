@@ -368,7 +368,7 @@ const Container = styled.div`
   @media (max-width: 1024px) {
     padding: 100px 50px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 10px;
   }
 `
@@ -384,7 +384,7 @@ const Title = styled.div`
   @media (max-width: 1024px) {
     font-size: 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 22px;
   }
 `

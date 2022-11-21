@@ -355,7 +355,7 @@ const Container = styled(ModalContent)`
   padding: 30px;
   color: white !important;
   max-width: 900px !important;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     max-width: 90vw !important;
     padding: 5px;
   }
@@ -390,7 +390,7 @@ const Title = styled.div`
   font-weight: 600;
   font-size: 30px;
   text-align: center;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 20px;
   }
 `
@@ -399,7 +399,7 @@ const Text = styled.div`
   font-size: 14px;
   font-weight: 700;
   padding: 0 40px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     font-size: 12px;
   }
 `

@@ -237,7 +237,7 @@ const ContainerForFooterLinks = styled.div`
 const StyledFooter = styled.footer`
   color: white;
   position: relative;
-  background: transparent;
+  /* background: transparent; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -254,10 +254,11 @@ const StyledFooter = styled.footer`
     background-repeat: no-repeat;
     background-size: cover;
   }
-  /* 
-  background-image: url(/images/CurveLine.png);
+
+  /* background-image: url(/images/CurveLine.svg);
   background-repeat: no-repeat;
-  background-size: 100% 100%; */
+  background-size: cover;
+  background-position: top; */
   /* & > img {
     position: absolute;
     left: 0;

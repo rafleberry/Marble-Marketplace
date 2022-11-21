@@ -1639,7 +1639,7 @@ export const NFTDetail = ({ collectionId, id }) => {
 }
 const Container = styled('div', {
   padding: '50px',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     padding: '20px',
   },
   maxWidth: '1700px',
@@ -1649,7 +1649,7 @@ const NFTInfoWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   columnGap: '40px',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     flexDirection: 'column',
     rowGap: '40px',
   },
@@ -1661,7 +1661,7 @@ const NftInfoTag = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   rowGap: '40px',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     width: '100%',
     rowGap: '20px',
   },
@@ -1676,7 +1676,7 @@ const NftSale = styled('div', {
   '&.disabled': {
     color: '$textColors$disabled',
   },
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     padding: '$4 $16',
   },
 })
@@ -1687,7 +1687,7 @@ const PriceTag = styled('div', {
   ' .price-lbl': {
     color: '$colors$link',
   },
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     padding: '$4 $16',
   },
 })
@@ -1715,7 +1715,7 @@ const ButtonGroup = styled('div', {
       borderRadius: '2px',
     },
   },
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     flexDirection: 'column',
   },
 })
@@ -1723,7 +1723,7 @@ const ButtonGroup = styled('div', {
 const Span = styled('span', {
   fontWeight: '600',
   fontSize: '20px',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     fontSize: '16px',
   },
 })
@@ -1738,7 +1738,7 @@ const Banner = styled('div', {
     paddingTop: '100px',
     height: '850px',
   },
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     height: '560px',
     paddingTop: '60px',
   },
@@ -1765,7 +1765,7 @@ const NFTImageWrapper = styled('div', {
   display: 'block',
   borderRadius: '30px',
   margin: '0 auto',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     height: '430px',
     width: '350px',
   },
@@ -1782,7 +1782,7 @@ const NFTImage = styled('img', {
   objectPosition: 'center',
   zIndex: '-1',
   borderRadius: '20px',
-  '@media (max-width: 480px)': {
+  '@media (max-width: 650px)': {
     top: '20px',
     left: '20px',
     bottom: '20px',

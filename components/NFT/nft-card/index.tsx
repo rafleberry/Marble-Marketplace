@@ -3,10 +3,13 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import DateCountdown from 'components/DateCountdownMin'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
-import { convertMicroDenomToDenom } from 'util/conversion'
 import { getSimpleProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
 import { GradientBackground } from 'styles/styles'
+import {
+  PINATA_PRIMARY_IMAGE_SIZE,
+  PINATA_SECONDARY_IMAGE_SIZE,
+} from 'util/constants'
 
 const saleType = {
   NotSale: 'NOT ON SALE',
@@ -38,7 +41,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
     >
       <ChakraProvider>
         <ImgDiv className="nft-img-url">
-          <Image src={nft.image} alt="NFT Image" />
+          <Image src={nft.image + PINATA_PRIMARY_IMAGE_SIZE} alt="NFT Image" />
         </ImgDiv>
         <Stack paddingTop="15px">
           <Flex justifyContent="space-between">
@@ -47,8 +50,10 @@ export function NftCard({ nft, id, type }): JSX.Element {
               <Logo
                 src={
                   profile.avatar
-                    ? `${process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar}`
-                    : '/default.png'
+                    ? `${
+                        process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar
+                      }${PINATA_SECONDARY_IMAGE_SIZE}`
+                    : '/default.png' + PINATA_SECONDARY_IMAGE_SIZE
                 }
                 alt="logo"
                 size="34px"
@@ -64,7 +69,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
                   <Value>{nft.highest_bid || nft.price}</Value>
                   &nbsp;
                   <img
-                    src={tokenInfo.logoURI}
+                    src={tokenInfo.logoURI + PINATA_SECONDARY_IMAGE_SIZE}
                     alt="token"
                     width="20px"
                     height="20px"

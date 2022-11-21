@@ -151,7 +151,7 @@ const DropzoneContainer = styled.div`
 `
 const ImageWrapper = styled.div`
   padding: 80px;
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     padding: 40px;
   }
 `

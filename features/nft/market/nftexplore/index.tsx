@@ -255,7 +255,7 @@ const FilterCard = styled.div<{ isActive: boolean }>`
   text-align: center;
   font-family: Mulish;
   color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
-  @media (max-width: 480px) {
+  @media (max-width: 650px) {
     width: 114px;
     font-size: 12px;
   }
