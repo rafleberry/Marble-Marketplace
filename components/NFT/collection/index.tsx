@@ -17,33 +17,29 @@ export function CategoryTab({
     activeCategoryId === tabId ? true : false
   return (
     <Container>
-      <CategoryDiv className="desktop-section category-menus">
-        {categories.length > 0 &&
-          categories.map(
-            (category, idx) =>
-              idx < 11 && (
-                <CategoryItem
-                  key={category.id}
-                  onClick={() => setActiveCategoryId(category.name)}
-                  isActive={getActiveTabIfActive(category.name)}
-                >
-                  {category.name}
-                </CategoryItem>
-              )
-          )}
-      </CategoryDiv>
+      {categories.length > 0 &&
+        categories.map(
+          (category, idx) =>
+            idx < 11 && (
+              <CategoryItem
+                key={category.id}
+                onClick={() => setActiveCategoryId(category.name)}
+                isActive={getActiveTabIfActive(category.name)}
+              >
+                {category.name}
+              </CategoryItem>
+            )
+        )}
     </Container>
   )
 }
 
 const Container = styled.div`
   margin: 30px 0;
-  @media (max-width: 480px) {
-    width: 1366px;
-  }
+  display: flex;
+  column-gap: 5px;
+  overflow: auto;
 `
-
-const CategoryDiv = styled.div``
 
 const CategoryItem = styled.div<{ isActive: boolean }>`
   border-radius: 30px;
@@ -66,8 +62,4 @@ const CategoryItem = styled.div<{ isActive: boolean }>`
   text-align: center;
   font-family: Mulish;
   color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
-  @media (max-width: 480px) {
-    width: 114px;
-    font-size: 12px;
-  }
 `

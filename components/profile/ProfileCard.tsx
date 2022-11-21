@@ -50,7 +50,7 @@ const Container = styled(GradientBackground)`
   @media (max-width: 1550px) {
     padding: 15px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 320px;
   }
 `

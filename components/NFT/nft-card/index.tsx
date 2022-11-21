@@ -33,7 +33,6 @@ export function NftCard({ nft, id, type }): JSX.Element {
   }, [nft])
   return (
     <NftCardDiv
-      className="nft-card"
       color={backgroundColor[nft.saleType]}
       revertColor={nft.saleType === 'Direct Sell'}
     >
@@ -108,6 +107,7 @@ const NftCardDiv = styled(GradientBackground)<{
   padding: 30px;
   height: 100%;
   width: 100%;
+  min-width: 320px;
   cursor: pointer;
   color: ${({ revertColor }) => (revertColor ? 'black' : 'white')};
   @media (max-width: 1550px) {
@@ -120,7 +120,7 @@ const NftCardDiv = styled(GradientBackground)<{
       font-size: 16px;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 320px;
   }
 `

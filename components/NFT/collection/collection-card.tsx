@@ -74,7 +74,7 @@ const CollectionDiv = styled(GradientBackground)`
   @media (max-width: 1450px) {
     padding: 15px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     width: 320px;
   }
 `

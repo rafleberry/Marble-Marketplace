@@ -13,7 +13,7 @@ import { nftViewFunction } from 'util/near'
 import { NftCollection } from 'services/nft'
 import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
-import { isMobile } from 'util/device'
+import { isMobile, isPC } from 'util/device'
 import { SecondGradientBackground } from 'styles/styles'
 
 const collectionList = [27, 111, 112]
@@ -134,7 +134,7 @@ const Home = () => {
                 <Round>
                   <StyledImg src="/images/createIcon.svg" alt="create" />
                 </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
+                <Stack spacing={isPC() ? 5 : '5px'}>
                   <h1>Create</h1>
                   <TextContent>
                     Mint NFTs in stunning Augmented Reality (AR) and Virtual
@@ -146,7 +146,7 @@ const Home = () => {
                 <Round>
                   <StyledImg src="/images/earnIcon.svg" alt="earn" />
                 </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
+                <Stack spacing={isPC() ? 5 : '5px'}>
                   <h1>Earn</h1>
                   <TextContent>
                     Accrue royalties on secondary NFT sales using our smart
@@ -158,7 +158,7 @@ const Home = () => {
                 <Round>
                   <StyledImg src="/images/followIcon.svg" alt="follow" />
                 </Round>
-                <Stack spacing={isMobile() ? '5px' : 5}>
+                <Stack spacing={isPC() ? 5 : '5px'}>
                   <h1>Follow</h1>
                   <TextContent>
                     Keep an eye on your favourite NFT creators with Marble
@@ -207,7 +207,7 @@ const DestinationGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 20px;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     display: flex;
     flex-direction: column;
     row-gap: 15px;
@@ -245,9 +245,12 @@ const MarbleCardGrid = styled.div`
   @media (max-width: 1550px) {
     padding: 0 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1000px) {
     display: flex;
     flex-direction: column-reverse;
+    * {
+      align-items: center;
+    }
   }
 `
 const StyledImg = styled.img`
@@ -256,6 +259,10 @@ const StyledImg = styled.img`
 
 const Container = styled.div`
   color: white;
+  @media (max-width: 1550px) {
+    max-width: 1100px;
+    margin-inline: auto;
+  }
 `
 const StyledP = styled.div`
   color: white;
@@ -266,6 +273,9 @@ const StyledP = styled.div`
   width: 1000px;
   @media (max-width: 1550px) {
     font-size: 18px;
+  }
+  @media (max-width: 1050px) {
+    width: 100%;
   }
   @media (max-width: 480px) {
     font-size: 16px;
@@ -312,7 +322,7 @@ const StyledPaper = styled(SecondGradientBackground)`
   @media (max-width: 1550px) {
     padding: 40px 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     display: grid;
     grid-template-columns: auto auto;
     padding: 10px;
@@ -364,7 +374,7 @@ const Round = styled.div`
   align-items: center;
   border-radius: 50%;
   margin: 50px auto;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 70px;
     height: 70px;
     margin: 0;

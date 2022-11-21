@@ -13,8 +13,10 @@ import { getAllUsers, getFilteredUsers } from 'hooks/useProfile'
 import { Sort, Filter, CloseCircle } from 'icons'
 import ProfileCard from 'components/profile/ProfileCard'
 import Link from 'next/link'
-import { isMobile } from 'util/device'
+import { isMobile, isPC } from 'util/device'
 import { GradientBackground } from 'styles/styles'
+
+const profileUnit = 12
 
 const AllProfiles = ({ profileCounts }) => {
   const [profiles, setProfiles] = useState([])
@@ -30,7 +32,7 @@ const AllProfiles = ({ profileCounts }) => {
         const selectedUsers = await getAllUsers({
           sort: asc ? 'asc' : 'desc',
           skip: 0,
-          limit: 15,
+          limit: profileUnit,
         })
         setProfiles(selectedUsers)
         return
@@ -40,7 +42,7 @@ const AllProfiles = ({ profileCounts }) => {
         sort: asc ? 'asc' : 'desc',
         creator: creator,
         skip: 0,
-        limit: 15,
+        limit: profileUnit,
       })
       setProfiles(filteredUsers)
     })()
@@ -51,9 +53,9 @@ const AllProfiles = ({ profileCounts }) => {
         const selectedUsers = await getAllUsers({
           sort: asc ? 'asc' : 'desc',
           skip: profiles.length,
-          limit: 15,
+          limit: profileUnit,
         })
-        if (selectedUsers.length < 15) setHasMore(false)
+        if (selectedUsers.length < profileUnit) setHasMore(false)
         setProfiles(profiles.concat(selectedUsers))
         return
       }
@@ -62,9 +64,9 @@ const AllProfiles = ({ profileCounts }) => {
         sort: asc ? 'asc' : 'desc',
         creator: creator,
         skip: profiles.length,
-        limit: 15,
+        limit: profileUnit,
       })
-      if (filteredUsers.length < 15) setHasMore(false)
+      if (filteredUsers.length < profileUnit) setHasMore(false)
       setProfiles(profiles.concat(filteredUsers))
     } catch (err) {
       console.log('all fetched')
@@ -72,7 +74,7 @@ const AllProfiles = ({ profileCounts }) => {
   }
   return (
     <Container>
-      {isMobile() ? (
+      {!isPC() ? (
         <HStack justifyContent="space-between" paddingBottom="20px">
           <MobileSortWrapper onClick={() => setFilterShow(true)}>
             Filter
@@ -159,7 +161,7 @@ const AllProfiles = ({ profileCounts }) => {
           </MobileFilterWrapper>
         </MobileFilterContainer>
       )}
-      {!isMobile() && (
+      {isPC() && (
         <SortComponent>
           <p>Sort by &nbsp;</p>
           <SortWrapper onClick={() => setAsc(!asc)}>
@@ -229,7 +231,7 @@ const Container = styled.div`
     font-size: 16px;
     font-family: Mulish;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     display: flex;
     flex-direction: column;
     padding: 20px 0;
@@ -245,9 +247,9 @@ const ProfilesContainer = styled.div`
   @media (max-width: 1550px) {
     padding: 0 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 0 0px;
-    width: max-content;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `
 const Card = styled(GradientBackground)`

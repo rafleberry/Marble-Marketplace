@@ -381,7 +381,7 @@ export default function NFTCreate() {
                     </Stack>
                   </Stack>
                   <Divider />
-                  <Stack spacing="50px" padding="0 150px">
+                  <Stack spacing="50px" maxWidth="600px" margin="0 auto">
                     <a>Read our full community guidelines here</a>
                     <Stack>
                       {error && (
@@ -452,6 +452,22 @@ const Container = styled.div`
     font-family: Mulish;
     cursor: pointer;
   }
+  @media (max-width: 1024px) {
+    padding-top: 100px;
+    h1 {
+      font-size: 30px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 14px;
+    }
+    p {
+      font-size: 14px;
+      font-family: Mulish;
+    }
+  }
   @media (max-width: 480px) {
     padding: 0;
     h1 {
@@ -475,10 +491,9 @@ const Card = styled(SecondGradientBackground)<{ fullWidth: boolean }>`
     border-radius: 30px;
   }
   padding: 40px;
-
-  width: ${({ fullWidth }) => (fullWidth ? '100%' : '60%')};
-  @media (max-width: 480px) {
-    width: 100%;
+  max-width: 1000px;
+  width: 100%;
+  @media (max-width: 1024px) {
     padding: 20px;
   }
 `
@@ -533,7 +548,7 @@ const NFTContainer = styled(SecondGradientBackground)`
   padding: 25px;
 
   height: fit-content;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 100%;
   }
 `
@@ -557,10 +572,10 @@ const Image = styled.img`
 `
 const MainWrapper = styled.div`
   display: flex;
-  aling-items: start;
+  align-items: start;
   column-gap: 40px;
   justify-content: space-between;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     flex-direction: column-reverse;
     width: 100%;
     row-gap: 20px;

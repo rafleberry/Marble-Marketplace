@@ -211,14 +211,18 @@ export const Collection = ({ id }: CollectionProps) => {
                   address={collectionInfo.creator}
                 />
               </ProfileInfoItem>
-              <ProfileInfoItem>
-                <ProfileInfoTitle>Symbol</ProfileInfoTitle>
-                <ProfileInfoContent>NEAR</ProfileInfoContent>
-              </ProfileInfoItem>
-              <ProfileInfoItem>
-                <ProfileInfoTitle>Collection Of</ProfileInfoTitle>
-                <ProfileInfoContent>{id}</ProfileInfoContent>
-              </ProfileInfoItem>
+              {!isMobile() && (
+                <ProfileInfoItem>
+                  <ProfileInfoTitle>Symbol</ProfileInfoTitle>
+                  <ProfileInfoContent>NEAR</ProfileInfoContent>
+                </ProfileInfoItem>
+              )}
+              {!isMobile() && (
+                <ProfileInfoItem>
+                  <ProfileInfoTitle>Collection Of</ProfileInfoTitle>
+                  <ProfileInfoContent>{id}</ProfileInfoContent>
+                </ProfileInfoItem>
+              )}
               <ProfileInfoItem>
                 <ProfileInfoTitle>Total Sales</ProfileInfoTitle>
                 <ProfileInfoContent>10 NEAR</ProfileInfoContent>
@@ -316,9 +320,10 @@ export const Collection = ({ id }: CollectionProps) => {
           {nfts.length === 0 && wallet.accountId === collectionInfo.creator && (
             <Stack
               spacing="50px"
-              width="50%"
+              width={isMobile() ? '100%' : '50%'}
               alignItems="center"
               margin="0 auto"
+              textAlign="center"
             >
               <Text fontSize="30px" fontWeight="700">
                 Customize Your Collection
@@ -358,6 +363,11 @@ const Heading = styled.div`
   align-items: center;
   @media (max-width: 480px) {
     padding: 20px;
+    flex-direction: column;
+    row-gap: 20px;
+    button {
+      width: 100%;
+    }
   }
 `
 const LogoTitle = styled.div`
@@ -365,6 +375,9 @@ const LogoTitle = styled.div`
   font-weight: 900;
   @media (max-width: 1550px) {
     font-size: 72px;
+  }
+  @media (max-width: 1024px) {
+    font-size: 40px;
   }
   @media (max-width: 480px) {
     font-size: 30px;
@@ -387,9 +400,9 @@ const Banner = styled.div`
     height: 675px;
     padding: 150px 50px 50px 50px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     height: 560px;
-    padding: 150px 20px 20px 20px;
+    padding: 50px 20px 20px 20px;
   }
 `
 const BannerImage = styled.img`
@@ -453,6 +466,11 @@ const ProfileInfo = styled.div`
   width: fit-content;
   align-items: center;
   column-gap: 60px;
+  @media (max-width: 1024px) {
+    position: relative;
+    column-gap: 20px;
+    bottom: 0;
+  }
 `
 
 const ReportWrapper = styled.div`
@@ -486,6 +504,10 @@ const ReportWrapper = styled.div`
   svg {
     width: 20px;
   }
+  @media (max-width: 1024px) {
+    right: 20px;
+    bottom: 20px;
+  }
 `
 const ProfileInfoItem = styled.div`
   display: flex;
@@ -505,7 +527,7 @@ const ProfileInfoContent = styled.div`
 const Filter = styled.div`
   display: flex;
   column-gap: 20px;
-  width: 800px;
+  overflow: auto;
 `
 const FilterCard = styled.div<{ isActive: boolean }>`
   border-radius: 30px;
@@ -528,15 +550,15 @@ const FilterCard = styled.div<{ isActive: boolean }>`
   text-align: center;
   font-family: Mulish;
   color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
-  @media (max-width: 480px) {
-    width: 114px;
-    font-size: 12px;
-  }
 `
 const FilterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 30px 30px 0 30px;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    row-gap: 20px;
+  }
 `
 const Sort = styled.div`
   background: linear-gradient(
@@ -557,6 +579,7 @@ const Sort = styled.div`
   align-items: center;
   column-gap: 20px;
   cursor: pointer;
+  width: fit-content;
   svg {
     width: 15px;
   }

@@ -365,6 +365,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (max-width: 1024px) {
+    padding: 100px 50px;
+  }
   @media (max-width: 480px) {
     padding: 10px;
   }
@@ -378,6 +381,9 @@ const Title = styled.div`
   font-size: 46px;
   font-weight: 600;
   text-align: center;
+  @media (max-width: 1024px) {
+    font-size: 30px;
+  }
   @media (max-width: 480px) {
     font-size: 22px;
   }
@@ -385,15 +391,14 @@ const Title = styled.div`
 const CardTitle = styled.div`
   font-size: 30px;
   font-weight: 500;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 20px;
-    text-align: center;
   }
 `
 const SubTitle = styled.div`
   font-size: 25px;
   font-weight: 500;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 14px;
   }
 `
@@ -401,7 +406,7 @@ const InputLabel = styled.div`
   font-size: 20px;
   font-weight: 500;
   margin-left: 30px;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 12px;
     font-weight: 400;
   }
@@ -410,7 +415,7 @@ const RoyaltyLabel = styled.div`
   font-size: 20px;
   font-weight: 500;
   margin-left: 30px;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 12px;
     margin-left: 0;
   }
@@ -425,7 +430,7 @@ const Collections = styled.div`
     inset 0px 14px 24px rgba(17, 20, 29, 0.4);
   backdrop-filter: blur(30px);
   border-radius: 30px;
-  width: 1000px;
+  max-width: 1000px;
   padding: 50px;
   border: 1px solid;
   border-image-source: linear-gradient(
@@ -433,7 +438,7 @@ const Collections = styled.div`
     rgba(255, 255, 255, 0.2) 1.02%,
     rgba(255, 255, 255, 0) 100%
   );
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     width: 100%;
     padding: 20px;
   }
@@ -441,7 +446,7 @@ const Collections = styled.div`
 const SubText = styled.div`
   font-size: 18px;
   font-family: Mulish;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 14px;
     font-weight: 400;
   }
@@ -453,7 +458,7 @@ const StyledLink = styled.a`
   font-weight: 600;
   color: #cccccc;
   text-decoration: underline;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 14px;
     font-weight: 400;
   }
@@ -468,7 +473,7 @@ const StyledInput = styled.input`
   padding: 20px;
   font-size: 20px;
   font-family: Mulish;
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     font-size: 16px;
   }
 `

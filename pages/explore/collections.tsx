@@ -32,12 +32,16 @@ export default function Explores() {
   )
 }
 const StyledTabList = styled.div`
-  width: fit-content;
   border-bottom: 2px solid;
   border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 400;
   display: flex;
   margin-bottom: 20px;
+  overflow: auto;
+  width: fit-content;
+  @media (max-width: 800px) {
+    width: auto;
+  }
 `
 
 const StyledTab = styled.div<{ isActive: boolean }>`

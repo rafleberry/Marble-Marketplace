@@ -22,7 +22,7 @@ export const Explore = () => {
           methodName: 'nft_get_series',
           args: {
             from_index: from_start ? '0' : nftcollections.length.toString(),
-            limit: 20,
+            limit: 12,
           },
         })
         return data

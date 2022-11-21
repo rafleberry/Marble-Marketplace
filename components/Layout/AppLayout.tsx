@@ -3,7 +3,7 @@ import { NavigationSidebar } from './NavigationSidebar'
 import { FooterBar } from './FooterBar'
 import { MobileFooterBar } from './MobileFooter'
 import { useEffect, useState } from 'react'
-import { isMobile } from 'util/device'
+import { isMobile, isPC } from 'util/device'
 import TagManager from 'react-gtm-module'
 import { FetchCoinInfo } from 'hooks/useTokenBalance'
 import useExplorer from 'hooks/useExplorer'
@@ -12,7 +12,7 @@ const tagManagerArgs = {
 }
 
 export const AppLayout = ({
-  footerBar = isMobile() ? <MobileFooterBar /> : <FooterBar />,
+  footerBar = isPC() ? <FooterBar /> : <MobileFooterBar />,
   children,
   fullWidth,
   hasBanner = false,
@@ -69,10 +69,12 @@ const StyledContainer = styled.div<{ hasBanner: boolean }>`
   width: 100%;
   @media (max-width: 1600px) {
     margin-top: 60px;
-    ${({ hasBanner }) => !hasBanner && 'max-width: 1200px'};
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
+    margin-top: 80px;
     padding: 10px;
+  }
+  @media (max-width: 650px) {
     margin-top: 0;
   }
 `

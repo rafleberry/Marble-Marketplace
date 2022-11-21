@@ -111,7 +111,7 @@ const StyledButton = styled.button`
   color: black;
   font-size: 18px;
   font-weight: bold;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 100%;
   }
 `
@@ -119,7 +119,7 @@ const IntroContainer = styled.div`
   display: flex;
   margin-top: 50px;
   justify-content: space-between;
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     flex-direction: column-reverse;
     margin-top: 0px;
   }
@@ -132,7 +132,7 @@ const Title = styled.div`
   @media (max-width: 1550px) {
     font-size: 40px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     font-size: 26px;
     text-align: center;
     margin-top: 20px;
@@ -151,7 +151,7 @@ const MiniInfoCard = styled(GradientBackground)`
     border-radius: 20px;
     opacity: 0.2;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 100%;
   }
 `
@@ -188,7 +188,7 @@ const NFTPicture = styled(SecondGradientBackground)`
   @media (max-width: 1550px) {
     padding: 30px;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     width: 100%;
     padding: 20px;
   }
@@ -221,9 +221,6 @@ const IntroWrapper = styled.div`
   @media (max-width: 1550px) {
     row-gap: 20px;
   }
-  @media (max-width: 480px) {
-    row-gap: 20px;
-  }
 `
 const PriceArea = styled.div`
   display: flex;
@@ -252,7 +249,7 @@ const PriceArea = styled.div`
       font-size: 16px;
     }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 800px) {
     align-items: center;
 
     p {

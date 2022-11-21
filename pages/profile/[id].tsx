@@ -97,7 +97,6 @@ export default function Home() {
     <AppLayout fullWidth={true} hasBanner={true}>
       <Container>
         <Banner>
-          {/* <BannerImage src={profile.banner || default_image} alt="banner" /> */}
           <BannerImageUpload
             hash={profile.banner}
             setHash={handleSetHash}
@@ -273,7 +272,7 @@ const ProfileContainer = styled.div`
     font-weight: 600;
     text-align: center;
   }
-  @media (max-width: 480px) {
+  @media (max-width: 1200px) {
     display: flex;
     flex-direction: column;
     padding: 0 20px;
@@ -325,6 +324,9 @@ const Card = styled(GradientBackground)`
 `
 const ProfileNFTInfo = styled.div`
   padding: 10px 50px;
+  @media (max-width: 1200px) {
+    padding: 10px 10px;
+  }
   @media (max-width: 480px) {
     padding: 10px 0px;
     width: 100%;

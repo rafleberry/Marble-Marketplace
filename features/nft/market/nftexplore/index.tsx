@@ -33,7 +33,7 @@ const Explore = () => {
         methodName: 'nft_tokens',
         args: {
           from_index: nfts.length.toString(),
-          limit: 20,
+          limit: 12,
         },
       })
     } catch (error) {
@@ -213,20 +213,26 @@ const Explore = () => {
   )
 }
 
-const ExploreWrapper = styled.div``
+const ExploreWrapper = styled.div`
+  width: 100%;
+`
 const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding: 20px 0;
   gap: 20px;
+  overflow: auto;
   @media (max-width: 1550px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `
 const Filter = styled.div`
   display: flex;
   column-gap: 20px;
-  width: 800px;
+  overflow: auto;
 `
 const FilterCard = styled.div<{ isActive: boolean }>`
   border-radius: 30px;
@@ -253,17 +259,5 @@ const FilterCard = styled.div<{ isActive: boolean }>`
     width: 114px;
     font-size: 12px;
   }
-`
-const NumberWrapper = styled.div<{ isActive: boolean }>`
-  height: 34px;
-  background: ${({ isActive }) =>
-    isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.1)'};
-  color: ${({ isActive }) => (isActive ? 'black' : 'white')};
-  border-radius: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  margin-right: 10px;
 `
 export default Explore
