@@ -60,7 +60,7 @@ import {
   formatHera,
 } from 'util/conversion'
 import { NFTName, MoreTitle, RoyaltyContainer, NftBuyOfferTag } from './styled'
-import { isMobile } from 'util/device'
+import { isMobile, isPC } from 'util/device'
 import { default_image } from 'util/constants'
 
 const DENOM_UNIT = {
@@ -835,8 +835,8 @@ export const NFTDetail = ({ collectionId, id }) => {
           <NftInfoTag>
             <NFTName>{nft.name}</NFTName>
             <Stack
-              spacing={isMobile() ? 8 : 20}
-              flexDirection={isMobile() ? 'column' : 'row'}
+              spacing={isPC() ? 20 : 8}
+              flexDirection={isPC() ? 'row' : 'column'}
             >
               <Stack spacing={3} marginRight="20px">
                 <Text fontSize="14px">Collection</Text>
@@ -852,7 +852,7 @@ export const NFTDetail = ({ collectionId, id }) => {
               <HStack
                 // spacing={20}
                 justifyContent="flex-start"
-                marginTop={isMobile() ? 'auto' : '0 !important'}
+                marginTop={isPC() ? '0 !important' : 'auto'}
               >
                 <Stack spacing={3} marginRight="20px">
                   <Text fontSize="14px">Created By</Text>
@@ -872,7 +872,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                 </Stack>
               </HStack>
             </Stack>
-            {isMobile() && (
+            {!isPC() && (
               <NftInfoTag>
                 {marketStatus.isOnMarket ? (
                   <NftBuyOfferTag className="nft-buy-offer">
@@ -1216,7 +1216,7 @@ export const NFTDetail = ({ collectionId, id }) => {
               </NftInfoTag>
             )}
             <Stack>
-              <Text fontSize={isMobile() ? '24px' : '28px'} fontWeight="700">
+              <Text fontSize={isPC() ? '28px' : '24px'} fontWeight="700">
                 Royalty
               </Text>
               {Object.keys(nft.royalty).map((element, index) => (
@@ -1239,7 +1239,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                   {nft.createdAt}
                 </Text>
               </Card>
-              {isMobile() && marketStatus.data && marketStatus.data.bids && (
+              {!isPC() && marketStatus.data && marketStatus.data.bids && (
                 <Card title="Bid History">
                   <SimpleTable
                     data={marketStatus.data.bids}
@@ -1251,7 +1251,7 @@ export const NFTDetail = ({ collectionId, id }) => {
             </Stack>
           </NftInfoTag>
 
-          {!isMobile() && (
+          {isPC() && (
             <NftInfoTag>
               {marketStatus.isOnMarket ? (
                 <NftBuyOfferTag className="nft-buy-offer">
@@ -1639,7 +1639,7 @@ export const NFTDetail = ({ collectionId, id }) => {
 }
 const Container = styled('div', {
   padding: '50px',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     padding: '20px',
   },
   maxWidth: '1700px',
@@ -1649,7 +1649,7 @@ const NFTInfoWrapper = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   columnGap: '40px',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     flexDirection: 'column',
     rowGap: '40px',
   },
@@ -1661,7 +1661,7 @@ const NftInfoTag = styled('div', {
   display: 'flex',
   flexDirection: 'column',
   rowGap: '40px',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     width: '100%',
     rowGap: '20px',
   },
@@ -1676,7 +1676,7 @@ const NftSale = styled('div', {
   '&.disabled': {
     color: '$textColors$disabled',
   },
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     padding: '$4 $16',
   },
 })
@@ -1687,7 +1687,7 @@ const PriceTag = styled('div', {
   ' .price-lbl': {
     color: '$colors$link',
   },
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     padding: '$4 $16',
   },
 })
@@ -1715,7 +1715,7 @@ const ButtonGroup = styled('div', {
       borderRadius: '2px',
     },
   },
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     flexDirection: 'column',
   },
 })
@@ -1723,7 +1723,7 @@ const ButtonGroup = styled('div', {
 const Span = styled('span', {
   fontWeight: '600',
   fontSize: '20px',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     fontSize: '16px',
   },
 })
@@ -1738,7 +1738,7 @@ const Banner = styled('div', {
     paddingTop: '100px',
     height: '850px',
   },
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     height: '560px',
     paddingTop: '60px',
   },
@@ -1765,7 +1765,7 @@ const NFTImageWrapper = styled('div', {
   display: 'block',
   borderRadius: '30px',
   margin: '0 auto',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     height: '430px',
     width: '350px',
   },
@@ -1782,7 +1782,7 @@ const NFTImage = styled('img', {
   objectPosition: 'center',
   zIndex: '-1',
   borderRadius: '20px',
-  '@media (max-width: 650px)': {
+  '@media (max-width: 1024px)': {
     top: '20px',
     left: '20px',
     bottom: '20px',

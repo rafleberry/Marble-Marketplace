@@ -31,6 +31,13 @@ export const StakingCardWrapper = styled(SecondGradientBackground)`
   @media (max-width: 1550px) {
     padding: 20px;
   }
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    padding: 10px;
+  }
 `
 export const CollectionCardWrapper = styled.div``
 
@@ -39,6 +46,7 @@ export const CollectionContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding-left: 30px;
+  width: 100%;
   h1 {
     font-size: 42px;
     font-weight: 500;
@@ -48,12 +56,20 @@ export const CollectionContent = styled.div`
       font-size: 36px;
     }
   }
+  @media (max-width: 1024px) {
+    text-align: center;
+    padding-left: 0;
+  }
 `
 
 export const StakingInfoContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   row-gap: 30px;
+  @media (max-width: 650px) {
+    display: flex;
+    flex-direction: column;
+  }
 `
 export const InfoContent = styled.div`
   h2 {
@@ -73,12 +89,28 @@ export const InfoContent = styled.div`
       font-size: 16px;
     }
   }
+  @media (max-width: 650px) {
+    display: flex;
+    justify-content: space-between;
+    h2 {
+      font-size: 18px;
+    }
+    h3 {
+      font-size: 15px;
+    }
+  }
 `
 
 export const ButtonWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 50px;
+  @media (max-width: 650px) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding-top: 50px;
+  }
 `
 
 export const OwnedNftsContainer = styled.div`

@@ -180,6 +180,7 @@ const Collections = styled.div`
   backdrop-filter: blur(30px);
   border-radius: 30px;
   max-width: 1000px;
+  width: 100%;
   padding: 50px;
   border: 1px solid;
   border-image-source: linear-gradient(
@@ -188,11 +189,9 @@ const Collections = styled.div`
     rgba(255, 255, 255, 0) 100%
   );
   @media (max-width: 1024px) {
-    width: 100%;
     padding: 20px;
   }
   @media (max-width: 650px) {
-    width: 100%;
     padding: 20px;
   }
 `
