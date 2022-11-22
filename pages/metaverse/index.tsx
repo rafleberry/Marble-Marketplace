@@ -1,11 +1,11 @@
 import React from 'react'
 import { AppLayout } from 'components/Layout/AppLayout'
-import StakingComponent from 'features/metaverse'
+import MetaverseComponent from 'features/metaverse'
 
-export default function Staking() {
+export default function Metaverse() {
   return (
     <AppLayout fullWidth={true}>
-      <StakingComponent />
+      <MetaverseComponent />
     </AppLayout>
   )
 }
