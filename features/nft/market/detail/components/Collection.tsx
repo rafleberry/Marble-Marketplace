@@ -214,12 +214,11 @@ const CreatorInfo = styled.div`
   justify-content: space-around;
   @media (max-width: 1550px) {
     height: 50px;
-    width: 160px;
-  }
-  @media (max-width: 1550px) {
-    height: 50px;
     width: fit-content;
     margin-top: 20px;
+  }
+  @media (max-width: 650px) {
+    margin: 5px 30px;
   }
 `
 const Title = styled.div`

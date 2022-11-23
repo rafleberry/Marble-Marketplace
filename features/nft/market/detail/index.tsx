@@ -59,7 +59,13 @@ import {
   formatNearToYocto,
   formatHera,
 } from 'util/conversion'
-import { NFTName, MoreTitle, RoyaltyContainer, NftBuyOfferTag } from './styled'
+import {
+  NFTName,
+  MoreTitle,
+  RoyaltyContainer,
+  NftBuyOfferTag,
+  CountDownText,
+} from './styled'
 import { isMobile, isPC } from 'util/device'
 import { default_image } from 'util/constants'
 
@@ -885,7 +891,7 @@ export const NFTDetail = ({ collectionId, id }) => {
                               ? 'Auction already ended'
                               : 'Auction ends in'}
                             {!marketStatus.isEnded && (
-                              <Text>
+                              <CountDownText>
                                 <DateCountdown
                                   dateTo={
                                     (marketStatus.data &&
@@ -904,9 +910,8 @@ export const NFTDetail = ({ collectionId, id }) => {
                                     getMarketData()
                                   }}
                                 />
-                              </Text>
+                              </CountDownText>
                             )}
-                            {/* {marketStatus.data.ended_at} */}
                           </NftSale>
                         ) : (
                           <NftSale>
@@ -1642,6 +1647,9 @@ const Container = styled('div', {
   '@media (max-width: 1024px)': {
     padding: '20px',
   },
+  '@media (max-width: 650px)': {
+    padding: '5px',
+  },
   maxWidth: '1700px',
   margin: '0 auto',
 })
@@ -1679,6 +1687,10 @@ const NftSale = styled('div', {
   '@media (max-width: 1024px)': {
     padding: '$4 $16',
   },
+  '@media (max-width: 650px)': {
+    padding: '$4 $4',
+    fontSize: '15px',
+  },
 })
 const PriceTag = styled('div', {
   display: 'flex',
@@ -1689,6 +1701,9 @@ const PriceTag = styled('div', {
   },
   '@media (max-width: 1024px)': {
     padding: '$4 $16',
+  },
+  '@media (max-width: 650px)': {
+    padding: '$4 $5',
   },
 })
 const ButtonGroup = styled('div', {
@@ -1768,6 +1783,9 @@ const NFTImageWrapper = styled('div', {
   '@media (max-width: 1024px)': {
     height: '430px',
     width: '350px',
+  },
+  '@media (max-width: 650px)': {
+    width: '100%',
   },
 })
 const NFTImage = styled('img', {

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '../Button'
 import { useBaseTokenInfo } from 'hooks/useTokenInfo'
 import { getTokenBalance } from 'hooks/useTokenBalance'
 import { useConnectWallet } from '../../hooks/useConnectWallet'
@@ -174,7 +173,9 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   <StyledLink>
                     <Link href="/metaverse" passHref>
                       <a className="dropdown-item">
-                        <span className={isActive('/metaverse')}>Metaverse</span>
+                        <span className={isActive('/metaverse')}>
+                          Metaverse
+                        </span>
                       </a>
                     </Link>
                   </StyledLink>
@@ -234,20 +235,20 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 <span className={isActive('/defi')}>DeFi</span>
               </a>
             </StyledLink>
-              <StyledLink>
-                <Link href="/staking" passHref>
-                  <a className="dropdown-item">
-                    <span className={isActive('/staking')}>Stake</span>
-                  </a>
-                </Link>
-              </StyledLink>
-              <StyledLink>
-                <Link href="/metaverse" passHref>
-                  <a className="dropdown-item">
-                    <span className={isActive('/metaverse')}>Metaverse</span>
-                  </a>
-                </Link>
-              </StyledLink>
+            <StyledLink>
+              <Link href="/staking" passHref>
+                <a className="dropdown-item">
+                  <span className={isActive('/staking')}>Stake</span>
+                </a>
+              </Link>
+            </StyledLink>
+            <StyledLink>
+              <Link href="/metaverse" passHref>
+                <a className="dropdown-item">
+                  <span className={isActive('/metaverse')}>Metaverse</span>
+                </a>
+              </Link>
+            </StyledLink>
           </StyledListForLinks>
           <ButtonField>
             {accountId ? (

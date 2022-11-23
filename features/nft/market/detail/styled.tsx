@@ -41,5 +41,17 @@ export const NftBuyOfferTag = styled(SecondGradientBackground)`
   margin-bottom: 20px;
   @media (max-width: 650px) {
     padding: 10px 0;
+    &:before {
+      border-radius: 10px;
+    }
+  }
+`
+
+export const CountDownText = styled.div`
+  @media (max-width: 650px) {
+    span {
+      font-size: 15px !important;
+      width: fit-content;
+    }
   }
 `

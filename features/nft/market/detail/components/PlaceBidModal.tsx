@@ -16,6 +16,9 @@ import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { NftCard } from 'components/NFT/nft-card'
 import { isMobile } from 'util/device'
+import { StyledCloseIcon } from 'components/Dialog'
+
+// const buttonCss =
 
 const PlaceBidModal = ({
   tokenInfo,
@@ -37,15 +40,12 @@ const PlaceBidModal = ({
   return (
     <ChakraProvider>
       <Button
-        className="btn-buy btn-default"
         css={{
           background: '$white',
           color: '$black',
           stroke: '$black',
           width: '100%',
         }}
-        variant="primary"
-        size="large"
         onClick={onOpen}
       >
         Place Bid
@@ -58,6 +58,7 @@ const PlaceBidModal = ({
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
         <Container>
+          <StyledCloseIcon onClick={onClose} offset={20} size="40px" />
           <MainWrapper>
             <Stack spacing={10}>
               <Stack>
@@ -135,15 +136,17 @@ const Container = styled(ModalContent)`
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   background: rgba(255, 255, 255, 0.06) !important;
   border-radius: 30px !important;
-  padding: 20px;
+  padding: 70px;
   color: white !important;
   overflow: hidden;
   max-width: 1000px !important;
+  margin: 50px;
   @media (max-width: 650px) {
     width: 90vw !important;
     padding: 10px;
     max-height: 100vh;
     overflow: auto;
+    margin: 0px;
   }
 `
 const MainWrapper = styled.div`
@@ -170,8 +173,6 @@ const MainWrapper = styled.div`
 `
 const CardWrapper = styled.div`
   display: flex;
-  height: 406px;
-  width: 300px;
   @media (max-width: 650px) {
     width: 100%;
     height: 100%;

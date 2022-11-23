@@ -122,7 +122,11 @@ const Container = styled(ModalContent)`
   padding: 70px;
   color: white !important;
   overflow: hidden;
-  max-width: 1320px !important;
+  max-width: 1000px !important;
+  margin: 50px;
+  @media (max-width: 1024px) {
+    padding: 50px 20px 20px 20px;
+  }
   @media (max-width: 650px) {
     width: 90vw !important;
     padding: 10px;
@@ -149,8 +153,7 @@ const MainWrapper = styled.div`
 `
 const CardWrapper = styled.div`
   display: flex;
-  height: 556px;
-  width: 434px;
+
   @media (max-width: 650px) {
     width: 100%;
     height: 100%;
@@ -182,6 +185,9 @@ const StyledInputRightElement = styled.div`
   position: absolute;
   right: 30px;
   top: 8px;
+  @media (max-width: 1024px) {
+    right: 10px;
+  }
 `
 
 export default UpdateMarketModal

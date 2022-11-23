@@ -64,7 +64,8 @@ const Container = styled(ModalContent)`
   color: white !important;
   overflow: hidden;
   position: relative;
-  max-width: 1320px !important;
+  max-width: 1000px !important;
+  margin: 50px;
   @media (max-width: 650px) {
     width: 90vw !important;
     padding: 10px;
@@ -98,8 +99,7 @@ const MainWrapper = styled.div`
 `
 const CardWrapper = styled.div`
   display: flex;
-  height: 556px;
-  width: 434px;
+
   @media (max-width: 650px) {
     width: 100%;
     height: 100%;
