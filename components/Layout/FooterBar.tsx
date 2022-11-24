@@ -116,7 +116,7 @@ export const FooterBar = () => {
                 >
                   Feed
                 </a>
-                <Link href="/explore" passHref>
+                <Link href="/explore/nfts" passHref>
                   Browse
                 </Link>
                 <a href="https://near.marbledao.finance" target="__blank">

@@ -86,7 +86,7 @@ export default function NFTCreate() {
           if (isSwap) {
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
-            router.push('/explore')
+            router.push('/explore/nfts')
             return
           }
         })

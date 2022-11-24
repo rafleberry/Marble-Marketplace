@@ -150,18 +150,22 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                     </Link>
                   </StyledLink>
                   <StyledLink>
-                    <Link href="/explore" passHref>
+                    <Link href="/explore/nfts" passHref>
                       <a className="dropdown-item">
-                        <span className={isActive('/explore')}>Browse</span>
+                        <span className={isActive('/explore/nfts')}>
+                          Browse
+                        </span>
                       </a>
                     </Link>
                   </StyledLink>
                   <StyledLink>
-                    <Link href="/explore" passHref>
-                      <a className="dropdown-item">
-                        <span className={isActive('/defi')}>DeFi</span>
-                      </a>
-                    </Link>
+                    <a
+                      className="dropdown-item"
+                      href="https://near.marbledao.finance/"
+                      target="__blank"
+                    >
+                      <span className={isActive('/defi')}>DeFi</span>
+                    </a>
                   </StyledLink>
                   <StyledLink>
                     <Link href="/staking" passHref>
@@ -220,9 +224,9 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
               </Link>
             </StyledLink>
             <StyledLink>
-              <Link href="/explore" passHref>
+              <Link href="/explore/nfts" passHref>
                 <a className="dropdown-item">
-                  <span className={isActive('/explore')}>Browse</span>
+                  <span className={isActive('/explore/nfts')}>Browse</span>
                 </a>
               </Link>
             </StyledLink>

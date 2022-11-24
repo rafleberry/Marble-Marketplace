@@ -126,6 +126,11 @@ export const MyCollectedNFTs = ({ id }) => {
   }, [id, fetchOwnedNFTs])
   const getMoreNfts = async () => {}
   const handleFilter = (id: string) => {
+    if (id == filterTab) {
+      setFilterTab('')
+      setFiltered(nfts)
+      return
+    }
     const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
     setFiltered(filteredNFTs)
     setFilterTab(id)

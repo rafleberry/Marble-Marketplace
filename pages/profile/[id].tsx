@@ -333,11 +333,15 @@ const ProfileNFTInfo = styled.div`
   }
 `
 const StyledTabList = styled(TabList)`
-  width: fit-content;
   border-bottom: 2px solid;
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1) !important;
   font-weight: 400;
-  margin: 0px !important;
+  display: flex;
+  overflow: auto;
+  width: fit-content;
+  @media (max-width: 800px) {
+    width: auto;
+  }
   [aria-selected='true'] {
     border-color: #ffffff !important;
     border-bottom: 2px solid;
@@ -349,10 +353,13 @@ const StyledTabList = styled(TabList)`
 const StyledTab = styled(Tab)`
   font-size: 22px;
   font-weight: 400;
-  padding: 20px 70px 20px 10px;
-  @media (max-width: 650px) {
-    font-size: 12px;
-    padding: 10px 35px 10px 0px;
+  padding: 20px;
+  margin: 0 20px;
+  cursor: pointer;
+  @media (max-width: 1550px) {
+    font-size: 18px;
+    margin: 0 15px;
+    padding: 15px;
   }
 `
 const IconButtonWrapper = styled.div`

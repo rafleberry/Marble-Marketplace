@@ -98,7 +98,7 @@ export const MobileFooterBar = () => {
                   <Link href="https://app.marbledao.finance/dashboard" passHref>
                     Feed
                   </Link>
-                  <Link href="/explore" passHref>
+                  <Link href="/explore/nfts" passHref>
                     Browse
                   </Link>
                   <Link href="https://near.marbledao.finance" passHref>

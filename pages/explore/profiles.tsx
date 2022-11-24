@@ -14,7 +14,7 @@ export default function Explores() {
     <ChakraProvider>
       <AppLayout fullWidth={true}>
         <StyledTabList>
-          <Link href="/explore" passHref>
+          <Link href="/explore/nfts" passHref>
             <StyledTab>{`NFTs(${countInfo.nft})`}</StyledTab>
           </Link>
           <Link href="/explore/collections" passHref>

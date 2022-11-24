@@ -154,7 +154,7 @@ export const NFTDetail = ({ collectionId, id }) => {
           if (isSuccess) {
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
-            if (isBurn) router.push('/explore')
+            if (isBurn) router.push('/explore/nfts')
           }
           router.push(pathname)
         })

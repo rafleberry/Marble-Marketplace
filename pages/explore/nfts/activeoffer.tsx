@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { AppLayout } from 'components/Layout/AppLayout'
-import { Explore } from 'features/nft/market/explore'
+import NFTExplorer from 'features/nft/market/nftexplore/activeoffer'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -8,25 +8,19 @@ import styled from 'styled-components'
 
 export default function Explores() {
   const { countInfo } = useSelector((state: any) => state.uiData)
-
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true}>
         <StyledTabList>
-          <Link href="/explore/nfts" passHref>
-            <StyledTab>{`NFTs(${countInfo.nft})`}</StyledTab>
-          </Link>
+          <StyledTab isActive={true}>{`NFTs(${countInfo.nft})`}</StyledTab>
           <Link href="/explore/collections" passHref>
-            <StyledTab
-              isActive={true}
-            >{`Collections(${countInfo.collection})`}</StyledTab>
+            <StyledTab>{`Collections(${countInfo.collection})`}</StyledTab>
           </Link>
           <Link href="/explore/profiles" passHref>
             <StyledTab>{`Profiles(${countInfo.profile.profiles})`}</StyledTab>
           </Link>
         </StyledTabList>
-
-        <Explore />
+        <NFTExplorer />
       </AppLayout>
     </ChakraProvider>
   )

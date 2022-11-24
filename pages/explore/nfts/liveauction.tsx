@@ -1,6 +1,6 @@
 import { ChakraProvider } from '@chakra-ui/react'
 import { AppLayout } from 'components/Layout/AppLayout'
-import NFTExplorer from 'features/nft/market/nftexplore'
+import NFTExplorer from 'features/nft/market/nftexplore/liveauction'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -12,7 +12,7 @@ export default function Explores() {
     <ChakraProvider>
       <AppLayout fullWidth={true}>
         <StyledTabList>
-          <Link href="/explore" passHref>
+          <Link href="/explore/nfts" passHref>
             <StyledTab isActive={true}>{`NFTs(${countInfo.nft})`}</StyledTab>
           </Link>
           <Link href="/explore/collections" passHref>

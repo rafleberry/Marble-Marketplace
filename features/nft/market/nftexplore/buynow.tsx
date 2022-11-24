@@ -10,37 +10,41 @@ import {
   marketplaceViewFunction,
   TOKEN_DENOMS,
 } from 'util/near'
-import { NftCard } from 'components/NFT/nft-card'
+import { NftCard, NftCountsType } from 'components/NFT'
 import { convertMicroDenomToDenom } from 'util/conversion'
+import useAxios from 'hooks/useAxios'
+import { nfts_per_page } from 'util/constants'
+import { useSelector } from 'react-redux'
+import {
+  ExploreWrapper,
+  Filter,
+  FilterCard,
+  CountWrapper,
+  Container,
+} from './styled'
 
 const Explore = () => {
   const [nfts, setNfts] = useState([])
-  const [nftCounts, setNftCounts] = useState({
-    Auction: 0,
-    'Direct Sell': 0,
-    NotSale: 0,
-    Offer: 0,
-  })
-  const [filtered, setFiltered] = useState([])
-  const [filterTab, setFilterTab] = useState('all')
   const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(0)
+  const [nftCounts, setNftCounts] = useState<NftCountsType>({
+    buynow: 0,
+    activeOffer: 0,
+    auction: 0,
+  })
+  const { countInfo } = useSelector((state: any) => state.uiData)
+  const { getTokenIds, getNftCounts } = useAxios()
   const fetchNfts = async () => {
     let collectionNFTs = []
-    let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
-    let info = []
-    try {
-      info = await nftViewFunction({
-        methodName: 'nft_tokens',
-        args: {
-          from_index: nfts.length.toString(),
-          limit: 12,
-        },
-      })
-    } catch (error) {
-      console.log('nft_tokens Error: ', error)
-      setHasMore(false)
-      return []
-    }
+    const tokenIds = await getTokenIds('sale', page, nfts_per_page)
+    if (tokenIds.length < 12) setHasMore(false)
+    const info = await nftViewFunction({
+      methodName: 'nft_tokens_by_ids',
+      args: {
+        token_ids: tokenIds.map((id) => id.id),
+      },
+    })
+
     await Promise.all(
       info.map(async (element) => {
         let market_data
@@ -96,75 +100,45 @@ const Explore = () => {
             ).toFixed(2)
         } else res_nft['saleType'] = 'NotSale'
         collectionNFTs.push(res_nft)
-        counts[res_nft.saleType]++
       })
     )
     setNfts(nfts.concat(collectionNFTs))
-    // return { nftList: collectionNFTs, nft_counts: counts }
+    setPage(page + 1)
   }
 
   useEffect(() => {
-    // fetchCollections()
     ;(async () => {
+      const nftCounts = await getNftCounts()
+      setNftCounts(nftCounts)
       await fetchNfts()
-      // setNftCounts(nft_counts)
-      // setLoading(false)
     })()
   }, [])
-  useEffect(() => {
-    const filteredNFTs =
-      filterTab === 'all'
-        ? nfts
-        : nfts.filter((nft) => nft.saleType === filterTab)
-    setFiltered(filteredNFTs)
-  }, [nfts, filterTab])
-  const handleFilter = (id: string) => {
-    // const filteredNFTs = nfts.filter((nft) => nft.saleType === id)
-    // setFiltered(filteredNFTs)
-    setFilterTab(id)
-  }
   const getMoreNfts = async () => {
     await fetchNfts()
   }
   return (
     <ExploreWrapper>
       <Filter>
-        <FilterCard
-          onClick={() => handleFilter('all')}
-          isActive={filterTab === 'all'}
-        >
-          {/* <NumberWrapper isActive={filterTab === 'Direct Sell'}>
-            {nftCounts['Direct Sell']}
-          </NumberWrapper> */}
-          All
-        </FilterCard>
-        <FilterCard
-          onClick={() => handleFilter('Direct Sell')}
-          isActive={filterTab === 'Direct Sell'}
-        >
-          {/* <NumberWrapper isActive={filterTab === 'Direct Sell'}>
-            {nftCounts['Direct Sell']}
-          </NumberWrapper> */}
-          Buy Now
-        </FilterCard>
-        <FilterCard
-          onClick={() => handleFilter('Auction')}
-          isActive={filterTab === 'Auction'}
-        >
-          {/* <NumberWrapper isActive={filterTab === 'Auction'}>
-            {nftCounts['Auction']}
-          </NumberWrapper> */}
-          Live Auction
-        </FilterCard>
-        <FilterCard
-          onClick={() => handleFilter('Offer')}
-          isActive={filterTab === 'Offer'}
-        >
-          {/* <NumberWrapper isActive={filterTab === 'Offer'}>
-            {nftCounts['Offer']}
-          </NumberWrapper> */}
-          Active Offers
-        </FilterCard>
+        <Link href="/explore/nfts" passHref>
+          <FilterCard>
+            <CountWrapper>{countInfo.nft}</CountWrapper>All
+          </FilterCard>
+        </Link>
+        <Link href="/explore/nfts/buynow" passHref>
+          <FilterCard isActive={true}>
+            <CountWrapper>{nftCounts.buynow}</CountWrapper>Buy Now
+          </FilterCard>
+        </Link>
+        <Link href="/explore/nfts/liveauction" passHref>
+          <FilterCard>
+            <CountWrapper>{nftCounts.auction}</CountWrapper>Live Auction
+          </FilterCard>
+        </Link>
+        <Link href="/explore/nfts/activeoffer" passHref>
+          <FilterCard>
+            <CountWrapper>{nftCounts.activeOffer}</CountWrapper>Active Offers
+          </FilterCard>
+        </Link>
       </Filter>
 
       <InfiniteScroll
@@ -190,7 +164,7 @@ const Explore = () => {
         endMessage={<h4></h4>}
       >
         <Container>
-          {filtered.map((nftInfo, index) => (
+          {nfts.map((nftInfo, index) => (
             <Link
               href={`/nft/${nftInfo.collectionId}/${nftInfo.tokenId}`}
               passHref
@@ -213,51 +187,4 @@ const Explore = () => {
   )
 }
 
-const ExploreWrapper = styled.div`
-  width: 100%;
-`
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  padding: 20px 0;
-  gap: 20px;
-  overflow: auto;
-  @media (max-width: 1550px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  @media (max-width: 1024px) {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-`
-const Filter = styled.div`
-  display: flex;
-  column-gap: 20px;
-  overflow: auto;
-`
-const FilterCard = styled.div<{ isActive: boolean }>`
-  border-radius: 30px;
-
-  border: 1px solid;
-
-  border-image-source: linear-gradient(
-    106.01deg,
-    rgba(255, 255, 255, 0.2) 1.02%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  box-shadow: 0px 7px 14px 0px #0000001a, 0px 14px 24px 0px #11141d66 inset;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    rgba(255, 255, 255, 0.06) 100%
-  );
-  padding: 15px 30px;
-  cursor: pointer;
-  text-align: center;
-  font-family: Mulish;
-  color: ${({ isActive }) => (isActive ? 'white' : 'rgba(255,255,255,0.5)')};
-  @media (max-width: 650px) {
-    width: 114px;
-    font-size: 12px;
-  }
-`
 export default Explore

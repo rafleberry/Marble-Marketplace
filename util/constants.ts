@@ -53,3 +53,8 @@ export const PINATA_SECONDARY_IMAGE_SIZE =
 /* /feature flags */
 export const backend_url = 'https://marble-backend.herokuapp.com'
 // export const backend_url = 'http://localhost:3030'
+export const marketplace_subgraph_url =
+  'https://api.thegraph.com/subgraphs/name/rafleberry/marble-marketplace'
+export const nft_subgraph_url =
+  'https://api.thegraph.com/subgraphs/name/rafleberry/marble-nft'
+export const nfts_per_page = 12
