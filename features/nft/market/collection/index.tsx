@@ -20,7 +20,7 @@ import {
   TOKEN_DENOMS,
 } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
-import EditCollectionModal from './components/editCollectionModal'
+import EditCollectionModal from './components/EditCollectionModal'
 
 interface CollectionProps {
   readonly id: string
