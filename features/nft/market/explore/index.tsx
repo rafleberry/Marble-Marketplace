@@ -45,16 +45,6 @@ export const Explore = () => {
       return []
     }
   }
-  // useEffect(() => {
-  //   ;(async () => {
-  //     nftViewFunction({
-  //       methodName: 'nft_get_total_series',
-  //       args: {},
-  //     }).then((totalSeries) => {
-  //       console.log('nft_get_totla_series: ', totalSeries)
-  //     })
-  //   })()
-  // }, [])
   useEffect(() => {
     // fetchCollections()
     ;(async () => {

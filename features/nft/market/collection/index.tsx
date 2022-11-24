@@ -249,6 +249,7 @@ export const Collection = ({ id }: CollectionProps) => {
                   background: '$white',
                   color: '$black',
                   stroke: '$black',
+                  width: 'fit-content',
                 }}
                 variant="primary"
                 size="large"
