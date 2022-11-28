@@ -3,7 +3,7 @@ import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 import { Button } from 'components/Button'
 
 export const Container = styled.div`
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,6 @@ export const Header = styled.div`
   font-weight: 700;
   padding-bottom: 20px;
   @media (max-width: 1550px) {
-    font-size: 40px;
     font-weight: 500;
     margin-top: 20px;
   }
@@ -27,7 +26,7 @@ export const StakingCardWrapper = styled(SecondGradientBackground)`
   padding: 40px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 2.5fr;
   @media (max-width: 1550px) {
     padding: 20px;
   }
@@ -51,11 +50,7 @@ export const CollectionContent = styled.div`
     font-size: 42px;
     font-weight: 500;
   }
-  @media (max-width: 1550px) {
-    h1 {
-      font-size: 36px;
-    }
-  }
+
   @media (max-width: 1024px) {
     text-align: center;
     padding-left: 0;
@@ -80,14 +75,6 @@ export const InfoContent = styled.div`
     font-size: 26px;
     font-weight: 500;
     opacity: 0.5;
-  }
-  @media (max-width: 1550px) {
-    h2 {
-      font-size: 20px;
-    }
-    h3 {
-      font-size: 16px;
-    }
   }
   @media (max-width: 650px) {
     display: flex;

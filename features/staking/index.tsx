@@ -1,39 +1,41 @@
-import { useState, useEffect } from 'react'
+import DateCountdown from 'components/DateCountdown'
 import CollectionCard from 'components/NFT/collection/collection-card'
-import { Button } from 'components/Button'
+import { useEffect, useState } from 'react'
 import {
+  convertMicroDenomToDenom,
+  convertToFixedDecimalNumber,
+} from 'util/conversion'
+import { ftGetStorageBalance } from 'util/ft-contract'
+import {
+  executeMultipleTransactions,
   nearFunctionCall,
   nearViewFunction,
   nftViewFunction,
+  NFT_CONTRACT_NAME,
   ONE_YOCTO_NEAR,
-} from 'util/near'
-import DateCountdown from 'components/DateCountdown'
-import { ftGetStorageBalance } from 'util/ft-contract'
-import {
-  STAKING_NFT_NAME,
   STAKING_CONTRACT_NAME,
   STAKING_FT_NAME,
   Transaction,
-  executeMultipleTransactions,
-  NFT_CONTRACT_NAME,
+  checkTransaction,
 } from 'util/near'
-import { getCurrentWallet } from 'util/sender-wallet'
 import { getRandomInt } from 'util/numbers'
+import { getCurrentWallet } from 'util/sender-wallet'
 import {
-  convertToFixedDecimalNumber,
-  convertMicroDenomToDenom,
-} from 'util/conversion'
+  failToast,
+  getURLInfo,
+  successToast,
+  getErrorMessage,
+} from 'components/transactionTipPopUp'
 import {
-  Container,
-  Header,
-  StakingCardWrapper,
+  ButtonWrapper,
   CollectionCardWrapper,
   CollectionContent,
-  StakingInfoContainer,
-  InfoContent,
-  ButtonWrapper,
-  OwnedNftsContainer,
+  Container,
   CountDownWrapper,
+  Header,
+  InfoContent,
+  StakingCardWrapper,
+  StakingInfoContainer,
   StyledButton,
 } from './styled'
 
@@ -67,13 +69,8 @@ interface CollectionType {
 }
 
 const Staking = () => {
-  // const collection = {
-  //   image: '/marblenauts.gif',
-  //   banner_image: '/logo.png',
-  //   name: 'Marblenauts',
-  //   creator: 'viernear.testnet',
-  // }
   const wallet = getCurrentWallet()
+  const { txHash, pathname, errorType } = getURLInfo()
   const [userStakeInfo, setUserStakeInfo] = useState<UserStakeInfoType>({
     address: '',
     claimed_amount: 0,
@@ -177,18 +174,51 @@ const Staking = () => {
       }
     })()
   }, [wallet?.accountId])
-
+  useEffect(() => {
+    if (txHash && getCurrentWallet().wallet.isSignedIn()) {
+      checkTransaction(txHash)
+        .then((res: any) => {
+          const transactionErrorType = getErrorMessage(res)
+          const transaction = res.transaction
+          const event = res?.receipts_outcome[0]?.outcome.logs[0] || ''
+          return {
+            isSwap:
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'create_unstake' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'claim_rewards' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'nft_transfer_call' ||
+              transaction?.actions[0]?.['FunctionCall']?.method_name ===
+                'fetch_unstake',
+            transactionErrorType,
+            event,
+          }
+        })
+        .then(({ isSwap, transactionErrorType, event }) => {
+          if (isSwap) {
+            !transactionErrorType && !errorType && successToast(txHash)
+            transactionErrorType && failToast(txHash, transactionErrorType)
+            return
+          }
+        })
+    }
+  }, [txHash])
   const getClaimableReward = () => {
     if (stakeConfig.interval === 0) return 0
     if (userStakeInfo.create_unstake_timestamp !== 0)
-      return userStakeInfo.unclaimed_amount
+      return convertToFixedDecimalNumber(
+        convertMicroDenomToDenom(userStakeInfo.unclaimed_amount, 8)
+      )
     if (stakeConfig.total_supply === 0) return 0
     const end_date =
       Date.now() / 1000 > stakeConfig.end_date
         ? stakeConfig.end_date
         : Date.now() / 1000
     if (end_date < userStakeInfo.last_timestamp)
-      return convertToFixedDecimalNumber(userStakeInfo.unclaimed_amount)
+      return convertToFixedDecimalNumber(
+        convertMicroDenomToDenom(userStakeInfo.unclaimed_amount, 8)
+      )
     const claimable =
       userStakeInfo.unclaimed_amount +
       (Math.floor(
@@ -384,19 +414,6 @@ const Staking = () => {
           </ButtonWrapper>
         </CollectionContent>
       </StakingCardWrapper>
-      {/* <OwnedNftsContainer>
-        {ownedNfts.map((_nft, index) => (
-          <CollectionCard
-            collection={{
-              ...collection,
-              name: _nft.token_id,
-              creator: _nft.owner_id,
-              image: '/collection.png',
-            }}
-            key={index}
-          />
-        ))}
-      </OwnedNftsContainer> */}
     </Container>
   )
 }
