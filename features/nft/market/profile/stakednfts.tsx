@@ -58,6 +58,12 @@ const MyStakedNFTs = ({ id }) => {
         {nfts.map((_nft, index) => (
           <NftCard key={index} nft={_nft} id={id} type="" />
         ))}
+        {nfts.map((_nft, index) => (
+          <NftCard key={index} nft={_nft} id={id} type="" />
+        ))}
+        {nfts.map((_nft, index) => (
+          <NftCard key={index} nft={_nft} id={id} type="" />
+        ))}
       </NftList>
     </CollectionWrapper>
   )
@@ -73,6 +79,7 @@ const NftList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 30px;
+  gap: 20px;
 `
 
 export default MyStakedNFTs
