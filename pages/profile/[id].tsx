@@ -15,6 +15,7 @@ import { AppLayout } from 'components/Layout/AppLayout'
 import { Button } from 'components/Button'
 import { MyCollectedNFTs } from 'features/nft/market/profile'
 import CreatedNFTs from 'features/nft/market/profile/creatednfts'
+import StakedNFTs from 'features/nft/market/profile/stakednfts'
 import { Email, DiscordT } from 'icons'
 import {
   getProfileInfo,
@@ -22,7 +23,6 @@ import {
   setProfileInfo,
   controlFollow,
 } from 'hooks/useProfile'
-import { default_image } from 'util/constants'
 import { toast } from 'react-toastify'
 import BannerImageUpload from 'components/BannerImageUpload'
 import ProfilleLogoImageUpload from 'components/ProfileLogoImageUpload'
@@ -191,6 +191,7 @@ export default function Home() {
               <StyledTabList>
                 <StyledTab>{`Owned`}</StyledTab>
                 <StyledTab>{`Created`}</StyledTab>
+                <StyledTab>Staked</StyledTab>
               </StyledTabList>
               <TabPanels>
                 <TabPanel overflow="auto">
@@ -198,6 +199,9 @@ export default function Home() {
                 </TabPanel>
                 <TabPanel overflow="auto">
                   <CreatedNFTs id={id} />
+                </TabPanel>
+                <TabPanel overflow="auto">
+                  <StakedNFTs id={id} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
