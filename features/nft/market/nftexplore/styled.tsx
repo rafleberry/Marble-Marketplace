@@ -59,3 +59,7 @@ export const CountWrapper = styled.div`
   font-size: 14px;
   min-width: 30px;
 `
+export const FilterSortWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`

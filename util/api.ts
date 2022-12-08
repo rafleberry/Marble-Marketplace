@@ -116,7 +116,7 @@ export const getLogoUriFromAddress = async (address) => {
           data.avatar +
           PINATA_SECONDARY_IMAGE_SIZE
         : '/default.png' + PINATA_SECONDARY_IMAGE_SIZE,
-      name: data.name || getReducedAddress(address),
+      name: getReducedAddress(data.name) || getReducedAddress(address),
     }
   } catch (err) {
     console.log('axios get logo uri error: ', err)

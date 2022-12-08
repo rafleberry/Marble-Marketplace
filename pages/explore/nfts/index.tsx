@@ -8,6 +8,7 @@ import styled from 'styled-components'
 
 export default function Explores() {
   const { countInfo } = useSelector((state: any) => state.uiData)
+
   return (
     <ChakraProvider>
       <AppLayout fullWidth={true}>

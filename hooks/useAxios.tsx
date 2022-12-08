@@ -47,11 +47,11 @@ const useAxios = () => {
     console.log('nftSortCounts: ', nftSortCounts)
     return nftSortCounts[0]
   }, [])
-  const getAllNftIds = useCallback(async (page, limit) => {
+  const getAllNftIds = useCallback(async (page, limit, order = 'desc') => {
     const query = `{
       nfts(first: ${limit},skip: ${
       page * limit
-    }, where: {isBurned: false}, orderBy: timestamp) {
+    }, where: {isBurned: false}, orderBy: timestamp, orderDirection: ${order}) {
         id
       }
     }`

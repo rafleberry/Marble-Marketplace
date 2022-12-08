@@ -1,10 +1,18 @@
-import { ChakraProvider, Stack, Text, Flex, HStack } from '@chakra-ui/react'
+import {
+  ChakraProvider,
+  Stack,
+  Text,
+  Flex,
+  HStack,
+  Grid,
+} from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import DateCountdown from 'components/DateCountdownMin'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getSimpleProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
+import { RoundedIconComponent } from 'components/RoundedIcon'
 import { GradientBackground } from 'styles/styles'
 import {
   PINATA_PRIMARY_IMAGE_SIZE,
@@ -44,10 +52,10 @@ export function NftCard({ nft, id, type }): JSX.Element {
           <Image src={nft.image + PINATA_PRIMARY_IMAGE_SIZE} alt="NFT Image" />
         </ImgDiv>
         <Stack paddingTop="15px">
-          <Flex justifyContent="space-between">
+          <Grid gridTemplateColumns="3fr 2fr">
             <NFTName>{nft.name}</NFTName>
             <HStack>
-              <Logo
+              {/* <Logo
                 src={
                   profile.avatar
                     ? `${
@@ -58,9 +66,10 @@ export function NftCard({ nft, id, type }): JSX.Element {
                 alt="logo"
                 size="34px"
               />
-              <p>{profile.name || getReducedAddress(nft.owner)}</p>
+              <p>{profile.name || getReducedAddress(nft.owner)}</p> */}
+              <RoundedIconComponent size="34px" address={nft.owner} />
             </HStack>
-          </Flex>
+          </Grid>
           <Flex justifyContent="space-between" paddingTop="10px 0">
             <Stack>
               <Title>{saleType[nft.saleType]}</Title>

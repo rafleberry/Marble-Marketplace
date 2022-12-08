@@ -2,8 +2,9 @@ import * as React from 'react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { ChakraProvider, Spinner, Grid, LinkBox } from '@chakra-ui/react'
-import styled from 'styled-components'
+import { ChakraProvider, Spinner, LinkBox, Button } from '@chakra-ui/react'
+import DropDownButton from 'components/DrowdownButton'
+
 import {
   NFT_CONTRACT_NAME,
   nftViewFunction,
@@ -21,8 +22,12 @@ import {
   FilterCard,
   CountWrapper,
   Container,
+  FilterSortWrapper,
 } from './styled'
-
+const sortValue = {
+  Newest: 'desc',
+  Oldest: 'asc',
+}
 const Explore = () => {
   const [nfts, setNfts] = useState([])
   const [nftCounts, setNftCounts] = useState<NftCountsType>({
@@ -30,14 +35,19 @@ const Explore = () => {
     activeOffer: 0,
     auction: 0,
   })
+  const [sort, setSort] = useState('Newest')
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(0)
   const { countInfo } = useSelector((state: any) => state.uiData)
   const { getNftCounts, getAllNftIds } = useAxios()
-  const fetchNfts = async () => {
+  const fetchNfts = async (currentPage) => {
     let collectionNFTs = []
     let counts = { Auction: 0, 'Direct Sell': 0, NotSale: 0, Offer: 0 }
-    const tokenIds = await getAllNftIds(page, nfts_per_page)
+    const tokenIds = await getAllNftIds(
+      currentPage,
+      nfts_per_page,
+      sortValue[sort]
+    )
     if (tokenIds.length < 12) setHasMore(false)
     const info = await nftViewFunction({
       methodName: 'nft_tokens_by_ids',
@@ -105,44 +115,55 @@ const Explore = () => {
       })
     )
     setNfts(nfts.concat(collectionNFTs))
-    setPage(page + 1)
+    setPage(currentPage + 1)
   }
 
   useEffect(() => {
     ;(async () => {
       const nftCounts = await getNftCounts()
       setNftCounts(nftCounts)
-      await fetchNfts()
+      await fetchNfts(0)
     })()
-  }, [])
+  }, [sort])
   const getMoreNfts = async () => {
-    await fetchNfts()
+    await fetchNfts(page)
+  }
+  const handleSortChange = async (e) => {
+    setSort(e)
+    setPage(0)
+    setNfts([])
   }
   return (
     <ExploreWrapper>
-      <Filter>
-        <Link href="/explore/nfts" passHref>
-          <FilterCard isActive={true}>
-            <CountWrapper>{countInfo.nft}</CountWrapper>All
-          </FilterCard>
-        </Link>
-        <Link href="/explore/nfts/buynow" passHref>
-          <FilterCard>
-            <CountWrapper>{nftCounts.buynow}</CountWrapper>Buy Now
-          </FilterCard>
-        </Link>
-        <Link href="/explore/nfts/liveauction" passHref>
-          <FilterCard>
-            <CountWrapper>{nftCounts.auction}</CountWrapper>Live Auction
-          </FilterCard>
-        </Link>
-        <Link href="/explore/nfts/activeoffer" passHref>
-          <FilterCard>
-            <CountWrapper>{nftCounts.activeOffer}</CountWrapper>Active Offers
-          </FilterCard>
-        </Link>
-      </Filter>
-
+      <FilterSortWrapper>
+        <Filter>
+          <Link href="/explore/nfts" passHref>
+            <FilterCard isActive={true}>
+              <CountWrapper>{countInfo.nft}</CountWrapper>All
+            </FilterCard>
+          </Link>
+          <Link href="/explore/nfts/buynow" passHref>
+            <FilterCard>
+              <CountWrapper>{nftCounts.buynow}</CountWrapper>Buy Now
+            </FilterCard>
+          </Link>
+          <Link href="/explore/nfts/liveauction" passHref>
+            <FilterCard>
+              <CountWrapper>{nftCounts.auction}</CountWrapper>Live Auction
+            </FilterCard>
+          </Link>
+          <Link href="/explore/nfts/activeoffer" passHref>
+            <FilterCard>
+              <CountWrapper>{nftCounts.activeOffer}</CountWrapper>Active Offers
+            </FilterCard>
+          </Link>
+        </Filter>
+        <DropDownButton
+          menuList={['Newest', 'Oldest']}
+          onChange={handleSortChange}
+          current={sort}
+        />
+      </FilterSortWrapper>
       <InfiniteScroll
         dataLength={nfts.length}
         next={getMoreNfts}
