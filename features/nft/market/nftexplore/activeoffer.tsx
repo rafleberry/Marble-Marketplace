@@ -4,6 +4,7 @@ import Link from 'next/link'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { ChakraProvider, Spinner, Grid, LinkBox } from '@chakra-ui/react'
 import styled from 'styled-components'
+import { default_image } from 'util/constants'
 import {
   NFT_CONTRACT_NAME,
   nftViewFunction,
@@ -59,6 +60,17 @@ const Explore = () => {
         } catch (error) {
           console.log('get_market_data error: ', error)
         }
+        let collection_data
+        try {
+          collection_data = await nftViewFunction({
+            methodName: 'nft_get_series_single',
+            args: {
+              token_series_id: element.token_id.split(':')[0],
+            },
+          })
+        } catch (error) {
+          console.log('getCollectionError: ', error)
+        }
         let res_nft: any = {}
         let res_collection: any = {}
         try {
@@ -68,16 +80,20 @@ const Explore = () => {
           let ipfs_collection = await fetch(
             process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.extra
           )
+          // let ipfs_collection = await fetch(
+          //   process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.extra
+          // )
           res_nft = await ipfs_nft.json()
           res_collection = await ipfs_collection.json()
         } catch (err) {}
-
         res_nft['tokenId'] = element.token_id.split(':')[1]
-        res_nft['title'] = res_collection.name
+        // res_nft['title'] = res_collection.name
+        res_nft['title'] = collection_data.metadata.title
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
-        res_nft['collection_logo'] =
-          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+        res_nft['collection_logo'] = res_collection.logo
+          ? process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
+          : default_image
         if (market_data) {
           res_nft['saleType'] = market_data.is_auction
             ? market_data.bids.length > 0

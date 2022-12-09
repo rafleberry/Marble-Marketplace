@@ -129,7 +129,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
                   alt="logo"
                   size="34px"
                 />
-                <p>{profile.name || getReducedAddress(nft.owner)}</p>
+                <p>{profile.name || nft.owner}</p>
               </HStack>
               {nft.collection_logo && (
                 <HStack>
@@ -138,7 +138,9 @@ export function NftCard({ nft, id, type }): JSX.Element {
                     alt="logo"
                     size="34px"
                   />
-                  <p style={{ fontSize: '20px' }}>{nft.title}</p>
+                  <p style={{ fontSize: '30px', fontWeight: 'bold' }}>
+                    {nft.title}
+                  </p>
                 </HStack>
               )}
             </HoverDivContent>
@@ -192,6 +194,7 @@ const HoverDivContent = styled.div`
   justify-content: space-between;
   z-index: 10;
   padding: 30px;
+  color: white;
 `
 const NFTName = styled.div`
   font-size: 20px;
@@ -229,6 +232,7 @@ const ImgDiv = styled.div`
   padding-bottom: 100%;
   display: block;
   position: relative;
+  background: black; ;
 `
 const Image = styled.img<{ hover: boolean }>`
   position: absolute;
@@ -242,7 +246,7 @@ const Image = styled.img<{ hover: boolean }>`
   object-position: center;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  opacity: ${({ hover }) => (hover ? '0.1' : '1')};
+  opacity: ${({ hover }) => (hover ? '0.6' : '1')};
 `
 const Logo = styled.img<{ size: string }>`
   width: ${({ size }) => size};

@@ -15,8 +15,7 @@ import ProfileCard from 'components/profile/ProfileCard'
 import Link from 'next/link'
 import { isMobile, isPC } from 'util/device'
 import { GradientBackground } from 'styles/styles'
-
-const profileUnit = 12
+import { nfts_per_page } from 'util/constants'
 
 const AllProfiles = ({ profileCounts }) => {
   const [profiles, setProfiles] = useState([])
@@ -25,52 +24,36 @@ const AllProfiles = ({ profileCounts }) => {
   const [collector, setCollector] = useState(false)
   const [filterShow, setFilterShow] = useState(false)
   const [hasMore, setHasMore] = useState(true)
-  useEffect(() => {
-    ;(async () => {
-      setHasMore(true)
-      if (creator === collector) {
-        const selectedUsers = await getAllUsers({
-          sort: asc ? 'asc' : 'desc',
-          skip: 0,
-          limit: profileUnit,
-        })
-        setProfiles(selectedUsers)
-        return
-      }
-
-      const filteredUsers = await getFilteredUsers({
+  const [page, setPage] = useState(0)
+  const fetchProfiles = async (_page) => {
+    let selectedUsers = []
+    if (creator === collector) {
+      selectedUsers = await getAllUsers({
+        sort: asc ? 'asc' : 'desc',
+        skip: _page * nfts_per_page,
+        limit: nfts_per_page,
+      })
+    } else {
+      selectedUsers = await getFilteredUsers({
         sort: asc ? 'asc' : 'desc',
         creator: creator,
-        skip: 0,
-        limit: profileUnit,
+        skip: _page * nfts_per_page,
+        limit: nfts_per_page,
       })
-      setProfiles(filteredUsers)
+    }
+    if (selectedUsers.length < nfts_per_page) setHasMore(false)
+    setPage(_page + 1)
+    return selectedUsers
+  }
+  useEffect(() => {
+    ;(async () => {
+      const queriedUsers = await fetchProfiles(0)
+      setProfiles(queriedUsers)
     })()
   }, [asc, creator, collector])
   const getMoreNfts = async () => {
-    try {
-      if (creator === collector) {
-        const selectedUsers = await getAllUsers({
-          sort: asc ? 'asc' : 'desc',
-          skip: profiles.length,
-          limit: profileUnit,
-        })
-        if (selectedUsers.length < profileUnit) setHasMore(false)
-        setProfiles(profiles.concat(selectedUsers))
-        return
-      }
-
-      const filteredUsers = await getFilteredUsers({
-        sort: asc ? 'asc' : 'desc',
-        creator: creator,
-        skip: profiles.length,
-        limit: profileUnit,
-      })
-      if (filteredUsers.length < profileUnit) setHasMore(false)
-      setProfiles(profiles.concat(filteredUsers))
-    } catch (err) {
-      console.log('all fetched')
-    }
+    const queriedUsers = await fetchProfiles(page)
+    setProfiles(profiles.concat(queriedUsers))
   }
   return (
     <Container>
@@ -195,13 +178,7 @@ const AllProfiles = ({ profileCounts }) => {
         <ProfilesContainer>
           {profiles.map((profile, index) => (
             <Link href={`/profile/${profile.id}`} passHref key={index}>
-              <LinkBox
-                as="picture"
-                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-                _hover={{
-                  transform: 'scale(1.05)',
-                }}
-              >
+              <LinkBox as="picture">
                 <ProfileCard profileInfo={profile} />
               </LinkBox>
             </Link>
