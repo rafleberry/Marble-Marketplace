@@ -15,13 +15,7 @@ export function NftCollectionTable({
       <Container>
         {collections.map((collection, idx) => (
           <Link href={`/collection/${collection.id}`} passHref key={idx}>
-            <LinkBox
-              as="picture"
-              transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-              _hover={{
-                transform: 'scale(1.05)',
-              }}
-            >
+            <LinkBox as="picture">
               <CollectionCard key={idx} collection={collection} />
             </LinkBox>
           </Link>
@@ -35,7 +29,6 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 50px 30px;
-  padding: 20px;
   @media (max-width: 1550px) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

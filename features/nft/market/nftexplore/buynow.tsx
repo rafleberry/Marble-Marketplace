@@ -77,6 +77,8 @@ const Explore = () => {
         res_nft['title'] = res_collection.name
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
+        res_nft['collection_logo'] =
+          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
         if (market_data) {
           res_nft['saleType'] = market_data.is_auction
             ? market_data.bids.length > 0
@@ -170,13 +172,7 @@ const Explore = () => {
               passHref
               key={index}
             >
-              <LinkBox
-                as="picture"
-                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-                _hover={{
-                  transform: 'scale(1.05)',
-                }}
-              >
+              <LinkBox as="picture">
                 <NftCard nft={nftInfo} id="" type="" />
               </LinkBox>
             </Link>

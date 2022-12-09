@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 import { ChakraProvider, Stack, HStack, LinkBox } from '@chakra-ui/react'
 import Link from 'next/link'
 import { NftCollection } from 'services/nft'
@@ -12,28 +12,38 @@ import {
 } from 'util/constants'
 
 export default function NftCollectionCard({ collection }): JSX.Element {
+  const [hover, setHover] = useState(false)
   return (
-    <CollectionDiv className="collection">
+    <CollectionDiv
+      onMouseEnter={() => {
+        setHover(true)
+      }}
+      onMouseLeave={() => {
+        setHover(false)
+      }}
+    >
       <ImgDiv className="nft-img-div">
         <Image
           src={collection.image + PINATA_PRIMARY_IMAGE_SIZE}
           alt="NFT Image"
+          hover={hover}
         />
-      </ImgDiv>
-      <HStack marginTop="30px">
-        <Logo
-          src={collection.banner_image + PINATA_SECONDARY_IMAGE_SIZE}
-          alt="image"
-        />
-        <Stack>
+        <HoverDiv hover={hover}>
           <Title>{collection.name}</Title>
-          <RoundedIconComponent
-            size="0px"
-            address={collection.creator}
-            font={isClientMobie ? '15px' : '15px'}
-          />
-        </Stack>
-      </HStack>
+
+          <HStack justifyContent="flex-end">
+            <Logo
+              src={collection.banner_image + PINATA_SECONDARY_IMAGE_SIZE}
+              alt="image"
+            />
+            <RoundedIconComponent
+              size="0px"
+              address={collection.creator}
+              font={isClientMobie ? '15px' : '15px'}
+            />
+          </HStack>
+        </HoverDiv>
+      </ImgDiv>
     </CollectionDiv>
   )
 }
@@ -45,7 +55,7 @@ const ImgDiv = styled.div`
   position: relative;
 `
 
-const Image = styled.img`
+const Image = styled.img<{ hover: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -56,15 +66,16 @@ const Image = styled.img`
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
+  opacity: ${({ hover }) => (hover ? '0.3' : '1')};
 `
 const Logo = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  @media (max-width: 1550px) {
+  /* @media (max-width: 1550px) {
     width: 50px;
     height: 50px;
-  }
+  } */
 `
 const Title = styled.div`
   font-size: 24px;
@@ -78,7 +89,6 @@ const CollectionDiv = styled(GradientBackground)`
     border-radius: 20px;
     opacity: 0.2;
   }
-  padding: 30px;
   height: 100%;
   cursor: pointer;
   @media (max-width: 1450px) {
@@ -87,4 +97,18 @@ const CollectionDiv = styled(GradientBackground)`
   @media (max-width: 1024px) {
     width: 320px;
   }
+`
+const HoverDiv = styled.div<{ hover: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  padding: 50px 30px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ${({ hover }) => !hover && 'display: none'};
 `

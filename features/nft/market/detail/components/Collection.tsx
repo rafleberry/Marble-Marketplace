@@ -73,6 +73,8 @@ const CollectionInfo = ({ info }) => {
         res_nft['title'] = res_collection.name
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
+        res_nft['collection_logo'] =
+          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
         if (market_data) {
           res_nft['saleType'] = market_data.is_auction
             ? 'Auction'

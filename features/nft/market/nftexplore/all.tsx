@@ -83,11 +83,13 @@ const Explore = () => {
           res_nft = await ipfs_nft.json()
           res_collection = await ipfs_collection.json()
         } catch (err) {}
-
+        console.log('resCollection: ', res_collection)
         res_nft['tokenId'] = element.token_id.split(':')[1]
         res_nft['title'] = res_collection.name
         res_nft['owner'] = element.owner_id
         res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
+        res_nft['collection_logo'] =
+          process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
         if (market_data) {
           res_nft['saleType'] = market_data.is_auction
             ? market_data.bids.length > 0
@@ -193,13 +195,7 @@ const Explore = () => {
               passHref
               key={index}
             >
-              <LinkBox
-                as="picture"
-                transition="transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) 0s"
-                _hover={{
-                  transform: 'scale(1.05)',
-                }}
-              >
+              <LinkBox as="picture">
                 <NftCard nft={nftInfo} id="" type="" />
               </LinkBox>
             </Link>
