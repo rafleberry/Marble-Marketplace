@@ -138,7 +138,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
                     alt="logo"
                     size="34px"
                   />
-                  <p style={{ fontSize: '30px', fontWeight: 'bold' }}>
+                  <p style={{ fontSize: '25px', fontWeight: 'bold' }}>
                     {nft.title}
                   </p>
                 </HStack>
