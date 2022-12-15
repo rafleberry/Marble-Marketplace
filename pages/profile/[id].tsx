@@ -22,6 +22,7 @@ import {
   setImage,
   setProfileInfo,
   controlFollow,
+  getFollowInfo,
 } from 'hooks/useProfile'
 import { toast } from 'react-toastify'
 import BannerImageUpload from 'components/BannerImageUpload'
@@ -32,17 +33,30 @@ import { getReducedAddress } from 'util/conversion'
 import { isMobile } from 'util/device'
 import { GradientBackground } from 'styles/styles'
 
+interface FollowInfoInterface {
+  followers: number
+  followings: number
+  isFollowing: boolean
+}
+
 export default function Home() {
   const { asPath } = useRouter()
   const [profile, setProfile] = useState<any>({})
+  const [followInfo, setFollowInfo] = useState<FollowInfoInterface>({
+    followers: 0,
+    followings: 0,
+    isFollowing: false,
+  })
   const id = asPath && asPath.split('/')[2].split('?')[0]
   const wallet = getCurrentWallet()
   useEffect(() => {
     ;(async () => {
       const _profile = await getProfileInfo(id)
+      const _followInfo = await getFollowInfo(id, wallet.accountId)
+      setFollowInfo(_followInfo)
       setProfile(_profile)
     })()
-  }, [id])
+  }, [id, wallet.accountId])
   const handleSetHash = async (e) => {
     const newProfile = await setImage({ id, ...e })
     setProfile(newProfile)
@@ -75,12 +89,12 @@ export default function Home() {
     }
   }
   const handleFollow = async () => {
-    const new_profile = await controlFollow({
-      id: wallet.accountId,
-      target: id,
+    const new_followInfo = await controlFollow({
+      from: wallet.accountId,
+      to: id,
     })
-    if (new_profile) {
-      setProfile(new_profile)
+    if (new_followInfo) {
+      setFollowInfo(new_followInfo)
     } else {
       toast.warning(`Failed. Please try again.`, {
         position: 'top-right',
@@ -117,12 +131,12 @@ export default function Home() {
                 <h1>{profile.name || getReducedAddress(id)}</h1>
                 <HStack justifyContent="space-around">
                   <Stack>
-                    <h1>{profile.followers && profile.followers.length}</h1>
+                    <h1>{followInfo.followings}</h1>
                     <p>Following</p>
                   </Stack>
                   <VerticalDivider />
                   <Stack>
-                    <h1>{profile.following && profile.following.length}</h1>
+                    <h1>{followInfo.followers}</h1>
                     <p>Followers</p>
                   </Stack>
                 </HStack>
@@ -139,9 +153,7 @@ export default function Home() {
                     size="large"
                     onClick={handleFollow}
                   >
-                    {profile.following && profile.following.includes(id)
-                      ? 'Unfollow'
-                      : 'Follow'}
+                    {followInfo.isFollowing ? 'Unfollow' : 'Follow'}
                   </Button>
                 )}
               </Stack>

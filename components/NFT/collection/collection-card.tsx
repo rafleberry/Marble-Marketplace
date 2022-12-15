@@ -14,21 +14,13 @@ import {
 export default function NftCollectionCard({ collection }): JSX.Element {
   const [hover, setHover] = useState(false)
   return (
-    <CollectionDiv
-      onMouseEnter={() => {
-        setHover(true)
-      }}
-      onMouseLeave={() => {
-        setHover(false)
-      }}
-    >
+    <CollectionDiv>
       <ImgDiv className="nft-img-div">
         <Image
           src={collection.image + PINATA_PRIMARY_IMAGE_SIZE}
           alt="NFT Image"
-          hover={hover}
         />
-        <HoverDiv hover={hover}>
+        <HoverDiv>
           <Title>{collection.name}</Title>
 
           <HStack justifyContent="flex-end">
@@ -55,7 +47,7 @@ const ImgDiv = styled.div`
   position: relative;
 `
 
-const Image = styled.img<{ hover: boolean }>`
+const Image = styled.img`
   position: absolute;
   top: 0;
   left: 0;
@@ -66,7 +58,7 @@ const Image = styled.img<{ hover: boolean }>`
   object-fit: cover;
   object-position: center;
   border-radius: 20px;
-  opacity: ${({ hover }) => (hover ? '0.3' : '1')};
+  opacity: 0.5;
 `
 const Logo = styled.img`
   width: 35px;
@@ -80,9 +72,6 @@ const Logo = styled.img`
 const Title = styled.div`
   font-size: 24px;
   overflow-wrap: anywhere;
-  @media (max-width: 1450px) {
-    font-size: 18px;
-  }
 `
 const CollectionDiv = styled(GradientBackground)`
   &:before {
@@ -91,9 +80,6 @@ const CollectionDiv = styled(GradientBackground)`
   }
   height: 100%;
   cursor: pointer;
-  @media (max-width: 1450px) {
-    padding: 15px;
-  }
   @media (max-width: 1024px) {
     width: 320px;
   }
@@ -110,5 +96,4 @@ const HoverDiv = styled.div<{ hover: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  ${({ hover }) => !hover && 'display: none'};
 `

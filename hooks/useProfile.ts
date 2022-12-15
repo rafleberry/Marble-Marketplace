@@ -13,6 +13,22 @@ export const getProfileInfo = async (address) => {
   }
 }
 
+export const getFollowInfo = async (target, owner) => {
+  try {
+    const { data } = await axios.get(`${backend_url}/follow/get_follow`, {
+      params: {
+        owner,
+        target,
+      },
+    })
+    console.log('data: ', data)
+    return data
+  } catch (error) {
+    console.log('getProfiledataError: ', error)
+    return {}
+  }
+}
+
 export const getSimpleProfileInfo = async (address) => {
   try {
     const { data } = await axios.get(`${backend_url}/get_simple_user`, {
@@ -72,7 +88,10 @@ export const fetchAllProfileCounts = async () => {
 
 export const controlFollow = async (req) => {
   try {
-    const { data } = await axios.post(`${backend_url}/control_follow`, req)
+    const { data } = await axios.post(
+      `${backend_url}/follow/handle_follow`,
+      req
+    )
     return data
   } catch (err) {
     console.log('handle control follow error: ', err)
@@ -88,6 +107,18 @@ export const getFilteredUsers = async (param) => {
     return data
   } catch (err) {
     console.log('get all users error: ', err)
+    return []
+  }
+}
+
+export const getFollowers = async (param) => {
+  try {
+    const { data } = await axios.get(`${backend_url}/follow/get_followers`, {
+      params: param,
+    })
+    return data
+  } catch (err) {
+    console.log('get followers error: ', err)
     return []
   }
 }

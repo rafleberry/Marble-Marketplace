@@ -1,25 +1,16 @@
 import { ChakraProvider, Spinner } from '@chakra-ui/react'
 import { NftTable } from 'components/NFT'
-import styled from 'styled-components'
 import { useCallback, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { useDispatch, useSelector } from 'react-redux'
-import { NftInfo } from 'services/nft'
-import { State } from 'store/reducers'
-import { NFT_COLUMN_COUNT } from 'store/types'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { convertMicroDenomToDenom } from 'util/conversion'
 import {
   marketplaceViewFunction,
   nftViewFunction,
   NFT_CONTRACT_NAME,
   TOKEN_DENOMS,
 } from 'util/near'
-import {
-  formatChakraDateToTimestamp,
-  formatTimestampToDate,
-  convertMicroDenomToDenom,
-  formatNearToYocto,
-  formatHera,
-} from 'util/conversion'
 import { getCurrentWallet } from 'util/sender-wallet'
 
 export const MyCollectedNFTs = ({ id }) => {
