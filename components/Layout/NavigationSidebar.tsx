@@ -140,10 +140,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 )}
                 <MobileLinkWrapper>
                   <StyledLink>
-                    <Link
-                      href="https://app.marbledao.finance/dashboard"
-                      passHref
-                    >
+                    <Link href="/feed" passHref>
                       <a className="dropdown-item">
                         <span>Feed</span>
                       </a>
@@ -217,7 +214,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
             </Link>
             <VerticalDivider />
             <StyledLink>
-              <Link href="https://app.marbledao.finance/dashboard" passHref>
+              <Link href="/feed" passHref>
                 <a className="dropdown-item">
                   <span>Feed</span>
                 </a>
