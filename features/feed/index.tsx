@@ -87,6 +87,7 @@ const Feed = () => {
         skip: 0,
         limit: 8,
       })
+      if (_followers.length === 0) return
       setFollowers(_followers)
       setUser(_followers[0])
     })()
@@ -154,6 +155,7 @@ const Feed = () => {
               </AvatarItemWrapper>
             ))}
           </AvatarWrapper>
+          {followers.length === 0 && "You don't follow any users."}
         </CardWrapper>
         {userNft.map((element, index) => (
           <CardWrapper key={index}>
@@ -232,49 +234,51 @@ const Feed = () => {
           </CardWrapper>
         ))}
       </ContentWrapper>
-      <ContentWrapper>
-        <CardWrapper>
-          <FollowWrapper>
-            <FollowItem>
-              <h1>{user.followers}</h1>
-              <p>Followers</p>
-            </FollowItem>
-            <Logo
-              src={
-                user.avatar
-                  ? PUBLIC_PINATA_URL +
-                    user.avatar +
-                    PINATA_SECONDARY_IMAGE_SIZE
-                  : default_image + PINATA_SECONDARY_IMAGE_SIZE
-              }
-              size="40%"
-              border="4px solid white"
-              alt="logo"
-            />
+      {followers.length > 0 && (
+        <ContentWrapper>
+          <CardWrapper>
+            <FollowWrapper>
+              <FollowItem>
+                <h1>{user.followers}</h1>
+                <p>Followers</p>
+              </FollowItem>
+              <Logo
+                src={
+                  user.avatar
+                    ? PUBLIC_PINATA_URL +
+                      user.avatar +
+                      PINATA_SECONDARY_IMAGE_SIZE
+                    : default_image + PINATA_SECONDARY_IMAGE_SIZE
+                }
+                size="40%"
+                border="4px solid white"
+                alt="logo"
+              />
 
-            <FollowItem>
-              <h1>{user.following}</h1>
-              <p>Followings</p>
-            </FollowItem>
-          </FollowWrapper>
-          <ProfileInfoWrapper>
-            <h1>{user.name || user.id}</h1>
-            {user.bio && <p>{user.bio}</p>}
-          </ProfileInfoWrapper>
-          <InputWrapper>
-            <TextArea
-              value={thought}
-              onChange={(e) => {
-                setThought(e.target.value)
-              }}
-              placeholder="Post your thoughts"
-            />
-          </InputWrapper>
-          <ButtonWrapper>
-            <Button onClick={handlePost}>Post</Button>
-          </ButtonWrapper>
-        </CardWrapper>
-      </ContentWrapper>
+              <FollowItem>
+                <h1>{user.following}</h1>
+                <p>Followings</p>
+              </FollowItem>
+            </FollowWrapper>
+            <ProfileInfoWrapper>
+              <h1>{user.name || user.id}</h1>
+              {user.bio && <p>{user.bio}</p>}
+            </ProfileInfoWrapper>
+            <InputWrapper>
+              <TextArea
+                value={thought}
+                onChange={(e) => {
+                  setThought(e.target.value)
+                }}
+                placeholder="Post your thoughts"
+              />
+            </InputWrapper>
+            <ButtonWrapper>
+              <Button onClick={handlePost}>Post</Button>
+            </ButtonWrapper>
+          </CardWrapper>
+        </ContentWrapper>
+      )}
     </Container>
   )
 }
