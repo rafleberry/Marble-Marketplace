@@ -139,13 +139,15 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                   </MobileProfileInfo>
                 )}
                 <MobileLinkWrapper>
-                  <StyledLink>
-                    <Link href="/feed" passHref>
-                      <a className="dropdown-item">
-                        <span>Feed</span>
-                      </a>
-                    </Link>
-                  </StyledLink>
+                  {accountId && (
+                    <StyledLink>
+                      <Link href="/feed" passHref>
+                        <a className="dropdown-item">
+                          <span>Feed</span>
+                        </a>
+                      </Link>
+                    </StyledLink>
+                  )}
                   <StyledLink>
                     <Link href="/explore/nfts" passHref>
                       <a className="dropdown-item">
@@ -164,13 +166,15 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                       <span className={isActive('/defi')}>DeFi</span>
                     </a>
                   </StyledLink>
-                  <StyledLink>
-                    <Link href="/stake" passHref>
-                      <a className="dropdown-item">
-                        <span className={isActive('/stake')}>Stake</span>
-                      </a>
-                    </Link>
-                  </StyledLink>
+                  {accountId && (
+                    <StyledLink>
+                      <Link href="/stake" passHref>
+                        <a className="dropdown-item">
+                          <span className={isActive('/stake')}>Stake</span>
+                        </a>
+                      </Link>
+                    </StyledLink>
+                  )}
                   <StyledLink>
                     <Link href="/metaverse" passHref>
                       <a className="dropdown-item">
@@ -213,13 +217,15 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
               </StyledDivForLogo>
             </Link>
             <VerticalDivider />
-            <StyledLink>
-              <Link href="/feed" passHref>
-                <a className="dropdown-item">
-                  <span>Feed</span>
-                </a>
-              </Link>
-            </StyledLink>
+            {accountId && (
+              <StyledLink>
+                <Link href="/feed" passHref>
+                  <a className="dropdown-item">
+                    <span>Feed</span>
+                  </a>
+                </Link>
+              </StyledLink>
+            )}
             <StyledLink>
               <Link href="/explore/nfts" passHref>
                 <a className="dropdown-item">
@@ -236,13 +242,15 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
                 <span className={isActive('/defi')}>DeFi</span>
               </a>
             </StyledLink>
-            <StyledLink>
-              <Link href="/stake" passHref>
-                <a className="dropdown-item">
-                  <span className={isActive('/stake')}>Stake</span>
-                </a>
-              </Link>
-            </StyledLink>
+            {accountId && (
+              <StyledLink>
+                <Link href="/stake" passHref>
+                  <a className="dropdown-item">
+                    <span className={isActive('/stake')}>Stake</span>
+                  </a>
+                </Link>
+              </StyledLink>
+            )}
             <StyledLink>
               <Link href="/metaverse" passHref>
                 <a className="dropdown-item">
