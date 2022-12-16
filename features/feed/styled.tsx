@@ -24,7 +24,7 @@ export const CardWrapper = styled(SecondGradientBackground)`
 `
 export const AvatarWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   column-gap: 20px;
 `
 

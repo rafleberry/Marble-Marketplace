@@ -82,7 +82,11 @@ const Feed = () => {
   useEffect(() => {
     ;(async () => {
       if (!wallet?.accountId) return
-      const _followers = await getFollowers({ owner: wallet?.accountId })
+      const _followers = await getFollowers({
+        owner: wallet?.accountId,
+        skip: 0,
+        limit: 8,
+      })
       setFollowers(_followers)
       setUser(_followers[0])
     })()
@@ -133,7 +137,6 @@ const Feed = () => {
                 active={follower._id === user._id}
                 key={follower._id}
                 onClick={() => {
-                  console.log('follower: ', follower)
                   setUser(follower)
                 }}
               >
@@ -244,7 +247,7 @@ const Feed = () => {
                     PINATA_SECONDARY_IMAGE_SIZE
                   : default_image + PINATA_SECONDARY_IMAGE_SIZE
               }
-              size="130px"
+              size="40%"
               border="4px solid white"
               alt="logo"
             />
@@ -264,6 +267,7 @@ const Feed = () => {
               onChange={(e) => {
                 setThought(e.target.value)
               }}
+              placeholder="Post your thoughts"
             />
           </InputWrapper>
           <ButtonWrapper>
