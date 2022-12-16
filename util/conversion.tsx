@@ -137,3 +137,10 @@ export const formatTimestampToDate = (strTimestamp) => {
     date.getMonth() + 1
   }-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
 }
+export const emptyObject = (object) => {
+  for (const name in object) {
+    if (object.hasOwnProperty(name)) {
+      delete object[name]
+    }
+  }
+}

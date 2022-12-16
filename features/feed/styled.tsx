@@ -96,10 +96,10 @@ export const FollowItem = styled.div`
     color: #a2adbc;
   }
 `
-export const Logo = styled.img`
-  width: 130px;
-  height: 130px;
-  border: 4px solid white;
+export const Logo = styled.img<{ size: string; border: string }>`
+  width: ${({ size }) => size};
+  height: ${({ size }) => size};
+  border: ${({ border }) => border};
   border-radius: 50%;
 `
 export const ProfileInfoWrapper = styled.div`
@@ -113,4 +113,57 @@ export const ProfileInfoWrapper = styled.div`
     font-size: 16px;
     font-family: Mulish;
   }
+
+  margin-bottom: 30px;
+`
+
+export const NFTInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-block: 20px;
+  div {
+    display: flex;
+  }
+`
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  margin-right: 20px;
+`
+
+export const InputWrapper = styled(GradientBackground)`
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
+`
+export const VerticalDivider = styled.div`
+  height: 35px;
+  margin-inline: 20px;
+  background: #d0dff3;
+  width: 1px;
+`
+export const StyledInput = styled.input`
+  font-family: Mulish;
+`
+
+export const TextArea = styled.textarea`
+  font-family: Mulish;
+  background: transparent;
+  width: 100%;
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+`
+
+export const ButtonWrapper = styled.div`
+  margin: 20px 0;
 `

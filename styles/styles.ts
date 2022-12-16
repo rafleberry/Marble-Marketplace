@@ -62,3 +62,21 @@ export const SecondGradientBackground = styled.div`
     z-index: -1;
   }
 `
+export const Button = styled.div`
+  height: 60px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 16px;
+  background: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
+  &:hover {
+    opacity: 0.7;
+  }
+`

@@ -1,19 +1,28 @@
 import { useState, useEffect, useCallback } from 'react'
 import { getCurrentWallet } from 'util/sender-wallet'
 import { getFollowers } from 'hooks/useProfile'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 import {
   PINATA_SECONDARY_IMAGE_SIZE,
   PUBLIC_PINATA_URL,
   default_image,
   PINATA_PRIMARY_IMAGE_SIZE,
 } from 'util/constants'
-import { getReducedAddress, convertMicroDenomToDenom } from 'util/conversion'
+import {
+  getReducedAddress,
+  convertMicroDenomToDenom,
+  emptyObject,
+} from 'util/conversion'
 import {
   marketplaceViewFunction,
   nftViewFunction,
   NFT_CONTRACT_NAME,
   TOKEN_DENOMS,
 } from 'util/near'
+import useNft from 'hooks/useNft'
+import { Heart, Comment, Retweet, Bookmark } from 'icons'
+import { Button } from 'styles/styles'
 import {
   Container,
   ContentWrapper,
@@ -28,13 +37,25 @@ import {
   FollowItem,
   Logo,
   ProfileInfoWrapper,
+  NFTInfoWrapper,
+  IconWrapper,
+  InputWrapper,
+  VerticalDivider,
+  StyledInput,
+  TextArea,
+  ButtonWrapper,
 } from './styled'
 
 const Feed = () => {
+  const { getCommentsCnt, addComment } = useNft()
   const [followers, setFollowers] = useState([])
+  const [comment, setComment] = useState<any>({})
+  const [commentCnt, setCommentCnt] = useState([])
   const [user, setUser] = useState<any>({})
+  const [thought, setThought] = useState('')
   const [userNft, setUserNft] = useState<any>([])
   const wallet = getCurrentWallet()
+  const profile = useSelector((state: any) => state.profileData.profile_status)
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     try {
@@ -48,7 +69,16 @@ const Feed = () => {
       console.log('fetchOwnedNFTs Error: ', err)
     }
     setUserNft(ownedNFTs)
-  }, [user.id])
+  }, [user])
+  const fetchComments = useCallback(async () => {
+    const comments = await Promise.all(
+      userNft.map(async (_nft) => {
+        const _commentCnt = await getCommentsCnt(_nft.token_id)
+        return _commentCnt
+      })
+    )
+    setCommentCnt(comments)
+  }, [userNft])
   useEffect(() => {
     ;(async () => {
       if (!wallet?.accountId) return
@@ -63,6 +93,35 @@ const Feed = () => {
       await fetchOwnedNFTs()
     })()
   }, [user])
+  useEffect(() => {
+    if (userNft.length === 0) return
+    ;(async () => {
+      await fetchComments()
+    })()
+  }, [userNft])
+  const handleSaveComment = async (token_id, _comment) => {
+    if (!wallet?.accountId) return
+    if (!_comment) {
+      toast.warning(`Please write your comment.`, {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      return
+    }
+    const result = await addComment(token_id, wallet?.accountId, _comment)
+    if (result) {
+      await fetchComments()
+      setComment({ ...comment, [token_id]: '' })
+    }
+  }
+  const handlePost = async () => {
+    setThought('')
+  }
   return (
     <Container>
       <div />
@@ -118,6 +177,55 @@ const Feed = () => {
                 alt="NFT Image"
               />
             </NFTImgDiv>
+            <NFTInfoWrapper>
+              <div>
+                <IconWrapper>
+                  <Heart width="30px" height="30px" />0
+                </IconWrapper>
+                <IconWrapper>
+                  <Comment width="30px" height="30px" />
+                  {commentCnt[index]}
+                </IconWrapper>
+                <IconWrapper>
+                  <Retweet width="30px" height="30px" />0
+                </IconWrapper>
+              </div>
+              <div>
+                <IconWrapper
+                  style={{ cursor: 'pointer' }}
+                  onClick={async () => {
+                    await handleSaveComment(
+                      element.token_id,
+                      comment[element.token_id]
+                    )
+                  }}
+                >
+                  <Bookmark width="30px" height="30px" />
+                </IconWrapper>
+              </div>
+            </NFTInfoWrapper>
+            <InputWrapper>
+              <Logo
+                src={
+                  profile.avatar
+                    ? PUBLIC_PINATA_URL +
+                      profile.avatar +
+                      PINATA_SECONDARY_IMAGE_SIZE
+                    : default_image + PINATA_SECONDARY_IMAGE_SIZE
+                }
+                size="40px"
+                alt="logo"
+                border="2px solid rgba(255,255,255,0.2)"
+              />
+              <VerticalDivider />
+              <StyledInput
+                placeholder="Write your comment"
+                onChange={(e) => {
+                  setComment({ ...comment, [element.token_id]: e.target.value })
+                }}
+                value={comment[element.token_id]}
+              />
+            </InputWrapper>
           </CardWrapper>
         ))}
       </ContentWrapper>
@@ -136,6 +244,8 @@ const Feed = () => {
                     PINATA_SECONDARY_IMAGE_SIZE
                   : default_image + PINATA_SECONDARY_IMAGE_SIZE
               }
+              size="130px"
+              border="4px solid white"
               alt="logo"
             />
 
@@ -148,6 +258,17 @@ const Feed = () => {
             <h1>{user.name || user.id}</h1>
             {user.bio && <p>{user.bio}</p>}
           </ProfileInfoWrapper>
+          <InputWrapper>
+            <TextArea
+              value={thought}
+              onChange={(e) => {
+                setThought(e.target.value)
+              }}
+            />
+          </InputWrapper>
+          <ButtonWrapper>
+            <Button onClick={handlePost}>Post</Button>
+          </ButtonWrapper>
         </CardWrapper>
       </ContentWrapper>
     </Container>
