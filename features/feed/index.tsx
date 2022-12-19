@@ -44,13 +44,15 @@ import {
   StyledInput,
   TextArea,
   ButtonWrapper,
+  CardHeader,
+  IconGroup,
 } from './styled'
 
 const Feed = () => {
-  const { getCommentsCnt, addComment } = useNft()
+  const { getCommentsCnt, addComment, getFavoritesCnt, addFavorite } = useNft()
   const [followers, setFollowers] = useState([])
   const [comment, setComment] = useState<any>({})
-  const [commentCnt, setCommentCnt] = useState([])
+  const [nftInfo, setNftInfo] = useState([])
   const [user, setUser] = useState<any>({})
   const [thought, setThought] = useState('')
   const [userNft, setUserNft] = useState<any>([])
@@ -71,13 +73,16 @@ const Feed = () => {
     setUserNft(ownedNFTs)
   }, [user])
   const fetchComments = useCallback(async () => {
-    const comments = await Promise.all(
+    const _comments = await Promise.all(
       userNft.map(async (_nft) => {
-        const _commentCnt = await getCommentsCnt(_nft.token_id)
-        return _commentCnt
+        const [_commentCnt, _favorites] = await Promise.all([
+          getCommentsCnt(_nft.token_id),
+          getFavoritesCnt(_nft.token_id, wallet?.accountId),
+        ])
+        return { comments: _commentCnt, favorites: _favorites }
       })
     )
-    setCommentCnt(comments)
+    setNftInfo(_comments)
   }, [userNft])
   useEffect(() => {
     ;(async () => {
@@ -127,9 +132,62 @@ const Feed = () => {
   const handlePost = async () => {
     setThought('')
   }
+  const handleSaveFavorites = async (token_id) => {
+    if (!wallet?.accountId) return
+    const result = await addFavorite(token_id, wallet?.accountId)
+    if (result) {
+      await fetchComments()
+    }
+  }
   return (
     <Container>
-      <div />
+      <div>
+        {followers.length > 0 && (
+          <ContentWrapper>
+            <CardWrapper>
+              <FollowWrapper>
+                <FollowItem>
+                  <h1>{user.followers}</h1>
+                  <p>Followers</p>
+                </FollowItem>
+                <Logo
+                  src={
+                    user.avatar
+                      ? PUBLIC_PINATA_URL +
+                        user.avatar +
+                        PINATA_SECONDARY_IMAGE_SIZE
+                      : default_image + PINATA_SECONDARY_IMAGE_SIZE
+                  }
+                  size="40%"
+                  border="4px solid white"
+                  alt="logo"
+                />
+
+                <FollowItem>
+                  <h1>{user.following}</h1>
+                  <p>Followings</p>
+                </FollowItem>
+              </FollowWrapper>
+              <ProfileInfoWrapper>
+                <h1>{user.name || user.id}</h1>
+                {user.bio && <p>{user.bio}</p>}
+              </ProfileInfoWrapper>
+              <InputWrapper>
+                <TextArea
+                  value={thought}
+                  onChange={(e) => {
+                    setThought(e.target.value)
+                  }}
+                  placeholder="Post your thoughts"
+                />
+              </InputWrapper>
+              <ButtonWrapper>
+                <Button onClick={handlePost}>Post</Button>
+              </ButtonWrapper>
+            </CardWrapper>
+          </ContentWrapper>
+        )}
+      </div>
       <ContentWrapper>
         <CardWrapper>
           <AvatarWrapper>
@@ -159,19 +217,34 @@ const Feed = () => {
         </CardWrapper>
         {userNft.map((element, index) => (
           <CardWrapper key={index}>
-            <UserAvatarWrapper>
-              <StyledImage
-                src={
-                  user.avatar
-                    ? PUBLIC_PINATA_URL +
-                      user.avatar +
-                      PINATA_SECONDARY_IMAGE_SIZE
-                    : default_image + PINATA_SECONDARY_IMAGE_SIZE
-                }
-                alt="img"
-              />
-              <p>{user.name || getReducedAddress(user.id)}</p>
-            </UserAvatarWrapper>
+            <CardHeader>
+              <UserAvatarWrapper>
+                <StyledImage
+                  src={
+                    user.avatar
+                      ? PUBLIC_PINATA_URL +
+                        user.avatar +
+                        PINATA_SECONDARY_IMAGE_SIZE
+                      : default_image + PINATA_SECONDARY_IMAGE_SIZE
+                  }
+                  alt="img"
+                />
+                <p>{user.name || getReducedAddress(user.id)}</p>
+              </UserAvatarWrapper>
+              <IconWrapper
+                onClick={async () => {
+                  await handleSaveFavorites(element.token_id)
+                }}
+              >
+                <Heart
+                  fill={
+                    nftInfo[index]?.favorites.isFavoriteOne ? 'white' : 'none'
+                  }
+                  width="30px"
+                  height="30px"
+                />
+              </IconWrapper>
+            </CardHeader>
             <NFTImgDiv>
               <NFTImage
                 src={
@@ -183,31 +256,26 @@ const Feed = () => {
               />
             </NFTImgDiv>
             <NFTInfoWrapper>
-              <div>
+              <IconGroup>
                 <IconWrapper>
-                  <Heart width="30px" height="30px" />0
+                  <Heart fill="white" width="30px" height="30px" />
+                  {nftInfo[index]?.favorites?.cnt}
                 </IconWrapper>
                 <IconWrapper>
                   <Comment width="30px" height="30px" />
-                  {commentCnt[index]}
+                  {nftInfo[index]?.comments}
                 </IconWrapper>
-                <IconWrapper>
-                  <Retweet width="30px" height="30px" />0
-                </IconWrapper>
-              </div>
-              <div>
-                <IconWrapper
-                  style={{ cursor: 'pointer' }}
-                  onClick={async () => {
-                    await handleSaveComment(
-                      element.token_id,
-                      comment[element.token_id]
-                    )
-                  }}
-                >
-                  <Bookmark width="30px" height="30px" />
-                </IconWrapper>
-              </div>
+              </IconGroup>
+              <IconWrapper
+                onClick={async () => {
+                  // await handleSaveComment(
+                  //   element.token_id,
+                  //   comment[element.token_id]
+                  // )
+                }}
+              >
+                <Bookmark width="30px" height="30px" />
+              </IconWrapper>
             </NFTInfoWrapper>
             <InputWrapper>
               <Logo
@@ -230,55 +298,21 @@ const Feed = () => {
                 }}
                 value={comment[element.token_id]}
               />
+              <IconWrapper
+                style={{ transform: 'rotate(45deg)', cursor: 'pointer' }}
+                onClick={async () => {
+                  await handleSaveComment(
+                    element.token_id,
+                    comment[element.token_id]
+                  )
+                }}
+              >
+                <Retweet width="30px" height="30px" />
+              </IconWrapper>
             </InputWrapper>
           </CardWrapper>
         ))}
       </ContentWrapper>
-      {followers.length > 0 && (
-        <ContentWrapper>
-          <CardWrapper>
-            <FollowWrapper>
-              <FollowItem>
-                <h1>{user.followers}</h1>
-                <p>Followers</p>
-              </FollowItem>
-              <Logo
-                src={
-                  user.avatar
-                    ? PUBLIC_PINATA_URL +
-                      user.avatar +
-                      PINATA_SECONDARY_IMAGE_SIZE
-                    : default_image + PINATA_SECONDARY_IMAGE_SIZE
-                }
-                size="40%"
-                border="4px solid white"
-                alt="logo"
-              />
-
-              <FollowItem>
-                <h1>{user.following}</h1>
-                <p>Followings</p>
-              </FollowItem>
-            </FollowWrapper>
-            <ProfileInfoWrapper>
-              <h1>{user.name || user.id}</h1>
-              {user.bio && <p>{user.bio}</p>}
-            </ProfileInfoWrapper>
-            <InputWrapper>
-              <TextArea
-                value={thought}
-                onChange={(e) => {
-                  setThought(e.target.value)
-                }}
-                placeholder="Post your thoughts"
-              />
-            </InputWrapper>
-            <ButtonWrapper>
-              <Button onClick={handlePost}>Post</Button>
-            </ButtonWrapper>
-          </CardWrapper>
-        </ContentWrapper>
-      )}
     </Container>
   )
 }

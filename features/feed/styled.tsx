@@ -105,6 +105,7 @@ export const Logo = styled.img<{ size: string; border: string }>`
 export const ProfileInfoWrapper = styled.div`
   h1 {
     font-size: 20px;
+    contain: inline-size;
   }
   * {
     text-align: center;
@@ -129,7 +130,7 @@ export const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   column-gap: 5px;
-  margin-right: 20px;
+  cursor: pointer;
 `
 
 export const InputWrapper = styled(GradientBackground)`
@@ -166,4 +167,12 @@ export const TextArea = styled.textarea`
 
 export const ButtonWrapper = styled.div`
   margin: 20px 0;
+`
+export const CardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+export const IconGroup = styled.div`
+  display: flex;
+  column-gap: 30px;
 `

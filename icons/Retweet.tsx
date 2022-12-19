@@ -17,13 +17,6 @@ export const Retweet = (props: SVGProps<SVGSVGElement>) => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path
-        d="M13.9297 18.4978L18.7811 13.6328"
-        stroke="white"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   )
 }

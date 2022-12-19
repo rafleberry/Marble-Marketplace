@@ -26,7 +26,30 @@ const useNft = () => {
       return false
     }
   }, [])
-  return { getCommentsCnt, addComment }
+  const getFavoritesCnt = useCallback(async (token_id, user) => {
+    const { data } = await axios.get(
+      `${backend_url}/favorite/get_favorite_counts`,
+      {
+        params: {
+          token_id,
+          user,
+        },
+      }
+    )
+    return data
+  }, [])
+  const addFavorite = useCallback(async (token_id, user) => {
+    try {
+      await axios.post(`${backend_url}/favorite/add_favorite`, {
+        token_id,
+        user,
+      })
+      return true
+    } catch (err) {
+      return false
+    }
+  }, [])
+  return { getCommentsCnt, addComment, getFavoritesCnt, addFavorite }
 }
 
 export default useNft
