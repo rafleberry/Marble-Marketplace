@@ -1,10 +1,17 @@
 import styled from 'styled-components'
 import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+`
+
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  column-gap: 20px;
+  grid-template-columns: 25% 50% 25%;
+  /* gap: 20px; */
+  /* column-gap: 20px; */
 `
 
 export const ContentWrapper = styled.div`
@@ -16,7 +23,11 @@ export const ContentWrapper = styled.div`
 
 export const CardWrapper = styled(SecondGradientBackground)`
   padding: 10px 20px;
-
+  height: fit-content;
+  margin-inline: 10px;
+  h1 {
+    font-size: 20px;
+  }
   &:before {
     opacity: 0.7;
     border-radius: 30px;
@@ -25,7 +36,6 @@ export const CardWrapper = styled(SecondGradientBackground)`
 export const AvatarWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  column-gap: 20px;
 `
 
 export const AvatarItemWrapper = styled.div<{ active: boolean }>`
@@ -136,7 +146,8 @@ export const IconWrapper = styled.div`
 export const InputWrapper = styled(GradientBackground)`
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 15px 20px;
+  margin-block: 10px;
   &:before {
     opacity: 0.2;
     border-radius: 20px;
@@ -175,4 +186,66 @@ export const CardHeader = styled.div`
 export const IconGroup = styled.div`
   display: flex;
   column-gap: 30px;
+`
+export const UnfollowerWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    font-size: 14px;
+    max-width: 80px;
+  }
+`
+export const UnfollowerAvatarWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+`
+export const FollowButton = styled.div`
+  border: 1px solid #ffffff;
+  border-radius: 60px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+`
+export const UnFollowContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 0px;
+`
+
+export const LoadMoreButtonWrapper = styled.div`
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+`
+
+export const LoadMoreButton = styled(GradientBackground)`
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+  width: fit-content;
+  font-family: Mulish;
+  &:before {
+    opacity: 0.2;
+    border-radius: 20px;
+  }
+`
+
+export const CommentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  span {
+    font-size: 14px;
+    opacity: 0.5;
+  }
+  p {
+    font-family: Mulish;
+  }
 `

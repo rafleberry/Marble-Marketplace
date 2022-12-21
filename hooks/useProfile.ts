@@ -122,3 +122,15 @@ export const getFollowers = async (param) => {
     return []
   }
 }
+
+export const getUnfollowList = async (param) => {
+  try {
+    const { data } = await axios.get(`${backend_url}/follow/get_unfollowers`, {
+      params: param,
+    })
+    return data
+  } catch (err) {
+    console.error('get unfollow list error: ', err)
+    return []
+  }
+}

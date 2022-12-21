@@ -14,6 +14,17 @@ const useNft = () => {
     )
     return data.comment
   }, [])
+  const getComments = useCallback(async (token_id, page, limit = 10) => {
+    try {
+      const { data } = await axios.get(`${backend_url}/comment/get_comments`, {
+        params: { token_id, skip: page * limit, limit },
+      })
+      console.log('data: ', data)
+      return data.comment
+    } catch (err) {
+      return []
+    }
+  }, [])
   const addComment = useCallback(async (token_id, writer, content) => {
     try {
       await axios.post(`${backend_url}/comment/add_comment`, {
@@ -49,7 +60,13 @@ const useNft = () => {
       return false
     }
   }, [])
-  return { getCommentsCnt, addComment, getFavoritesCnt, addFavorite }
+  return {
+    getCommentsCnt,
+    addComment,
+    getFavoritesCnt,
+    addFavorite,
+    getComments,
+  }
 }
 
 export default useNft

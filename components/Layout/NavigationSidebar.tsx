@@ -49,6 +49,8 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
     })
   }, [setAccount])
   useEffect(() => {
+    // console.log('accountId: ', accountId)
+    if (accountId === '[id]') return
     getProfileData(accountId, dispatch)
   }, [accountId, dispatch])
 
