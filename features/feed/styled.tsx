@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
 export const Wrapper = styled.div`
@@ -7,11 +7,13 @@ export const Wrapper = styled.div`
   row-gap: 20px;
 `
 
+// export const Container = styled.div<{ firstHeight?: number }>`
 export const Container = styled.div`
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  /* gap: 20px; */
-  /* column-gap: 20px; */
+  /* position: sticky;
+  top: 108px;
+  z-index: 100; */
 `
 
 export const ContentWrapper = styled.div`
@@ -19,20 +21,65 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   row-gap: 20px;
   width: 100%;
+  /* height: 200vh;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    width: 0px;
+  } */
+  /* height: 100%; */
+  /* position: relative; */
 `
+export const AbsoluteContentWrappper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+`
+// export const CardWrapper = styled.div`
 
 export const CardWrapper = styled(SecondGradientBackground)`
   padding: 10px 20px;
   height: fit-content;
   margin-inline: 10px;
+
   h1 {
     font-size: 20px;
   }
   &:before {
-    opacity: 0.7;
+    opacity: 0.2;
     border-radius: 30px;
   }
 `
+
+export const AvatarCardWrapper = styled(SecondGradientBackground)`
+  padding: 10px 20px;
+  height: fit-content;
+  margin-inline: 10px;
+
+  h1 {
+    font-size: 20px;
+  }
+  background: rgb(32, 35, 49);
+  border-radius: 30px;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
+  &:before {
+    opacity: 0.2;
+    border-radius: 30px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+  }
+`
+
 export const AvatarWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -63,6 +110,7 @@ export const UserAvatarWrapper = styled.div`
   padding: 10px 0 20px 0;
   p {
     font-size: 20px;
+    overflow-wrap: anywhere;
   }
 `
 export const NFTImgDiv = styled.div`
@@ -248,4 +296,10 @@ export const CommentWrapper = styled.div`
   p {
     font-family: Mulish;
   }
+`
+
+export const StickyDiv = styled.div<{ height?: number }>`
+  position: sticky;
+  ${({ height }) => `top: calc(108px + ${height}px)`};
+  z-index: 10000;
 `

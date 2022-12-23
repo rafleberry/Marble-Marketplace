@@ -1748,14 +1748,12 @@ const Banner = styled('div', {
   height: '950px',
   width: '100%',
   display: 'block',
-  paddingTop: '190px',
+
   '@media (max-width: 1550px)': {
-    paddingTop: '100px',
     height: '850px',
   },
   '@media (max-width: 1024px)': {
     height: '560px',
-    paddingTop: '60px',
   },
 })
 const BannerImage = styled('img', {
@@ -1775,6 +1773,8 @@ const NFTImageWrapper = styled('div', {
   position: 'relative',
   height: '700px',
   width: '700px',
+  top: '50%',
+  transform: 'translate(0, -50%)',
   border: '1px solid rgba(255,255,255,0.2)',
   background: 'rgba(255,255,255,0.06)',
   display: 'block',

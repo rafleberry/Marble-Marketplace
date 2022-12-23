@@ -9,7 +9,7 @@ export const StyledWrapper = styled.div`
   border-bottom: 1px solid #363b4e;
   background: rgba(8, 12, 28, 0.6);
   backdrop-filter: blur(20px);
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   z-index: 100;

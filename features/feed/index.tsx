@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useMemo, useState, useEffect, useCallback } from 'react'
 import { getCurrentWallet } from 'util/sender-wallet'
 import Link from 'next/link'
 import { getFollowers, getFollowInfo } from 'hooks/useProfile'
@@ -50,6 +50,9 @@ import {
   CardHeader,
   IconGroup,
   Wrapper,
+  AbsoluteContentWrappper,
+  StickyDiv,
+  AvatarCardWrapper,
 } from './styled'
 
 const Feed = () => {
@@ -63,6 +66,11 @@ const Feed = () => {
   const [userNft, setUserNft] = useState<any>([])
   const wallet = getCurrentWallet()
   const profile = useSelector((state: any) => state.profileData.profile_status)
+  const [firstElement, setFirstElement] = useState<HTMLDivElement | null>(null)
+  const firstHeight = useMemo(() => {
+    return firstElement?.offsetHeight || 0
+  }, [firstElement])
+
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     try {
@@ -151,40 +159,51 @@ const Feed = () => {
   }
   return (
     <Wrapper>
+      <StickyDiv height={0}>
+        <Container ref={(node) => setFirstElement(node)}>
+          {/* <Container> */}
+          <div />
+          <div>
+            <AvatarCardWrapper>
+              <AvatarWrapper>
+                {followers.map((follower) => (
+                  <AvatarItemWrapper
+                    active={follower._id === user._id}
+                    key={follower._id}
+                    onClick={() => {
+                      setUser(follower)
+                    }}
+                  >
+                    <StyledImage
+                      src={
+                        follower.avatar
+                          ? PUBLIC_PINATA_URL +
+                            follower.avatar +
+                            PINATA_SECONDARY_IMAGE_SIZE
+                          : default_image + PINATA_SECONDARY_IMAGE_SIZE
+                      }
+                      alt="img"
+                    />
+                    <p>{follower.name || getReducedAddress(follower.id)}</p>
+                  </AvatarItemWrapper>
+                ))}
+              </AvatarWrapper>
+              {followers.length === 0 && "You don't follow any users."}
+            </AvatarCardWrapper>
+          </div>
+          <div />
+        </Container>
+      </StickyDiv>
+
       <Container>
-        <div />
-        <CardWrapper>
-          <AvatarWrapper>
-            {followers.map((follower) => (
-              <AvatarItemWrapper
-                active={follower._id === user._id}
-                key={follower._id}
-                onClick={() => {
-                  setUser(follower)
-                }}
-              >
-                <StyledImage
-                  src={
-                    follower.avatar
-                      ? PUBLIC_PINATA_URL +
-                        follower.avatar +
-                        PINATA_SECONDARY_IMAGE_SIZE
-                      : default_image + PINATA_SECONDARY_IMAGE_SIZE
-                  }
-                  alt="img"
-                />
-                <p>{follower.name || getReducedAddress(follower.id)}</p>
-              </AvatarItemWrapper>
-            ))}
-          </AvatarWrapper>
-          {followers.length === 0 && "You don't follow any users."}
-        </CardWrapper>
-      </Container>
-      <Container>
+        {/* <Container firstHeight={firstHeight}> */}
         <div>
-          <MyProfileCard rCount={rCount} account={wallet?.accountId} />
+          <StickyDiv height={firstHeight}>
+            <MyProfileCard rCount={rCount} account={wallet?.accountId} />
+          </StickyDiv>
         </div>
         <ContentWrapper>
+          {/* <AbsoluteContentWrappper> */}
           {userNft.map((element, index) => (
             <CardWrapper key={index}>
               <CardHeader>
@@ -199,7 +218,8 @@ const Feed = () => {
                     }
                     alt="img"
                   />
-                  <p>{user.name || getReducedAddress(user.id)}</p>
+
+                  <p>{user.name || user.id}</p>
                 </UserAvatarWrapper>
                 <IconWrapper
                   onClick={async () => {
@@ -215,7 +235,12 @@ const Feed = () => {
                   />
                 </IconWrapper>
               </CardHeader>
-              <NFTImgDiv>
+
+              <NFTImgDiv
+                onDoubleClick={async () => {
+                  await handleSaveFavorites(element.token_id)
+                }}
+              >
                 <NFTImage
                   src={
                     PUBLIC_PINATA_URL +
@@ -228,7 +253,15 @@ const Feed = () => {
               <NFTInfoWrapper>
                 <IconGroup>
                   <IconWrapper>
-                    <Heart fill="white" width="30px" height="30px" />
+                    <Heart
+                      fill={
+                        nftInfo[index]?.favorites.isFavoriteOne
+                          ? 'white'
+                          : 'none'
+                      }
+                      width="30px"
+                      height="30px"
+                    />
                     {nftInfo[index]?.favorites?.cnt}
                   </IconWrapper>
                   <Link href={`/feed/${element.token_id}`} passHref>
@@ -287,12 +320,17 @@ const Feed = () => {
               </InputWrapper>
             </CardWrapper>
           ))}
+          {/* </AbsoluteContentWrappper> */}
         </ContentWrapper>
-        <ToFollowList
-          account={wallet?.accountId}
-          setRCount={setRCount}
-          rCount={rCount}
-        />
+        <div>
+          <StickyDiv height={firstHeight}>
+            <ToFollowList
+              account={wallet?.accountId}
+              setRCount={setRCount}
+              rCount={rCount}
+            />
+          </StickyDiv>
+        </div>
       </Container>
     </Wrapper>
   )

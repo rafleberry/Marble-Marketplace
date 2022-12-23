@@ -178,7 +178,11 @@ const Feed = () => {
                 />
               </IconWrapper>
             </CardHeader>
-            <NFTImgDiv>
+            <NFTImgDiv
+              onDoubleClick={async () => {
+                await handleSaveFavorites(userNft.token_id)
+              }}
+            >
               <NFTImage
                 src={
                   PUBLIC_PINATA_URL +
