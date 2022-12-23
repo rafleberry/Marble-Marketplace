@@ -302,4 +302,7 @@ export const StickyDiv = styled.div<{ height?: number }>`
   position: sticky;
   ${({ height }) => `top: calc(108px + ${height}px)`};
   z-index: 10000;
+  @media (max-width: 1550px) {
+    ${({ height }) => `top: calc(80px + ${height}px)`};
+  }
 `
