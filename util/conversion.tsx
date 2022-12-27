@@ -144,3 +144,14 @@ export const emptyObject = (object) => {
     }
   }
 }
+
+export const getStandardTime = (time: string) => {
+  const utcTime = new Date(time)
+  const year = utcTime.getFullYear() % 2000
+  const day = utcTime.getDate()
+  const month = utcTime.getMonth() + 1
+  const hour = utcTime.getHours()
+  const min = utcTime.getMinutes()
+  const sec = utcTime.getSeconds()
+  return `${day}-${month}-'${year}, ${hour}:${min}:${sec}`
+}

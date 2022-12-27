@@ -15,6 +15,7 @@ import {
 import { EditIcon } from '@chakra-ui/icons'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
+import { StyledCloseIcon } from 'components/Dialog'
 import { NftCard } from 'components/NFT/nft-card'
 
 const PlaceBidModal = ({ onHandleSave, profileInfo }) => {
@@ -43,6 +44,7 @@ const PlaceBidModal = ({ onHandleSave, profileInfo }) => {
       >
         <ModalOverlay backdropFilter="blur(14px)" bg="rgba(0, 0, 0, 0.34)" />
         <Container>
+          <StyledCloseIcon onClick={onClose} offset={20} size="40px" />
           <Stack spacing={10}>
             <Stack>
               <Text fontSize="30px" textAlign="center" fontWeight="700">

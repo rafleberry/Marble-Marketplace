@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback } from 'react'
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react'
 import { getCurrentWallet } from 'util/sender-wallet'
 import Link from 'next/link'
 import { getFollowers, getFollowInfo } from 'hooks/useProfile'
@@ -70,7 +70,7 @@ const Feed = () => {
   const firstHeight = useMemo(() => {
     return firstElement?.offsetHeight || 0
   }, [firstElement])
-
+  const scrollRef = useHorizontalScroll()
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     try {
@@ -103,7 +103,7 @@ const Feed = () => {
       const _followers = await getFollowers({
         owner: wallet?.accountId,
         skip: 0,
-        limit: 8,
+        limit: 100,
       })
       // const _followers = await getFollowers({
       //   owner: wallet?.accountId,
@@ -161,11 +161,10 @@ const Feed = () => {
     <Wrapper>
       <StickyDiv height={0}>
         <Container ref={(node) => setFirstElement(node)}>
-          {/* <Container> */}
           <div />
           <div>
             <AvatarCardWrapper>
-              <AvatarWrapper>
+              <AvatarWrapper ref={scrollRef}>
                 {followers.map((follower) => (
                   <AvatarItemWrapper
                     active={follower._id === user._id}
@@ -221,7 +220,7 @@ const Feed = () => {
 
                   <p>{user.name || user.id}</p>
                 </UserAvatarWrapper>
-                <IconWrapper
+                {/* <IconWrapper
                   onClick={async () => {
                     await handleSaveFavorites(element.token_id)
                   }}
@@ -233,7 +232,7 @@ const Feed = () => {
                     width="30px"
                     height="30px"
                   />
-                </IconWrapper>
+                </IconWrapper> */}
               </CardHeader>
 
               <NFTImgDiv
@@ -261,6 +260,9 @@ const Feed = () => {
                       }
                       width="30px"
                       height="30px"
+                      onClick={async () => {
+                        await handleSaveFavorites(element.token_id)
+                      }}
                     />
                     {nftInfo[index]?.favorites?.cnt}
                   </IconWrapper>
@@ -334,6 +336,25 @@ const Feed = () => {
       </Container>
     </Wrapper>
   )
+}
+function useHorizontalScroll() {
+  const elRef = useRef()
+  useEffect(() => {
+    const el: any = elRef.current
+    if (el) {
+      const onWheel = (e) => {
+        if (e.deltaY == 0) return
+        e.preventDefault()
+        el.scrollTo({
+          left: el.scrollLeft + e.deltaY,
+          behavior: 'smooth',
+        })
+      }
+      el.addEventListener('wheel', onWheel)
+      return () => el.removeEventListener('wheel', onWheel)
+    }
+  }, [])
+  return elRef
 }
 
 export default Feed

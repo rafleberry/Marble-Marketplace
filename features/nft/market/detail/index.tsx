@@ -34,6 +34,7 @@ import Card from './components/card'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getTokenBalance } from 'hooks/useTokenBalance'
 import { useTokenPrice } from 'hooks/useTokenDollarValue'
+import Image from 'components/Img'
 import {
   nftViewFunction,
   MARKETPLACE_CONTRACT_NAME,
@@ -830,9 +831,9 @@ export const NFTDetail = ({ collectionId, id }) => {
     <ChakraProvider>
       <Stack>
         <Banner>
-          <BannerImage src={nft.collectionImage} alt="banner" />
+          <BannerImage src={nft.collectionImage} defaultImage={default_image} />
           <NFTImageWrapper>
-            <NFTImage src={nft.image} alt="nft-image" />
+            <NFTImage src={nft.image} defaultImage={default_image} />
           </NFTImageWrapper>
         </Banner>
       </Stack>
@@ -1756,7 +1757,7 @@ const Banner = styled('div', {
     height: '560px',
   },
 })
-const BannerImage = styled('img', {
+const BannerImage = styled(Image, {
   position: 'absolute',
   top: '0',
   left: '0',
@@ -1788,7 +1789,7 @@ const NFTImageWrapper = styled('div', {
     width: '100%',
   },
 })
-const NFTImage = styled('img', {
+const NFTImage = styled(Image, {
   position: 'absolute',
   top: '25px',
   left: '25px',

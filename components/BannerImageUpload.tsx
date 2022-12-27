@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import css from '../styles/DropZone.module.css'
 import axios from 'axios'
+import Image from './Img'
 import styled from 'styled-components'
 import { NoImage } from 'icons'
-import { ChakraProvider, Image } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
@@ -120,11 +121,8 @@ const BannerImageUpload = ({ hash, setHash, isActive = false }) => {
           {/* {ipfsHashBIU != '' && ( */}
           <StyledImage
             showUpload={showUpload}
-            src={
-              ipfsHashBIU
-                ? `${PUBLIC_PINATA_URL}${ipfsHashBIU}`
-                : '/default-featured.png'
-            }
+            src={`${PUBLIC_PINATA_URL}${ipfsHashBIU}`}
+            defaultImage="/default-featured.png"
           />
           {/* )} */}
         </ImageContainer>
@@ -149,7 +147,7 @@ const DropzoneContainer = styled.div`
     align-items: center;
   }
 `
-const StyledImage = styled.img<{ showUpload: boolean }>`
+const StyledImage = styled(Image)<{ showUpload: boolean }>`
   position: absolute;
   top: 0;
   left: 0;

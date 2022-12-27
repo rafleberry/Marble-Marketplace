@@ -13,6 +13,7 @@ import { SecondGradientBackground } from 'styles/styles'
 import { default_featured_image, default_image } from 'util/constants'
 import { convertMicroDenomToDenom } from 'util/conversion'
 import { isMobile } from 'util/device'
+import Image from 'components/Img'
 import {
   marketplaceViewFunction,
   nftViewFunction,
@@ -188,9 +189,17 @@ export const Collection = ({ id }: CollectionProps) => {
     <ChakraProvider>
       <CollectionWrapper>
         <Banner>
-          <BannerImage src={collectionInfo.featuredImage} alt="banner" />
+          <BannerImage
+            src={collectionInfo.featuredImage}
+            defaultImage={default_featured_image}
+            alt="banner"
+          />
           <Stack spacing={5}>
-            <Logo src={collectionInfo.logo} alt="logo" />
+            <Logo
+              src={collectionInfo.logo}
+              defaultImage={default_image}
+              alt="logo"
+            />
             <LogoTitle>{collectionInfo.name}</LogoTitle>
             {wallet.accountId === collectionInfo.creator && (
               <Stack width="250px">
@@ -406,7 +415,7 @@ const Banner = styled.div`
     padding: 50px 20px 20px 20px;
   }
 `
-const BannerImage = styled.img`
+const BannerImage = styled(Image)`
   position: absolute;
   top: 0;
   left: 0;
@@ -418,7 +427,7 @@ const BannerImage = styled.img`
   object-position: center;
   z-index: -1;
 `
-const Logo = styled.img`
+const Logo = styled(Image)`
   width: 180px;
   height: 180px;
   border-radius: 50%;

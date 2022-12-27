@@ -12,7 +12,7 @@ import {
   PINATA_SECONDARY_IMAGE_SIZE,
   PUBLIC_PINATA_URL,
 } from 'util/constants'
-import { getReducedAddress } from 'util/conversion'
+import { getReducedAddress, getStandardTime } from 'util/conversion'
 import { nftViewFunction } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
 import MyProfileCard from './myProfileCard'
@@ -38,6 +38,8 @@ import {
   LoadMoreButtonWrapper,
   LoadMoreButton,
   CommentWrapper,
+  StickyDiv,
+  CommentInfoWrapper,
 } from './styled'
 import ToFollowList from './toFollowList'
 
@@ -144,11 +146,14 @@ const Feed = () => {
       await fetchComments()
     }
   }
+  console.log('commentsList: ', commentsList)
   return (
     <Wrapper>
       <Container>
         <div>
-          <MyProfileCard rCount={rCount} account={wallet?.accountId} />
+          <StickyDiv height={0}>
+            <MyProfileCard rCount={rCount} account={wallet?.accountId} />
+          </StickyDiv>
         </div>
         <ContentWrapper>
           <CardWrapper>
@@ -166,7 +171,7 @@ const Feed = () => {
                 />
                 <p>{profileInfo.name || getReducedAddress(profileInfo.id)}</p>
               </UserAvatarWrapper>
-              <IconWrapper
+              {/* <IconWrapper
                 onClick={async () => {
                   await handleSaveFavorites(userNft.token_id)
                 }}
@@ -176,7 +181,7 @@ const Feed = () => {
                   width="30px"
                   height="30px"
                 />
-              </IconWrapper>
+              </IconWrapper> */}
             </CardHeader>
             <NFTImgDiv
               onDoubleClick={async () => {
@@ -195,7 +200,14 @@ const Feed = () => {
             <NFTInfoWrapper>
               <IconGroup>
                 <IconWrapper>
-                  <Heart fill="white" width="30px" height="30px" />
+                  <Heart
+                    fill={nftInfo?.favorites?.isFavoriteOne ? 'white' : 'none'}
+                    width="30px"
+                    height="30px"
+                    onClick={async () => {
+                      await handleSaveFavorites(userNft.token_id)
+                    }}
+                  />
                   {nftInfo?.favorites?.cnt}
                 </IconWrapper>
                 <Link href={`/feed/${userNft.token_id}`} passHref>
@@ -222,7 +234,12 @@ const Feed = () => {
                 />
                 <VerticalDivider />
                 <CommentWrapper>
-                  <span>{_comment.name || getReducedAddress(_comment.id)}</span>
+                  <CommentInfoWrapper>
+                    <span>
+                      {_comment.name || getReducedAddress(_comment.id)}
+                    </span>
+                    <span>{getStandardTime(_comment.createdAt)}</span>
+                  </CommentInfoWrapper>
                   <p>{_comment.content}</p>
                 </CommentWrapper>
               </InputWrapper>
@@ -266,11 +283,15 @@ const Feed = () => {
             </InputWrapper>
           </CardWrapper>
         </ContentWrapper>
-        <ToFollowList
-          account={wallet?.accountId}
-          setRCount={setRCount}
-          rCount={rCount}
-        />
+        <div>
+          <StickyDiv height={0}>
+            <ToFollowList
+              account={wallet?.accountId}
+              setRCount={setRCount}
+              rCount={rCount}
+            />
+          </StickyDiv>
+        </div>
       </Container>
     </Wrapper>
   )

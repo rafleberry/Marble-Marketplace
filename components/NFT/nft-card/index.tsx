@@ -13,6 +13,7 @@ import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getSimpleProfileInfo } from 'hooks/useProfile'
 import { getReducedAddress } from 'util/conversion'
 import { RoundedIconComponent } from 'components/RoundedIcon'
+import Image from 'components/Img'
 import { GradientBackground } from 'styles/styles'
 import {
   PINATA_PRIMARY_IMAGE_SIZE,
@@ -110,7 +111,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
           </Flex>
         </Stack>
         <ImgDiv className="nft-img-url">
-          <Image
+          <StyledImage
             src={nft.image + PINATA_PRIMARY_IMAGE_SIZE}
             hover={hover}
             alt="NFT Image"
@@ -119,13 +120,9 @@ export function NftCard({ nft, id, type }): JSX.Element {
             <HoverDivContent>
               <HStack>
                 <Logo
-                  src={
-                    profile.avatar
-                      ? `${
-                          process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar
-                        }${PINATA_SECONDARY_IMAGE_SIZE}`
-                      : '/default.png' + PINATA_SECONDARY_IMAGE_SIZE
-                  }
+                  src={`${
+                    process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar
+                  }${PINATA_SECONDARY_IMAGE_SIZE}`}
                   alt="logo"
                   size="34px"
                 />
@@ -234,7 +231,7 @@ const ImgDiv = styled.div`
   position: relative;
   background: black; ;
 `
-const Image = styled.img<{ hover: boolean }>`
+const StyledImage = styled(Image)<{ hover: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -248,7 +245,7 @@ const Image = styled.img<{ hover: boolean }>`
   border-bottom-right-radius: 20px;
   opacity: ${({ hover }) => (hover ? '0.6' : '1')};
 `
-const Logo = styled.img<{ size: string }>`
+const Logo = styled(Image)<{ size: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   border-radius: 50%;

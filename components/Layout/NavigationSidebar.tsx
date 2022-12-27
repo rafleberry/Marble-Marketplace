@@ -394,7 +394,10 @@ const VerticalDivider = styled('div', {
   width: '1px',
   height: '60%',
   border: '1px solid #363B4E',
-  marginInline: '20px 0px',
+  marginInline: '20px 20px',
+  '@media(max-width: 1550px)': {
+    marginInline: '40px 20px',
+  },
 })
 const HorizontalDivider = styled('div', {
   height: '1px',

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components'
+import Image from 'components/Img'
 import { GradientBackground, SecondGradientBackground } from 'styles/styles'
 
 export const Wrapper = styled.div`
@@ -81,8 +82,10 @@ export const AvatarCardWrapper = styled(SecondGradientBackground)`
 `
 
 export const AvatarWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  display: flex;
+  gap: 20px;
+  overflow: auto;
+  overflow-x: hidden;
 `
 
 export const AvatarItemWrapper = styled.div<{ active: boolean }>`
@@ -93,10 +96,12 @@ export const AvatarItemWrapper = styled.div<{ active: boolean }>`
   opacity: ${({ active }) => (active ? 1 : 0.5)};
   p {
     font-size: 10px;
+    width: 60px;
+    text-align: center;
   }
 `
 
-export const StyledImage = styled.img`
+export const StyledImage = styled(Image)`
   width: 56px;
   height: 56px;
   border: 1px solid white;
@@ -154,7 +159,7 @@ export const FollowItem = styled.div`
     color: #a2adbc;
   }
 `
-export const Logo = styled.img<{ size: string; border: string }>`
+export const Logo = styled(Image)<{ size: string; border: string }>`
   width: ${({ size }) => size};
   height: ${({ size }) => size};
   border: ${({ border }) => border};
@@ -305,4 +310,8 @@ export const StickyDiv = styled.div<{ height?: number }>`
   @media (max-width: 1550px) {
     ${({ height }) => `top: calc(80px + ${height}px)`};
   }
+`
+export const CommentInfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
