@@ -1,20 +1,15 @@
-import { useState } from 'react'
-import { ChakraProvider, Stack, HStack, LinkBox } from '@chakra-ui/react'
-import Link from 'next/link'
-import { NftCollection } from 'services/nft'
-import { RoundedIconComponent } from 'components/RoundedIcon'
+import { HStack } from '@chakra-ui/react'
 import Image from 'components/Img'
-import { isClientMobie } from 'util/device'
+import { RoundedIconComponent } from 'components/RoundedIcon'
 import styled from 'styled-components'
 import { GradientBackground } from 'styles/styles'
 import {
-  PINATA_PRIMARY_IMAGE_SIZE,
-  PINATA_SECONDARY_IMAGE_SIZE,
   default_featured_image,
+  PINATA_PRIMARY_IMAGE_SIZE,
 } from 'util/constants'
+import { isClientMobie } from 'util/device'
 
 export default function NftCollectionCard({ collection }): JSX.Element {
-  const [hover, setHover] = useState(false)
   return (
     <CollectionDiv>
       <ImgDiv className="nft-img-div">
@@ -27,14 +22,9 @@ export default function NftCollectionCard({ collection }): JSX.Element {
           <Title>{collection.name}</Title>
 
           <HStack justifyContent="flex-end">
-            <Logo
-              src={collection.banner_image + PINATA_SECONDARY_IMAGE_SIZE}
-              alt="image"
-              defaultImage={default_featured_image}
-            />
             <RoundedIconComponent
-              size="0px"
               address={collection.creator}
+              size="34px"
               font={isClientMobie ? '15px' : '15px'}
             />
           </HStack>

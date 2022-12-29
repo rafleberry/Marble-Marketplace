@@ -251,7 +251,7 @@ export const Collection = ({ id }: CollectionProps) => {
           </Stack>
 
           {wallet.accountId === collectionInfo.creator && (
-            <Link href={`/nft/${id}/create`} passHref>
+            <Link href={`/create`} passHref>
               <Button
                 className="btn-buy btn-default"
                 css={{

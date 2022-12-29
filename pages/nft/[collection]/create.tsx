@@ -1,12 +1,14 @@
-import React, { useReducer, useState, useEffect } from 'react'
+import React, { useReducer, useState, useEffect, useRef } from 'react'
 import { Stack, HStack, ChakraProvider, Textarea } from '@chakra-ui/react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import styled from 'styled-components'
 import { RoundedIcon } from 'components/RoundedIcon'
+import { default_image } from 'util/constants'
 import { Button } from 'components/Button'
 import Checkbox from 'components/Checkbox'
+import { Create } from 'icons'
 import { AppLayout } from 'components/Layout/AppLayout'
 import NFTUpload from 'components/NFTUpload'
 import { nftViewFunction, nftFunctionCall, checkTransaction } from 'util/near'
@@ -27,9 +29,10 @@ const PUBLIC_PINATA_SECRET_API_KEY =
 export default function NFTCreate() {
   const wallet = getCurrentWallet()
   const { asPath } = useRouter()
-  const token_series_id = asPath.split('/')[2]
+  // const token_series_id = asPath.split('/')[2]
   const { txHash, pathname, errorType } = getURLInfo()
   const router = useRouter()
+  const [collectionId, setCollectionId] = useState('')
   const [error, setError] = useState(false)
   const [agreed, setAgreed] = useState(false)
   const [original, setOriginal] = useState(false)
@@ -39,6 +42,79 @@ export default function NFTCreate() {
   const [collection, setCollection] = useState<any>({})
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+  const [ownedCollections, setOwnedCollections] = useState([])
+  const [showDropdown, setShowDropdown] = useState(false)
+  const ref = useRef()
+  const fetchCollections = async () => {
+    try {
+      const data = await nftViewFunction({
+        methodName: 'nft_get_series',
+        args: {},
+      })
+      return data
+    } catch (error) {
+      console.log('nft_get_series Error: ', error)
+      return []
+    }
+  }
+  const fetchCollectionSize = async (id) => {
+    try {
+      const data = await nftViewFunction({
+        methodName: 'nft_supply_for_series',
+        args: {
+          token_series_id: id,
+        },
+      })
+      return data
+    } catch (err) {
+      console.log('nft supply for a collection error: ', err)
+      return 0
+    }
+  }
+  useEffect(() => {
+    ;(async () => {
+      let collections = []
+      const collectionList = await fetchCollections()
+      collectionList.forEach((collection) => {
+        if (collection.creator_id === wallet.accountId) {
+          collections.push(collection)
+        }
+      })
+      const data = await Promise.all(
+        collections.map(async (element) => {
+          const el = await fetchCollectionSize(element.token_series_id)
+          return el
+        })
+      )
+      collections = collections.map((element, index) => {
+        element.counts = data[index]
+        element.media = element.metadata.media
+          ? process.env.NEXT_PUBLIC_PINATA_URL + element.metadata.media
+          : default_image
+        return element
+      })
+      setOwnedCollections(collections)
+    })()
+  }, [])
+  function useOutsideClick(ref) {
+    useEffect(() => {
+      /**
+       * Alert if clicked on outside of element
+       */
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setShowDropdown(false)
+        }
+      }
+      // Bind the event listener
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        // Unbind the event listener on clean up
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [ref])
+  }
+  useOutsideClick(ref)
   // reducer function to handle state changes
   const reducer = (state, action) => {
     switch (action.type) {
@@ -92,48 +168,21 @@ export default function NFTCreate() {
         })
     }
   }, [txHash])
-  useEffect(() => {
-    ;(async () => {
-      if (token_series_id === undefined || token_series_id == '[collection]')
-        return false
-      const [collectionInfo, collectionSize] = await Promise.all([
-        await fetchCollectionInfo(),
-        await fetchCollectionSize(),
-      ])
-      collectionInfo.count = collectionSize
-      collectionInfo.media =
-        process.env.NEXT_PUBLIC_PINATA_URL + collectionInfo.metadata.media
-      setCollection(collectionInfo)
-    })()
-  }, [token_series_id])
-  async function fetchCollectionSize() {
-    try {
-      const data = await nftViewFunction({
-        methodName: 'nft_supply_for_series',
-        args: {
-          token_series_id: token_series_id,
-        },
-      })
-      return data
-    } catch (err) {
-      console.log('nft supply for a collection error: ', err)
-      return 0
-    }
-  }
-  async function fetchCollectionInfo() {
-    try {
-      const data = await nftViewFunction({
-        methodName: 'nft_get_series_single',
-        args: {
-          token_series_id: token_series_id,
-        },
-      })
-      return data
-    } catch (err) {
-      console.log('collection get error: ', err)
-      return {}
-    }
-  }
+
+  // async function fetchCollectionInfo() {
+  //   try {
+  //     const data = await nftViewFunction({
+  //       methodName: 'nft_get_series_single',
+  //       args: {
+  //         token_series_id: token_series_id,
+  //       },
+  //     })
+  //     return data
+  //   } catch (err) {
+  //     console.log('collection get error: ', err)
+  //     return {}
+  //   }
+  // }
   const handleAgree = () => {
     if (original && kind && creative) {
       setAgreed(true)
@@ -173,7 +222,7 @@ export default function NFTCreate() {
     jsonData['description'] = description
     jsonData['uri'] = data.nft
     jsonData['owner'] = wallet.accountId
-    jsonData['collectionId'] = token_series_id
+    jsonData['collectionId'] = collectionId
     const pinataJson = {
       pinataMetadata: {
         name: name,
@@ -197,7 +246,7 @@ export default function NFTCreate() {
         await nftFunctionCall({
           methodName: 'nft_mint',
           args: {
-            token_series_id: token_series_id,
+            token_series_id: collectionId,
             receiver_id: wallet.accountId,
             nft_metadata: {
               media: data.nft,
@@ -220,14 +269,6 @@ export default function NFTCreate() {
       }
     }
   }
-  const UploadImage = () => {
-    return (
-      <Stack padding={isMobile() ? '0' : '0 100px'} spacing="40px">
-        {!isMobile() && <h2>Upload A Media File</h2>}
-        <NFTUpload data={data} dispatch={dispatch} item="nft-create" />
-      </Stack>
-    )
-  }
   return (
     <AppLayout fullWidth={true}>
       <ChakraProvider>
@@ -246,93 +287,137 @@ export default function NFTCreate() {
               </Stack>
               {agreed || collection.count > 0 ? (
                 <MainWrapper>
-                  {data.nft ? (
-                    <Card>
-                      <Stack spacing="40px">
-                        <h2>Mint An NFT</h2>
-                        <Stack>
-                          <h3>Add Details</h3>
-                          <p>
-                            Once your NFT is minted to the Marble blockchain,
-                            you will not be able to edit or update any of this
-                            information.
-                          </p>
-                        </Stack>
-                        <Stack>
-                          <Text>Name</Text>
-                          <StyledInput
-                            placeholder="Name"
-                            value={name}
-                            onChange={(e) => {
-                              setName(e.target.value)
-                            }}
-                          />
-                        </Stack>
-                        <Stack>
-                          <Text>Description</Text>
-                          <Input
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            maxLength="1000"
-                          />
-                          <Footer>
-                            <div>Use markdown syntax to embed links</div>
-                            <div>{description.length}/1000</div>
-                          </Footer>
-                        </Stack>
-                        <Stack>
-                          <h3>Collection</h3>
-                          <CollectionCard>
-                            <RoundedIcon
-                              size="70px"
-                              src={collection.media}
-                              alt="collection"
-                            />
-                            <Stack marginLeft="20px">
-                              <h3>{collection && collection.metadata.title}</h3>
-                              <p>{collection.count} NFTs</p>
-                            </Stack>
-                          </CollectionCard>
-                        </Stack>
-                        <Stack padding={isMobile() ? '0' : '0 150px'}>
-                          <Button
-                            className="btn-buy btn-default"
-                            css={{
-                              background: '$white',
-                              color: '$black',
-                              stroke: '$black',
-                              width: '100%',
-                              marginTop: '20px',
-                            }}
-                            variant="primary"
-                            size="large"
-                            onClick={handleMint}
-                          >
-                            Mint NFT
-                          </Button>
-                        </Stack>
+                  <Card>
+                    <Stack spacing="40px">
+                      <h2>Mint An NFT</h2>
+                      <Stack>
+                        <h3>Add Details</h3>
+                        <p>
+                          Once your NFT is minted to the Marble blockchain, you
+                          will not be able to edit or update any of this
+                          information.
+                        </p>
                       </Stack>
-                    </Card>
-                  ) : (
-                    <Card fullWidth>
-                      <UploadImage />
-                    </Card>
-                  )}
-                  {data.nft && (
-                    <NFTContainer>
-                      <Stack spacing="20px">
-                        <ImgDiv className="nft-img-url">
-                          <Image
+                      <Stack>
+                        <Text>Collection</Text>
+                        {/* <CollectionDropdown  /> */}
+                        <DropdownContent ref={ref}>
+                          <CollectionCard
+                            onClick={() => setShowDropdown(!showDropdown)}
+                          >
+                            <IconWrapper>
+                              <Create />
+                            </IconWrapper>
+                            <Text
+                              fontSize={isMobile() ? '14px' : '20px'}
+                              fontWeight="700"
+                            >
+                              Create A New Collection
+                            </Text>
+                          </CollectionCard>
+                          <DropDownContentWrapper show={showDropdown}>
+                            {ownedCollections.map((info, index) => (
+                              // <Link
+                              //   href={`/collection/${info.token_series_id}`}
+                              //   key={index}
+                              //   passHref
+                              // >
+                              <DropdownItem key={index}>
+                                <RoundedIcon
+                                  size={isMobile() ? '50px' : '70px'}
+                                  src={info.media}
+                                  alt="collection"
+                                />
+                                <Stack marginLeft="20px">
+                                  <Text
+                                    fontSize={isMobile() ? '14px' : '20px'}
+                                    fontWeight="700"
+                                  >
+                                    {info.metadata.title}
+                                  </Text>
+                                  <Text
+                                    fontSize={isMobile() ? '14px' : '20px'}
+                                    fontWeight="600"
+                                    fontFamily="Mulish"
+                                  >
+                                    {info.counts} NFTs
+                                  </Text>
+                                </Stack>
+                              </DropdownItem>
+                              // </Link>
+                            ))}
+                            <Card>
+                              <IconWrapper>
+                                <Create />
+                              </IconWrapper>
+                              <Text
+                                fontSize={isMobile() ? '14px' : '20px'}
+                                fontWeight="700"
+                              >
+                                Create A New Collection
+                              </Text>
+                            </Card>
+                          </DropDownContentWrapper>
+                        </DropdownContent>
+                      </Stack>
+                      <Stack>
+                        <Text>Name</Text>
+                        <StyledInput
+                          placeholder="Name"
+                          value={name}
+                          onChange={(e) => {
+                            setName(e.target.value)
+                          }}
+                        />
+                      </Stack>
+                      <Stack>
+                        <Text>Description</Text>
+                        <Input
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          maxLength="1000"
+                        />
+                        <Footer>
+                          <div>Use markdown syntax to embed links</div>
+                          <div>{description.length}/1000</div>
+                        </Footer>
+                      </Stack>
+                      <Stack padding={isMobile() ? '0' : '0 150px'}>
+                        <Button
+                          className="btn-buy btn-default"
+                          css={{
+                            background: '$white',
+                            color: '$black',
+                            stroke: '$black',
+                            width: '100%',
+                            marginTop: '20px',
+                          }}
+                          variant="primary"
+                          size="large"
+                          onClick={handleMint}
+                        >
+                          Mint NFT
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  </Card>
+
+                  <NFTContainer>
+                    <Stack spacing="20px">
+                      <ImgDiv className="nft-img-url">
+                        {/* <Image
                             src={process.env.NEXT_PUBLIC_PINATA_URL + data.nft}
                             alt="NFT Image"
-                          />
-                        </ImgDiv>
-                        <h2 style={{ textAlign: 'left' }}>
-                          {collection.metadata.title}
-                        </h2>
-                      </Stack>
-                    </NFTContainer>
-                  )}
+                          /> */}
+                        <NFTUpload
+                          data={data}
+                          dispatch={dispatch}
+                          item="nft-create"
+                        />
+                      </ImgDiv>
+                      <h2 style={{ textAlign: 'left' }}>Upload your NFT</h2>
+                    </Stack>
+                  </NFTContainer>
                 </MainWrapper>
               ) : (
                 <Card>
@@ -497,6 +582,41 @@ const Card = styled(SecondGradientBackground)<{ fullWidth: boolean }>`
     padding: 20px;
   }
 `
+const DropdownContent = styled.div`
+  position: relative;
+`
+
+const DropDownContentWrapper = styled.div<{ show: boolean }>`
+  position: absolute;
+  top: 120px;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  display: ${({ show }) => (show ? 'block' : 'none')};
+  background: #272734;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  height: fit-content;
+  max-height: 500px;
+  overflow: auto;
+  width: 100%;
+
+  /* max-height: 200px;
+  overflow: auto; */
+`
+
+const DropdownItem = styled.div`
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  height: 120px;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+  }
+`
+
 const StyledInput = styled.input`
   background: #272734;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -529,14 +649,14 @@ const Footer = styled.div`
     font-family: Mulish;
   }
 `
-const CollectionCard = styled(GradientBackground)`
-  &:before {
-    opacity: 0.2;
-    border-radius: 20px;
-  }
+const CollectionCard = styled.div`
+  background: #272734;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
   padding: 25px;
   display: flex;
   align-items: center;
+  height: 120px;
   cursor: pointer;
 `
 const NFTContainer = styled(SecondGradientBackground)`
@@ -554,9 +674,10 @@ const NFTContainer = styled(SecondGradientBackground)`
 `
 const ImgDiv = styled.div`
   width: 100%;
-  padding-bottom: 100%;
+  /* padding-bottom: 100%; */
   display: block;
   position: relative;
+  height: fit-content;
 `
 const Image = styled.img`
   position: absolute;
@@ -579,5 +700,19 @@ const MainWrapper = styled.div`
     flex-direction: column-reverse;
     width: 100%;
     row-gap: 20px;
+  }
+`
+const IconWrapper = styled.div`
+  background: rgba(255, 255, 255, 0.16);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 20px;
+  @media (max-width: 650px) {
+    width: 50px;
+    height: 50px;
   }
 `

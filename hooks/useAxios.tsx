@@ -62,7 +62,27 @@ const useAxios = () => {
     } = await axios.post(nft_subgraph_url, { query })
     return nfts
   }, [])
-  return { getTokenIds, getNftCounts, getAllNftIds }
+  const fetchCollectionsByCreator = useCallback(async (id) => {
+    const query = `{
+      collections(where: {creator:"${id}"}) {
+        id
+        timestamp
+        title
+        category
+        creator
+        media
+        reference
+      }
+    }`
+    const {
+      data: {
+        data: { collections },
+      },
+    } = await axios.post(nft_subgraph_url, { query })
+    return collections
+  }, [])
+
+  return { getTokenIds, getNftCounts, getAllNftIds, fetchCollectionsByCreator }
 }
 
 export default useAxios

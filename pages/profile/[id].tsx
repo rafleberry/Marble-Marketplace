@@ -16,6 +16,7 @@ import { Button } from 'components/Button'
 import { MyCollectedNFTs } from 'features/nft/market/profile'
 import CreatedNFTs from 'features/nft/market/profile/creatednfts'
 import StakedNFTs from 'features/nft/market/profile/stakednfts'
+import CreatedCollections from 'features/nft/market/profile/createdcollections'
 import { Email, DiscordT } from 'icons'
 import {
   getProfileInfo,
@@ -204,6 +205,7 @@ export default function Home() {
                 <StyledTab>{`Owned`}</StyledTab>
                 <StyledTab>{`Created`}</StyledTab>
                 <StyledTab>Staked</StyledTab>
+                <StyledTab>Created Collections</StyledTab>
               </StyledTabList>
               <TabPanels>
                 <TabPanel overflow="auto">
@@ -214,6 +216,9 @@ export default function Home() {
                 </TabPanel>
                 <TabPanel overflow="auto">
                   <StakedNFTs id={id} />
+                </TabPanel>
+                <TabPanel overflow="auto">
+                  <CreatedCollections id={id} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
