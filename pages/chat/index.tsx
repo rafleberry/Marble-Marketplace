@@ -87,7 +87,7 @@ const App = () => {
 
   return (
     <Chat client={chatClient} theme="messaging light">
-      <ChannelList filters={filters} sort={sort} />
+      <ChannelList filters={filters} />
       <Channel Attachment={CustomAttachment}>
         <Window>
           <ChannelHeader />
