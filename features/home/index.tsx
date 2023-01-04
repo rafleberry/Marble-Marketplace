@@ -15,12 +15,13 @@ import SelectedNFT from './components/SelectedNFT'
 import Collection from './components/Collection'
 import { isMobile, isPC } from 'util/device'
 import { SecondGradientBackground } from 'styles/styles'
+import { useConnectWallet } from 'hooks/useConnectWallet'
 
 const collectionList = [27, 111, 112]
 
 const Home = () => {
   const [nftcollections, setNftCollections] = useState<NftCollection[]>([])
-
+  const { getWalletInfo, getAccount } = useConnectWallet()
   const fetchCollections = async () => {
     // const data = await nftViewFunction({
     //   methodName: 'nft_get_series',
@@ -51,6 +52,10 @@ const Home = () => {
     // fetchCollections()
     ;(async () => {
       let collections = []
+      const account = await getAccount()
+
+      console.log('getWalletInfo: ', account)
+
       let res_categories = await fetch(process.env.NEXT_PUBLIC_CATEGORY_URL)
       const collectionList = await fetchCollections()
       for (let i = 0; i < collectionList.length; i++) {

@@ -13,6 +13,15 @@ export const useConnectWallet = () => {
     explorerUrl: 'https://explorer.testnet.near.org',
   }
 
+  async function getWalletInfo() {
+    const { keyStores } = nearAPI
+    const apiKey = new keyStores.BrowserLocalStorageKeyStore()
+    console.log(
+      'apiKey: ',
+      await apiKey.getKey(process.env.NEXT_PUBLIC_NODE_URL, 'vier1near.testnet')
+    )
+  }
+
   async function connectWallet() {
     // connect to NEAR
     const near = await connect(config)
@@ -70,5 +79,12 @@ export const useConnectWallet = () => {
     await wallet.signOut()
     localStorage.removeItem('accountId')
   }
-  return { connectWallet, disconnectWallet, setAccount, getAccount, isSigned }
+  return {
+    connectWallet,
+    disconnectWallet,
+    setAccount,
+    getAccount,
+    isSigned,
+    getWalletInfo,
+  }
 }

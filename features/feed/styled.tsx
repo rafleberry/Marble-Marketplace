@@ -15,6 +15,10 @@ export const Container = styled.div`
   /* position: sticky;
   top: 108px;
   z-index: 100; */
+  @media (max-width: 1300px) {
+    display: flex;
+    flex-direction: column;
+  }
 `
 
 export const ContentWrapper = styled.div`
@@ -84,8 +88,11 @@ export const AvatarCardWrapper = styled(SecondGradientBackground)`
 export const AvatarWrapper = styled.div`
   display: flex;
   gap: 20px;
-  overflow: auto;
-  overflow-x: hidden;
+  overflow: hidden;
+  overflow-x: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const AvatarItemWrapper = styled.div<{ active: boolean }>`
@@ -309,6 +316,10 @@ export const StickyDiv = styled.div<{ height?: number }>`
   z-index: 10000;
   @media (max-width: 1550px) {
     ${({ height }) => `top: calc(80px + ${height}px)`};
+  }
+  @media (max-width: 1300px) {
+    position: relative;
+    top: 0;
   }
 `
 export const CommentInfoWrapper = styled.div`

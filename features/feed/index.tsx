@@ -26,6 +26,7 @@ import { Heart, Comment, Retweet, Bookmark } from 'icons'
 import { Button } from 'styles/styles'
 import MyProfileCard from './myProfileCard'
 import ToFollowList from './toFollowList'
+import { isPC } from 'util/device'
 import {
   Container,
   ContentWrapper,
@@ -165,6 +166,7 @@ const Feed = () => {
           <div>
             <AvatarCardWrapper>
               <AvatarWrapper ref={scrollRef}>
+                {/* <AvatarWrapper> */}
                 {followers.map((follower) => (
                   <AvatarItemWrapper
                     active={follower._id === user._id}
@@ -196,11 +198,13 @@ const Feed = () => {
 
       <Container>
         {/* <Container firstHeight={firstHeight}> */}
-        <div>
-          <StickyDiv height={firstHeight}>
-            <MyProfileCard rCount={rCount} account={wallet?.accountId} />
-          </StickyDiv>
-        </div>
+        {isPC() && (
+          <div>
+            <StickyDiv height={firstHeight}>
+              <MyProfileCard rCount={rCount} account={wallet?.accountId} />
+            </StickyDiv>
+          </div>
+        )}
         <ContentWrapper>
           {/* <AbsoluteContentWrappper> */}
           {userNft.map((element, index) => (
@@ -324,15 +328,17 @@ const Feed = () => {
           ))}
           {/* </AbsoluteContentWrappper> */}
         </ContentWrapper>
-        <div>
-          <StickyDiv height={firstHeight}>
-            <ToFollowList
-              account={wallet?.accountId}
-              setRCount={setRCount}
-              rCount={rCount}
-            />
-          </StickyDiv>
-        </div>
+        {isPC() && (
+          <div>
+            <StickyDiv height={firstHeight}>
+              <ToFollowList
+                account={wallet?.accountId}
+                setRCount={setRCount}
+                rCount={rCount}
+              />
+            </StickyDiv>
+          </div>
+        )}
       </Container>
     </Wrapper>
   )

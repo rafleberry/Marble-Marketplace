@@ -229,7 +229,9 @@ const ImgDiv = styled.div`
   padding-bottom: 100%;
   display: block;
   position: relative;
-  background: black; ;
+  background: black;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 `
 const StyledImage = styled(Image)<{ hover: boolean }>`
   position: absolute;

@@ -64,6 +64,8 @@
     "redux-thunk": "^2.4.1",
     "sass": "^1.45.0",
     "stream-browserify": "^3.0.0",
+    "stream-chat": "^8.2.0",
+    "stream-chat-react": "^10.4.2",
     "styled-components": "^5.3.1",
     "three": "^0.132.2",
     "utf-8-validate": "^5.0.5",
