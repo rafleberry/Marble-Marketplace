@@ -171,7 +171,9 @@ const Feed = () => {
     }
   }
   const scrollElement = (value) => {
-    if (scrollRef.current) scrollRef.current.scrollLeft += value
+    if (!scrollRef?.current) return
+    //@ts-ignore
+    scrollRef.current.scrollLeft += value
   }
   return (
     <Wrapper>
