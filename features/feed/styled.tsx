@@ -326,3 +326,32 @@ export const CommentInfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `
+
+export const LeftIconWrapper = styled.div<{ top: number }>`
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  left: 10px;
+  top: ${({ top }) => top / 2 - 15}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: black;
+`
+export const RightIconWrapper = styled.div<{ top: number }>`
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  right: 10px;
+  top: ${({ top }) => top / 2 - 15}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: black;
+`

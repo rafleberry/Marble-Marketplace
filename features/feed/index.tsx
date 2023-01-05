@@ -23,7 +23,15 @@ import {
   TOKEN_DENOMS,
 } from 'util/near'
 import useNft from 'hooks/useNft'
-import { Heart, Comment, Retweet, Bookmark } from 'icons'
+import {
+  Heart,
+  Comment,
+  Retweet,
+  Bookmark,
+  ArrowLeft,
+  RoundedLeft,
+} from 'icons'
+import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons'
 import { Button } from 'styles/styles'
 import MyProfileCard from './myProfileCard'
 import ToFollowList from './toFollowList'
@@ -55,6 +63,8 @@ import {
   AbsoluteContentWrappper,
   StickyDiv,
   AvatarCardWrapper,
+  LeftIconWrapper,
+  RightIconWrapper,
 } from './styled'
 
 const Feed = () => {
@@ -72,7 +82,8 @@ const Feed = () => {
   const firstHeight = useMemo(() => {
     return firstElement?.offsetHeight || 0
   }, [firstElement])
-  const scrollRef = useHorizontalScroll()
+  // const scrollRef = useHorizontalScroll()
+  const scrollRef = useRef()
   const fetchOwnedNFTs = useCallback(async () => {
     let ownedNFTs = []
     try {
@@ -159,6 +170,9 @@ const Feed = () => {
       await fetchComments()
     }
   }
+  const scrollElement = (value) => {
+    if (scrollRef.current) scrollRef.current.scrollLeft += value
+  }
   return (
     <Wrapper>
       <StickyDiv height={0}>
@@ -189,6 +203,22 @@ const Feed = () => {
                     <p>{getReducedAddress(follower.name || follower.id)}</p>
                   </AvatarItemWrapper>
                 ))}
+                <LeftIconWrapper
+                  top={firstHeight}
+                  onClick={() => {
+                    scrollElement(-40)
+                  }}
+                >
+                  <ChevronLeftIcon />
+                </LeftIconWrapper>
+                <RightIconWrapper
+                  top={firstHeight}
+                  onClick={() => {
+                    scrollElement(40)
+                  }}
+                >
+                  <ChevronRightIcon />
+                </RightIconWrapper>
               </AvatarWrapper>
               {followers.length === 0 && "You don't follow any users."}
             </AvatarCardWrapper>
