@@ -341,6 +341,8 @@ export const LeftIconWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   color: black;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
 `
 export const RightIconWrapper = styled.div`
   position: absolute;
@@ -356,4 +358,6 @@ export const RightIconWrapper = styled.div`
   justify-content: center;
   cursor: pointer;
   color: black;
+  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
+    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
 `
