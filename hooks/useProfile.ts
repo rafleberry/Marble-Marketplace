@@ -64,6 +64,16 @@ export const setProfileInfo = async (profileData) => {
   }
 }
 
+export const setAgreed = async (id) => {
+  try {
+    const { data } = await axios.post(`${backend_url}/set_agree`, { _id: id })
+    return data
+  } catch (err) {
+    console.log('set agreed error: ', err)
+    return false
+  }
+}
+
 export const getAllUsers = async (param) => {
   try {
     const { data } = await axios.get(`${backend_url}/get_all_users`, {

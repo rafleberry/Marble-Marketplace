@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { StreamChat } from 'stream-chat'
 import {
-  Attachment,
   Chat,
   Channel,
   ChannelHeader,
-  ChannelList,
-  LoadingIndicator,
   MessageInput,
-  MessageList,
-  Thread,
+  VirtualizedMessageList,
   Window,
+  MessageList,
 } from 'stream-chat-react'
 
 // we'll reuse `useClient` hook from the "Add a Channel List" example
@@ -19,82 +16,44 @@ import { useClient } from 'hooks/useClient'
 import 'stream-chat-react/dist/css/v2/index.css'
 
 const userToken =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYmxhY2stc21va2UtNyJ9.csk8Vsl1n9BaMC454JaBXTvlVf_f91tKfggFy70MQn0'
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiYmx1ZS1zb3VuZC0wIn0.heAnux6VqC5SLRy3gdrU37YQY5y88cwiKSxJtEWn87k'
 
 const user = {
-  id: 'black-smoke-7',
-  name: 'black-smoke-7',
-  image: 'https://getstream.io/random_png/?id=black-smoke-7&name=black-smoke-7',
-}
-
-const filters = { type: 'messaging', members: { $in: ['black-smoke-7'] } }
-const sort = { last_message_at: -1 }
-
-const attachments = [
-  {
-    image:
-      'https://images-na.ssl-images-amazon.com/images/I/71k0cry-ceL._SL1500_.jpg',
-    name: 'iPhone',
-    type: 'product',
-    url: 'https://goo.gl/ppFmcR',
-  },
-]
-
-const CustomAttachment = (props) => {
-  const { attachments } = props
-  const [attachment] = attachments || []
-
-  if (attachment?.type === 'product')
-    return (
-      <div>
-        Product:
-        <a href={attachment.url} rel="noreferrer">
-          <img alt="custom-attachment" height="100px" src={attachment.image} />
-          <br />
-          {attachment.name}
-        </a>
-      </div>
-    )
-
-  return <Attachment {...props} />
+  id: 'blue-sound-0',
+  name: 'blue',
+  image: 'https://getstream.io/random_png/?id=blue-sound-0&name=blue-sound-0',
 }
 
 const App = () => {
   const chatClient = useClient({
-    apiKey: '4cytnuxs9mnj',
+    apiKey: 'nn77pcugr4wt',
     userData: user,
     tokenOrProvider: userToken,
   })
 
+  const [channel, setChannel] = useState(undefined)
+
   useEffect(() => {
-    if (!chatClient) return
+    if (!chatClient || channel) return
 
-    const initAttachmentMessage = async () => {
-      const [channelResponse] = await chatClient.queryChannels(filters, sort)
+    const spaceChannel = chatClient.channel('messaging', 'marble', {
+      image: 'https://goo.gl/Zefkbx',
+      name: 'Marble',
+    })
 
-      await channelResponse.sendMessage({
-        text: 'Your selected product is out of stock, would you like to select one of these alternatives?',
-        attachments,
-      })
-    }
-
-    initAttachmentMessage()
+    setChannel(spaceChannel)
   }, [chatClient])
 
-  if (!chatClient) {
-    return <LoadingIndicator />
-  }
+  if (!chatClient) return null
 
   return (
-    <Chat client={chatClient} theme="messaging light">
-      <ChannelList filters={filters} />
-      <Channel Attachment={CustomAttachment}>
+    <Chat client={chatClient} theme="str-chat__theme-dark">
+      <Channel channel={channel}>
         <Window>
-          <ChannelHeader />
+          <ChannelHeader live />
           <MessageList />
-          <MessageInput />
+          <MessageInput focus />
         </Window>
-        <Thread />
       </Channel>
     </Chat>
   )
