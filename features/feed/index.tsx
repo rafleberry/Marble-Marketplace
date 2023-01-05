@@ -206,7 +206,6 @@ const Feed = () => {
                   </AvatarItemWrapper>
                 ))}
                 <LeftIconWrapper
-                  top={firstHeight}
                   onClick={() => {
                     scrollElement(-40)
                   }}
@@ -214,7 +213,6 @@ const Feed = () => {
                   <ChevronLeftIcon />
                 </LeftIconWrapper>
                 <RightIconWrapper
-                  top={firstHeight}
                   onClick={() => {
                     scrollElement(40)
                   }}

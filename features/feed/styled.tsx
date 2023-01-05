@@ -327,35 +327,33 @@ export const CommentInfoWrapper = styled.div`
   justify-content: space-between;
 `
 
-export const LeftIconWrapper = styled.div<{ top: number }>`
+export const LeftIconWrapper = styled.div`
   position: absolute;
   background: white;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   left: 10px;
-  top: ${({ top }) => top / 2 - 15}px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: black;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
-    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
 `
-export const RightIconWrapper = styled.div<{ top: number }>`
+export const RightIconWrapper = styled.div`
   position: absolute;
   background: white;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   right: 10px;
-  top: ${({ top }) => top / 2 - 15}px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: black;
-  box-shadow: 0px 4px 40px rgba(42, 47, 50, 0.09),
-    inset 0px 7px 8px rgba(0, 0, 0, 0.2);
 `
