@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import DateCountdown from 'components/DateCountdownMin'
 import { useTokenInfoFromAddress } from 'hooks/useTokenInfo'
 import { getSimpleProfileInfo } from 'hooks/useProfile'
-import { getReducedAddress } from 'util/conversion'
+import { getLongAddress, getReducedAddress } from 'util/conversion'
 import { RoundedIconComponent } from 'components/RoundedIcon'
 import Image from 'components/Img'
 import { GradientBackground } from 'styles/styles'
@@ -126,7 +126,7 @@ export function NftCard({ nft, id, type }): JSX.Element {
                   alt="logo"
                   size="34px"
                 />
-                <p>{profile.name || nft.owner}</p>
+                <p>{getLongAddress(profile.name || nft.owner)}</p>
               </HStack>
               {nft.collection_logo && (
                 <HStack>

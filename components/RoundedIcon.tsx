@@ -49,7 +49,12 @@ export const RoundedIconComponent = ({
             }}
           />
         )}
-        <Text fontSize={font} fontWeight="800" fontFamily="Mulish">
+        <Text
+          fontSize={font}
+          fontWeight="800"
+          fontFamily="Mulish"
+          css={{ lineBreak: 'anywhere' }}
+        >
           {user}
         </Text>
       </Flex>

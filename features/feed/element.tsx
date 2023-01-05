@@ -12,7 +12,11 @@ import {
   PINATA_SECONDARY_IMAGE_SIZE,
   PUBLIC_PINATA_URL,
 } from 'util/constants'
-import { getReducedAddress, getStandardTime } from 'util/conversion'
+import {
+  getReducedAddress,
+  getStandardTime,
+  getLongAddress,
+} from 'util/conversion'
 import { nftViewFunction } from 'util/near'
 import { getCurrentWallet } from 'util/sender-wallet'
 import MyProfileCard from './myProfileCard'
@@ -169,7 +173,7 @@ const Feed = () => {
                   }
                   alt="img"
                 />
-                <p>{profileInfo.name || getReducedAddress(profileInfo.id)}</p>
+                <p>{getLongAddress(profile.name || profile.id)}</p>
               </UserAvatarWrapper>
               {/* <IconWrapper
                 onClick={async () => {

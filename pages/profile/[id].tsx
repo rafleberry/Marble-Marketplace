@@ -30,7 +30,7 @@ import BannerImageUpload from 'components/BannerImageUpload'
 import ProfilleLogoImageUpload from 'components/ProfileLogoImageUpload'
 import EditProfileModal from 'features/profile/EditProfileModal'
 import { getCurrentWallet } from 'util/sender-wallet'
-import { getReducedAddress } from 'util/conversion'
+import { getReducedAddress, getLongAddress } from 'util/conversion'
 import { isMobile } from 'util/device'
 import { GradientBackground } from 'styles/styles'
 
@@ -129,7 +129,7 @@ export default function Home() {
             </LogoImage>
             <Stack spacing="50px">
               <Stack spacing="50px">
-                <h1>{profile.name || getReducedAddress(id)}</h1>
+                <h1>{getLongAddress(profile.name || id)}</h1>
                 <HStack justifyContent="space-around">
                   <Stack>
                     <h1>{followInfo.followings}</h1>
@@ -322,6 +322,9 @@ const ProfileInfo = styled(GradientBackground)`
   }
   @media (max-width: 650px) {
     padding: 80px 25px 25px 25px;
+  }
+  h1 {
+    line-break: anywhere;
   }
 `
 const VerticalDivider = styled.div`

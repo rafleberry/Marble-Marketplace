@@ -14,6 +14,7 @@ import {
   getReducedAddress,
   convertMicroDenomToDenom,
   emptyObject,
+  getLongAddress,
 } from 'util/conversion'
 import {
   marketplaceViewFunction,
@@ -185,7 +186,7 @@ const Feed = () => {
                       }
                       alt="img"
                     />
-                    <p>{follower.name || getReducedAddress(follower.id)}</p>
+                    <p>{getReducedAddress(follower.name || follower.id)}</p>
                   </AvatarItemWrapper>
                 ))}
               </AvatarWrapper>
@@ -222,7 +223,7 @@ const Feed = () => {
                     alt="img"
                   />
 
-                  <p>{user.name || user.id}</p>
+                  <p>{getLongAddress(user.name || user.id)}</p>
                 </UserAvatarWrapper>
                 {/* <IconWrapper
                   onClick={async () => {

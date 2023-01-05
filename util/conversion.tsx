@@ -77,6 +77,11 @@ export const createBalanceFormatter = ({
     return rawValue
   }
 }
+export function getLongAddress(address: string) {
+  if (address?.length > 25) return address.slice(0, 25)
+  else return address
+}
+
 export const getReducedAddress = (address: string) => {
   if (address?.length > 10)
     return address.slice(0, 4) + '...' + address.slice(-4)
