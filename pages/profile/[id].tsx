@@ -110,6 +110,7 @@ export default function Home() {
         draggable: true,
         progress: undefined,
       })
+      setFollowLoading(false)
     }
   }
   return (
