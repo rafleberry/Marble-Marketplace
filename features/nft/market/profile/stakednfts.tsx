@@ -23,7 +23,7 @@ const MyStakedNFTs = ({ id }) => {
           contractId: STAKING_CONTRACT_NAME,
           methodName: 'get_stake_info',
           args: {
-            owner: wallet?.accountId,
+            owner: id,
           },
         })
 

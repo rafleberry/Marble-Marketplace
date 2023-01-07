@@ -19,7 +19,6 @@ const MyCreatedCollections = ({ id }) => {
   useEffect(() => {
     ;(async () => {
       if (!id || id === '[id]') return
-      console.log('ids; ', id)
       const _collections = await fetchCollectionsByCreator(id)
       const _collectionInfos = await Promise.all(
         _collections.map(async (element) => {
