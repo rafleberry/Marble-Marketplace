@@ -48,6 +48,7 @@ export default function Home() {
     followings: 0,
     isFollowing: false,
   })
+  const [followLoading, setFollowLoading] = useState(false)
   const id = asPath && asPath.split('/')[2].split('?')[0]
   const wallet = getCurrentWallet()
   useEffect(() => {
@@ -90,12 +91,15 @@ export default function Home() {
     }
   }
   const handleFollow = async () => {
+    if (followLoading) return
+    setFollowLoading(true)
     const new_followInfo = await controlFollow({
       from: wallet.accountId,
       to: id,
     })
     if (new_followInfo) {
       setFollowInfo(new_followInfo)
+      setFollowLoading(false)
     } else {
       toast.warning(`Failed. Please try again.`, {
         position: 'top-right',

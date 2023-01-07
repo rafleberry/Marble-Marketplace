@@ -40,6 +40,7 @@ export const AppLayout = ({
   const [original, setOriginal] = useState(false)
   const [creative, setCreative] = useState(false)
   const profile = useSelector((state: any) => state.profileData.profile_status)
+  console.log('profile: ', profile)
   FetchCoinInfo()
   useExplorer()
 
@@ -55,7 +56,6 @@ export const AppLayout = ({
       return
     }
     const result = await setAgreed(profile._id)
-    console.log('result: ', result)
     if (result) onClose()
   }
   return (
