@@ -329,7 +329,7 @@ export function NavigationSidebar({ openNav, setOpenNav }) {
             )}
             {accountId && (
               <Link href="/create" passHref>
-                <CreateButton>Create</CreateButton>
+                <CreateButton>Mint</CreateButton>
               </Link>
             )}
           </ButtonField>

@@ -68,6 +68,7 @@ const PUBLIC_PINATA_API_KEY = process.env.NEXT_PUBLIC_PINATA_API_KEY || ''
 const PUBLIC_PINATA_SECRET_API_KEY =
   process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY || ''
 const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
+  console.log('category: ', category)
   const wallet = getCurrentWallet()
   const router = useRouter()
   const { txHash, pathname, errorType } = getURLInfo()
@@ -100,6 +101,7 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
     featuredImage: collectionInfo.featuredImage.split('ipfs/')[1],
   })
   useEffect(() => {
+    console.log('txHash: ', txHash)
     if (txHash && getCurrentWallet().wallet.isSignedIn()) {
       checkTransaction(txHash)
         .then((res: any) => {
@@ -118,16 +120,12 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
         })
         .then(({ isSuccess, transactionErrorType, logs, signer }) => {
           if (isSuccess) {
-            const parsedLog = JSON.parse(logs)
-            setCollectionCategory({
-              category: parsedLog?.params?.token_metadata.description,
-              id: parsedLog?.params?.token_series_id,
-              creator: signer,
-            })
             !transactionErrorType && !errorType && successToast(txHash)
             transactionErrorType && failToast(txHash, transactionErrorType)
+            console.log('pathName: ', pathname)
+            router.push(pathname)
+            onClose()
           }
-          router.push(pathname)
         })
     }
   }, [txHash])
@@ -205,7 +203,7 @@ const EditCollectionModal = ({ collectionInfo, category, setCategory }) => {
             reference: ipfsHash,
             copies: 10000,
             title: collectionInfo.name,
-            description: category,
+            description: category, //description means category in nft
           },
         },
       })

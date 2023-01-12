@@ -160,3 +160,7 @@ export const getStandardTime = (time: string) => {
   const sec = utcTime.getSeconds()
   return `${day}-${month}-'${year}, ${hour}:${min}:${sec}`
 }
+export const checkRegularExp = (data: string) => {
+  const regexp = /^[A-Za-z0-9_-]*$/
+  return regexp.test(data)
+}

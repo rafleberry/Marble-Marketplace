@@ -169,7 +169,7 @@ const Card = styled.div<{ fullWidth: boolean }>`
 `
 
 const Container = styled.div`
-  background: rgb(0, 0, 0);
+  background: rgb(24, 27, 42);
   justify-content: center;
   display: flex;
 `

@@ -70,7 +70,6 @@ export const Collection = ({ id }: CollectionProps) => {
       : default_featured_image
     result.creator = collection_info.creator_id
     result.name = collection_info.metadata.title
-    result.symbol = collection_info.metadata.description
     result.token_series_id = collection_info.token_series_id
     setCategory(collection_info.metadata.description)
     setCollectionInfo(result)
@@ -146,24 +145,6 @@ export const Collection = ({ id }: CollectionProps) => {
   useEffect(() => {
     ;(async () => {
       if (id === undefined || id == '[name]') return false
-      try {
-        const num = await nftViewFunction({
-          methodName: 'nft_supply_for_series',
-          args: {
-            token_series_id: id,
-          },
-        })
-        const _category = await getCollectionCategory(id)
-
-        setCategory(_category)
-      } catch (err) {
-        console.log('nft get counts error: ', err)
-      }
-    })()
-  }, [id])
-  useEffect(() => {
-    ;(async () => {
-      if (id === undefined || id == '[name]') return false
 
       const tokensInfo = await fetchTokensInfo()
       setNfts(tokensInfo)
@@ -185,6 +166,8 @@ export const Collection = ({ id }: CollectionProps) => {
         : nfts.filter((nft: any) => nft.saleType === filterTab)
     setFiltered(filteredNFTs)
   }, [nfts, filterTab])
+
+  console.log('categoriiiiii: ', category)
   return (
     <ChakraProvider>
       <CollectionWrapper>
@@ -228,7 +211,7 @@ export const Collection = ({ id }: CollectionProps) => {
               )}
               {!isMobile() && (
                 <ProfileInfoItem>
-                  <ProfileInfoTitle>Collection Of</ProfileInfoTitle>
+                  <ProfileInfoTitle>Collection Id</ProfileInfoTitle>
                   <ProfileInfoContent>{id}</ProfileInfoContent>
                 </ProfileInfoItem>
               )}

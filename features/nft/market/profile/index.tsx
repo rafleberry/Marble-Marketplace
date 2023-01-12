@@ -72,6 +72,8 @@ export const MyCollectedNFTs = ({ id }) => {
           res_collection = await ipfs_collection.json()
           res_nft['tokenId'] = element.token_id.split(':')[1]
           res_nft['collectionId'] = element.token_id.split(':')[0]
+          res_nft.collection_logo =
+            process.env.NEXT_PUBLIC_PINATA_URL + res_collection.logo
           res_nft['title'] = res_collection.name
           res_nft['image'] = process.env.NEXT_PUBLIC_PINATA_URL + res_nft.uri
           if (market_data) {

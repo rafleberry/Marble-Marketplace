@@ -37,7 +37,6 @@ const backgroundColor = {
 export function NftCard({ nft, id, type }): JSX.Element {
   const tokenInfo = useTokenInfoFromAddress(nft.ft_token_id)
   const [profile, setProfile] = useState<any>({})
-  const [hover, setHover] = useState(false)
   useEffect(() => {
     ;(async () => {
       const profile_info = await getSimpleProfileInfo(nft.owner)
@@ -51,12 +50,6 @@ export function NftCard({ nft, id, type }): JSX.Element {
     <NftCardDiv
       color={backgroundColor[nft.saleType]}
       revertColor={nft.saleType === 'Direct Sell'}
-      onMouseEnter={() => {
-        setHover(true)
-      }}
-      onMouseLeave={() => {
-        setHover(false)
-      }}
     >
       <ChakraProvider>
         <Stack padding="15px 20px">
@@ -113,35 +106,32 @@ export function NftCard({ nft, id, type }): JSX.Element {
         <ImgDiv className="nft-img-url">
           <StyledImage
             src={nft.image + PINATA_PRIMARY_IMAGE_SIZE}
-            hover={hover}
             alt="NFT Image"
           />
-          {hover && (
-            <HoverDivContent>
+          <HoverDivContent>
+            <HStack>
+              <Logo
+                src={`${
+                  process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar
+                }${PINATA_SECONDARY_IMAGE_SIZE}`}
+                alt="logo"
+                size="34px"
+              />
+              <p>{getLongAddress(profile.name || nft.owner)}</p>
+            </HStack>
+            {nft.collection_logo && (
               <HStack>
                 <Logo
-                  src={`${
-                    process.env.NEXT_PUBLIC_PINATA_URL + profile.avatar
-                  }${PINATA_SECONDARY_IMAGE_SIZE}`}
+                  src={nft.collection_logo + PINATA_SECONDARY_IMAGE_SIZE}
                   alt="logo"
                   size="34px"
                 />
-                <p>{getLongAddress(profile.name || nft.owner)}</p>
+                <p style={{ fontSize: '25px', fontWeight: 'bold' }}>
+                  {nft.title}
+                </p>
               </HStack>
-              {nft.collection_logo && (
-                <HStack>
-                  <Logo
-                    src={nft.collection_logo + PINATA_SECONDARY_IMAGE_SIZE}
-                    alt="logo"
-                    size="34px"
-                  />
-                  <p style={{ fontSize: '25px', fontWeight: 'bold' }}>
-                    {nft.title}
-                  </p>
-                </HStack>
-              )}
-            </HoverDivContent>
-          )}
+            )}
+          </HoverDivContent>
         </ImgDiv>
       </ChakraProvider>
     </NftCardDiv>
@@ -178,21 +168,7 @@ const NftCardDiv = styled(GradientBackground)<{
     width: 320px;
   }
 `
-const HoverDivContent = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 10;
-  padding: 30px;
-  color: white;
-`
+
 const NFTName = styled.div`
   font-size: 20px;
 `
@@ -224,16 +200,24 @@ const Timetrack = styled.div`
   }
 `
 
-const ImgDiv = styled.div`
+const HoverDivContent = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
-  padding-bottom: 100%;
-  display: block;
-  position: relative;
-  background: black;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 30px;
+  color: white;
+  display: none;
 `
-const StyledImage = styled(Image)<{ hover: boolean }>`
+
+const StyledImage = styled(Image)`
   position: absolute;
   top: 0;
   left: 0;
@@ -245,7 +229,21 @@ const StyledImage = styled(Image)<{ hover: boolean }>`
   object-position: center;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  opacity: ${({ hover }) => (hover ? '0.6' : '1')};
+`
+const ImgDiv = styled.div`
+  width: 100%;
+  padding-bottom: 100%;
+  display: block;
+  position: relative;
+  background: black;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  &:hover ${HoverDivContent} {
+    display: flex;
+  }
+  &:hover ${StyledImage} {
+    opacity: 0.6;
+  }
 `
 const Logo = styled(Image)<{ size: string }>`
   width: ${({ size }) => size};
